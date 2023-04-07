@@ -155,7 +155,7 @@
 			<div class="uheader_top">
 				<h1><a href="${cpath}/"><img src="${cpath}/resources/images/logo.png" alt="로고"></a></h1>
 				<ul class="unav1">
-					<li><a href="">엔지니어 등록</a></li>
+					<li><a href="${cpath}/order2/repairForm">엔지니어 등록</a></li>
 					<li><a href="javascript:gologin()">로그인</a></li>
 					<li><a href="javascript:gojoin()">무료 회원가입</a></li>
 				</ul>
@@ -164,7 +164,7 @@
 				<ul class="unav2">
 					<li><a href="#" class="ubold">전체카테고리</a></li>
 					<li><a href="${cpath}/repair/repairList">의뢰목록</a></li>
-					<li><a href="${cpath}/repair/orderList">엔지니어</a></li>
+					<li><a href="${cpath}/order2/orderList">엔지니어</a></li>
 					<li><a href="${cpath}/community/board">커뮤니티</a></li>
 					<li><a href="${cpath}/mypage/myinfo">My페이지</a></li>
 					<li><a href="#">마켓</a></li>

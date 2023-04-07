@@ -11,11 +11,6 @@ public class RepairController {
 		return "/repair/repairList";
 	}
 	
-	@RequestMapping("/orderList")
-	public String orderList() {
-		return "/repair/orderList";
-	}
-	
 	@RequestMapping("/order")
 	public String orderForm() {
 		return "/repair/orderForm";
