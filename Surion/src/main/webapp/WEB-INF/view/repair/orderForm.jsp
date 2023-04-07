@@ -197,7 +197,8 @@
 		width: 20px;
 		height: 20px;
 		position: relative;
-		background: url('./image/checkbox.svg') center center / contain no-repeat;
+		background: url("${cpath}/resources/images/checkbox.svg") center center / contain no-repeat;
+		
 	}
 
 	input[type="checkbox"] + label div{
@@ -215,7 +216,7 @@
 			position: absolute;
 			left: 0;
 			top:0;
-			background: url('./image/checkSuc.svg') center center / contain no-repeat;
+			background: url('${cpath}/resources/images/checkSuc.svg') center center / contain no-repeat;
       }
 
 
@@ -332,12 +333,17 @@
 	  element.checked = true;
 	}
 	
-	var total = 33;
 	var barElem = document.querySelector('.bar');
 	const loading = document.querySelector('.loading');
 	const select = document.querySelector('.select');
-	
+	const selBtn = document.querySelector('.selBtn');
+	const service = document.querySelector('.service');
+	let goNextValue;
+	let list = [];
 
+	// 0단계 //
+	const serviceText = ''
+						 +'<div class="service">어떤 부분이 고장 나셨나요?</div>';
 
 	const bicycle = ''
 					+'<li class="text-area">'
@@ -346,24 +352,362 @@
 					+'<span></span>'
 					+'<div>타이어펑크</div>'
 					+'</label>'
-					+'</li>'; 
+					+'</li>'
 
-	let goNextValue;
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="프레임손상" id="checkbox-area-1" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-1">'
+					+'<span></span>'
+					+'<div>프레임손상</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="구동계교체" id="checkbox-area-2" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-2">'
+					+'<span></span>'
+					+'<div>구동계교체</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="소모품교체" id="checkbox-area-3" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-3">'
+					+'<span></span>'
+					+'<div>소모품교체</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-4">'
+					+'<span></span>'
+					+'<div>기타</div>'
+					+'</label>'
+					+'</li>';
+
+	const motorcycle = ''
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="전원 불량" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-0">'
+					+'<span></span>'
+					+'<div>전원 불량</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="타이어펑크" id="checkbox-area-1" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-1">'
+					+'<span></span>'
+					+'<div>타이어펑크</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="소모품교환" id="checkbox-area-2" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-2">'
+					+'<span></span>'
+					+'<div>소모품교환</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="추가 튜닝" id="checkbox-area-3" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-3">'
+					+'<span></span>'
+					+'<div>추가 튜닝</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-4">'
+					+'<span></span>'
+					+'<div>기타</div>'
+					+'</label>'
+					+'</li>';
+
+	const airConditioner = ''
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="가스충전" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-0">'
+					+'<span></span>'
+					+'<div>가스충전</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="내부청소" id="checkbox-area-1" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-1">'
+					+'<span></span>'
+					+'<div>내부청소</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="재설치" id="checkbox-area-2" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-2">'
+					+'<span></span>'
+					+'<div>재설치</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="소모품교체" id="checkbox-area-3" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-3">'
+					+'<span></span>'
+					+'<div>소모품교체</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-4">'
+					+'<span></span>'
+					+'<div>기타</div>'
+					+'</label>'
+					+'</li>';
+
+	const boiler = ''
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="동파수리" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-0">'
+					+'<span></span>'
+					+'<div>동파수리</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="전지점검" id="checkbox-area-1" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-1">'
+					+'<span></span>'
+					+'<div>전지점검</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="보일러교체" id="checkbox-area-2" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-2">'
+					+'<span></span>'
+					+'<div>보일러교체</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="소모품교체" id="checkbox-area-3" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-3">'
+					+'<span></span>'
+					+'<div>소모품교체</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-4">'
+					+'<span></span>'
+					+'<div>기타</div>'
+					+'</label>'
+					+'</li>';
+
+	const computer = ''
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="CPU" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-0">'
+					+'<span></span>'
+					+'<div>CPU</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="메인보드" id="checkbox-area-1" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-1">'
+					+'<span></span>'
+					+'<div>메인보드</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="파워" id="checkbox-area-2" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-2">'
+					+'<span></span>'
+					+'<div>파워</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="OS" id="checkbox-area-3" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-3">'
+					+'<span></span>'
+					+'<div>OS</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-4">'
+					+'<span></span>'
+					+'<div>기타</div>'
+					+'</label>'
+					+'</li>';
+					
+	const sound = ''
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="단선" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-0">'
+					+'<span></span>'
+					+'<div>단선</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="전원 불량" id="checkbox-area-1" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-1">'
+					+'<span></span>'
+					+'<div>전원 불량</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="부품 불량" id="checkbox-area-2" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-2">'
+					+'<span></span>'
+					+'<div>부품 불량</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="소모품교체" id="checkbox-area-3" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-3">'
+					+'<span></span>'
+					+'<div>소모품교체</div>'
+					+'</label>'
+					+'</li>'
+
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-4">'
+					+'<span></span>'
+					+'<div>기타</div>'
+					+'</label>'
+					+'</li>';
+
+	const etc = ''
+					+'<li class="text-area">'
+					+'<input type="checkbox" value="텍스트 창 만들기" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-0">'
+					+'<span></span>'
+					+'<div>텍스트 창 만들기</div>'
+					+'</label>'
+					+'</li>'
+
+	const btn = ''
+				+'<input type="button" value="이전" class="prevBtn" onclick=""/>'
+				+'<input type="button" value="다음" class="nextBtn" onclick="next1()"/>';
+	
+	// 1단계 // 
+	const serviceText1 = ''
+						 +'<div class="service">수리 방법</div>';
+
+	const repairSort = ''
+						+'<li class="text-area">'
+						+'<input type="checkbox" value="방문수리" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+						+'<label for="checkbox-area-0">'
+						+'<span></span>'
+						+'<div>방문수리</div>'
+						+'</label>'
+						+'</li>'
+
+						+'<li class="text-area">'
+						+'<input type="checkbox" value="직접방문" id="checkbox-area-1" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+						+'<label for="checkbox-area-1">'
+						+'<span></span>'
+						+'<div>직접방문</div>'
+						+'</label>'
+						+'</li>'
+
+						+'<li class="text-area">'
+						+'<input type="checkbox" value="택배수리" id="checkbox-area-2" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+						+'<label for="checkbox-area-2">'
+						+'<span></span>'
+						+'<div>택배수리</div>'
+						+'</label>'
+						+'</li>'
+
+	const btn1 = ''
+				+'<input type="button" value="이전" class="prevBtn" onclick=""/>'
+				+'<input type="button" value="다음" class="nextBtn" onclick="next2()"/>';
+
+
+	// 2단계 //
 
 	function next()	{
 		goNextValue = document.querySelector('.selClass:checked').value;
 		if(goNextValue == '자전거'){
 			select.innerHTML = bicycle;
+			selBtn.innerHTML = btn;
+			service.innerHTML = serviceText;
+			list.push(goNextValue);
 		}
-
-		barElem.style.width = total + "%";
+		if(goNextValue == '오토바이'){
+			select.innerHTML = motorcycle;
+			selBtn.innerHTML = btn;
+			service.innerHTML = serviceText;
+			list.push(goNextValue);
+		}	
+		if(goNextValue == '에어컨'){
+			select.innerHTML = airConditioner;
+			selBtn.innerHTML = btn;
+			service.innerHTML = serviceText;
+			list.push(goNextValue);
+		}	
+		if(goNextValue == '보일러'){
+			select.innerHTML = boiler;
+			selBtn.innerHTML = btn;
+			service.innerHTML = serviceText;
+			list.push(goNextValue);
+		}	
+		if(goNextValue == '컴퓨터'){
+			select.innerHTML = computer;
+			selBtn.innerHTML = btn;
+			service.innerHTML = serviceText;
+			list.push(goNextValue);
+		}	
+		if(goNextValue == '음향'){
+			select.innerHTML = sound;
+			selBtn.innerHTML = btn;
+			service.innerHTML = serviceText;
+			list.push(goNextValue);
+		}	
+		if(goNextValue == '기타'){
+			select.innerHTML = etc;
+			selBtn.innerHTML = btn;
+			service.innerHTML = serviceText;
+			list.push(goNextValue);
+		}	
+		barElem.style.width = 33 + "%";
 	}
 
-	
+	function next1()	{
+		goNextValue = document.querySelector('.selClass:checked').value;
+		if(goNextValue){
+			select.innerHTML = repairSort;
+			selBtn.innerHTML = btn1;
+			list.push(goNextValue);
+		}	
+		barElem.style.width = 66 + "%";
+	}
 
+	function next2()	{
+		goNextValue = document.querySelector('.selClass:checked').value;
+		if(goNextValue){
+			select.innerHTML = '날짜 클릭';
+			selBtn.innerHTML = '버튼2번';
+			list.push(goNextValue);
+		}	
+		barElem.style.width = 99 + "%";
+		console.log(list);
+	}
 
-	
-	
 
 
 
