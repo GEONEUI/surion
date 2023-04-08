@@ -859,6 +859,8 @@ input[type="checkbox"]:checked+label span::after {
 		list.push(selectDateValue);
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
+		
+		init();
 	}
 
 	// 이전 버튼 //
@@ -929,6 +931,25 @@ input[type="checkbox"]:checked+label span::after {
 	barPercent.innerHTML = '<span class="barPercent">66%</span>';
 	}
 
+	// ajax로 데이터 보내기 //
+	
+	function init(){
+		$.ajax({
+			type : "GET",
+			url : "test.com",
+			data : {
+				"value1" : list[0],
+				"value2" : list[1],
+				"value3" : list[2],
+				"value4" : list[3]
+			},
+			success : function (data, status){
+			},
+			error : function (){
+				alert("슈방");
+			}
+		});
+	}
 
 </script>
 </body>
