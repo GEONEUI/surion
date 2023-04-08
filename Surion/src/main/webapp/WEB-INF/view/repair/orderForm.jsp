@@ -321,6 +321,7 @@ input[type="checkbox"]:checked+label span::after {
 			</div>
 		</div>
 	</div>
+	<span id="A"></span>
 
 	<%@ include file="../common/footer.jsp"%>
 
@@ -860,7 +861,7 @@ input[type="checkbox"]:checked+label span::after {
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
 		
-		init();
+		goOrder(); // ajax로 list 데이터 보내기
 	}
 
 	// 이전 버튼 //
@@ -933,7 +934,7 @@ input[type="checkbox"]:checked+label span::after {
 
 	// ajax로 데이터 보내기 //
 	
-	function init(){
+	function goOrder(){
 		$.ajax({
 			type : "GET",
 			url : "test.com",
@@ -946,11 +947,30 @@ input[type="checkbox"]:checked+label span::after {
 			success : function (data, status){
 			},
 			error : function (){
-				alert("슈방");
+				alert("error");
 			}
 		});
 	}
-
+	
+	// 데이터 받는부분 연습
+// 	function goOrder(){
+// 		$.ajax({
+// 			type : "GET",
+// 			url : "${cpath}/repair/test",
+// 			success : make,
+// 			error : function (){
+// 				alert("슈방");
+// 			}
+// 		});
+// 	}
+	
+// 	$(function(){
+// 		goOrder();	
+// 	});
+	
+// 	function make(data){
+// 		console.log(JSON.parse(data));
+// 	}
 </script>
 </body>
 </html>
