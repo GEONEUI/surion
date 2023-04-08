@@ -250,7 +250,7 @@ input[type="checkbox"]:checked+label span::after {
 							<div class="first">완료 시 평균 4개 견적 도착</div>
 							<div class="loading">
 								<div class="bar"></div>
-								<span>0%</span>
+								<span class="barPercent">0%</span>
 							</div>
 						</div>
 						<div class="below">
@@ -272,7 +272,8 @@ input[type="checkbox"]:checked+label span::after {
 									id="checkbox-area-2" name="selectOne"
 									onclick="checkOnlyOne(this)" class="selClass" /> <label
 									for="checkbox-area-2"> <span></span>
-										<div>에어컨</div>
+										<div>에어컨</div> 
+										
 								</label></li>
 								<li class="text-area"><input type="checkbox" value="보일러"
 									id="checkbox-area-3" name="selectOne"
@@ -333,16 +334,17 @@ input[type="checkbox"]:checked+label span::after {
 	  element.checked = true;
 	}
 	
-	var barElem = document.querySelector('.bar'); // 로딩바 수치
-	const loading = document.querySelector('.loading'); // 로딩바
+	var barElem = document.querySelector('.bar'); // 로딩바 막대
+	var barPercent = document.querySelector('.barPercent'); // 로딩바 수치 % 
 	const select = document.querySelector('.select'); // li를 감싸고 있는 ul
 	const selBtn = document.querySelector('.selBtn'); // 이전, 다음 버튼을 감싸고 있는 div
 	const service = document.querySelector('.service'); // 로딩바 밑에 있는 헤더 글귀
 	const selectDate = document.querySelector('.selectDate'); // 날짜 인풋창
 	const checkbox_4 = document.querySelector('#checkbox-area-4'); // 기타 체크박스
 	const inputEtc = document.querySelector('.inputEtc'); // 기타내용 value
-	let goNextValue;
-	let list = []; 
+	
+	var goNextValue;
+	var list = []; 
 
 	// 0단계 초기값 //
 	const serviceText0 = ''
@@ -653,16 +655,20 @@ input[type="checkbox"]:checked+label span::after {
 
 	const etc = ''
 					+'<li class="text-area">'
-					+'<input type="checkbox" value="텍스트 창 만들기" id="checkbox-area-0" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
-					+'<label for="checkbox-area-0">'
+					+'<input type="checkbox" value="텍스트 창 만들기" id="checkbox-area-etc" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
+					+'<label for="checkbox-area-etc">'
 					+'<span></span>'
 					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>'
 
 	const btn = ''
-				+'<input type="button" value="이전" class="prevBtn" onclick="prev()"/>'
-				+'<input type="button" value="다음" class="nextBtn" onclick="next2()"/>';
+					+'<input type="button" value="이전" class="prevBtn" onclick="prev()"/>'
+					+'<input type="button" value="다음" class="nextBtn" onclick="next2()"/>';
+				
+	const etcBtn = ''
+					+'<input type="button" value="이전" class="prevBtn" onclick="prev()"/>'
+					+'<input type="button" value="다음" class="nextBtn" onclick="etcNext()"/>';				
 	
 	// next2() 2단계 // 
 	const serviceText2 = ''
@@ -708,7 +714,13 @@ input[type="checkbox"]:checked+label span::after {
 						 
 	// 다음 버튼 및 submit //
 	function next()	{
+		if(document.querySelector('.selClass:checked') == null){
+			alert("1개 항목을 체크해주세요.");
+			return
+		}
+		
 		goNextValue = document.querySelector('.selClass:checked').value;
+		
 		if(goNextValue == '자전거'){
 			service.innerHTML = serviceText;
 			select.innerHTML = bicycle;
@@ -748,23 +760,21 @@ input[type="checkbox"]:checked+label span::after {
 		if(goNextValue == '기타'){
 			service.innerHTML = serviceText;
 			select.innerHTML = etc;
-			selBtn.innerHTML = btn;
+			selBtn.innerHTML = etcBtn;
 			list.push(goNextValue);
 		}	
+		
 		barElem.style.width = 33 + "%";
+		barPercent.innerHTML = '<span class="barPercent">33%</span>';
 		console.log(list);
 	}
-
 	function next2(){
-		let inputEtcValue = document.querySelector('.inputEtc').value;
-		if(list[0] == "기타" && document.querySelector('#checkbox-area-0').checked){
-			if(inputEtcValue == ""){
-				alert("요청사항을 입력해주세요.");
-				return
-			}
-			list.push(inputEtcValue);
+		if(document.querySelector('.selClass:checked') == null){
+			alert("1개 항목을 체크해주세요.");
+			return
 		}
-			
+				
+		let inputEtcValue = document.querySelector('.inputEtc').value;
 		if(document.querySelector('#checkbox-area-4').checked){
 			if(inputEtcValue == ""){
 				alert("요청사항을 입력해주세요.");
@@ -775,31 +785,77 @@ input[type="checkbox"]:checked+label span::after {
 			goNextValue = document.querySelector('.selClass:checked').value;
 			list.push(goNextValue);	
 		}
-		
-		
-		
 			 
 			service.innerHTML = serviceText2;
 			select.innerHTML = repairSort;
 			selBtn.innerHTML = btn2;
 			
 		barElem.style.width = 66 + "%";
+		barPercent.innerHTML = '<span class="barPercent">66%</span>';
 		console.log(list);
 	}
-
-	function next3()	{
+	
+	// 0단계에서 기타 선택 시 따로 진행되는 버튼
+	function etcNext(){
+		if(document.querySelector('.selClass:checked') == null){
+			alert("1개 항목을 체크해주세요.");
+			return
+		}
+		const aa =  document.querySelector	('#checkbox-area-etc');
+		let inputEtcValue = document.querySelector('.inputEtc').value;
+		if(list[0] == "기타"){
+			if(inputEtcValue == ""){
+				alert("요청사항을 입력해주세요.");
+			return	
+			}
+			list.push(inputEtcValue);
+		}
+			
+		service.innerHTML = serviceText2;
+		select.innerHTML = repairSort;
+		selBtn.innerHTML = btn2;
+		
+		barElem.style.width = 66 + "%";
+		barPercent.innerHTML = '<span class="barPercent">66%</span>';
+		console.log(list);	
+	}
+	
+	function next3(){
+		if(document.querySelector('.selClass:checked') == null){
+			alert("1개 항목을 체크해주세요.");
+			return
+		}
 		goNextValue = document.querySelector('.selClass:checked').value;
 			list.push(goNextValue);
 			
 			service.innerHTML = serviceText3;
 			select.innerHTML = '<input type="date" name="startday" class="selectDate">';
 			selBtn.innerHTML = btn3;
+			
 		barElem.style.width = 99 + "%";
+		barPercent.innerHTML = '<span class="barPercent">99%</span>';
 			console.log(list);
 	}
 	
 	function next4(){
+		let newDate = new Date();
+		let year = newDate.getFullYear(); // 년도
+		let month = newDate.getMonth() + 1;  // 월
+		let date = newDate.getDate();  // 날짜
+		let day = newDate.getDay();  // 요일
+		let today = String(year) + '-' + String(month).padStart(2, '0') + '-' + String(date).padStart(2,'0');
+			
 		let selectDateValue = document.querySelector('.selectDate').value;
+		
+		if(selectDateValue == ""){
+			alert("날짜를 선택해주세요.");	
+			return
+		}
+		if(today > selectDateValue){
+			alert("현재일보다 이전 날짜는 선택할 수 없습니다.")
+			return
+		}
+		
 		list.push(selectDateValue);
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
@@ -815,6 +871,7 @@ input[type="checkbox"]:checked+label span::after {
 		selBtn.innerHTML = btn0;
 		
 		barElem.style.width = 0 + "%";
+		barPercent.innerHTML = '<span class="barPercent">0%</span>';
 		console.log(list);
 	}
 	
@@ -854,9 +911,10 @@ input[type="checkbox"]:checked+label span::after {
 		if(list[0] == '기타'){
 			service.innerHTML = serviceText;
 			select.innerHTML = etc;
-			selBtn.innerHTML = btn;
+			selBtn.innerHTML = etcBtn;
 		}	
 		barElem.style.width = 33 + "%";
+		barPercent.innerHTML = '<span class="barPercent">33%</span>';
 		console.log(list);
 	}
 	
@@ -868,6 +926,7 @@ input[type="checkbox"]:checked+label span::after {
 		console.log(list);
 		
 	barElem.style.width = 66 + "%";
+	barPercent.innerHTML = '<span class="barPercent">66%</span>';
 	}
 
 
