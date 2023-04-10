@@ -109,7 +109,7 @@
 	
 	
 	/* 로그인 */
-	.sec_ulogin{flex-direction:column; width:100%; height:87vh; position:absolute; top:13vh; left:0; background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
+	.sec_ulogin{flex-direction:column; width:100%; height:88vh; position:absolute; top:13vh; left:0; background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
 	.sec_ulogin h2{text-align:center; margin-bottom:30px;}
 	.sec_ulogin .ulogin{ width:420px; padding:40px; background:#fff; border:2px solid #f5f5f5; margin-bottom:20vh;}
 	.sec_ulogin .ulogin .uline{margin-bottom:30px;}
@@ -243,7 +243,7 @@
 		$('.sec_ulogin').css('display', 'flex');
 		$('body').css({
 			'height':'100vh',
-			'overflow':'hidden',
+			'overflow-Y':'hidden',
 		})
 	}
 	
@@ -253,7 +253,7 @@
 		$('.sec_ujoin').css('display', 'flex');
 		$('body').css({
 			'height':'100vh',
-			'overflow':'hidden',
+			'overflow-Y':'hidden',
 		})
 	}
 	
