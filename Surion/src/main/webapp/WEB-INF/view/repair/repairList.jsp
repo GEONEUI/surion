@@ -32,7 +32,7 @@
 		width: 18%;
 		height: 3rem;
 		margin: 0.5rem 0 0 5rem;
-		background: #00c7ae;
+		background: #00c7ae;	
 		border-style: none;
 		border-radius: 0.4rem;
 		color: #fff;
@@ -162,7 +162,7 @@
 <div class="sec_content">
 	<div class="suriSize st">
 			<div class="headLine">
-			<p>지금 가장 뜨거운 픽! &#128293;</p>
+			<p>최신 의뢰 목록 리스트! &#128204;</p>
 			<div class="askSearch">
 				<i class="fa-solid fa-magnifying-glass"></i>
 				<input type="search" class="ser" oninput="inputBtn()" placeholder="키워드를 검색해주세요."/>
@@ -171,8 +171,9 @@
 			</div>
 	
 			<ul class="askList">
+			
 				<a href="#">
-					<div class="askListA">
+					<div class="askListA" onclick="repairDetail()")>
 						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
 					</div>
 					<div class="askListP">
@@ -227,128 +228,18 @@
 						</div>
 					</div>
 				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
+				
 			</ul>
-
 			
 	</div>
 </div>
 
+
 <script>
 
-	
-	
+	function repairDetail(){
+		location.href="${cpath}/repair/repairDetail";	
+	}
 	
 </script>
 

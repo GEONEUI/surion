@@ -23,4 +23,8 @@ public class RepairController {
 		return "/repair/orderForm";
 	}
 	
+	@RequestMapping("/repairDetail")
+	public String repairDetail() {
+		return "/repair/repairDetail";
+	}
 }
