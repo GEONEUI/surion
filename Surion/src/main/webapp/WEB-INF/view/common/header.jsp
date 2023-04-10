@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="cpath" value="${pageContext.request.contextPath}" />  
 <style>
 	.usec_header{
 		background: #fff !important;
@@ -21,6 +23,7 @@
 		align-items:center;
 		justify-content:space-between;
 		height:8vh;
+		position:relative;
 	}
 
 	.unav1, .unav2{
@@ -32,6 +35,10 @@
 
 	.unav1 li{
 		margin-right:20px;
+	}
+	
+	.unav1 li img{
+		cursor:pointer;
 	}
 
 	.unav1 li:nth-child(2){
@@ -82,7 +89,8 @@
 	.search form{display:flex; justify-content:center; }
 	.search form input{
 		border-radius:20px 0 0 20px;
-		width: 220px; height: 40px;
+		width: 220px;
+		height: 40px;
 		border:1px solid #ccc;
 		border-right: 0;
 		outline:none;
@@ -107,45 +115,60 @@
 	}
 	
 	
-	
-	/* 로그인 */
-	.sec_ulogin{flex-direction:column; width:100%; height:88vh; position:absolute; top:13vh; left:0; background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
-	.sec_ulogin h2{text-align:center; margin-bottom:30px;}
-	.sec_ulogin .ulogin{ width:420px; padding:40px; background:#fff; border:2px solid #f5f5f5; margin-bottom:20vh;}
-	.sec_ulogin .ulogin .uline{margin-bottom:30px;}
-	.sec_ulogin .ulogin .uline:nth-child(3){margin-bottom:20px;}
-	.sec_ulogin .ulogin .uline p{color:#737373; margin-right:25px; margin-bottom:0; position:relative;}
-	.sec_ulogin .ulogin .uline p::after{content:""; display: block; width: 1px; height: 11px;background: #bdbdbd;top: 7px;right: -15px; position: absolute; }
-	.sec_ulogin .ulogin .uline p:last-child::after{display:none;}
-	.sec_ulogin .ulogin .uline p:last-child{margin-right:0; border-right:0; padding-right:0;}
-	.sec_ulogin .ulogin .uline label{width:100%; font-size:16px; font-weight:bold; margin-bottom:5px;}
-	.sec_ulogin .ulogin .uline input{padding-left:10px; width:100%; height:48px; border-radius:3px; border:1px solid #e1e1e1;}
-	.sec_ulogin .ulogin .uline input[type="submit"]{
-		background:#00c7ae;
-		color:#fff;
+	.myinfo{
+		width:240px;
+		background:#fff;
+		box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+		position:absolute;
+		top:70px;
+		right:-30px;
+		z-index:999;
 	}
-	.lastline{margin-bottom:0 !important;}
-	
-	
-	/* 회원가입 */
-	.sec_ujoin{padding-top: 23px;flex-direction:column; width:100%; height:87vh; position:absolute; top:13vh; left:0; background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
-	.sec_ujoin h2{text-align:center; margin-bottom:30px;}
-	.sec_ujoin .ujoin{ width:420px; padding:40px; background:#fff; border:2px solid #f5f5f5;}
-	.sec_ujoin .ujoin .uline{margin-bottom:30px;}
-	.sec_ujoin .ujoin .uline:nth-child(3){margin-bottom:20px;}
-	.sec_ujoin .ujoin .uline p{color:#737373; margin-right:25px; margin-bottom:0; position:relative;}
-	.sec_ujoin .ujoin .uline p::after{content:""; display: block; width: 1px; height: 11px;background: #bdbdbd;top: 7px;right: -15px; position: absolute; }
-	.sec_ujoin .ujoin .uline p:last-child::after{display:none;}
-	.sec_ujoin .ujoin .uline p:last-child{margin-right:0; border-right:0; padding-right:0;}
-	.sec_ujoin .ujoin .uline label{width:100%; font-size:16px; font-weight:bold; margin-bottom:5px;}
-	.sec_ujoin .ujoin .uline input{padding-left:10px; width:100%; height:48px; border-radius:3px; border:1px solid #e1e1e1;}
-	.sec_ujoin .ujoin .uline input[type="submit"]{
-		background:#00c7ae;
-		color:#fff;
-	}
-	.lastline{margin-bottom:0 !important;}
-	
 
+	
+	
+	.mybox{
+		padding:20px 30px;
+	}
+	
+	.mybox p{
+		font-size:17px;
+		margin-bottom:30px;
+
+	}
+	
+	.mybox ul{}
+	
+	.mybox ul li{
+		margin-bottom:20px;
+	}
+
+	
+	.mybox ul li:last-child{
+		margin-bottom:0;
+	}
+	
+	.mybox ul li a{
+		font-size:16px;
+		color:#5c5c5c;
+	}
+	
+	.myinfo{
+		display:none;
+	}
+	
+	.myinfo .logout{
+		display:block;
+		text-align:center;
+		padding:15px 0;
+		background:#efefef;
+		color:#525252;
+		
+	}
+	
+	.myinfo.active{
+		display:block;
+	}
 
 </style>
 
@@ -154,11 +177,30 @@
 		<div class="uinner">
 			<div class="uheader_top">
 				<h1><a href="${cpath}/"><img src="${cpath}/resources/images/logo.png" alt="로고"></a></h1>
-				<ul class="unav1">
-					<li><a href="">엔지니어 등록</a></li>
-					<li><a href="javascript:gologin()">로그인</a></li>
-					<li><a href="javascript:gojoin()">무료 회원가입</a></li>
-				</ul>
+				<c:if test="${empty member}">
+					<ul class="unav1">
+						<li><a href="">엔지니어 등록</a></li>
+						<li><a href="javascript:gologin()">로그인</a></li>
+						<li><a href="javascript:gojoin()">무료 회원가입</a></li>
+					</ul>
+				</c:if>
+				<c:if test="${!empty member}">
+					<ul class="unav1">
+						<li><a href="" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
+						<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
+					</ul>
+					<!--  내 정보 모탈창  -->
+					<div class="myinfo">
+						<div class="mybox">
+							<p>${member.id} &nbsp 고객님</p>
+							<ul>
+								<li><a href="#"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
+								<li><a href="#"><i class="fa-solid fa-circle-user" style="color: #525252; margin-right:10px;"></i> 마이페이지</a></li>
+							</ul>
+						</div>
+						<a class="logout" href="${cpath}/member/logout">로그아웃</a>
+					</div>
+				</c:if>
 			</div>
 			<div class="uheader_bottom">
 				<ul class="unav2">
@@ -173,88 +215,24 @@
 			</div>
 		</div>
 	</div>
+
 </div>
-
-
-<!--  로그인 ---> 
-<div class="sec_ulogin" style="display:none";>
-	<h2>로그인</h2>
-	<form>
-		<div class="ulogin">
-			<div class="uline">
-				<label>아이디</label>
-				<input type="text" placeholder="아이디를 입력해주세요.">
-			</div>
-			<div class="uline">
-				<label>비밀번호</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요.">
-			</div>
-			<div class="uline">
-				<input type="submit" value="로그인">
-			</div>
-			<div class="lastline uline d-flex justify-content-center">
-				<p>비밀번호</p>
-				<p>회원찾기</p>
-			</div>
-		</div>
-	</form>
-</div>
-
-
-<!--  회원가입  ---> 
-<div class="sec_ujoin" style="display:none";>
-	<h2>회원가입</h2>
-	<form>
-		<div class="ujoin">
-			<div class="uline">
-				<label>아이디</label>
-				<input type="text" placeholder="아이디를 입력해주세요.">
-			</div>
-			<div class="uline">
-				<label>비밀번호</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요.">
-			</div>
-			<div class="uline">
-				<label>비밀번호 확인</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요.">
-			</div>
-			<div class="uline">
-				<label>이름</label>
-				<input type="password" placeholder="이름을 입력해주세요.">
-			</div>
-			<div class="uline">
-				<label>전화번호</label>
-				<input type="password" placeholder="이름을 입력해주세요.">
-			</div>
-			<div class="uline">
-				<input type="submit" value="회원가입">
-			</div>
-		</div>
-	</form>
-</div>
-
 
 
 <script>
 
-	//로그인창
+	function goProfile(){
+		$('.myinfo').toggleClass('active');
+	}
+
 	function gologin(){
 		location.href='${cpath}/member/login';
 	}
 	
-	//로그인창
 	function gojoin(){
-		$('.sec_ulogin').css('display', 'none');
-		$('.sec_ujoin').css('display', 'flex');
-		$('body').css({
-			'height':'100vh',
-			'overflow-Y':'hidden',
-		})
+		location.href='${cpath}/member/join';
 	}
-	
-	
-	
-	
-
-	
 </script>
+
+
+

@@ -1,117 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="cpath" value="${pageContext.request.contextPath}" />  
 <style>
-	.usec_header{
-		background: #fff !important;
-		position:fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		z-index: 99;
-		box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-	}
-	.uinner{
-		width: 1200px;
-		margin:0 auto;
-		padding: 0 16px;
-	}
 
-	.uheader_top{
-		display:flex;
-		align-items:center;
-		justify-content:space-between;
-		height:8vh;
+	body{
+		 overFlow : scroll
 	}
-
-	.unav1, .unav2{
-		display:flex;
-		align-items:center;
-		margin-bottom: 0;
-		padding: 0;
-	}
-
-	.unav1 li{
-		margin-right:20px;
-	}
-
-	.unav1 li:nth-child(2){
-		margin-right:10px;
-	}
-
-	.unav1 li:last-child{
-		margin-right: 0;
-	}
-	.unav1 li a{
-		display:block;
-		padding:10px 24px;
-		font-size:15px;
-	}
-
-	.unav1 li:last-child a{
-		background: #00c7ae;
-		border-radius: 4px;
-		color: #fff;
-	}
-	
-	.uheader_bottom{height:5vh; display:flex; justify-content:space-between; align-items:center;}
-	.uheader_bottom .unav2{display:flex; justify-content:space-between; align-items:center;}
-	.uheader_bottom .unav2 li{margin-right: 45px;}
-	.uheader_bottom .unav2 li a{display:block;}
-
-	.uheader_bottom p{font-size: 14px; margin-bottom: 0;}
-
-
-	.ubold{
-		font-weight: bold;
-	}
-
-	/* uvisual */
-	.usec_visual{
-		background: #000;
-	}
-	.usec_visual .uinner{}
-	.usec_visual .uinner .uvisual{
-		width: 100%;
-		height: 450px;
-		background: url('${cpath}/resources/images/visual.png')center center / cover no-repeat;
-	}
-
-
-	/* search */
-	.search{}
-	.search form{display:flex; justify-content:center; }
-	.search form input{
-		border-radius:20px 0 0 20px;
-		width: 220px; height: 40px;
-		border:1px solid #ccc;
-		border-right: 0;
-		outline:none;
-		font-size: 14px;
-		padding-left: 15px;
-		color: #666;
-	}
-	.search form button{
-		width: 60px;
-		height: 40px;
-		border-radius:0 20px 20px 0;
-		border-left:none;
-		background: #fff;
-		border:1px solid #ccc;
-		border-left: 0;
-		outline:none;
-	}
-
-	.search i{
-		font-size: 15px;
-		color:#444;	
-	}
-	
-	
-	
 	/* 로그인 */
-	.sec_ulogin{flex-direction:column; width:100%; height:88vh; position:absolute; top:13vh; left:0; background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
+	.sec_ulogin{flex-direction:column; width:100%; height:87vh;  background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
 	.sec_ulogin h2{text-align:center; margin-bottom:30px;}
-	.sec_ulogin .ulogin{ width:420px; padding:40px; background:#fff; border:2px solid #f5f5f5; margin-bottom:20vh;}
+	.sec_ulogin .ulogin{ width:420px; padding:40px; background:#fff; border:2px solid #f5f5f5; margin-bottom:15vh;}
 	.sec_ulogin .ulogin .uline{margin-bottom:30px;}
 	.sec_ulogin .ulogin .uline:nth-child(3){margin-bottom:20px;}
 	.sec_ulogin .ulogin .uline p{color:#737373; margin-right:25px; margin-bottom:0; position:relative;}
@@ -126,26 +25,24 @@
 	}
 	.lastline{margin-bottom:0 !important;}
 	
-	
-
-
 </style>
 
-
+<html>
+<%@ include file="./front_header.jsp" %>
+<body>
 <%@ include file="./header.jsp" %>
-
 <!--  로그인 ---> 
-<div class="sec_ulogin" style="display:none";>
+<div class="sec_ulogin">
 	<h2>로그인</h2>
-	<form>
+	<form action="${cpath}/member/login" method="post">
 		<div class="ulogin">
 			<div class="uline">
 				<label>아이디</label>
-				<input type="text" placeholder="아이디를 입력해주세요.">
+				<input type="text" placeholder="아이디를 입력해주세요." name="id">
 			</div>
 			<div class="uline">
 				<label>비밀번호</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요.">
+				<input type="password" placeholder="비밀번호를 입력해주세요." name="password">
 			</div>
 			<div class="uline">
 				<input type="submit" value="로그인">
@@ -157,36 +54,16 @@
 		</div>
 	</form>
 </div>
-
-
-
-
-
 <script>
-
-	//로그인창
 	function gologin(){
-		$('.sec_ujoin').css('display', 'none');
-		$('.sec_ulogin').css('display', 'flex');
-		$('body').css({
-			'height':'100vh',
-			'overflow-Y':'hidden',
-		})
+		location.href='${cpath}/member/login';
 	}
 	
-	//로그인창
 	function gojoin(){
-		$('.sec_ulogin').css('display', 'none');
-		$('.sec_ujoin').css('display', 'flex');
-		$('body').css({
-			'height':'100vh',
-			'overflow-Y':'hidden',
-		})
+		location.href='${cpath}/member/join';
 	}
-	
-	
-	
-	
-
-	
 </script>
+
+</body>
+</html>
+
