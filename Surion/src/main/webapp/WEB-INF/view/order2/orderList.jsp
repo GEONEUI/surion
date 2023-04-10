@@ -204,7 +204,7 @@
 							<li>500,000원</li>
 						</div>
 						<div class="star">
-							<li>★ 0.0 | 00개의 평가</li>
+							<li>★ 0.0 | 00개의 평 f가</li>
 						</div>
 					</div>
 				</a>
