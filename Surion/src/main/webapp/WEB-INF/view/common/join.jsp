@@ -11,8 +11,8 @@
 	.sec_ujoin{padding-top: 23px;flex-direction:column; width:100%; height:87vh;background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
 	.sec_ujoin h2{text-align:center; margin-bottom:30px;}
 	.sec_ujoin .ujoin{ width:420px; padding:40px; background:#fff; border:2px solid #f5f5f5;}
-	.sec_ujoin .ujoin .uline{margin-bottom:30px;}
-	.sec_ujoin .ujoin .uline:nth-child(3){margin-bottom:20px;}
+	.sec_ujoin .ujoin .uline{margin-bottom:30px; height:75px;}
+	.sec_ujoin .ujoin .uline:last-child{margin-bottom:0; height:40px;}
 	.sec_ujoin .ujoin .uline p{color:#737373; margin-right:25px; margin-bottom:0; position:relative;}
 	.sec_ujoin .ujoin .uline p::after{content:""; display: block; width: 1px; height: 11px;background: #bdbdbd;top: 7px;right: -15px; position: absolute; }
 	.sec_ujoin .ujoin .uline p:last-child::after{display:none;}
@@ -50,43 +50,153 @@
 <!--  회원가입  ---> 
 <div class="sec_ujoin">
 	<h2>회원가입</h2>
-	<form action="${cpath}/member/join" method="post">
+	<form id="frm" action="${cpath}/member/join" method="post" name="frma">
 		<div class="ujoin">
 			<div class="uline">
 				<label>아이디</label>
 				<div class="idcheck">
-					<input type="text" placeholder="아이디를 입력해주세요." name="Id">
-					<button onclick="idConfirm();">중복확인</button>
+					<input type="text" placeholder="아이디를 입력해주세요." name="Id" id='Id'>
+					<button type="button" onclick="idConfirm();">중복확인</button>
 				</div>
+				<span id="idWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
 				<label>비밀번호</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요." name="password">
+				<input type="password" placeholder="비밀번호를 입력해주세요." name="password" id="password">
 			</div>
 			<div class="uline">
 				<label>비밀번호 확인</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요." name="password2">
+				<input type="password" placeholder="비밀번호를 입력해주세요." name="password2" id="password2">
+				<span id="pwWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
 				<label>이름</label>
-				<input type="text" placeholder="이름을 입력해주세요." name="name">
+				<input type="text" placeholder="이름을 입력해주세요." name="name" id="name">
+				<span id="nameWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
 				<label>이메일</label>
-				<input type="text" placeholder="이메일을 입력해주세요." name="email">
+				<input type="email" placeholder="이메일을 입력해주세요." name="email" id="email">
+				<span id="emailWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
-				<input type="submit" value="회원가입">
+				<input type="submit" value="회원가입" onclick="return totalResult()">
 			</div>
 		</div>
 	</form>
 </div>
 <script>
 	
+	var idWarning = $('#idWarning');
+	var pwWarning = $('#pwWarning');
+	var nameWarning = $('#nameWarning');
+	var emailWarning = $('#emailWarning');
+	var frm = $('#frm');
+	var dataResult;
+	var confirm = false;
+
+		
+		makeResult();
+		
+		function totalResult(){
+			return confirm;
+		}
+		
+		function makeResult(){
+			
+			if(dataResult == 0){
+				idWarning.html('아이디 중복 확인이 완료 되었습니다.');
+				idWarning.css('color', 'green');
+			}
+			
+			frm.on('keyup', function(){
+		
+				var idValue = frm.find('#Id').val();
+				var passwordValue = frm.find('#password').val();
+				var password2Value = frm.find('#password2').val();
+				var nameValue = frm.find('#name').val();
+				var emailValue = frm.find('#email').val();
+				
+				
+				//유효성 기본상태
+				
+					if(dataResult == 0){
+					idWarning.html('아이디 중복 확인이 완료 되었습니다.');
+					idWarning.css('color', 'green');
+					confirm = true;
+					}else if(idValue != null){
+						idWarning.html('아이디 중복 확인을 해주세요.');	
+						idWarning.css('color', 'red');
+						confirm = false;
+					}else if(idValue == ''){
+						idWarning.html('아이디에 빈 값을 입력 하실 수 없습니다.');
+						idWarning.css('color', 'red');
+						confirm = false;
+					}
+				
+					if(passwordValue == ''){
+						pwWarning.html('비밀번호에 빈 값을 입력 하실 수 없습니다.');
+						pwWarning.css('color', 'red');
+						confirm = false;
+					}else if(passwordValue == password2Value){
+						pwWarning.html('비밀번호가 일치합니다.');
+						pwWarning.css('color', 'green');
+					}else if(passwordValue != password2Value){
+						pwWarning.html('비밀번호가 일치하지 않습니다.');
+						pwWarning.css('color', 'red');
+						confirm = false;
+					}
+					
+					if(nameValue != ''){
+						nameWarning.html('');	
+					}
+					
+					if(nameValue == ''){
+						nameWarning.html('이름에 빈값을 입력하실 수 없습니다.');	
+						nameWarning.css('color', 'red');
+						confirm = false;
+					}
+
+				
+					if(emailValue == ''){
+						emailWarning.html('이메일에 빈값을 입력하실 수 없습니다.');	
+						emailWarning.css('color', 'red');
+						confirm = false;
+					}
+					
+					if(emailValue != ''){
+						emailWarning.html('');	
+					}
+
+			});
+		}
+		
+		
+		
+		
+		function gologin(){
+			location.href='${cpath}/member/login';
+		}
+		
+		function gojoin(){
+			location.href='${cpath}/member/join';
+		}
+		
+		
+		
+	
+	
+
+	//중복체크
 	function idConfirm(){
+		var user_id = $('#Id').val();
+		
 		$.ajax({
 			url:"${cpath}/member/check",
 			type:"get",
+			data:{
+				"id":user_id,
+			},
 			success:idConfirmResult,
 			error: function(){ alert('error')}
 		});
@@ -94,17 +204,21 @@
 	
 	
 	function idConfirmResult(data){
-		alert(data);
-	}
-
-
-	function gologin(){
-		location.href='${cpath}/member/login';
+		dataResult = data;
+		if(data == 1){
+			alert('다른 아이디를 입력해주세요.');
+		}else{
+			alert('사용 가능한 아이디 입니다.');
+		}
+		makeResult();
 	}
 	
-	function gojoin(){
-		location.href='${cpath}/member/join';
-	}
+	
+	
+
+	
+	
+	
 </script>
 
 </body>

@@ -160,7 +160,7 @@
 	.myinfo .logout{
 		display:block;
 		text-align:center;
-		padding:15px 0;
+		padding:12px 0;
 		background:#efefef;
 		color:#525252;
 		

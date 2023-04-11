@@ -17,7 +17,9 @@ public interface MemberRepository {
 	@Select("select * from suri_member where Id = #{id} and password = #{password}")
 	public Member findById(Member m);
 	
-	//
+	//증복확인
+	@Select("select count(*) from suri_member where Id = #{id}")
+	public int check(Member m);
 	
 
 }

@@ -10,5 +10,5 @@ public interface MemberService {
 	public void join(Member m, RedirectAttributes rttr);
 	public void findOne(Member m, HttpSession session, RedirectAttributes rttr);
 	public void logout(Member m, HttpSession session, RedirectAttributes rttr);
-	public void check(Member m);
+	public int check(Member m);
 }

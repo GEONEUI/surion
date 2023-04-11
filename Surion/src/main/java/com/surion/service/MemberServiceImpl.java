@@ -46,8 +46,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void check(Member m) {
-		int result = memberRepository.check();
+	public int check(Member m) {
+		int result = memberRepository.check(m);
+		return result;
 	}
 
 
