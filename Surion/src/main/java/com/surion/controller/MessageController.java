@@ -36,6 +36,6 @@ public class MessageController{
 	public @ResponseBody int insertMessage(Message message) {
 		chatRoomRepository.insertMessage(message);
 		return message.id;
-	}
+	}     
 	
 }
