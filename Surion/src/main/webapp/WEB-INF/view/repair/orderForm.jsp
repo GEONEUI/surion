@@ -122,7 +122,7 @@
 }
 
 .select {
-	padding: 2rem 0 2rem;
+	padding: 1rem 0 2rem;
 }
 
 .nextBtn {
@@ -188,6 +188,52 @@
 
 .loadingGage {
 	padding-left: 15px;
+}
+
+
+.esti {
+	display: flex;
+	align-item: center;
+}
+
+.aa {
+	color: rgb(122, 122, 122);
+	font-size: 1.5rem;
+	margin-right: 1rem;
+}
+
+.lastTitle {
+	width: 28rem;
+	margin-bottom: 1.5rem;
+	border-style: none;
+}
+
+.lastContent {
+	width: 28rem;
+	height: 15rem;
+	margin-bottom: 1.5rem;
+	border-style: none;
+}
+
+.lastEstimate {
+	padding-left: 7px;
+	border-style: none;
+}
+
+.imageUpload {
+	width: 45%;
+	margin-bottom: 1rem;
+}
+
+.imageForm {
+	display: flex;
+	align-items: center;
+}
+
+.imageText {
+	color: red;
+	font-size: 13px;
+	padding-bottom: 16px;
 }
 
 /* input css */
@@ -348,8 +394,7 @@ input[type="checkbox"]:checked+label span::after {
 	var list = []; 
 
 	// 0단계 초기값 //
-	const serviceText0 = ''
-						 +'<div class="service">어떤 서비스를 받기 원하시나요?</div>';
+	const serviceText0 = '어떤 서비스를 받기 원하시나요?';
 	const mainText = ''
 					+ '<li class="text-area">'
 					+ '<input type="checkbox" value="자전거" id="checkbox-area-0" name="selectOne"   onclick="checkOnlyOne(this)" class="selClass"/>'
@@ -405,8 +450,7 @@ input[type="checkbox"]:checked+label span::after {
 	
 	
 	// 1단계 //
-	const serviceText = ''
-						 +'<div class="service">어떤 부분이 고장 나셨나요?</div>';
+	const serviceText = '어떤 부분이 고장 나셨나요?';
 
 	const bicycle = ''
 					+'<li class="text-area">'
@@ -672,8 +716,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="button" value="다음" class="nextBtn" onclick="etcNext()"/>';				
 	
 	// next2() 2단계 // 
-	const serviceText2 = ''
-						 +'<div class="service">제품을 보낼 방법을 선택해주세요.</div>';
+	const serviceText2 = '제품을 보낼 방법을 선택해주세요.';
 
 	const repairSort = ''
 						+'<li class="text-area">'
@@ -706,14 +749,24 @@ input[type="checkbox"]:checked+label span::after {
 
 
 	// next3() 3단계 //
-	const serviceText3 = ''
-						 +'<div class="service">원하시는 날짜를 선택해주세요.</div>';
+	const serviceText3 = '원하시는 날짜를 선택해주세요.';
 	
 	const btn3 = ''
 				+'<input type="button" value="이전" class="prevBtn" onclick="prev3()"/>'
-				+'<input type="submit" value="견적 요청" class="submitBtn" onclick="next4()"/>';			
+				+'<input type="button" value="다음" class="nextBtn" onclick="next4()"/>';			
 						 
-	// 다음 버튼 및 submit //
+	// next4() 4단계 //
+	
+	const serviceText4 = '관련 내용을 작성해주세요.';
+	
+	const btn4 = ''
+				+'<input type="button" value="이전" class="prevBtn" onclick="prev4()"/>'
+				+'<input type="button" value="견적 요청" class="nextBtn" onclick="next5()"/>';
+	
+	
+	
+	
+	
 	function next()	{
 		if(document.querySelector('.selClass:checked') == null){
 			alert("1개 항목을 체크해주세요.");
@@ -723,50 +776,50 @@ input[type="checkbox"]:checked+label span::after {
 		goNextValue = document.querySelector('.selClass:checked').value;
 		
 		if(goNextValue == '자전거'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = bicycle;
 			selBtn.innerHTML = btn;
 			list.push(goNextValue);
 		}
 		if(goNextValue == '오토바이'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = motorcycle;
 			selBtn.innerHTML = btn;
 			list.push(goNextValue);
 		}	
 		if(goNextValue == '에어컨'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = airConditioner;
 			selBtn.innerHTML = btn;
 			list.push(goNextValue);
 		}	
 		if(goNextValue == '보일러'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = boiler;
 			selBtn.innerHTML = btn;
 			list.push(goNextValue);
 		}	
 		if(goNextValue == '컴퓨터'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = computer;
 			selBtn.innerHTML = btn;
 			list.push(goNextValue);
 		}	
 		if(goNextValue == '음향'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = sound;
 			selBtn.innerHTML = btn;
 			list.push(goNextValue);
 		}	
 		if(goNextValue == '기타'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = etc;
 			selBtn.innerHTML = etcBtn;
 			list.push(goNextValue);
 		}	
 		
-		barElem.style.width = 33 + "%";
-		barPercent.innerHTML = '<span class="barPercent">33%</span>';
+		barElem.style.width = 28 + "%";
+		barPercent.textContent = '28%';
 		console.log(list);
 	}
 	function next2(){
@@ -787,12 +840,12 @@ input[type="checkbox"]:checked+label span::after {
 			list.push(goNextValue);	
 		}
 			 
-			service.innerHTML = serviceText2;
+			service.textContent = serviceText2;
 			select.innerHTML = repairSort;
 			selBtn.innerHTML = btn2;
 			
-		barElem.style.width = 66 + "%";
-		barPercent.innerHTML = '<span class="barPercent">66%</span>';
+		barElem.style.width = 55 + "%";
+		barPercent.textContent = '55%';
 		console.log(list);
 	}
 	
@@ -812,12 +865,12 @@ input[type="checkbox"]:checked+label span::after {
 			list.push(inputEtcValue);
 		}
 			
-		service.innerHTML = serviceText2;
+		service.textContent = serviceText2;
 		select.innerHTML = repairSort;
 		selBtn.innerHTML = btn2;
 		
-		barElem.style.width = 66 + "%";
-		barPercent.innerHTML = '<span class="barPercent">66%</span>';
+		barElem.style.width = 55 + "%";
+		barPercent.textContent = '55%';
 		console.log(list);	
 	}
 	
@@ -829,13 +882,13 @@ input[type="checkbox"]:checked+label span::after {
 		goNextValue = document.querySelector('.selClass:checked').value;
 			list.push(goNextValue);
 			
-			service.innerHTML = serviceText3;
+			service.textContent = serviceText3;
 			select.innerHTML = '<input type="date" name="startday" class="selectDate">';
 			selBtn.innerHTML = btn3;
 			
-		barElem.style.width = 99 + "%";
-		barPercent.innerHTML = '<span class="barPercent">99%</span>';
-			console.log(list);
+		barElem.style.width = 75 + "%";
+		barPercent.textContent = '75%';
+		console.log(list);
 	}
 	
 	function next4(){
@@ -857,24 +910,51 @@ input[type="checkbox"]:checked+label span::after {
 			return
 		}
 		
+		service.textContent = serviceText4;
+		select.innerHTML = ''
+							+'<div class="imageForm">'
+							+'<input type="file" accept="image/*" onchange="loadFile(this)" class="imageUpload">'
+							+'<div class="imageText">이미지를 업로드 해주세요.</div>'
+							+'</div>'
+							+'<div class="aa">제목</div>'
+							+'<input type="text" class="lastTitle" placeholder="30자 이내로 작성해주세요.">'
+							+'<div class="aa">내용</div>'
+							+'<textarea class="lastContent"> </textarea>'
+							+'<div class="esti"><div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="ex) 50000 or 협의"></div>';
+							
+		selBtn.innerHTML = btn4;
+		
+		barElem.style.width = 99 + "%";
+		barPercent.textContent = '99%';
 		list.push(selectDateValue);
 		console.log(list);
-		alert("견적 요청이 완료되었습니다.");
 		
+	}
+	
+	function next5(){
+		let lastTitleValue = document.querySelector('.lastTitle').value;
+		let lastContentValue = document.querySelector('.lastContent').value;
+		let lastEstimateValue = document.querySelector('.lastEstimate').value;
+		
+		list.push(lastTitleValue, lastContentValue, lastEstimateValue);
+		console.log(list);
+		alert("견적 요청이 완료되었습니다.");
 		goOrder(); // ajax로 list 데이터 보내기
 	}
+	
+	
 
 	// 이전 버튼 //
 	
 	function prev(){
 		list.pop();
 		
-		service.innerHTML = serviceText0;
+		service.textContent = serviceText0;
 		select.innerHTML = mainText;
 		selBtn.innerHTML = btn0;
 		
 		barElem.style.width = 0 + "%";
-		barPercent.innerHTML = '<span class="barPercent">0%</span>';
+		barPercent.textContent = '0%';
 		console.log(list);
 	}
 	
@@ -882,54 +962,66 @@ input[type="checkbox"]:checked+label span::after {
 		list.pop();
 		
 		if(list[0] == '자전거'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = bicycle;
 			selBtn.innerHTML = btn;
 		}
 		if(list[0] == '오토바이'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = motorcycle;
 			selBtn.innerHTML = btn;
 		}	
 		if(list[0] == '에어컨'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = airConditioner;
 			selBtn.innerHTML = btn;
 		}	
 		if(list[0] == '보일러'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = boiler;
 			selBtn.innerHTML = btn;
 		}	
 		if(list[0] == '컴퓨터'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = computer;
 			selBtn.innerHTML = btn;
 		}	
 		if(list[0] == '음향'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = sound;
 			selBtn.innerHTML = btn;
 		}	
 		if(list[0] == '기타'){
-			service.innerHTML = serviceText;
+			service.textContent = serviceText;
 			select.innerHTML = etc;
 			selBtn.innerHTML = etcBtn;
 		}	
-		barElem.style.width = 33 + "%";
-		barPercent.innerHTML = '<span class="barPercent">33%</span>';
+		barElem.style.width = 28 + "%";
+		barPercent.textContent = '28%';
 		console.log(list);
 	}
+
 	
 	function prev3(){
 		list.pop();
-		service.innerHTML = serviceText2;
+		service.textContent = serviceText2;
 		select.innerHTML = repairSort;
 		selBtn.innerHTML = btn2;
 		console.log(list);
 		
-	barElem.style.width = 66 + "%";
-	barPercent.innerHTML = '<span class="barPercent">66%</span>';
+	barElem.style.width = 55 + "%";
+	barPercent.textContent = '55%';
+	}
+	
+	function prev4(){
+		list.pop();
+		service.textContent = serviceText3;
+		select.innerHTML = '<input type="date" name="startday" class="selectDate">';
+		selBtn.innerHTML = btn3;
+		console.log(list);
+		
+	barElem.style.width = 75 + "%";
+	barPercent.textContent = '75%';
 	}
 
 	// ajax로 데이터 보내기 //
@@ -942,7 +1034,10 @@ input[type="checkbox"]:checked+label span::after {
 				"value1" : list[0],
 				"value2" : list[1],
 				"value3" : list[2],
-				"value4" : list[3]
+				"value4" : list[3],
+				"value5" : list[4],
+				"value6" : list[5],
+				"value7" : list[6]
 			},
 			success : function (data, status){
 			},
@@ -951,6 +1046,7 @@ input[type="checkbox"]:checked+label span::after {
 			}
 		});
 	}
+	
 	
 	// 데이터 받는부분 연습
 // 	function goOrder(){
