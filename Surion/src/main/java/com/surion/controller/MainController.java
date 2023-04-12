@@ -2,7 +2,7 @@ package com.surion.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 
 @Controller
 public class MainController {
@@ -10,4 +10,6 @@ public class MainController {
 	public String index() {
 		return "index";
 	}
+	
+	
 }
