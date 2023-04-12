@@ -53,6 +53,10 @@
 		margin-right: 6px;
 	}
 	
+	.subTitle li:nth-child(2) {
+		padding-top: 3px;
+	}
+	
 	.subTitle2 {
 		font-size: 14px;
 	    color: rgb(85, 89, 105);
@@ -121,8 +125,8 @@
 				<div>
 					<h3>디아블로2 소서리스 키우는 법 알려주세요.</h3>
 					<ul class="subTitle">
-						<li>Surion<li>
-						<li>이 제공하는 견적 요청 목록 &#128504;<li>
+						<li>Surion</li>
+						<li>이 제공하는 견적 요청 목록 &#128504;</li>
 					</ul>
 					<ul class="subTitle2">
 						<li>에어컨 &nbsp > &nbsp</li>

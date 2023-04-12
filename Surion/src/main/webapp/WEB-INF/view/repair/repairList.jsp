@@ -167,7 +167,7 @@
 				<i class="fa-solid fa-magnifying-glass"></i>
 				<input type="search" class="ser" oninput="inputBtn()" placeholder="키워드를 검색해주세요."/>
 			</div>
-			<button class="hbutton" onclick="location.href='${cpath}/repair/order'">견적 요청</button>
+			<button class="hbutton" onclick="location.href='${cpath}/repair/repairForm'">견적 요청</button>
 			</div>
 	
 			<ul class="askList">

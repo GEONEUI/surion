@@ -291,7 +291,7 @@ input[type="checkbox"]:checked+label span::after {
 		<div class="content">
 			<div class="suriSize">
 				<div class="main1">
-					<form action="test.jsp" method="get" class="mainForm" onsubmit="return false">
+					<div class="mainForm">
 						<div>
 							<div class="first">완료 시 평균 4개 견적 도착</div>
 							<div class="loading">
@@ -299,6 +299,7 @@ input[type="checkbox"]:checked+label span::after {
 								<span class="barPercent">0%</span>
 							</div>
 						</div>
+						
 						<div class="below">
 							<div class="service">어떤 서비스를 받기 원하시나요?</div>
 							<ul class="select">
@@ -347,10 +348,11 @@ input[type="checkbox"]:checked+label span::after {
 								</label></li>
 							</ul>
 						</div>
+						
 						<div class="selBtn">
 							<input type="button" value="다음" class="nextBtn" onclick="next()" />
 						</div>
-				</form>
+					</div>
 				</div>
 				<div class="main2">
 					<h4>Surion은 어떤 곳인가요?</h4>
@@ -911,9 +913,11 @@ input[type="checkbox"]:checked+label span::after {
 		}
 		
 		service.textContent = serviceText4;
-		select.innerHTML = ''
+		select.innerHTML = ''																
+							+'<form action="${cpath}/repair/upload" method="post" enctype="multipart/form-data" id="imageUp">'
 							+'<div class="imageForm">'
-							+'<input type="file" accept="image/*" onchange="loadFile(this)" class="imageUpload">'
+							+'<input type="file"  name="file" class="imageUpload">'
+							+'<input type="hidden" name="member_id" value="ff">'
 							+'<div class="imageText">이미지를 업로드 해주세요.</div>'
 							+'</div>'
 							+'<div class="aa">제목</div>'
@@ -921,24 +925,29 @@ input[type="checkbox"]:checked+label span::after {
 							+'<div class="aa">내용</div>'
 							+'<textarea class="lastContent"> </textarea>'
 							+'<div class="esti"><div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="ex) 50000 or 협의"></div>';
-							
+							+'</form>'
 		selBtn.innerHTML = btn4;
 		
 		barElem.style.width = 99 + "%";
 		barPercent.textContent = '99%';
 		list.push(selectDateValue);
 		console.log(list);
-		
 	}
+	
+	
 	
 	function next5(){
 		let lastTitleValue = document.querySelector('.lastTitle').value;
 		let lastContentValue = document.querySelector('.lastContent').value;
 		let lastEstimateValue = document.querySelector('.lastEstimate').value;
+		let imageUpload = document.querySelector('.imageUpload').value;
 		
-		list.push(lastTitleValue, lastContentValue, lastEstimateValue);
+		list.push(imageUpload, lastTitleValue, lastContentValue, lastEstimateValue);
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
+		
+		
+			
 		goOrder(); // ajax로 list 데이터 보내기
 	}
 	
@@ -1023,50 +1032,41 @@ input[type="checkbox"]:checked+label span::after {
 	barElem.style.width = 75 + "%";
 	barPercent.textContent = '75%';
 	}
-
-	// ajax로 데이터 보내기 //
+	
+	// 데이터 보내기 //
+	
 	
 	function goOrder(){
 		$.ajax({
-			type : "GET",
-			url : "test.com",
+			type : "post",
+			url : "${cpath}/repair/uploadAjaxAction",
 			data : {
-				"value1" : list[0],
-				"value2" : list[1],
-				"value3" : list[2],
-				"value4" : list[3],
-				"value5" : list[4],
-				"value6" : list[5],
-				"value7" : list[6]
-			},
-			success : function (data, status){
+				"member_id" : "ff",
+				"choice1" : list[0],
+				"choice2" : list[1],
+				"deliveryType" : list[2],
+				"data" : list[3],
+				"image" : list[4],
+				"title" : list[5],
+				"content" : list[6],
+				"estimate" : list[7],
+				"itemcategory_id" : 1,
+			}, 
+			success : function (data){
+				alert(data);
 			},
 			error : function (){
 				alert("error");
 			}
 		});
+		uploadImg();
 	}
 	
-	
-	// 데이터 받는부분 연습
-// 	function goOrder(){
-// 		$.ajax({
-// 			type : "GET",
-// 			url : "${cpath}/repair/test",
-// 			success : make,
-// 			error : function (){
-// 				alert("슈방");
-// 			}
-// 		});
-// 	}
-	
-// 	$(function(){
-// 		goOrder();	
-// 	});
-	
-// 	function make(data){
-// 		console.log(JSON.parse(data));
-// 	}
+	function uploadImg(){
+		var frm = $('#imageUp');
+			frm.submit();
+	}
+
 </script>
 </body>
 </html>
