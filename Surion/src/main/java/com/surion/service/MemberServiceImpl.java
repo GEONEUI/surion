@@ -17,10 +17,25 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	//
-	public void join(Member m, RedirectAttributes rttr) {
-		memberRepository.save(m);
-		rttr.addFlashAttribute("msgTitle", "Success Message!");
-		rttr.addFlashAttribute("msg", "회원가입 성공!");
+	public String join(Member m, RedirectAttributes rttr) {
+		if(m.getId().equals("") || m.getId() == "" ||
+		   m.getPassword().equals("") || m.getPassword() == "" ||
+		   m.getName().equals("") || m.getName() == "" ||
+	       m.getEmail().equals("") || m.getEmail() == "") {
+			rttr.addFlashAttribute("msgTitle", "Error Message!");
+			rttr.addFlashAttribute("msg", "입력창에 공백이 있습니다.");
+			rttr.addFlashAttribute("id", m.getId());
+			rttr.addFlashAttribute("pw", m.getPassword());
+			rttr.addFlashAttribute("na", m.getName());
+			rttr.addFlashAttribute("em", m.getEmail());
+			return "redirect:/member/join";
+		}else {
+			memberRepository.save(m);
+			rttr.addFlashAttribute("msgTitle", "Success Message!");
+			rttr.addFlashAttribute("msg", "회원가입 성공!");
+			return "redirect:/";
+		}
+		
 	}
 
 	@Override
