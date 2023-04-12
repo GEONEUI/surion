@@ -35,8 +35,7 @@ public class MemberController {
 	//회원가입
 	@PostMapping("/join")
 	public String join(Member m, RedirectAttributes rttr) {
-		memberService.join(m, rttr);
-		return "redirect:/";
+		return memberService.join(m, rttr);
 	}
 	
 	//로그인

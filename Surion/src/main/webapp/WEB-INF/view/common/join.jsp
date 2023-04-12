@@ -55,14 +55,14 @@
 			<div class="uline">
 				<label>아이디</label>
 				<div class="idcheck">
-					<input type="text" placeholder="아이디를 입력해주세요." name="Id" id='Id'>
+					<input type="text" placeholder="아이디를 입력해주세요." name="Id" id='Id' value="${id}">
 					<button type="button" onclick="idConfirm();">중복확인</button>
 				</div>
 				<span id="idWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
 				<label>비밀번호</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요." name="password" id="password" onclick="pw();">
+				<input type="password" placeholder="비밀번호를 입력해주세요." name="password" id="password" onclick="pw();" value="${pw}">
 			</div>
 			<div class="uline">
 				<label>비밀번호 확인</label>
@@ -71,12 +71,12 @@
 			</div>
 			<div class="uline">
 				<label>이름</label>
-				<input type="text" placeholder="이름을 입력해주세요." name="name" id="name" onclick="nikname();">
+				<input type="text" placeholder="이름을 입력해주세요." name="name" id="name" onclick="nikname();" value="${na}">
 				<span id="nameWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
 				<label>이메일</label>
-				<input type="email" placeholder="이메일을 입력해주세요." name="email" id="email" onclick="usermail();">
+				<input type="email" placeholder="이메일을 입력해주세요." name="email" id="email" onclick="usermail();" value="${em}">
 				<span id="emailWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
@@ -85,6 +85,52 @@
 		</div>
 	</form>
 </div>
+
+
+  <button id="mbtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="display:none;">
+    Open modal
+  </button>
+  
+  
+  
+<c:if test="${!empty msg}">
+	<!-- 모든 요청모달 여기로 해주세요. -->
+		<!-- The Modal -->
+		<div class="modal" id="myModal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		
+		      <!-- Modal Header -->
+		      <c:if test="${msgTitle == 'Error Message!'}">
+			       <div class="modal-header bg-danger" style="background:#00c7ae;">
+			        <h4 class="modal-title text-white">${msgTitle}</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			      </div>
+		      </c:if>
+			  <c:if test="${msgTitle != 'Error Message!'}">
+			       <div class="modal-header" style="background:#00c7ae;">
+			        <h4 class="modal-title text-white">${msgTitle}</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			      </div>
+		      </c:if>
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        ${msg}
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+
+	<script>
+		$(function(){
+			$('#mbtn').trigger('click');
+		});
+	</script>
+</c:if>
+
+
 <script>
 	
 	var idWarning = $('#idWarning');
@@ -124,7 +170,6 @@
 		}
 		
 		
-	
 		makeResult();
 		
 		function totalResult(){
@@ -137,10 +182,12 @@
 				idWarning.html('아이디 중복 확인이 완료 되었습니다.');
 				idWarning.css('color', 'green');
 				idflag = false;
-
+				confirm = true;
 			}
 			
 			frm.on('keyup', function(){
+				
+				console.log(confirm);
 				
 				idValue = $('#Id').val();
 				passwordValue = $('#password').val();
@@ -158,42 +205,36 @@
 						if(idValue == ''){
 							idWarning.html('아이디에 빈 값을 입력 하실 수 없습니다.');
 							idWarning.css('color', 'red');
-							confirm = false;
 						}
 					}
 				
 					if(user_id != idValue){
 						idWarning.html('아이디 중복 확인을 해주세요.');	
 						idWarning.css('color', 'red');
-						confirm = false;
 					}
 				
-					
 					
 					if(pwflag){
 						if(passwordValue == ''){
 							pwWarning.html('비밀번호에 빈 값을 입력 하실 수 없습니다.');
 							pwWarning.css('color', 'red');
-							confirm = false;
 						}else if(passwordValue == password2Value){
 							pwWarning.html('비밀번호가 일치합니다.');
 							pwWarning.css('color', 'green');
 						}else if(passwordValue != password2Value){
 							pwWarning.html('비밀번호가 일치하지 않습니다.');
 							pwWarning.css('color', 'red');
-							confirm = false;
 						}
 					}
 					
 					
 					if(nameflag){
 						if(nameValue != ''){
-							nameWarning.html('');	
+							nameWarning.html('');
 						}
 						if(nameValue == ''){
 							nameWarning.html('이름에 빈값을 입력하실 수 없습니다.');	
 							nameWarning.css('color', 'red');
-							confirm = false;
 						}
 					}
 					
@@ -202,7 +243,6 @@
 						if(emailValue == ''){
 							emailWarning.html('이메일에 빈값을 입력하실 수 없습니다.');	
 							emailWarning.css('color', 'red');
-							confirm = false;
 						}
 						
 						if(emailValue != ''){
