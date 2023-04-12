@@ -62,7 +62,7 @@
 			</div>
 			<div class="uline">
 				<label>비밀번호</label>
-				<input type="password" placeholder="비밀번호를 입력해주세요." name="password" id="password">
+				<input type="password" placeholder="비밀번호를 입력해주세요." name="password" id="password" onclick="pw();">
 			</div>
 			<div class="uline">
 				<label>비밀번호 확인</label>
@@ -71,12 +71,12 @@
 			</div>
 			<div class="uline">
 				<label>이름</label>
-				<input type="text" placeholder="이름을 입력해주세요." name="name" id="name">
+				<input type="text" placeholder="이름을 입력해주세요." name="name" id="name" onclick="nikname();">
 				<span id="nameWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
 				<label>이메일</label>
-				<input type="email" placeholder="이메일을 입력해주세요." name="email" id="email">
+				<input type="email" placeholder="이메일을 입력해주세요." name="email" id="email" onclick="usermail();">
 				<span id="emailWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
@@ -92,10 +92,39 @@
 	var nameWarning = $('#nameWarning');
 	var emailWarning = $('#emailWarning');
 	var frm = $('#frm');
+	var idflag = true;
+	var pwflag = false;
+	var nameflag = false;
+	var emailflag = false;
 	var dataResult;
 	var confirm = false;
+	
+	
+	var idValue;
+	var passwordValue;
+	var password2Value;
+	var nameValue;
+	var emailValue;
+	var lastIdValue;
+	var user_id;
+	
 
+
+	
+		function pw(){
+			pwflag = true;
+		}
 		
+		function nikname(){
+			nameflag = true;
+		}
+		
+		function usermail(){
+			emailflag = true;
+		}
+		
+		
+	
 		makeResult();
 		
 		function totalResult(){
@@ -107,66 +136,80 @@
 			if(dataResult == 0){
 				idWarning.html('아이디 중복 확인이 완료 되었습니다.');
 				idWarning.css('color', 'green');
+				idflag = false;
+
 			}
 			
 			frm.on('keyup', function(){
-		
-				var idValue = frm.find('#Id').val();
-				var passwordValue = frm.find('#password').val();
-				var password2Value = frm.find('#password2').val();
-				var nameValue = frm.find('#name').val();
-				var emailValue = frm.find('#email').val();
 				
-				
+				idValue = $('#Id').val();
+				passwordValue = $('#password').val();
+				password2Value = $('#password2').val();
+				nameValue = $('#name').val();
+				emailValue = $('#email').val();
+
 				//유효성 기본상태
+					if(idflag){
+						if(idValue != null){
+							idWarning.html('아이디 중복 확인을 해주세요.');	
+							idWarning.css('color', 'red');
+							confirm = false;
+						}
+						if(idValue == ''){
+							idWarning.html('아이디에 빈 값을 입력 하실 수 없습니다.');
+							idWarning.css('color', 'red');
+							confirm = false;
+						}
+					}
 				
-					if(dataResult == 0){
-					idWarning.html('아이디 중복 확인이 완료 되었습니다.');
-					idWarning.css('color', 'green');
-					confirm = true;
-					}else if(idValue != null){
+					if(user_id != idValue){
 						idWarning.html('아이디 중복 확인을 해주세요.');	
 						idWarning.css('color', 'red');
 						confirm = false;
-					}else if(idValue == ''){
-						idWarning.html('아이디에 빈 값을 입력 하실 수 없습니다.');
-						idWarning.css('color', 'red');
-						confirm = false;
 					}
 				
-					if(passwordValue == ''){
-						pwWarning.html('비밀번호에 빈 값을 입력 하실 수 없습니다.');
-						pwWarning.css('color', 'red');
-						confirm = false;
-					}else if(passwordValue == password2Value){
-						pwWarning.html('비밀번호가 일치합니다.');
-						pwWarning.css('color', 'green');
-					}else if(passwordValue != password2Value){
-						pwWarning.html('비밀번호가 일치하지 않습니다.');
-						pwWarning.css('color', 'red');
-						confirm = false;
+					
+					
+					if(pwflag){
+						if(passwordValue == ''){
+							pwWarning.html('비밀번호에 빈 값을 입력 하실 수 없습니다.');
+							pwWarning.css('color', 'red');
+							confirm = false;
+						}else if(passwordValue == password2Value){
+							pwWarning.html('비밀번호가 일치합니다.');
+							pwWarning.css('color', 'green');
+						}else if(passwordValue != password2Value){
+							pwWarning.html('비밀번호가 일치하지 않습니다.');
+							pwWarning.css('color', 'red');
+							confirm = false;
+						}
 					}
 					
-					if(nameValue != ''){
-						nameWarning.html('');	
+					
+					if(nameflag){
+						if(nameValue != ''){
+							nameWarning.html('');	
+						}
+						if(nameValue == ''){
+							nameWarning.html('이름에 빈값을 입력하실 수 없습니다.');	
+							nameWarning.css('color', 'red');
+							confirm = false;
+						}
 					}
 					
-					if(nameValue == ''){
-						nameWarning.html('이름에 빈값을 입력하실 수 없습니다.');	
-						nameWarning.css('color', 'red');
-						confirm = false;
-					}
-
-				
-					if(emailValue == ''){
-						emailWarning.html('이메일에 빈값을 입력하실 수 없습니다.');	
-						emailWarning.css('color', 'red');
-						confirm = false;
+					
+					if(emailflag){
+						if(emailValue == ''){
+							emailWarning.html('이메일에 빈값을 입력하실 수 없습니다.');	
+							emailWarning.css('color', 'red');
+							confirm = false;
+						}
+						
+						if(emailValue != ''){
+							emailWarning.html('');	
+						}
 					}
 					
-					if(emailValue != ''){
-						emailWarning.html('');	
-					}
 
 			});
 		}
@@ -189,7 +232,7 @@
 
 	//중복체크
 	function idConfirm(){
-		var user_id = $('#Id').val();
+		user_id = $('#Id').val();
 		
 		$.ajax({
 			url:"${cpath}/member/check",
