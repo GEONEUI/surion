@@ -204,7 +204,7 @@
 
 .lastTitle {
 	width: 28rem;
-	margin-bottom: 1.5rem;
+	margin-bottom: 1rem;
 	border-style: none;
 }
 
@@ -491,7 +491,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -532,7 +532,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -573,7 +573,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -614,7 +614,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -655,7 +655,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 					
@@ -696,7 +696,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요." maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -705,10 +705,10 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="텍스트 창 만들기" id="checkbox-area-etc" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-etc">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>'
-
+					
 	const btn = ''
 					+'<input type="button" value="이전" class="prevBtn" onclick="prev()"/>'
 					+'<input type="button" value="다음" class="nextBtn" onclick="next2()"/>';
@@ -894,6 +894,7 @@ input[type="checkbox"]:checked+label span::after {
 	}
 	
 	function next4(){
+		
 		let newDate = new Date();
 		let year = newDate.getFullYear(); // 년도
 		let month = newDate.getMonth() + 1;  // 월
@@ -921,12 +922,19 @@ input[type="checkbox"]:checked+label span::after {
 							+'<div class="imageText">이미지를 업로드 해주세요.</div>'
 							+'</div>'
 							+'<div class="aa">제목</div>'
-							+'<input type="text" class="lastTitle" placeholder="30자 이내로 작성해주세요.">'
+							+'<input type="text" class="lastTitle" placeholder="25자 이내로 작성해주세요." maxlength="25">'
 							+'<div class="aa">내용</div>'
 							+'<textarea class="lastContent"> </textarea>'
 							+'<div class="esti"><div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="ex) 50000 or 협의"></div>';
 							+'</form>'
 		selBtn.innerHTML = btn4;
+		
+			var imageUploadValue = document.querySelector('.imageUpload').value
+			var imageText = document.querySelector('.imageText'); 
+			if(imageUploadValue){
+				imageText.textContent = "";
+			}
+		
 		
 		barElem.style.width = 99 + "%";
 		barPercent.textContent = '99%';
@@ -1045,7 +1053,7 @@ input[type="checkbox"]:checked+label span::after {
 				"choice1" : list[0],
 				"choice2" : list[1],
 				"deliveryType" : list[2],
-				"data" : list[3],
+				"date" : list[3],
 				"image" : list[4],
 				"title" : list[5],
 				"content" : list[6],
@@ -1053,7 +1061,6 @@ input[type="checkbox"]:checked+label span::after {
 				"itemcategory_id" : 1,
 			}, 
 			success : function (data){
-				alert(data);
 			},
 			error : function (){
 				alert("error");

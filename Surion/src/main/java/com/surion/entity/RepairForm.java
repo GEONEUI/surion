@@ -13,7 +13,7 @@ public class RepairForm {
 	private String choice1;
 	private String choice2;
 	private String deliveryType;
-	private String data;
+	private String date;
 	private String image;
 	private String title;
 	private String content;
