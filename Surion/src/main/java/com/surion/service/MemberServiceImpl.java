@@ -1,11 +1,17 @@
 package com.surion.service;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.Member;
 import com.surion.repository.MemberRepository;
 
@@ -65,6 +71,76 @@ public class MemberServiceImpl implements MemberService{
 		int result = memberRepository.check(m);
 		return result;
 	}
+	
+	
+	@Override
+	public String updateProfile(HttpServletRequest request, HttpSession session) {
+		MultipartRequest multi = null;
+		
+		int maxSize = 1024 * 1024 *5; //5mb용량체크
+		String save = request.getRealPath("/resources/images");
+		
+		
+		try {
+			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
+			System.out.println(save);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		File newFile =  multi.getFile("imgurl");
+		String id = multi.getParameter("id");
+		String password = multi.getParameter("password");
+		String email = multi.getParameter("email");
+		String phone = multi.getParameter("phone");
+		String address = multi.getParameter("address");
+		
+		
+		if(newFile != null) {
+			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
+			Member m = memberRepository.findByUser(id);
+			File oldFile = new File(save + "/" + m.getImgurl());
+			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
+				if(oldFile.exists()) {
+					oldFile.delete();
+				}
+			}else {
+				if(newFile.exists()) {
+					newFile.delete();
+				}
+				RedirectAttributes rttr = null;
+				rttr.addFlashAttribute("msgTitle", "Error Message!");
+				rttr.addFlashAttribute("msg", "이미지는 PNG, JPG만 업로드 가능합니다.");
+				return "redirect:/mypage/myinfo";
+			}
+		}
+		
+		Member mo = new Member();
+		mo.setId(id);
+		mo.setPassword(password);
+		mo.setEmail(email);
+		mo.setPhone(phone);
+		mo.setAddress(address);
+		mo.setImgurl(newFile.getName());
+		
+		//업데이트
+		memberRepository.updateProfile(mo);
+		
+		Member member = memberRepository.findByUser(id);
+
+		session.setAttribute("member", member);
+		session.setMaxInactiveInterval(60*20);
+		
+		
+
+		return "redirect:/mypage/myinfo";
+	}
+
+
+	
+	
+
+
 
 
 	

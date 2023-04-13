@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.surion.entity.Member;
+import com.surion.service.MemberService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -20,6 +22,8 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/mypage/*")
 public class MyPageController {
 	
+	@Autowired
+	MemberService memberService;
 	
 	
 	@GetMapping("/myinfo")
@@ -28,6 +32,8 @@ public class MyPageController {
 		if(pagev == null) {
 			pagev = "1";
 		}
+		
+		Member m = (Member)session.getAttribute("member");
 		
 		int pageview = Integer.parseInt(pagev);
 		session.setAttribute("id", "testid");
