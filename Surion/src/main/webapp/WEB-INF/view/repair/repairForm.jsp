@@ -924,16 +924,35 @@ input[type="checkbox"]:checked+label span::after {
 							+'<div class="aa">제목</div>'
 							+'<input type="text" class="lastTitle" placeholder="25자 이내로 작성해주세요." maxlength="25">'
 							+'<div class="aa">내용</div>'
-							+'<textarea class="lastContent"> </textarea>'
+							+'<textarea class="lastContent" maxlength="270"> </textarea>'
 							+'<div class="esti"><div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="ex) 50000 or 협의"></div>';
 							+'</form>'
 		selBtn.innerHTML = btn4;
-		
-			var imageUploadValue = document.querySelector('.imageUpload').value
-			var imageText = document.querySelector('.imageText'); 
-			if(imageUploadValue){
+							
+		// 견적 적는 부분에 숫자만 들어가게 // 
+		var input3 = document.getElementsByTagName('input')[3];
+		input3.onkeypress = function(e){
+			console.log(e);
+			 if(event.keyCode >= 48 && event.keyCode <= 57 ){
+				  return true;
+ 			   } else {
+ 				  return false;
+ 			   }
+		}
+							
+							
+		// 이미지 등록 시 빨간 텍스트 사라짐 // 					
+		var imageText = document.querySelector('.imageText'); 
+		var input = document.getElementsByTagName('input')[0];
+		input.onchange = function () {
+			if(document.querySelector('.imageUpload').value != ""){
 				imageText.textContent = "";
 			}
+			if(document.querySelector('.imageUpload').value == ""){
+				imageText.textContent = "이미지를 업로드 해주세요.";
+			}
+		}
+							
 		
 		
 		barElem.style.width = 99 + "%";
@@ -953,7 +972,6 @@ input[type="checkbox"]:checked+label span::after {
 		list.push(imageUpload, lastTitleValue, lastContentValue, lastEstimateValue);
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
-		
 		
 			
 		goOrder(); // ajax로 list 데이터 보내기
