@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
 <!doctype html>
 <html lang="ko">
@@ -118,41 +119,37 @@
 	<div class="suriSize st">
 		<div class="content">
 			<div class="mainImg">
-				<img src="https://cdn.gameple.co.kr/news/photo/202104/158913_164540_441.jpg" alt=""> 
+				<img src="${cpath}/resources/images/${fn:split(m.image, 'h')[1]}" alt="공백" />
 				<p class="propose">&#128680;의뢰자의 요청 내용을 확인 후 제안해 주세요.</p>
 			</div>
 			<div class="mainContent">
 				<div>
-					<h3>디아블로2 소서리스 키우는 법 알려주세요.</h3>
+					<h3>${m.title}</h3>
 					<ul class="subTitle">
 						<li>Surion</li>
 						<li>이 제공하는 견적 요청 목록 &#128504;</li>
 					</ul>
 					<ul class="subTitle2">
-						<li>에어컨 &nbsp > &nbsp</li>
-						<li>가스충전 &nbsp > &nbsp</li>
-						<li>방문수리</li>
+						<li>${m.choice1} &nbsp > &nbsp</li>
+						<li>${m.choice2} &nbsp > &nbsp</li>
+						<li>${m.deliveryType}</li>
 					</ul>
 					<div class="ContentDetail">
 						<ul class="nikname">
 							<li>의뢰자 :</li>
-							<li>건의짱짱123</li>
+							<li>${m.member_id}</li>
 						</ul>
-						
-						<p class="explain">안녕하세요 지금 소서리스 래더 90에서 레벨업이 막혔는데 도와주실 분 구합니다.
-							최소한 짭밥 10년 이상 차만 지원해주시면 감사드리겠습니다.
-						</p>
+						<p class="explain">${m.content}</p>
 						<ul class="nikname">
 							<li>작업 요청일 : </li>
-							<li>2023-04-10</li>
+							<li>${m.date}</li>
 						</ul>
 						<ul class="nikname">
 							<li>견적 : </li>
-							<li>협의</li>
+							<li>${m.estimate}</li>
 						</ul>
 						<button class="sBtn">제안하기</button>
 					</div>
-					
 				</div>
 			</div>
 		</div>

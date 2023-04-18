@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,8 @@ public class RepairController {
 	RepairFormService repairFormService;
 	
 	@RequestMapping("/repairList")
-	public String repairList() {
+	public String repairList(Model model) {
+		repairFormService.repairList(model);
 		return "/repair/repairList";
 	}
 	
@@ -33,37 +35,21 @@ public class RepairController {
 	}
 	
 	@RequestMapping("/repairDetail")
-	public String repairDetail() {
+	public String repairDetail(Model model, RepairForm repairForm) {
+		repairFormService.repairDetail(model, repairForm);
 		return "/repair/repairDetail";
 	}
 	
 	// 파일 업로드
 	@PostMapping("/uploadAjaxAction")
-		public @ResponseBody String uploadAjaxPost(RepairForm repairForm, HttpServletRequest request) {
+		public @ResponseBody void uploadAjaxPost(RepairForm repairForm, HttpServletRequest request) {
 		repairFormService.save(repairForm);
-		
-		return "요청이 완료 되었습니다.";
-		
 	}
 	
 	
 	@PostMapping("/upload")
 	public String upload(HttpServletRequest request) {
-		MultipartRequest multi = null;
-		
-		String save = request.getRealPath("/resources/images");
-		int maxSize = 1024 * 1024 * 5;
-		
-		try {
-			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
-			System.out.println(save);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		
+		repairFormService.upload(request);
 		return "redirect:/";
 	}
 	
