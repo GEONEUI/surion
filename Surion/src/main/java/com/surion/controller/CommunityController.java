@@ -23,6 +23,7 @@ public class CommunityController {
 	
 	@RequestMapping("/board")
 	public String board() {
+		
 		return "/community/community";
 	}
 	

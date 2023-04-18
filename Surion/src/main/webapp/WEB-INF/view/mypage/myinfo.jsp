@@ -2,12 +2,32 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
+
+<script>
+	$(function(){
+		var frm = $('#frm');
+		$("button").on('click', function(e){
+			var oper = $(this).data('oper');
+			if(oper == 'infoChange'){
+				frm.find('input').attr('readonly', false);
+				frm.find('#email').html('<small>* 변경하실 이메일을 입력해주세요.</small>');
+				frm.find('#pass').html('<small>* 변경하실 비밀번호를 입력해주세요.</small>');
+				frm.find('#favor').html('<small>* 수리관심사를 선택해주세요.</small>');
+				frm.find('#name').html('<small>* 변경하실 이름을 입력해주세요.</small>');
+				frm.find('#phone').html('<small>* 변경된 휴대폰 번호를 입력해주세요.</small>');
+				$('#target').html('<button data-oper="update" class="btn btn-sm" style="background:#00c7ae; color:#fff;">변경완료</button>');
+			}
+		});
+	});
+	
+</script>
+
 <style>
+
 
 	#my_page_right img{
 		margin-bottom: 20px;
 		border-radius:65px;
-		filter: grayscale(1);
 	}
 
 	#my_page_right .item{
@@ -15,9 +35,10 @@
 	}
 
 	#my_page_right .item .item_left{
-		padding-right: 30px;
+		padding-right: 63px;
+    	padding-left: 36px;
 		display:flex;
-		aling-items:center;
+		align-items:center;
 		flex-direction:column;
 	}
 
@@ -64,50 +85,108 @@
 	}
 
 </style>
-
 <p class="sub_title">나의정보</p>
 				<div class="item d-flex">
 					<div class="item_left">
-						<img src="${cpath}/resources/images/default.png" alt="기본프로필 이미지" width="110">
-						<button class="btn btn-sm" style="background:#00c7ae; color:#fff;">프로필변경</button>
+						<c:if test="${member.imgurl eq null}">
+							<img id="a" class="preview" src="${cpath}/resources/images/default.png" alt="기본프로필 이미지" width="110">
+						</c:if>
+						<c:if test="${member.imgurl ne null}">
+							<img id="b" class="preview" src="${cpath}/resources/images/${member.imgurl}" alt="기본프로필 이미지" width="110">
+						</c:if>
+							<button
+								id="mbtn"
+								type="button"
+								class="btn"
+								data-bs-toggle="modal"
+								data-bs-target="#myModal"
+								style="background:#00c7ae; color:#fff;">
+								프로필
+							</button>		
 					</div>
 					<div class="item_right">
-						<form>
+						<form id="frm" action="${cpath}/member/updateProfile" enctype="multipart/form-data" method="post">
 							<div class="formgroup">
-								<p>닉네임</p>
-								<input type="text">
-								<small>* 닉네임 변경은 가입후 1회만 가능합니다.</small>
-								<small>* 닉네임 변경 이력이 있다면 수정 기능이 비활성화되며, 추가 변경은 불가합니다..</small>
-								<small>* 한글/영문/숫자만 사용할 수 있으며, 이메일 아이디와 동일한 문자열은 사용이 불가합니다.</small>	
+								<p>이름</p>
+								<input type="text" value="${member.name}" name="name" readonly="readonly">
+								<span id="name"></span>
 							</div>
 							<div class="formgroup">
 								<p>이메일</p>
-								<input type="text">
-								<small>* 변경하실 이메일을 입력해주세요.</small>
+								<input type="text" value="${member.email}" name="email" readonly="readonly">
+								<span id="email"></span>
 							</div>
 							<div class="formgroup">
 								<p>비밀번호 변경</p>
-								<input type="text">
-								<small>* 변경하실 비밀번호를 입력해주세요.</small>
+								<input type="password" value="${member.password}" name="password" readonly="readonly">
+								<span id="pass"></span>
+							</div>
+							<div class="formgroup">
+								<p>주소</p>
+								<input type="text" name="address" value="${member.address}" readonly="readonly">
+								<span id="favor"></span>
 							</div>
 							<div class="formgroup">
 								<p>휴대폰번호</p>
-								<input type="text">
-								<small>* 변경된 휴대폰 번호를 입력해주세요.</small>
+								<input type="text" value="${member.phone}" name="phone" readonly="readonly">
+								<span id="phone"></span>
 							</div>
-							<div class="formgroup">
-								<p>직업</p>
-								<input type="text">
-								<small>* 직업을 입력해주세요.</small>
+							<div id="target" class="formgroup">
+								<button type="button" data-oper="infoChange" class="btn btn-sm btn-primary">정보변경</button>
 							</div>
-							<div class="formgroup">
-								<p>관심사선택</p>
-								<input type="text">
-								<small>*수리관심사를 선택해주세요.</small>
-							</div>
-							<div class="formgroup">
-								<button class="btn btn-sm" style="background:#00c7ae; color:#fff;">변경완료</button>
-							</div>
+							<div class="modal" id="myModal">
+							  <div class="modal-dialog">
+							    <div class="modal-content">
+								      <!-- Modal Header -->
+									       <div class="modal-header" style="background:#00c7ae;">
+									        <h4 class="modal-title text-white">프로필을 선택해주세요.</h4>
+									        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+									      </div>
+								      <!-- Modal body -->
+								      <div class="modal-body">
+								      		<input id="imgname" type="file" onchange="preImg(this)" name="imgurl" value="${member.imgurl}">
+								      		<input type="hidden" name="id" value="${member.id}"/>
+								      </div>
+							    </div>
+							  </div>
+							</div>	
 						</form>
 					</div>
 				</div>	
+				
+	
+	
+	<c:if test="${!empty updateMsg}">
+		<script>
+			alert('${updateMsg}');
+		</script>
+	</c:if>
+
+	<script>
+	
+
+
+		
+		function preImg(input){
+			
+			
+			if(input.files && input.files[0]){
+				var reader = new FileReader();
+				reader.onload = function(e){
+					if(document.querySelector('#a')){
+						document.querySelector('#a').src = e.target.result;
+					}
+					if(document.querySelector('#b')){
+						document.querySelector('#b').src = e.target.result;	
+					}
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		
+
+	
+		
+	</script>
+				
+				

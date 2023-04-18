@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
 <!doctype html>
 <html lang="ko">
@@ -32,7 +33,7 @@
 		width: 18%;
 		height: 3rem;
 		margin: 0.5rem 0 0 5rem;
-		background: #00c7ae;
+		background: #00c7ae;	
 		border-style: none;
 		border-radius: 0.4rem;
 		color: #fff;
@@ -64,31 +65,31 @@
 		flex-wrap: wrap;
 	}
 
-	.askList a{
+	.repairList {
 		width: 22%;
 		height: 20rem;
 		margin-right: 4%;
 		margin-top: 4%;
 		color: #000;
 	}
-
-	.askList a:last-child {
+	
+	.askList div:last-child {
 		margin-right: auto;
 	}
 
-	.askList a:nth-child(4n) {
+	.askList div:nth-child(4n) {
 		margin-right: 0px;
 	}
 	
 	.askListA {
-		height: 12rem;
-		background: #00c7ae;
-		border-radius: 0.5rem;
+		height: 192px;
 	}
 
 	.askListA img {
 		width:100%;
-		height: auto;
+		height: 100%;
+		cursor: pointer;
+		border-radius: 0.5rem;
 	}
 
 
@@ -104,10 +105,11 @@
 
 	.askListP li:nth-child(1){
 		color: rgb(154, 155, 167);
-		font-size: 11px;
+		font-size: 12px;
 	}
 
 	.askListP li:nth-child(2){
+		height: 50px;
 		margin: 8px 0px 16px
 	}
 
@@ -115,6 +117,7 @@
 		display: flex;
 		justify-content: flex-end;
 		font-weight: bold;
+		font-size: 1.1rem;
 	}
 
 	.price img {
@@ -138,7 +141,7 @@
 	}
 
 	.ser {
-		width: 78%;
+		width: 87%;
 		height: 100%;
 		margin-left: 1rem;
 		border-style: none;	
@@ -162,194 +165,47 @@
 <div class="sec_content">
 	<div class="suriSize st">
 			<div class="headLine">
-			<p>지금 가장 뜨거운 픽! &#128293;</p>
+			<p>최신 의뢰 목록 리스트! &#128204;</p>
 			<div class="askSearch">
 				<i class="fa-solid fa-magnifying-glass"></i>
 				<input type="search" class="ser" oninput="inputBtn()" placeholder="키워드를 검색해주세요."/>
 			</div>
-			<button class="hbutton" onclick="location.href='${cpath}/repair/order'">견적 요청</button>
+			<button class="hbutton" onclick="location.href='${cpath}/repair/repairForm'">견적 요청</button>
 			</div>
 	
 			<ul class="askList">
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
+			<c:forEach var="list" items="${list}">
+				<div class="repairList">
+					<div class="askListA" onclick="location.href='${cpath}/repair/repairDetail?idx=${list.idx}'">
+						<img src="${cpath}/resources/images/${fn:split(list.image, 'h')[1]}" alt="공백" />
 					</div>
 					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
+						<li>${list.title}</li>
+						<li>${list.content}</li>
 						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
+							<p>&nbsp${list.estimate}원 ~</p>
 						</div>
 					</div>
-				</a>
-	
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
-
-				<a href="#">
-					<div class="askListA">
-						<img src="https://d2v80xjmx68n4w.cloudfront.net/gigs/xfxYg1679467662.jpg" alt="" />
-					</div>
-					<div class="askListP">
-						<li>이름</li>
-						<li>청소기가 고장났어요청소기ㅂㅈㄷㄼㅈㄷㄼㅈㄷㄼㅈㄷㄼㄷㅈㄼㅈㄹㅈㄷㄹ고장났어요청소기가 고장났어요</li>
-						<div class="price">
-							<div class="price-emoji">&#128489;</div>
-							<p>견적 협의</p>
-						</div>
-					</div>
-				</a>
+				</div>
+			</c:forEach>
 			</ul>
-
 			
 	</div>
 </div>
+	
+
+
+
+
+
+
 
 <script>
 
-	
-	
-	
+
+
+
+
 </script>
 
 		<%@ include file="../common/footer.jsp" %>
