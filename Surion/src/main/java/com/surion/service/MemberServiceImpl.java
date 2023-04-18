@@ -138,8 +138,7 @@ public class MemberServiceImpl implements MemberService{
 		session.setAttribute("member", member);
 		session.setMaxInactiveInterval(60*20);
 		
-		rttr.addFlashAttribute("msgTitle", "Success Message!");
-		rttr.addFlashAttribute("msg", "회원정보가 업데이트 되었습니다.");
+		rttr.addFlashAttribute("updateMsg", "업데이트가 완료 되었습니다.");
 
 		return "redirect:/mypage/myinfo";
 	}

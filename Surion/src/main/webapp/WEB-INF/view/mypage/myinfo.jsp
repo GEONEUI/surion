@@ -155,6 +155,12 @@
 				</div>	
 				
 	
+	
+	<c:if test="${!empty updateMsg}">
+		<script>
+			alert('${updateMsg}');
+		</script>
+	</c:if>
 
 	<script>
 	
