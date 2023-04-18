@@ -1,6 +1,7 @@
 package com.surion.service;
 
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +56,24 @@ public class RepairFormServiceImpl implements RepairFormService{
 	// 의뢰목록에서 1개만 열어서 보기 //
 	@Override
 	public void repairDetail(Model model, RepairForm m) {
+		
+		
+		DecimalFormat decFormat = new DecimalFormat("###,###");
+		
 		RepairForm lst = repairFormRepository.findById(m);
+		
+		
+		if(lst.getEstimate().equals("협의")) {
+			model.addAttribute("money", "협의");
+		}else {
+			int lstMoney = Integer.parseInt(lst.getEstimate());
+			String money = decFormat.format(lstMoney);
+			model.addAttribute("money", money);
+		}
+	
+	
 		model.addAttribute("m", lst);
+		
 	}
 	
 	// orderForm에서 이미지 업로드 되는 메소드 //

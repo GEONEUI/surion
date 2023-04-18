@@ -93,6 +93,7 @@ public class MemberServiceImpl implements MemberService{
 		File newFile =  multi.getFile("imgurl");
 		String id = multi.getParameter("id");
 		String password = multi.getParameter("password");
+		String name = multi.getParameter("name");
 		String email = multi.getParameter("email");
 		String phone = multi.getParameter("phone");
 		String address = multi.getParameter("address");
@@ -129,6 +130,7 @@ public class MemberServiceImpl implements MemberService{
 		mo.setPhone(phone);
 		mo.setAddress(address);
 		mo.setImgurl(updateFileName);
+		mo.setName(name);
 		
 		//업데이트
 		memberRepository.updateProfile(mo);

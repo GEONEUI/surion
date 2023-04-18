@@ -13,17 +13,23 @@
 		justify-content: space-between;
 	    margin-bottom: 3rem;
 	}
-	
-	.mainImg {
-		width: 55%;
-		height: 25rem;
+	.mainImg{
+		width:55%;
+		display:flex;
+		flex-direction:column;
+		justify-content: center;
+		margin-top: 55px;
 	}
 	
-	.mainImg img {
+	.mainHere {
 		width: 100%;
-		height: 100%;
-		border-radius: 1rem;
+		height: 25rem;
+		background:url("${cpath}/resources/images/${fn:substring(m.image, 12, 99)}") center center / contain no-repeat;
+		filter: drop-shadow(2px 4px 6px black);
 	}
+	
+
+
 	
 	.mainContent {
 		width: 40%
@@ -70,10 +76,11 @@
 		font-size: 1.1rem;
  	    padding: 2rem;
 	}
-	
-	.explain {
-		height: 164px;
+	.explain{
+		height:270px;
 	}
+	
+
 	
 	.ContentDetail li {
 		height: 24px;
@@ -110,18 +117,22 @@
 	    font-size: 1.5rem;
 	    font-weight: 400;
 	    text-align: center;
+	    margin-top:auto;
+	    margin-bottom:0;
 	}
 </style>
 <body>
-	<%@ include file="../common/header.jsp" %>
 
+	<%@ include file="../common/header.jsp" %>
 <div class="sec_content">
 	<div class="suriSize st">
 		<div class="content">
 			<div class="mainImg">
-				<img src="${cpath}/resources/images/${fn:split(m.image, 'h')[1]}" alt="공백" />
+				<div class="mainHere"></div>
 				<p class="propose">&#128680;의뢰자의 요청 내용을 확인 후 제안해 주세요.</p>
 			</div>
+		
+			
 			<div class="mainContent">
 				<div>
 					<h3>${m.title}</h3>
@@ -146,7 +157,7 @@
 						</ul>
 						<ul class="nikname">
 							<li>견적 : </li>
-							<li>${m.estimate}</li>
+							<li>${money}</li>
 						</ul>
 						<button class="sBtn">제안하기</button>
 					</div>
