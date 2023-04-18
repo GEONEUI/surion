@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void findOne(Member m, HttpSession session, RedirectAttributes rttr) {
+	public String findOne(Member m, HttpSession session, RedirectAttributes rttr) {
 		Member member = memberRepository.findById(m);
 		//아이디 있음
 		if(member != null) {
@@ -53,9 +53,11 @@ public class MemberServiceImpl implements MemberService{
 			session.setMaxInactiveInterval(60*10);
 			rttr.addFlashAttribute("msgTitle", "Success Message!");
 			rttr.addFlashAttribute("msg", "로그인 성공!");
+			return "redirect:/";
 		}else { // 아이디 틀리거나 없음
 			rttr.addFlashAttribute("msgTitle", "Error Message!");
-			rttr.addFlashAttribute("msg", "로그인 실패!");
+			rttr.addFlashAttribute("msg", "아이디와 비밀번호를 확인해주세요.");
+			return "redirect:/member/login";
 		}
 	}
 
@@ -74,7 +76,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	
 	@Override
-	public String updateProfile(HttpServletRequest request, HttpSession session) {
+	public String updateProfile(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
 		MultipartRequest multi = null;
 		
 		int maxSize = 1024 * 1024 *5; //5mb용량체크
@@ -94,11 +96,16 @@ public class MemberServiceImpl implements MemberService{
 		String email = multi.getParameter("email");
 		String phone = multi.getParameter("phone");
 		String address = multi.getParameter("address");
+		String updateFileName = null;
+		Member m = memberRepository.findByUser(id);
 		
+		if(newFile == null) {
+			updateFileName = m.getImgurl();
+		}
 		
 		if(newFile != null) {
+			updateFileName = newFile.getName();
 			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
-			Member m = memberRepository.findByUser(id);
 			File oldFile = new File(save + "/" + m.getImgurl());
 			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
 				if(oldFile.exists()) {
@@ -108,7 +115,7 @@ public class MemberServiceImpl implements MemberService{
 				if(newFile.exists()) {
 					newFile.delete();
 				}
-				RedirectAttributes rttr = null;
+
 				rttr.addFlashAttribute("msgTitle", "Error Message!");
 				rttr.addFlashAttribute("msg", "이미지는 PNG, JPG만 업로드 가능합니다.");
 				return "redirect:/mypage/myinfo";
@@ -121,7 +128,7 @@ public class MemberServiceImpl implements MemberService{
 		mo.setEmail(email);
 		mo.setPhone(phone);
 		mo.setAddress(address);
-		mo.setImgurl(newFile.getName());
+		mo.setImgurl(updateFileName);
 		
 		//업데이트
 		memberRepository.updateProfile(mo);
@@ -131,10 +138,12 @@ public class MemberServiceImpl implements MemberService{
 		session.setAttribute("member", member);
 		session.setMaxInactiveInterval(60*20);
 		
-		
+		rttr.addFlashAttribute("msgTitle", "Success Message!");
+		rttr.addFlashAttribute("msg", "회원정보가 업데이트 되었습니다.");
 
 		return "redirect:/mypage/myinfo";
 	}
+
 
 
 	

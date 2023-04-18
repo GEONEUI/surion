@@ -54,6 +54,52 @@
 		</div>
 	</form>
 </div>
+
+
+
+  <button id="mbtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="display:none;">
+    Open modal
+  </button>
+  
+  
+<c:if test="${!empty msg}">
+	<!-- 모든 요청모달 여기로 해주세요. -->
+		<!-- The Modal -->
+		<div class="modal" id="myModal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		
+		      <!-- Modal Header -->
+		      <c:if test="${msgTitle == 'Error Message!'}">
+			       <div class="modal-header bg-danger" style="background:#00c7ae;">
+			        <h4 class="modal-title text-white">${msgTitle}</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			      </div>
+		      </c:if>
+			  <c:if test="${msgTitle != 'Error Message!'}">
+			       <div class="modal-header" style="background:#00c7ae;">
+			        <h4 class="modal-title text-white">${msgTitle}</h4>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			      </div>
+		      </c:if>
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        ${msg}
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+
+
+	<script>
+		$(function(){
+			$('#mbtn').trigger('click');
+		});
+	</script>
+</c:if>
+
+
 <script>
 	function gologin(){
 		location.href='${cpath}/member/login';

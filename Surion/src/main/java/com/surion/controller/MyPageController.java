@@ -36,8 +36,9 @@ public class MyPageController {
 		Member m = (Member)session.getAttribute("member");
 		
 		int pageview = Integer.parseInt(pagev);
-		session.setAttribute("id", "testid");
-		model.addAttribute("pageview", pageview);	
+		
+		model.addAttribute("pageview", pageview);
+		model.addAttribute("member", m);	
 		return "/mypage/mypage";
 	}
 	

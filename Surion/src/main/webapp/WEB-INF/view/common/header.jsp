@@ -187,10 +187,10 @@
 				<c:if test="${!empty member}">
 					<ul class="unav1">
 						<li><a href="" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
-						<c:if test="${member.imgurl eq null}">
+						<c:if test="${member.imgurl eq ''}">
 							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
 						</c:if>
-						<c:if test="${member.imgurl ne null}">
+						<c:if test="${member.imgurl ne ''}">
 							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}" width="40" style="border-radius:12px;"></li>
 						</c:if>
 					</ul>
