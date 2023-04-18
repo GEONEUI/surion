@@ -193,7 +193,7 @@
 
 .esti {
 	display: flex;
-	align-item: center;
+	align-items: center;
 }
 
 .aa {
@@ -234,6 +234,18 @@
 	color: red;
 	font-size: 13px;
 	padding-bottom: 16px;
+}
+
+/* 견적 협의 창에서 있는 협의 체크 버튼 */
+/* input[checkbox] 디폴트 display가 none이기 때문에 강제로 block 시킴 */
+.confer {
+	display: block !important;
+	margin-right: 5px;
+}
+
+.labelConfer {
+	display: flex;
+	padding-left: 17px;
 }
 
 /* input css */
@@ -925,21 +937,11 @@ input[type="checkbox"]:checked+label span::after {
 							+'<input type="text" class="lastTitle" placeholder="25자 이내로 작성해주세요." maxlength="25">'
 							+'<div class="aa">내용</div>'
 							+'<textarea class="lastContent" maxlength="270"> </textarea>'
-							+'<div class="esti"><div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="ex) 50000 or 협의"></div>';
+							+'<div class="esti">'
+							+'<div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="숫자만 입력해주세요."><label class="labelConfer"><input type="checkbox" name="confer" class="confer" value="협의">협의</label>'
+							+'</div>'
 							+'</form>'
 		selBtn.innerHTML = btn4;
-							
-		// 견적 적는 부분에 숫자만 들어가게 // 
-		var input3 = document.getElementsByTagName('input')[3];
-		input3.onkeypress = function(e){
-			console.log(e);
-			 if(event.keyCode >= 48 && event.keyCode <= 57 ){
-				  return true;
- 			   } else {
- 				  return false;
- 			   }
-		}
-							
 							
 		// 이미지 등록 시 빨간 텍스트 사라짐 // 					
 		var imageText = document.querySelector('.imageText'); 
@@ -952,6 +954,30 @@ input[type="checkbox"]:checked+label span::after {
 				imageText.textContent = "이미지를 업로드 해주세요.";
 			}
 		}
+		
+		// 견적 적는 부분에 숫자만 들어가게 // 
+		var input3 = document.getElementsByTagName('input')[3];
+		input3.onkeypress = function(e){
+			console.log(e);
+			 if(event.keyCode >= 48 && event.keyCode <= 57){
+				  return true;
+ 			   } else {
+ 				  event.preventDefault();
+ 				  return false;
+ 			   }
+		}
+		
+		// 협의 버튼 클릭 시 숫자 입력 못하고 협의 내용 기입
+// 		var input4 = document.getElementsByTagName('input')[4];
+// 		const checkbox = document.querySelector('.confer');
+// 		input4.onclick = function() {
+// 			  console.log(checkbox.checked);
+// 			  if(checkbox.checked == true)  {
+// 				  input3.innerHTML = '<input type="text" class="lastEstimate" placeholder="협의" value="협의" readonly>';
+// 			  }
+// 			}
+							
+							
 							
 		
 		

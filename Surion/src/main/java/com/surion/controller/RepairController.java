@@ -35,8 +35,8 @@ public class RepairController {
 	}
 	
 	@RequestMapping("/repairDetail")
-	public String repairDetail(Model model, RepairForm m) {
-		repairFormService.repairDetail(model, m);
+	public String repairDetail(Model model, RepairForm repairForm) {
+		repairFormService.repairDetail(model, repairForm);
 		return "/repair/repairDetail";
 	}
 	
