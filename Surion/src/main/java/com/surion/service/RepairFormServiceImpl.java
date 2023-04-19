@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.RepairForm;
+import com.surion.entity.RepairListPaging;
 import com.surion.repository.RepairFormRepository;
 
 @Service
@@ -48,7 +49,7 @@ public class RepairFormServiceImpl implements RepairFormService{
 
 	// DB : suri_repairForm 전체 리스트 가져오기 // 
 	@Override
-	public void repairList(Model model) {
+	public void repairList(Model model, RepairListPaging pa) {
 		List<RepairForm> lst = repairFormRepository.findByAll();
 		model.addAttribute("list", lst);
 	}
@@ -56,10 +57,7 @@ public class RepairFormServiceImpl implements RepairFormService{
 	// 의뢰목록에서 1개만 열어서 보기 //
 	@Override
 	public void repairDetail(Model model, RepairForm m) {
-		
-		
 		DecimalFormat decFormat = new DecimalFormat("###,###");
-		
 		RepairForm lst = repairFormRepository.findById(m);
 		
 		

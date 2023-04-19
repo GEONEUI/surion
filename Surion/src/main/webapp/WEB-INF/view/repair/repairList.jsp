@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
 <!doctype html>
 <html lang="ko">
@@ -183,7 +184,13 @@
 						<li>${list.title}</li>
 						<li>${list.content}</li>
 						<div class="price">
-							<p>&nbsp${list.estimate}원 ~</p>
+							<c:if test="${list.estimate eq '협의'}">
+								<p>견적&nbsp${list.estimate}</p>
+							</c:if>
+							<c:if test="${list.estimate ne '협의'}">
+								<p> <fmt:formatNumber value="${list.estimate}" pattern="#,###"/> 원 ~</p>
+							</c:if>
+	
 						</div>
 					</div>
 				</div>

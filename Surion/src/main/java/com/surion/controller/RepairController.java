@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.RepairForm;
+import com.surion.entity.RepairListPaging;
 import com.surion.service.RepairFormService;
 
 @Controller
@@ -24,8 +25,8 @@ public class RepairController {
 	RepairFormService repairFormService;
 	
 	@RequestMapping("/repairList")
-	public String repairList(Model model) {
-		repairFormService.repairList(model);
+	public String repairList(Model model, RepairListPaging pa) {
+		repairFormService.repairList(model, pa);
 		return "/repair/repairList";
 	}
 	

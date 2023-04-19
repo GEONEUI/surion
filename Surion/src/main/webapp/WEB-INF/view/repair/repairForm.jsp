@@ -938,7 +938,7 @@ input[type="checkbox"]:checked+label span::after {
 							+'<div class="aa">내용</div>'
 							+'<textarea class="lastContent" maxlength="270"> </textarea>'
 							+'<div class="esti">'
-							+'<div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="숫자만 입력해주세요."><label class="labelConfer"><input type="checkbox" name="confer" class="confer" value="협의">협의</label>'
+							+'<div class="aa">희망 견적</div><span id="ss"><input type="number" id="number" class="lastEstimate" placeholder="숫자만 입력해주세요."></span><label class="labelConfer"><input type="checkbox" name="confer" class="confer" value="협의">협의</label>'
 							+'</div>'
 							+'</form>'
 		selBtn.innerHTML = btn4;
@@ -955,32 +955,35 @@ input[type="checkbox"]:checked+label span::after {
 			}
 		}
 		
-		// 견적 적는 부분에 숫자만 들어가게 // 
-		var input3 = document.getElementsByTagName('input')[3];
-		input3.onkeypress = function(e){
-			console.log(e);
-			 if(event.keyCode >= 48 && event.keyCode <= 57){
-				  return true;
- 			   } else {
- 				  event.preventDefault();
- 				  return false;
- 			   }
-		}
+// 		// 견적 적는 부분에 숫자만 들어가게 // 
+// 		var input3 = document.getElementsByTagName('input')[3];
+// 		console.log(input3);
+// 		input3.onkeypress = function(e){
+// 			console.log(e);
+// 			 if(event.keyCode >= 48 && event.keyCode <= 57){
+// 				  return true;
+//  			   } else {
+//  				  event.preventDefault();
+//  				  return false;
+//  			   }
+// 		}
 		
 		// 협의 버튼 클릭 시 숫자 입력 못하고 협의 내용 기입
-// 		var input4 = document.getElementsByTagName('input')[4];
-// 		const checkbox = document.querySelector('.confer');
-// 		input4.onclick = function() {
-// 			  console.log(checkbox.checked);
-// 			  if(checkbox.checked == true)  {
-// 				  input3.innerHTML = '<input type="text" class="lastEstimate" placeholder="협의" value="협의" readonly>';
-// 			  }
-// 			}
+		var input4 = document.getElementsByTagName('input')[4];
+		const checkbox = document.querySelector('.confer');
+		const lastEstimate = document.querySelector('.lastEstimate');
+		const ss = document.querySelector('#ss');
+		input4.onclick = function() {
+			  console.log(checkbox.value);
+			  if(checkbox.checked == true)  {
+				  ss.innerHTML = '<input type="text" class="lastEstimate" placeholder="협의" value="협의" readonly>';
+			  } else {
+				  ss.innerHTML = '<input type="number" id="number" class="lastEstimate" placeholder="숫자만 입력해주세요.">';
+			  }
+			}
 							
 							
 							
-		
-		
 		barElem.style.width = 99 + "%";
 		barPercent.textContent = '99%';
 		list.push(selectDateValue);
@@ -990,10 +993,28 @@ input[type="checkbox"]:checked+label span::after {
 	
 	
 	function next5(){
+		
+		let imageUpload = document.querySelector('.imageUpload').value;
 		let lastTitleValue = document.querySelector('.lastTitle').value;
 		let lastContentValue = document.querySelector('.lastContent').value;
 		let lastEstimateValue = document.querySelector('.lastEstimate').value;
-		let imageUpload = document.querySelector('.imageUpload').value;
+		
+		if(imageUpload == ""){
+			alert("이미지를 첨부해주세요.");
+			return
+		}
+		if(lastTitleValue == ""){
+			alert("제목을 입력해주세요.");
+			return
+		}
+		if(lastContentValue == ""){
+			alert("내용을 입력해주세요.");
+			return
+		}
+		if(lastEstimateValue == ""){
+			alert("숫자만 입력해주세요.");
+			return
+		}
 		
 		list.push(imageUpload, lastTitleValue, lastContentValue, lastEstimateValue);
 		console.log(list);
