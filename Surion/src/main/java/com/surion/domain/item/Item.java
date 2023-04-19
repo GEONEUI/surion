@@ -10,20 +10,26 @@ import java.util.List;
 
 @Entity
 @Getter@Setter
-@Table(name = "suri_item")
+@Table(name = "Tsuri_item")
 public abstract class Item {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-//        @Column(name = "item_id")
+        @Column(name = "item_id")
         private Long id;
 
         private int price;
 
         private String name;
 
-        @OneToMany(mappedBy = "item")
+        private int count;
+
+        @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
         private List<ItemCategory> itemCategories = new ArrayList<>();
+
+        @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+        private List<ItemMechanic> ItemMechanics = new ArrayList<>();
+
 
     }
 

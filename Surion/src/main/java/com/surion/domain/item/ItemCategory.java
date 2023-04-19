@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter@Setter
-@Table(name="suri_itemcategory")
+@Table(name="Tsuri_itemcategory")
 public class ItemCategory {
 
     @Id
@@ -15,11 +15,11 @@ public class ItemCategory {
     @Column(name = "itemcategory_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 }

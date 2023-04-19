@@ -1,4 +1,6 @@
 package com.surion.domain.item;
 
-public class Electronic extends Item{
+public class Electronic {
 }
+
+
