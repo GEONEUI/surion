@@ -77,7 +77,7 @@
  	    padding: 2rem;
 	}
 	.explain{
-		height:270px;
+		height:290px;
 	}
 	
 

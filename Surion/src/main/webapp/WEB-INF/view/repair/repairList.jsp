@@ -116,9 +116,9 @@
 
 	.price {
 		display: flex;
-		justify-content: flex-end;
 		font-weight: bold;
 		font-size: 1.1rem;
+		justify-content: space-between;
 	}
 
 	.price img {
@@ -138,7 +138,6 @@
 		background: #eeeeee;
 		margin: 0.8rem 3rem 0 3.5rem;
 		border-radius: 0.5rem;
-
 	}
 
 	.ser {
@@ -158,23 +157,87 @@
 		color: #ccc;
 		padding-left: 1rem;
 	}	
-
+	
+	.under {
+	    display: flex;
+   		justify-content: center;
+   		margin-top: 3rem;
+   		align-items: center;
+	}
+	.underPage {
+		display: flex;
+	}
+	
+	.underPage li a {
+		padding: 0 2rem 0 2rem;
+		font-size: 14px;
+	}
+	
+	.custom-btn {
+	  width: 45px;
+	  height: 40px;
+	  padding: 7px 6px;
+	  font-family: 'Lato', sans-serif;
+	  background: #fff;
+	  cursor: pointer;
+	  transition: all 0.3s ease;
+	  position: relative;
+	  display: inline-block;
+	  border-radius: 15px;
+	  font-weight: bold;
+	}
+	
+	.btn-11 {
+	  overflow: hidden;
+	  transition: all 0.3s ease;
+	}
+	.btn-11:hover {
+	  background: #00c7ae;
+	  color: #fff;
+	}
+	.btn-11:before {
+	    position: absolute;
+	    content: '';
+	    display: inline-block;
+	    top: -180px;
+	    left: 0;
+	    width: 30px;
+	    height: 100%;
+	    background-color: #fff;
+	    animation: shiny-btn1 3s ease-in-out infinite;
+	}
+	.btn-11:active{
+	  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
+	              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+	    inset -4px -4px 6px 0 rgba(255,255,255,.2),
+	    inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+	}
+	
+	.bold a {
+		color: #00c7ae;
+	}
+	
+	.view {
+	    font-size: 1rem;
+   	 	color: rgb(154, 155, 167);
+   	 	align-items: center;
+	}
 </style>
 <body>
 	<%@ include file="../common/header.jsp" %>
 
 <div class="sec_content">
 	<div class="suriSize st">
-			<div class="headLine">
-			<p>최신 의뢰 목록 리스트! &#128204;</p>
-			<div class="askSearch">
-				<i class="fa-solid fa-magnifying-glass"></i>
-				<input type="search" class="ser" oninput="inputBtn()" placeholder="키워드를 검색해주세요."/>
-			</div>
+		<div class="headLine">
+		<p>최신 의뢰 목록 리스트! &#128204;</p>
+		<form action="" method="get" class="askSearch">
+			<i class="fa-solid fa-magnifying-glass"></i>
+				<input type="search" class="ser" placeholder="키워드를 검색해주세요."/>
+		</form>
 			<button class="hbutton" onclick="location.href='${cpath}/repair/repairForm'">견적 요청</button>
-			</div>
+		</div>
 	
-			<ul class="askList">
+		<ul class="askList">
 			<c:forEach var="list" items="${list}">
 				<div class="repairList">
 					<div class="askListA" onclick="location.href='${cpath}/repair/repairDetail?idx=${list.idx}'">
@@ -185,18 +248,37 @@
 						<li>${list.content}</li>
 						<div class="price">
 							<c:if test="${list.estimate eq '협의'}">
+								<p class="view"><fmt:formatNumber value="${list.readCount}" pattern="#,###"/>회</p>
 								<p>견적&nbsp${list.estimate}</p>
 							</c:if>
 							<c:if test="${list.estimate ne '협의'}">
-								<p> <fmt:formatNumber value="${list.estimate}" pattern="#,###"/> 원 ~</p>
+								<p class="view"><fmt:formatNumber value="${list.readCount}" pattern="#,###"/>회</p>
+								<p><fmt:formatNumber value="${list.estimate}" pattern="#,###"/>원 ~</p>
 							</c:if>
-	
 						</div>
 					</div>
 				</div>
 			</c:forEach>
+		</ul>
+		<div class="under">
+			<c:if test="${paging.prev}">
+				<a href="${cpath}/repair/repairList?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
+			</c:if>
+			<ul class="underPage">
+				<c:forEach begin="${paging.startNum}" end="${paging.endNum}" var="i">
+					<c:if test="${paging.currentPage == i}">
+						<li class="bold"><a href="${cpath}/repair/repairList?pageNum=${i}">${i}</a></li>
+					</c:if>
+					
+					<c:if test="${paging.currentPage != i}">
+						<li><a href="${cpath}/repair/repairList?pageNum=${i}">${i}</a></li>
+					</c:if>
+				</c:forEach>
 			</ul>
-			
+			<c:if test="${paging.next}">
+				<a href="${cpath}/repair/repairList?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
+			</c:if>
+		</div>
 	</div>
 </div>
 	

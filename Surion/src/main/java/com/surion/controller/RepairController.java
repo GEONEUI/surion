@@ -25,8 +25,8 @@ public class RepairController {
 	RepairFormService repairFormService;
 	
 	@RequestMapping("/repairList")
-	public String repairList(Model model, RepairListPaging pa) {
-		repairFormService.repairList(model, pa);
+	public String repairList(Model model, RepairListPaging pa,HttpServletRequest request) {
+		repairFormService.repairList(model, pa, request);
 		return "/repair/repairList";
 	}
 	
@@ -36,15 +36,16 @@ public class RepairController {
 	}
 	
 	@RequestMapping("/repairDetail")
-	public String repairDetail(Model model, RepairForm repairForm) {
-		repairFormService.repairDetail(model, repairForm);
+	public String repairDetail(Model model, RepairForm m) {
+		repairFormService.repairDetail(model, m);
+		repairFormService.readCount(model, m);
 		return "/repair/repairDetail";
 	}
 	
-	// 파일 업로드
+	// 견적 폼 저장하는 Ajax
 	@PostMapping("/uploadAjaxAction")
-		public @ResponseBody void uploadAjaxPost(RepairForm repairForm, HttpServletRequest request) {
-		repairFormService.save(repairForm);
+		public @ResponseBody void uploadAjaxPost(RepairForm m, HttpServletRequest request) {
+		repairFormService.save(m);
 	}
 	
 	
