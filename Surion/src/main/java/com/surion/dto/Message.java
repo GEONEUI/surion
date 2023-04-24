@@ -1,6 +1,5 @@
 package com.surion.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,9 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Message {
-	public int id;
-	public String message;
-	public String send_time;
-	public int room_id;
-	public String member_id;
+	public enum MessageType{
+		ENTER, TALK
+	}
+	private MessageType type;
+	private int id;
+	private String message;
+	private String send_time;
+	private String room_id;
+	private String member_id;
 }

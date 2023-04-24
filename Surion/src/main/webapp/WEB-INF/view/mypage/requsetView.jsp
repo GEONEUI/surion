@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="cpath" value="${pageContext.request.contextPath}" />
 
 
 <style>
@@ -166,10 +167,11 @@
                         <div class="col-lg-7 card-body p-2 p-sm-3">
                             <div class="media forum-item">
                                 <div class="d-flex">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                         class="mr-3 rounded-circle" width="50" alt="User"/>
-                                    <h3 class="ms-3 align-self-center">자전거 가게</h3>
-                                    <p class="mt-2 ms-2"><span class="text-secondary font-weight-bold">13분 전</span></p>
+	                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+	                                         class="mr-3 rounded-circle" width="50" alt="User"/>
+	                                    <h3 class="ms-3 align-self-center">자전거 가게</h3>
+	                                    <p class="mt-2 ms-2"><span class="text-secondary font-weight-bold">13분 전</span></p>
+                                    
                                 </div>
                                 <div class="media-body d-flex">
                                     <fieldset class="rate">
@@ -218,8 +220,11 @@
                             <p>안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다. 업력 올해로 15년이며, 방문/출장 수리 모두 가능합니다. 업계
                                 최고 수준을 모시겠습니다. 감사합니다.</p>
                             <div class="d-flex justify-content-end pe-3 mb-3">
-                                <button type="button" class="btn btn-outline-primary" onclick="selectCom()">여기서 고치기
+                                <form action="${cpath}/test" method="post" onsubmit="return confirm('자전거가게에 수리를 맡기시겠습니까?');">
+                                	<input type="hidden" value="자전거가게임" name="id" class="gosuName">
+                                	<button type="submit" class="btn btn-outline-primary">여기서 고치기
                                 </button>
+                                </form>
                             </div>
                         </div>
 
@@ -432,9 +437,7 @@
     function go(a) {
         a.classList.toggle('active');
     }
-
-    function selectCom() {
-        confirm('자전거 가게에 수리를 맡기시겠습니까?');
-    }
+	
+   
 
 </script>

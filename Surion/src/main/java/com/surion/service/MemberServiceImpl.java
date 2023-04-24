@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService{
 		Member member = memberRepository.findById(m);
 		//아이디 있음
 		if(member != null) {
-			session.setAttribute("member", member);
+			session.setAttribute("member", member); 
 			session.setMaxInactiveInterval(60*10);
 			rttr.addFlashAttribute("msgTitle", "Success Message!");
 			rttr.addFlashAttribute("msg", "로그인 성공!");

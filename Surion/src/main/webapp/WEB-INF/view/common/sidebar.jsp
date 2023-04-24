@@ -105,8 +105,8 @@
                     <div class="simplebar-content" style="padding: 16px;">
                       <nav class="nav nav-pills nav-gap-y-1 flex-column" id="navLink">
                         <a href="${cpath}/mypage/myinfo?pageview=1" class="nav-link nav-link-faded has-icon" class="myConfig">사용자 정보</a>
-                        <a href="${cpath}/mypage/myinfo?pageview=2" class="nav-link nav-link-faded has-icon" class="myConfig">채팅목록</a>
-                        <a href="${cpath}/mypage/myinfo?pageview=3" class="nav-link nav-link-faded has-icon" class="myConfig">채팅리스트?</a>
+                        <a href="${cpath}/mypage/myinfo?pageview=2" class="nav-link nav-link-faded has-icon" class="myConfig">현재채팅창</a>
+                        <a href="${cpath}/mypage/myinfo?pageview=3" class="nav-link nav-link-faded has-icon" class="myConfig chatList">채팅리스트</a>
                         <a href="${cpath}/mypage/myinfo?pageview=4" class="nav-link nav-link-faded has-icon" class="myConfig">나의 의뢰</a>
                         <a href="${cpath}/mypage/myinfo?pageview=5" class="nav-link nav-link-faded has-icon" class="myConfig">여기부턴 정비사</a>
                       </nav>
@@ -122,10 +122,3 @@
       </div>
       <!-- /Inner sidebar -->
 
-<script>
-    function chatList(temp){
-        let name = document.getElementById(temp);
-        name.classList.toggle('active');
-	}
-
-</script>

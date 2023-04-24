@@ -33,7 +33,6 @@ public class MyPageController {
 		}
 		
 		int pageview = Integer.parseInt(pagev);
-		session.setAttribute("id", "testid");
 		model.addAttribute("pageview", pageview);	
 		return "/mypage/mypage";
 	}
