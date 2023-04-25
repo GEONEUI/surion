@@ -945,7 +945,7 @@ input[type="checkbox"]:checked+label span::after {
 		select.innerHTML = ''																
 							+'<form action="${cpath}/repair/upload" method="post" enctype="multipart/form-data" id="imageUp">'
 							+'<div class="imageForm">'
-							+'<input type="file"  name="file" class="imageUpload">'
+							+'<input type="file"  name="file" class="imageUpload" accept="image/jpeg, image/jpg, image/png, image/bmp">'
 							+'<input type="hidden" name="member_id" value="ff">'
 							+'<div class="imageText">이미지를 업로드 해주세요.</div>'
 							+'</div>'
@@ -956,33 +956,30 @@ input[type="checkbox"]:checked+label span::after {
 							+'<div class="esti">'
 							+'<div class="aa">희망 견적</div><span id="ss"><input type="number" id="number" class="lastEstimate" placeholder="숫자만 입력해주세요."></span><label class="labelConfer"><input type="checkbox" name="confer" class="confer" value="협의">협의</label>'
 							+'</div>'
-							+'</form>'
+							+'</form>';
 		selBtn.innerHTML = btn4;
 							
 		// 이미지 등록 시 빨간 텍스트 사라짐 // 					
 		var imageText = document.querySelector('.imageText'); 
 		var input = document.getElementsByTagName('input')[0];
 		input.onchange = function () {
-			if(document.querySelector('.imageUpload').value != ""){
-				imageText.textContent = "";
-			}
-			if(document.querySelector('.imageUpload').value == ""){
+			var UploadValue = document.querySelector('.imageUpload').value;
+			var data = String(UploadValue).substring(String(UploadValue).lastIndexOf('.')+1).toUpperCase();
+			
+			if(UploadValue == ""){
 				imageText.textContent = "이미지를 업로드 해주세요.";
 			}
+			
+			if(UploadValue != ""){
+				imageText.textContent = "";
+			}
+			
+			if(data !== 'PNG' && data !== 'JPEG' && data !== 'JPG'){
+				alert("파일 형식이 올바르지 않습니다. \n(허용 파일 형식 : PNG, JPEG, JPG)");
+				return
+			}
+			
 		}
-		
-// 		// 견적 적는 부분에 숫자만 들어가게 // 
-// 		var input3 = document.getElementsByTagName('input')[3];
-// 		console.log(input3);
-// 		input3.onkeypress = function(e){
-// 			console.log(e);
-// 			 if(event.keyCode >= 48 && event.keyCode <= 57){
-// 				  return true;
-//  			   } else {
-//  				  event.preventDefault();
-//  				  return false;
-//  			   }
-// 		}
 		
 		// 협의 버튼 클릭 시 숫자 입력 못하고 협의 내용 기입
 		var input4 = document.getElementsByTagName('input')[4];
@@ -1008,15 +1005,28 @@ input[type="checkbox"]:checked+label span::after {
 	
 	function next5(){
 		
-		let imageUpload = document.querySelector('.imageUpload').value;
+		let imageUpload = document.querySelector('.imageUpload');
+		let imageUploadValue = document.querySelector('.imageUpload').value;
 		let lastTitleValue = document.querySelector('.lastTitle').value;
 		let lastContentValue = document.querySelector('.lastContent').value;
 		let lastEstimateValue = document.querySelector('.lastEstimate').value;
+		const file = imageUpload.files[0];  
+		console.log(file);
+		const allowedExtensions = ['png', 'jpg', 'jpeg'];
+		const fileExtension = file.name.split('.').pop().toLowerCase(); // 파일 확장자 추출
+		console.log(fileExtension);
 		
-		if(imageUpload == ""){
+		
+		if(imageUploadValue == ""){
 			alert("이미지를 첨부해주세요.");
-			return
+			return;
 		}
+		  // 파일 확장자가 허용된 확장자가 아니면 업로드 중단
+		if (!allowedExtensions.includes(fileExtension)) {
+		    alert('허용된 파일 확장자는 png, jpg, jpeg입니다.');
+		    return;
+		}
+		
 		if(lastTitleValue == ""){
 			alert("제목을 입력해주세요.");
 			return
@@ -1129,7 +1139,7 @@ input[type="checkbox"]:checked+label span::after {
 			type : "post",
 			url : "${cpath}/repair/uploadAjaxAction",
 			data : {
-				"member_id" : "ff",
+				"member_id" : '${member.id}',
 				"choice1" : list[0].choice1,
 				"choice2" : list[1],
 				"deliveryType" : list[2],

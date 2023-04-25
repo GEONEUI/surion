@@ -26,8 +26,8 @@ public class RepairFormServiceImpl implements RepairFormService{
 	
 	// 의뢰자가 orderForm 날리는 거 저장 // 
 	@Override
-	public void save(RepairForm repairForm) {
-		repairFormRepository.save(repairForm);	
+	public void save(RepairForm m) {
+		repairFormRepository.save(m);	
 	}
 
 	// orderForm 사진 저장 //

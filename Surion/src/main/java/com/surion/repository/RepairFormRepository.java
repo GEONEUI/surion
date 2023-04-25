@@ -17,7 +17,8 @@ public interface RepairFormRepository{
 	
 	// 견적 폼 저장
 	@Insert("Insert into suri_repairForm VALUES ("
-			+ " 'NULL', 'ff', #{choice1}, #{choice2}, #{deliveryType}, #{date}, #{image}, #{title}, #{content}, #{estimate}, #{itemcategory_id}, 0);")
+			+ " 'NULL', #{member_id}, #{choice1}, #{choice2}, #{deliveryType}, "
+			+ "#{date}, #{image}, #{title}, #{content}, #{estimate}, #{itemcategory_id}, 0)")
 	public void save(RepairForm m);
 
 	// RepairList 페이징하여 뿌리기

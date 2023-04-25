@@ -234,7 +234,13 @@
 			<i class="fa-solid fa-magnifying-glass"></i>
 				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
 		</form>
+			<c:if test="${!empty member.id}">
 			<button class="hbutton" onclick="location.href='${cpath}/repair/repairForm'">견적 요청</button>
+			</c:if>
+			
+			<c:if test="${empty member.id}">
+			<button class="hbutton" onclick="alert('로그인이 필요합니다.')">견적 요청</button>
+			</c:if>
 		</div>
 	
 		<ul class="askList">

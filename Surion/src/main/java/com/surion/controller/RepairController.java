@@ -55,7 +55,6 @@ public class RepairController {
 	// 견적 폼 저장하는 Ajax
 	@PostMapping("/uploadAjaxAction")
 		public @ResponseBody void uploadAjaxPost(RepairForm m, HttpServletRequest request) {
-		System.out.println(m);
 		repairFormService.save(m);
 	}
 	
