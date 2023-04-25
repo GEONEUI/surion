@@ -72,24 +72,22 @@
                 
                 //방만들기
                 function fff() {
-                	 if("" == roomName.val()) {
-                        alert("방 제목을 입력해 주십시요.");
-                        return;
+                	 if(confirm('해당 고수에게 맡기시겠습니까?');) {
+                		 var params = new URLSearchParams();
+                         params.append("name",roomName.val());
+                         //alert(params);
+                         
+                        $.ajax({
+                     	   url:"/surion/chat/room?"+params,
+                     	   type:"post",
+                     	   error: function(){ alert('채팅방 개설 실패')},
+                     	   success: function(res){
+                     		  console.log(res);
+                     		  findAllRoom();
+                     	   },
+                        });
                     } else {
-                        var params = new URLSearchParams();
-                        params.append("name",roomName.val());
-                        //alert(params);
-                        
-                       $.ajax({
-                    	   url:"/surion/chat/room?"+params,
-                    	   type:"post",
-                    	   error: function(){ alert('채팅방 개설 실패')},
-                    	   success: function(res){
-                    		  console.log(res);
-                    		  findAllRoom();
-                    	   },
-                       });
-
+                      return;
                     } 
                 }
                 

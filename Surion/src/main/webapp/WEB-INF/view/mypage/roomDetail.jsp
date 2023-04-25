@@ -46,18 +46,21 @@
 		let member_id = '';
 		let message = '';
 		let messages = [];
+		let send_time = '';
 
 		$(document).ready(function() {
 			room_id = localStorage.getItem('wschat.room_id');
-			member_id = localStorage.getItem('wschat.member_id');
-			findRoom();
+/* 			member_id = localStorage.getItem('wschat.member_id');
+ */			findRoom();
 			console.log("------------"+room_id);
 		});
 
 		function renderChat(newMsg) {
-			let msgArea = document.getElementById("msgArea");;
+			let msgArea = document.getElementById("msgArea");
+			let newMsgSpan = document.createElement("span");
 			let viewHtml = '<li class="list-group-item">' + newMsg + '</li>';
-			msgArea.innerHTML(viewHtml);
+			newMsgSpan.innerHTML = viewHtml;
+			msgArea.append(newMsgSpan);
 		}
 
 		function findRoom() {
@@ -80,9 +83,9 @@
 				type : 'TALK',
 				room_id : room_id,
 				member_id : member_id,
-				message : message
+				message : message,
+				send_time : new Date()
 			}));
-			renderChat(message);
 			message = '';
 		}
 
@@ -92,6 +95,8 @@
 				"romm_id" : recv.type == 'ENTER' ? '[알림]' : recv.member_id,
 				"message" : recv.message
 			})
+			renderChat(recv.message);
+
 		}
 
 		function connect() {

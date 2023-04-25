@@ -194,7 +194,7 @@
                                         ><label class="half" for="rating35"
                                                 title="2.5점"></label>
                                         <input type="radio" id="rating34" name="rating2" value="4" onclick="return(false);"
-                                        "><label for="rating34"
+                                        ><label for="rating34"
                                                  title="2점"></label>
                                         <input type="radio" id="rating33" name="rating2" value="3" onclick="return(false);"
                                         ><label class="half" for="rating33"
@@ -221,9 +221,9 @@
                             <p>안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다. 업력 올해로 15년이며, 방문/출장 수리 모두 가능합니다. 업계
                                 최고 수준을 모시겠습니다. 감사합니다.</p>
                             <div class="d-flex justify-content-end pe-3 mb-3">
-                                <form action="${cpath}/test" method="post" onsubmit="return confirm('자전거가게에 수리를 맡기시겠습니까?');">
+                                <form>
                                 	<input type="hidden" value="자전거가게임" name="id" class="gosuName">
-                                	<button type="submit" class="btn btn-outline-primary">여기서 고치기
+                                	<button type="button" class="btn btn-outline-primary" onclick="makeRoom()">여기서 고치기
                                 </button>
                                 </form>
                             </div>
@@ -232,206 +232,9 @@
                     </div>
                 </div>
             </div>
+           
             <!-- 여기까지 글 하나 -->
-            <div id="chat-list" onclick="go(this)">
-                <div class=" p-2 forum-content show">
-                    <div class="d-flex card mb-2 test" style="flex-direction: inherit; flex-wrap:wrap;">
-                        <div class="col-lg-7 card-body p-2 p-sm-3">
-                            <div class="media forum-item">
-                                <div class="d-flex">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                         class="mr-3 rounded-circle" width="50" alt="User"/>
-                                    <h3 class="ms-3 align-self-center">자전거 가게</h3>
-                                    <p class="mt-2 ms-2"><span class="text-secondary font-weight-bold">13분 전</span></p>
-                                </div>
-                                <div class="media-body d-flex">
-                                    <fieldset class="rate">
-                                        <input type="radio" id="rating10" name="rating3" value="10" onclick="return(false);"
-                                        ><label for="rating10"
-                                                title="5점"></label>
-                                        <input type="radio" id="rating9" name="rating3" value="9" onclick="return(false);"
-                                               checked><label class="half"
-                                                              for="rating9"
-                                                              title="4.5점"></label>
-                                        <input type="radio" id="rating8" name="rating3" value="8" onclick="return(false);"
-                                        ><label for="rating8"
-                                                title="4점"></label>
-                                        <input type="radio" id="rating7" name="rating3" value="7" onclick="return(false);"
-                                        ><label class="half" for="rating7"
-                                                title="3.5점"></label>
-                                        <input type="radio" id="rating6" name="rating3" value="6" onclick="return(false);"
-                                        ><label for="rating6"
-                                                title="3점"></label>
-                                        <input type="radio" id="rating5" name="rating3" value="5" onclick="return(false);"
-                                        ><label class="half" for="rating5"
-                                                title="2.5점"></label>
-                                        <input type="radio" id="rating4" name="rating3" value="4" onclick="return(false);"
-                                        ><label for="rating4"
-                                                 title="2점"></label>
-                                        <input type="radio" id="rating3" name="rating3" value="3" onclick="return(false);"
-                                        ><label class="half" for="rating3"
-                                                title="1.5점"></label>
-                                        <input type="radio" id="rating2" name="rating3" value="2" onclick="return(false);"
-                                        ><label for="rating2" title="1점"></label>
-                                        <input type="radio" id="rating1" name="rating3" value="1" onclick="return(false);">
-                                        <label class="half" for="rating1" title="0.5점"></label>
-                                    </fieldset>
-                                    <p class="text-muted mb-0 align-self-center" style="font-size: small">(4.5 /
-                                        5.0)</p>
-                                </div>
-                            </div>
 
-                        </div>
-                        <div class="col-lg-5 card-body p-2 p-sm-3 align-self-center">
-                            <div class="media forum-item d-flex justify-content-end">
-                                <h1 class="display-5">100,000 원</h1>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 px-3" style="max-height: 300px">
-                            <p>서울시 강동구</p>
-                            <p>연락 가능 시간 : 10시 ~ 19시</p>
-                            <p>안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다. 업력 올해로 15년이며, 방문/출장 수리 모두 가능합니다. 업계
-                                최고 수준을 모시겠습니다. 감사합니다.</p>
-                            <div class="d-flex justify-content-end pe-3 mb-3">
-                                <button type="button" class="btn btn-outline-primary" onclick="selectCom()">여기서 고치기
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div id="chat-list" onclick="go(this)">
-                <div class=" p-2 forum-content show">
-                    <div class="d-flex card mb-2 test" style="flex-direction: inherit; flex-wrap:wrap;">
-                        <div class="col-lg-7 card-body p-2 p-sm-3">
-                            <div class="media forum-item">
-                                <div class="d-flex">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                         class="mr-3 rounded-circle" width="50" alt="User"/>
-                                    <h3 class="ms-3 align-self-center">자전거 가게</h3>
-                                    <p class="mt-2 ms-2"><span class="text-secondary font-weight-bold">13분 전</span></p>
-                                </div>
-                                <div class="media-body d-flex">
-                                    <fieldset class="rate">
-                                        <input type="radio" id="rating110" name="rating4" value="10" onclick="return(false);"
-                                        ><label for="rating110"
-                                                title="5점"></label>
-                                        <input type="radio" id="rating19" name="rating4" value="9" onclick="return(false);" checked>
-                                        <label class="half" for="rating19" title="4.5점"></label>
-                                        <input type="radio" id="rating18" name="rating4" value="8" onclick="return(false);">
-                                        <label for="rating18" title="4점"></label>
-                                        <input type="radio" id="rating17" name="rating4" value="7" onclick="return(false);">
-                                        <label class="half" for="rating17" title="3.5점"></label>
-                                        <input type="radio" id="rating16" name="rating4" value="6" onclick="return(false);">
-                                        <label for="rating16" title="3점"></label>
-                                        <input type="radio" id="rating15" name="rating4" value="5" onclick="return(false);">
-                                        <label class="half" for="rating15" title="2.5점"></label>
-                                        <input type="radio" id="rating14" name="rating4" value="4" onclick="return(false);">
-                                        <label for="rating4" title="2점"></label>
-                                        <input type="radio" id="rating13" name="rating4" value="3" onclick="return(false);"
-                                        ><label class="half" for="rating13" title="1.5점"></label>
-                                        <input type="radio" id="rating12" name="rating4" value="2" onclick="return(false);"
-                                        ><label for="rating12" title="1점"></label>
-                                        <input type="radio" id="rating11" name="rating4" value="1" onclick="return(false);">
-                                        <label class="half" for="rating11" title="0.5점"></label>
-                                    </fieldset>
-                                    <p class="text-muted mb-0 align-self-center" style="font-size: small">(4.5 /
-                                        5.0)</p>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-5 card-body p-2 p-sm-3 align-self-center">
-                            <div class="media forum-item d-flex justify-content-end">
-                                <h1 class="display-5">100,000 원</h1>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 px-3" style="max-height: 300px">
-                            <p>서울시 강동구</p>
-                            <p>연락 가능 시간 : 10시 ~ 19시</p>
-                            <p>안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다. 업력 올해로 15년이며, 방문/출장 수리 모두 가능합니다. 업계
-                                최고 수준을 모시겠습니다. 감사합니다.</p>
-                            <div class="d-flex justify-content-end pe-3 mb-3">
-                                <button type="button" class="btn btn-outline-primary" onclick="selectCom()">여기서 고치기
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div id="chat-list" onclick="go(this)">
-                <div class=" p-2 forum-content show">
-                    <div class="d-flex card mb-2 test" style="flex-direction: inherit; flex-wrap:wrap;">
-                        <div class="col-lg-7 card-body p-2 p-sm-3">
-                            <div class="media forum-item">
-                                <div class="d-flex">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                         class="mr-3 rounded-circle" width="50" alt="User"/>
-                                    <h3 class="ms-3 align-self-center">자전거 가게</h3>
-                                    <p class="mt-2 ms-2"><span class="text-secondary font-weight-bold">13분 전</span></p>
-                                </div>
-                                <div class="media-body d-flex">
-                                    <fieldset class="rate">
-                                        <input type="radio" id="rating210" name="rating1" value="10" onclick="return(false);"
-                                        ><label for="rating210"
-                                                title="5점"></label>
-                                        <input type="radio" id="rating29" name="rating1" value="9" onclick="return(false);"
-                                               checked><label class="half"
-                                                              for="rating29"
-                                                              title="4.5점"></label>
-                                        <input type="radio" id="rating28" name="rating1" value="8" onclick="return(false);"
-                                        ><label for="rating28"
-                                                title="4점"></label>
-                                        <input type="radio" id="rating27" name="rating1" value="7" onclick="return(false);"
-                                        ><label class="half" for="rating27"
-                                                title="3.5점"></label>
-                                        <input type="radio" id="rating26" name="rating1" value="6" onclick="return(false);"
-                                        ><label for="rating26"
-                                                title="3점"></label>
-                                        <input type="radio" id="rating25" name="rating1" value="5" onclick="return(false);"
-                                        ><label class="half" for="rating25"
-                                                title="2.5점"></label>
-                                        <input type="radio" id="rating24" name="rating1" value="4" onclick="return(false);"
-                                        ><label for="rating24"
-                                                 title="2점"></label>
-                                        <input type="radio" id="rating23" name="rating1" value="3" onclick="return(false);"
-                                        ><label class="half" for="rating23"
-                                                title="1.5점"></label>
-                                        <input type="radio" id="rating22" name="rating1" value="2" onclick="return(false);"
-                                        ><label for="rating22" title="1점"></label>
-                                        <input type="radio" id="rating21" name="rating1" value="1" onclick="return(false);">
-                                        <label class="half" for="rating21" title="0.5점"></label>
-                                    </fieldset>
-                                    <p class="text-muted mb-0 align-self-center" style="font-size: small">(4.5 /
-                                        5.0)</p>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-5 card-body p-2 p-sm-3 align-self-center">
-                            <div class="media forum-item d-flex justify-content-end">
-                                <h1 class="display-5">100,000 원</h1>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 px-3" style="max-height: 300px">
-                            <p>서울시 강동구</p>
-                            <p>연락 가능 시간 : 10시 ~ 19시</p>
-                            <p>안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다. 업력 올해로 15년이며, 방문/출장 수리 모두 가능합니다. 업계
-                                최고 수준을 모시겠습니다. 감사합니다.</p>
-                            <div class="d-flex justify-content-end pe-3 mb-3">
-                                <button type="button" class="btn btn-outline-primary" onclick="selectCom()">여기서 고치기
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
 <script>
 
@@ -439,6 +242,25 @@
         a.classList.toggle('active');
     }
 	
+  //방만들기
+    function makeRoom() {
+    	 if(confirm('해당 고수에게 맡기시겠습니까?')) {
+    		 var params = new URLSearchParams();
+             params.append("name", "hello"); //roomname 들어갔던자리,
+             //alert(params);
+             
+            $.ajax({
+         	   url:"/surion/chat/room?"+params,
+         	   type:"post",
+         	   error: function(){ alert('채팅방 개설 실패')},
+         	   success: function(res){
+         		  console.log(res);
+         	   },
+            });
+        } else {
+			return;
+        } 
+    }
    
 
 </script>

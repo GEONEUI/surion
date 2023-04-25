@@ -163,10 +163,56 @@
             <!--채팅방 목록-->
             <div class="card shadow-sm p-3 mb-5 bg-body rounded" id="chat1" style="border-radius: 15px; height:90%;">
                
-                <div id="paddingnone"class="container">
-  
+                <div class="container" style="overflow:auto;" id="target">
+
                     
                 </div>
             </div>
 
+ <script>
  
+    let chatrooms = []
+ 	let roomName = $('#roomName');
+    
+ 	$(document).ready(function(){
+ 		findAllRoom();  		
+    });
+ 
+	//방찾기
+    function findAllRoom() {
+		var viewHtml = null;
+		$.ajax({
+			url:"/surion/chat/rooms",
+         	type:"get",
+         	error:function(){
+				alert("채팅목록 불러오기 실패")
+			},
+			success:function(res){
+				$.each(res, function(idx, obj){
+					console.log(res);
+					viewHtml += '<div onclick="enterRoom('+"'"+obj.room_id+"'"+')" class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">'; 
+					viewHtml += '<div class="d-flex">';
+					viewHtml +=	'<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" width="45px" height="45px">';
+					viewHtml += '<p class="fs-3 text ms-3">'+obj.member_id+'</p>'
+					viewHtml += '</div>';
+					viewHtml += '<div class="d-flex justify-content-between">';
+					viewHtml += '<p class="fs-5 text">네</p>';
+					viewHtml += '<p class="fs-6 text">23.04.03</p>'
+					viewHtml += '</div>';
+					viewHtml += '</div>';
+					});    	            			  
+ 	            target.innerHTML = viewHtml;	  
+         		},
+         	});
+     }
+    
+    
+    function enterRoom(roomId) {
+            /* localStorage.setItem('wschat.member_id', member_id); */
+            localStorage.setItem('wschat.room_id',roomId);
+            location.href="/surion/chat/room/enter/"+roomId;
+        
+    }
+    
+    
+ </script>
