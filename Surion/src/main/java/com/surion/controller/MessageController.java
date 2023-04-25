@@ -51,26 +51,8 @@ public class MessageController{
 		chatRoomRepository.insertMessage(message);
 		return message.getId();
 	}     
-	
-    @PostMapping("/test")
-    public String test(HttpServletRequest httpServletRequest, Model model, HttpSession httpSession) {
-    	//고수 아이디, 내 아이디 받아서 채팅방으로 매칭
-    	String roomId = UUID.randomUUID().toString();
-    	String gosuId = httpServletRequest.getParameter("id");
-    	String memberId = "";
-    	Member m = (Member)httpSession.getAttribute("member");
-    	memberId = m.getId();
-    	chatRoomRepository.saveChatRoom(roomId, memberId);
-    	chatRoomRepository.saveChatRoom(roomId, gosuId);
-    	
-    	model.addAttribute("pageview", 2);	
-		return "/mypage/mypage";
-    }
-    
-    @GetMapping("/test2")
-    public @ResponseBody String test2() {
-    	return "채팅시발꺼";
-    }
+
+
     
     
 }

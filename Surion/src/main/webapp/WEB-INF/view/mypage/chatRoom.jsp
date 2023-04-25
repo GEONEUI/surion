@@ -97,7 +97,28 @@ pageEncoding="UTF-8"%>
 
                                         <div class="card-body" id="rarara" style="min-width: 528px">
                                             <div style="overflow: auto; max-height: 373px;" class="msgArea"
-                                                 id="chatMonitor"></div>
+                                                 id="chatMonitor">
+                                                 <c:forEach var="list" items="${ message }">
+                                                 	<c:choose>
+                                                 		<c:when test="${list.member_id eq member.id}">
+                                                 			<input type=hidden id="memberId" value="${list.member_id}">
+                                                 			<div class="d-flex flex-row justify-content-end mb-3">
+													        	<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+													        		<p class="small mb-0">${ list.message }</p>
+													        	</div>
+													        </div>
+                                                 		</c:when>
+                                                 		<c:otherwise>
+                                                 			<div class="d-flex flex-row justify-content-start mb-3">
+												         	   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">
+												            	<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2)">
+												            		<p class="small mb-0">${ list.message }</p>
+												           	 	</div>
+												            </div>
+                                                 		</c:otherwise>
+                                                 	</c:choose>
+                                                 </c:forEach>
+                                                 </div>
                                             <div class="text-end align-bottom mb-1" id="sendBtnDiv"
                                                  style="vertical-align: bottom; width: 95%">
 											<textarea
@@ -217,16 +238,35 @@ pageEncoding="UTF-8"%>
 
     function sendMessage() {
         message = $('#messageVal').val();
+        let newDate = new Date();
         ws.send("/pub/chat/message", {}, JSON.stringify({
             type: 'TALK',
             room_id: room_id,
             member_id: member_id,
             message: message,
-            send_time: new Date()
+            send_time: newDate
         }));
+       	insertMsg();
         message = '';
     }
 
+    function insertMsg(){
+    	 $.ajax({
+             type: 'post',
+             url: '${cpath}/insertChat',
+             data: {
+                 "message": message,
+                 "room_id": room_id,
+                 "member_id": member_id,
+                 "send_time": new Date
+             },
+             success: console.log("insertMessageSuccess"),
+             error: function () {
+                 alert('error')
+             }
+         });
+    }
+    
     function recvMessage(recv) {
         messages.unshift({
             "type": recv.type,
@@ -234,28 +274,28 @@ pageEncoding="UTF-8"%>
             "message": recv.message,
             "send_time": recv.send_time
         })
-        renderChat(recv.message);
-
+        renderChat(recv);
+        
     }
 
-    function renderChat(message) {
+    function renderChat(recv) {
         var msgArea = document.querySelector('.msgArea');
         var newMsg = document.createElement("span");
         var addDiv = '';
-
-        if (1) { //model로 받아온 값이랑 비교, 회원가입 이후;
-            addDiv += '<div class="d-flex flex-row justify-content-start mb-3">';
+/* 		let id = document.getElementById('memberId').value;
+ */        if (recv.member_id == '${member.id}') { 
+           	addDiv += '<div class="d-flex flex-row justify-content-end mb-3">';
+            addDiv += ' <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">';
+            addDiv += ' <p class="small mb-0">' + recv.message + '</p>';
+            addDiv += '</div>'
+            addDiv += '</div>'
+        } else {
+           	addDiv += '<div class="d-flex flex-row justify-content-start mb-3">';
             addDiv += '<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">';
             addDiv += '<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">';
-            addDiv += '<p class="small mb-0">' + message + '</p>';
+            addDiv += '<p class="small mb-0">' + recv.message + '</p>';
             addDiv += '</div>';
             addDiv += '</div>';
-        } else {
-            addDiv += '<div class="d-flex flex-row justify-content-end mb-3">';
-            addDiv += ' <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">';
-            addDiv += ' <p class="small mb-0">' + message + '</p>';
-            addDiv += '</div>'
-            addDiv += '</div>'
         }
         newMsg.innerHTML = addDiv;
         msgArea.append(newMsg);
@@ -278,22 +318,6 @@ pageEncoding="UTF-8"%>
     });
 
 
-    //채팅입력시 db저장 함수
-    function inputData(data) {
-        $.ajax({
-            type: 'post',
-            url: '${cpath}/insertChat',
-            data: {
-                "message": data,
-                "room_id": 1, //만들어야함,
-                "member_id": "<%=session.getAttribute("member")%>"
-            },
-            success: console.log("insertMessageSuccess"),
-            error: function () {
-                alert('error')
-            }
-        })
-    }
 
     function connect() {
         // pub/sub event

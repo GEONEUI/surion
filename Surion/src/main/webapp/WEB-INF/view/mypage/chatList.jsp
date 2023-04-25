@@ -158,16 +158,12 @@
 
 </style>
 
+	<!--채팅방 목록-->
+	<div class="card shadow-sm p-3 mb-5 bg-body rounded" id="chat1" style="border-radius: 15px; height:90%;">
+		<div class="container" style="overflow:auto;" id="target">
 
-
-            <!--채팅방 목록-->
-            <div class="card shadow-sm p-3 mb-5 bg-body rounded" id="chat1" style="border-radius: 15px; height:90%;">
-               
-                <div class="container" style="overflow:auto;" id="target">
-
-                    
-                </div>
-            </div>
+		</div>
+	</div>
 
  <script>
  
@@ -189,7 +185,7 @@
 			},
 			success:function(res){
 				$.each(res, function(idx, obj){
-					console.log(res);
+					/* console.log(res); */
 					viewHtml += '<div onclick="enterRoom('+"'"+obj.room_id+"'"+')" class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">'; 
 					viewHtml += '<div class="d-flex">';
 					viewHtml +=	'<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" width="45px" height="45px">';
@@ -208,7 +204,7 @@
     
     
     function enterRoom(roomId) {
-            /* localStorage.setItem('wschat.member_id', member_id); */
+            localStorage.setItem('wschat.member_id', '${member.id}');
             localStorage.setItem('wschat.room_id',roomId);
             location.href="/surion/chat/room/enter/"+roomId;
         

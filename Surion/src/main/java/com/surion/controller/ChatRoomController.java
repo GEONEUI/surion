@@ -2,6 +2,7 @@ package com.surion.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.surion.dto.ChatRoom;
+import com.surion.dto.Message;
+import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.RealChatRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +23,10 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/chat/*")
 public class ChatRoomController {
-
+	@Autowired
     private final RealChatRepository realChatRepository;
+	@Autowired
+	private final ChatRoomRepository chatRoomRepository;
 
     // 채팅 리스트 화면
     @GetMapping("/room")
@@ -44,12 +49,14 @@ public class ChatRoomController {
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {
         model.addAttribute("room_id", roomId);
+        List<Message> message = chatRoomRepository.findRoomById(roomId);
+        model.addAttribute("message", message);
         return "/mypage/chatRoom";
     }
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
-    public ChatRoom roomInfo(@PathVariable String roomId) {
-        return realChatRepository.findRoomById(roomId);
+    public List<Message> roomInfo(@PathVariable String roomId) {
+        return chatRoomRepository.findRoomById(roomId);
     }
 }
