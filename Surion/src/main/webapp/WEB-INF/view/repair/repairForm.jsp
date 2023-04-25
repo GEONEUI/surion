@@ -789,47 +789,63 @@ input[type="checkbox"]:checked+label span::after {
 		
 		goNextValue = document.querySelector('.selClass:checked').value;
 		
+		var listObj = {};
+		
 		if(goNextValue == '자전거'){
 			service.textContent = serviceText;
 			select.innerHTML = bicycle;
 			selBtn.innerHTML = btn;
-			list.push(goNextValue);
+			listObj.choice1 = '자전거';
+			listObj.key = 1;
+			list.push(listObj);
 		}
 		if(goNextValue == '오토바이'){
 			service.textContent = serviceText;
 			select.innerHTML = motorcycle;
 			selBtn.innerHTML = btn;
-			list.push(goNextValue);
+			listObj.choice1 = '오토바이';
+			listObj.key = 2;
+			list.push(listObj);
 		}	
 		if(goNextValue == '에어컨'){
 			service.textContent = serviceText;
 			select.innerHTML = airConditioner;
 			selBtn.innerHTML = btn;
-			list.push(goNextValue);
+			listObj.choice1 = '에어컨';
+			listObj.key = 3;
+			list.push(listObj);
 		}	
 		if(goNextValue == '보일러'){
 			service.textContent = serviceText;
 			select.innerHTML = boiler;
 			selBtn.innerHTML = btn;
-			list.push(goNextValue);
+			listObj.choice1 = '보일러';
+			listObj.key = 4;
+			list.push(listObj);
 		}	
 		if(goNextValue == '컴퓨터'){
 			service.textContent = serviceText;
 			select.innerHTML = computer;
 			selBtn.innerHTML = btn;
-			list.push(goNextValue);
+			listObj.choice1 = '컴퓨터';
+			listObj.key = 5;
+			list.push(listObj);
 		}	
 		if(goNextValue == '음향'){
 			service.textContent = serviceText;
 			select.innerHTML = sound;
 			selBtn.innerHTML = btn;
-			list.push(goNextValue);
+			listObj.choice1 = '음향';
+			listObj.key = 6;
+			list.push(listObj);
 		}	
 		if(goNextValue == '기타'){
 			service.textContent = serviceText;
 			select.innerHTML = etc;
 			selBtn.innerHTML = etcBtn;
-			list.push(goNextValue);
+			listObj.choice1 = '기타';
+			listObj.key = 7;
+			list.push(listObj);
 		}	
 		
 		barElem.style.width = 28 + "%";
@@ -871,7 +887,7 @@ input[type="checkbox"]:checked+label span::after {
 		}
 		const aa =  document.querySelector	('#checkbox-area-etc');
 		let inputEtcValue = document.querySelector('.inputEtc').value;
-		if(list[0] == "기타"){
+		if(list[0].choice1 == "기타"){
 			if(inputEtcValue == ""){
 				alert("요청사항을 입력해주세요.");
 			return	
@@ -982,8 +998,6 @@ input[type="checkbox"]:checked+label span::after {
 			  }
 			}
 							
-							
-							
 		barElem.style.width = 99 + "%";
 		barPercent.textContent = '99%';
 		list.push(selectDateValue);
@@ -1043,37 +1057,37 @@ input[type="checkbox"]:checked+label span::after {
 	function prev2(){
 		list.pop();
 		
-		if(list[0] == '자전거'){
+		if(list[0].choice1 == '자전거'){
 			service.textContent = serviceText;
 			select.innerHTML = bicycle;
 			selBtn.innerHTML = btn;
 		}
-		if(list[0] == '오토바이'){
+		if(list[0].choice1 == '오토바이'){
 			service.textContent = serviceText;
 			select.innerHTML = motorcycle;
 			selBtn.innerHTML = btn;
 		}	
-		if(list[0] == '에어컨'){
+		if(list[0].choice1 == '에어컨'){
 			service.textContent = serviceText;
 			select.innerHTML = airConditioner;
 			selBtn.innerHTML = btn;
 		}	
-		if(list[0] == '보일러'){
+		if(list[0].choice1 == '보일러'){
 			service.textContent = serviceText;
 			select.innerHTML = boiler;
 			selBtn.innerHTML = btn;
 		}	
-		if(list[0] == '컴퓨터'){
+		if(list[0].choice1 == '컴퓨터'){
 			service.textContent = serviceText;
 			select.innerHTML = computer;
 			selBtn.innerHTML = btn;
 		}	
-		if(list[0] == '음향'){
+		if(list[0].choice1 == '음향'){
 			service.textContent = serviceText;
 			select.innerHTML = sound;
 			selBtn.innerHTML = btn;
 		}	
-		if(list[0] == '기타'){
+		if(list[0].choice1 == '기타'){
 			service.textContent = serviceText;
 			select.innerHTML = etc;
 			selBtn.innerHTML = etcBtn;
@@ -1109,13 +1123,14 @@ input[type="checkbox"]:checked+label span::after {
 	// 데이터 보내기 //
 	
 	
+	
 	function goOrder(){
 		$.ajax({
 			type : "post",
 			url : "${cpath}/repair/uploadAjaxAction",
 			data : {
 				"member_id" : "ff",
-				"choice1" : list[0],
+				"choice1" : list[0].choice1,
 				"choice2" : list[1],
 				"deliveryType" : list[2],
 				"date" : list[3],
@@ -1123,8 +1138,8 @@ input[type="checkbox"]:checked+label span::after {
 				"title" : list[5],
 				"content" : list[6],
 				"estimate" : list[7],
-				"itemcategory_id" : 1,
-			}, 
+				"itemcategory_id" : list[0].key
+				},
 			success : function (data){
 			},
 			error : function (){

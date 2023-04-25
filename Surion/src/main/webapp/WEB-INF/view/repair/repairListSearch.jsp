@@ -262,21 +262,21 @@
 		</ul>
 		<div class="under">
 			<c:if test="${paging.prev}">
-				<a href="${cpath}/repair/repairList?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
+				<a href="${cpath}/repair/repairListSearch?pageNum=${paging.startNum - 1}&keyword=${paging.keyword}" class="custom-btn btn-11">이전</a>
 			</c:if>
 			<ul class="underPage">
 				<c:forEach begin="${paging.startNum}" end="${paging.endNum}" var="i">
 					<c:if test="${paging.currentPage == i}">
-						<li class="bold"><a href="${cpath}/repair/repairList?pageNum=${i}">${i}</a></li>
+						<li class="bold"><a href="${cpath}/repair/repairListSearch?pageNum=${i}&keyword=${paging.keyword}">${i}</a></li>
 					</c:if>
 					
 					<c:if test="${paging.currentPage != i}">
-						<li><a href="${cpath}/repair/repairList?pageNum=${i}">${i}</a></li>
+						<li><a href="${cpath}/repair/repairListSearch?pageNum=${i}&keyword=${paging.keyword}">${i}</a></li>
 					</c:if>
 				</c:forEach>
 			</ul>
 			<c:if test="${paging.next}">
-				<a href="${cpath}/repair/repairList?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
+				<a href="${cpath}/repair/repairListSearch?pageNum=${paging.endNum + 1}&keyword=${paging.keyword}" class="custom-btn btn-11">다음</a>
 			</c:if>
 		</div>
 	</div>

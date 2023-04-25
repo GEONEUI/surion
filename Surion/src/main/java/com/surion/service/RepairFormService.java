@@ -3,6 +3,7 @@ package com.surion.service;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
@@ -24,5 +25,8 @@ public interface RepairFormService {
 	public void repairDetail(Model model, RepairForm m);
 	
 	// 조회수 증가
-	public void readCount(Model model, RepairForm m);
+	public void readCount(RepairForm m);
+	
+	// repairList 검색
+	public void search(Model model, RepairListPaging pa, HttpServletRequest reuqest);
 }

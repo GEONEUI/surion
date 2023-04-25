@@ -18,6 +18,6 @@ public class RepairForm {
 	private String title;
 	private String content;
 	private String estimate; 
-	private String itemcategory_id;
+	private int itemcategory_id;
 	private int readCount;
 }

@@ -17,7 +17,7 @@ public interface RepairFormRepository{
 	
 	// 견적 폼 저장
 	@Insert("Insert into suri_repairForm VALUES ("
-			+ "NULL, 'ff', #{choice1}, #{choice2}, #{deliveryType}, #{date}, #{image}, #{title}, #{content}, #{estimate}, 1);")
+			+ " 'NULL', 'ff', #{choice1}, #{choice2}, #{deliveryType}, #{date}, #{image}, #{title}, #{content}, #{estimate}, #{itemcategory_id}, 0);")
 	public void save(RepairForm m);
 
 	// RepairList 페이징하여 뿌리기
@@ -32,11 +32,15 @@ public interface RepairFormRepository{
 	@Select("select * from suri_repairForm where idx = #{idx}")
 	public RepairForm findById(RepairForm m);
 	
-	// RepairList 조회수
+	// RepairList 조회수 증가
 	@Update("update suri_repairForm set readCount = readCount +1 where idx = #{idx}")
 	public void increaseCount(RepairForm m);
 	
 	// RepairList 검색
-	@Select("select * from suri_repairForm where title like '%#{keyword}%'")
-	public List<RepairForm> search(String keyword);
+	@Select("select * from suri_repairForm where title LIKE CONCAT ('%',#{keyword},'%') LIMIT #{startValue}, #{perPageNum}")
+	public List<RepairForm> search(RepairListPaging pa);
+	
+	// 검색 전체 숫자 카운팅
+	@Select("select count(*) from suri_repairForm where title LIKE CONCAT ('%',#{keyword},'%')")
+	public int searchCount(RepairListPaging pa);
 }

@@ -14,6 +14,7 @@ public class RepairListPaging {
 	private int lastPage; // 마지막 페이지로 만들어주기
 	private boolean prev; // 이전 버튼
 	private boolean next; // 다음 버튼
+	private String keyword; // 검색 파라미터
 	
 	public RepairListPaging() {
 		this.disPageNum = 10;
