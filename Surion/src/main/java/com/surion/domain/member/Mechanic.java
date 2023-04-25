@@ -20,6 +20,7 @@ import java.util.List;
 public class Mechanic {
 
     @Id
+
     @Column(name = "member_id")
     private String id;
 
