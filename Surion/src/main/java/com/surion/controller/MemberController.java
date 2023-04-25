@@ -1,5 +1,6 @@
 package com.surion.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class MemberController {
 	//로그인
 	@PostMapping("/login")
 	public String login(Member m, HttpSession session, RedirectAttributes rttr) {
-		memberService.findOne(m, session, rttr);
-		return "redirect:/";
+		return memberService.findOne(m, session, rttr);
+	
 	}
 	
 	//로그아웃
@@ -58,6 +59,12 @@ public class MemberController {
 		System.out.println(m.getId());
 		int result = memberService.check(m);
 		return result;
+	}
+	
+	//프로필 업데이트
+	@PostMapping("/updateProfile")
+	public String updateProfile(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
+		return memberService.updateProfile(request, session, rttr);
 	}
 	
 	

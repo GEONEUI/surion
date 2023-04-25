@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.surion.dto.Message;
 import com.surion.repository.ChatRoomRepository;
+import com.surion.entity.Member;
+import com.surion.service.MemberService;
+
+import lombok.extern.log4j.Log4j2;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -23,6 +27,8 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/mypage/*")
 public class MyPageController {
 	
+	@Autowired
+	MemberService memberService;
 	
 	
 	@GetMapping("/myinfo")
@@ -32,8 +38,13 @@ public class MyPageController {
 			pagev = "1";
 		}
 		
+		Member m = (Member)session.getAttribute("member");
+		
 		int pageview = Integer.parseInt(pagev);
-		model.addAttribute("pageview", pageview);	
+
+		
+		model.addAttribute("pageview", pageview);
+		model.addAttribute("member", m);	
 		return "/mypage/mypage";
 	}
 	

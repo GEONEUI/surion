@@ -138,9 +138,6 @@
         padding: 1rem;
     }
 
-    ::-webkit-scrollbar {
-        display: none;
-    }
 
 
     .test {
@@ -155,13 +152,17 @@
         cursor: context-menu;
 
     }
+    
+    #chat-list > div{
+    	padding:0 0 10px 0 !important ;
+    }
 
 
 </style>
 
 
  <!-- 여기부터 -->
-            <div onclick="go(this)">
+            <div id="chat-list" onclick="go(this)">
                 <div class=" p-2 forum-content show">
                     <div class="d-flex card mb-2 test" style="flex-direction: inherit; flex-wrap:wrap;">
                         <div class="col-lg-7 card-body p-2 p-sm-3">
@@ -232,7 +233,7 @@
                 </div>
             </div>
             <!-- 여기까지 글 하나 -->
-            <div onclick="go(this)">
+            <div id="chat-list" onclick="go(this)">
                 <div class=" p-2 forum-content show">
                     <div class="d-flex card mb-2 test" style="flex-direction: inherit; flex-wrap:wrap;">
                         <div class="col-lg-7 card-body p-2 p-sm-3">
@@ -300,7 +301,7 @@
                     </div>
                 </div>
             </div>
-            <div onclick="go(this)">
+            <div id="chat-list" onclick="go(this)">
                 <div class=" p-2 forum-content show">
                     <div class="d-flex card mb-2 test" style="flex-direction: inherit; flex-wrap:wrap;">
                         <div class="col-lg-7 card-body p-2 p-sm-3">
@@ -360,7 +361,7 @@
                     </div>
                 </div>
             </div>
-            <div onclick="go(this)">
+            <div id="chat-list" onclick="go(this)">
                 <div class=" p-2 forum-content show">
                     <div class="d-flex card mb-2 test" style="flex-direction: inherit; flex-wrap:wrap;">
                         <div class="col-lg-7 card-body p-2 p-sm-3">

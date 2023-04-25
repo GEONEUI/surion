@@ -81,9 +81,7 @@
   .nav-link {
     color: #4a5568;
   }
-  ::-webkit-scrollbar {
-    display: none;
-  }
+
 </style>
 
 <!-- Inner sidebar -->

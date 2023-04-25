@@ -187,7 +187,12 @@
 				<c:if test="${!empty member}">
 					<ul class="unav1">
 						<li><a href="" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
-						<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
+						<c:if test="${member.imgurl eq null}">
+							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
+						</c:if>
+						<c:if test="${member.imgurl ne null}">
+							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}" width="40" style="border-radius:12px;"></li>
+						</c:if>
 					</ul>
 					<!--  내 정보 모탈창  -->
 					<div class="myinfo">
@@ -195,7 +200,7 @@
 							<p>${member.id} &nbsp 고객님</p>
 							<ul>
 								<li><a href="#"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
-								<li><a href="#"><i class="fa-solid fa-circle-user" style="color: #525252; margin-right:10px;"></i> 마이페이지</a></li>
+								<li><a href="${cpath}/mypage/myinfo"><i class="fa-solid fa-circle-user" style="color: #525252; margin-right:10px;"></i> 마이페이지</a></li>
 							</ul>
 						</div>
 						<a class="logout" href="${cpath}/member/logout">로그아웃</a>
@@ -208,7 +213,6 @@
 					<li><a href="${cpath}/repair/repairList">의뢰목록</a></li>
 					<li><a href="${cpath}/repair/orderList">엔지니어</a></li>
 					<li><a href="${cpath}/community/board">커뮤니티</a></li>
-					<li><a href="${cpath}/mypage/myinfo">My페이지</a></li>
 					<li><a href="#">마켓</a></li>
 				</ul>
 				<p>원하는 서비스를 못 찾겠다면, <span class="ubold">프로젝트 의뢰</span>하세요! ></p>

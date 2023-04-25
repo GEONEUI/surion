@@ -112,9 +112,7 @@
         color: #4a5568;
     }
 
-    .card {
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-    }
+
 
     .card {
         position: relative;
@@ -126,17 +124,14 @@
         background-clip: border-box;
         border: 0 solid rgba(0, 0, 0, .125);
         border-radius: .25rem;
+        padding:0 !important;
     }
 
     .card-body {
         flex: 1 1 auto;
         min-height: 1px;
-        padding: 1rem;
     }
 
-    ::-webkit-scrollbar {
-        display: none;
-    }
 
 
     .test {
@@ -157,71 +152,19 @@
 		}
 
 
+	#paddingnone{
+		padding:0;
+	}
+
 </style>
-
-
-
 
 
 
             <!--채팅방 목록-->
             <div class="card shadow-sm p-3 mb-5 bg-body rounded" id="chat1" style="border-radius: 15px; height:90%;">
                
-                <div class="container" style="overflow:auto;">
-                    <!--여기부터-->
-                    <c:forEach var="chatList" items="${chatList}">
-	                    <div onclick="location.href='${cpath}/chat/room?roomId=${chatList.roomId}'" class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">
-	                        <div class="d-flex">
-	                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-	                                 alt="avatar 1" width="45px" height="45px">
-	                            <p class="fs-3 text ms-3">자전거 가sssss게</p>
-	                        </div>
-	                        <div class="d-flex justify-content-between">
-	                            <p class="fs-5 text">네</p>
-	                            <p class="fs-6 text">23.04.03</p>
-	                        </div>
-	                    </div>
-                    </c:forEach>
-                    <!--여기까지 채팅목록 한개-->
-                    
-                      <div class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">
-                        <div class="d-flex">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                 alt="avatar 1" width="45px" height="45px">
-                            <p class="fs-3 text ms-3">자전거 가게</p>${chatList}
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p class="fs-5 text">네</p>
-                            <p class="fs-6 text">23.04.03</p>
-                        </div>
-                    </div>
-                    
-                    
-                      <div class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">
-                        <div class="d-flex">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                 alt="avatar 1" width="45px" height="45px">
-                            <p class="fs-3 text ms-3">자전거 가게</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p class="fs-5 text">네</p>
-                            <p class="fs-6 text">23.04.03</p>
-                        </div>
-                    </div>
-                    
-                    
-                      <div class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">
-                        <div class="d-flex">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                 alt="avatar 1" width="45px" height="45px">
-                            <p class="fs-3 text ms-3">자전거 가게</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p class="fs-5 text">네</p>
-                            <p class="fs-6 text">23.04.03</p>
-                        </div>
-                    </div>
-                    
+                <div id="paddingnone"class="container">
+  
                     
                 </div>
             </div>
