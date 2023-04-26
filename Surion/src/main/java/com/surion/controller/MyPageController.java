@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.surion.dto.Message;
+import com.surion.repository.ChatRoomRepository;
 import com.surion.entity.Member;
 import com.surion.service.MemberService;
 
 import lombok.extern.log4j.Log4j2;
 
+import lombok.extern.log4j.Log4j2;
 
+
+@Log4j2
 @Controller
 @RequestMapping("/mypage/*")
 public class MyPageController {
@@ -36,6 +41,7 @@ public class MyPageController {
 		Member m = (Member)session.getAttribute("member");
 		
 		int pageview = Integer.parseInt(pagev);
+
 		
 		model.addAttribute("pageview", pageview);
 		model.addAttribute("member", m);	

@@ -32,7 +32,7 @@
 				<jsp:include page="./myinfo.jsp"/>
 			</c:if>
 			 <c:if test="${pageview == 2}">
-				<jsp:include page="./chat.jsp"/>
+				<jsp:include page="./chatRoom.jsp"/>
 			</c:if>
 			 <c:if test="${pageview == 3}">
 				<jsp:include page="./chatList.jsp"/>
