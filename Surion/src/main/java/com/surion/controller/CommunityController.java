@@ -1,5 +1,6 @@
 package com.surion.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,26 +9,30 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.surion.community.CommService;
-import com.surion.community.Community;
+import com.surion.entity.Community;
+import com.surion.repository.CommRepository;
+import com.surion.service.CommService;
+
 
 @Controller
 @RequestMapping("/community/*")
 public class CommunityController {
 	
 	@Autowired
-	private CommService commService;
+	private CommService commService; 
+	
+	@Autowired
+	private CommRepository commRepository;
 	
 	@RequestMapping("/board")
-	public String board() {
-		
+	public String board(Model model) {
+		List<Community> lst = commRepository.listAll();
+		model.addAttribute("lst", lst);
 		return "/community/community";
 	}
 	
-	//글작성
+	//글작성 폼
 	@GetMapping("/write")
 		public String writeForm() {
 			return "community/write";
@@ -37,7 +42,7 @@ public class CommunityController {
 	@PostMapping("/writePro")
 	public String writePro(Community community) {
 		commService.register(community);
-		return "community/community";
+		return "redirect:/community/board";
 	}
 	
 	//글 하나 보기
