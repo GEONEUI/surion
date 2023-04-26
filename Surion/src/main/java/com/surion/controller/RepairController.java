@@ -43,6 +43,7 @@ public class RepairController {
 		repairFormService.repairDetail(model, m);
 		repairFormService.readCount(m);
 		return "/repair/repairDetail";
+
 	}
 	
 	// RepairList 검색 
