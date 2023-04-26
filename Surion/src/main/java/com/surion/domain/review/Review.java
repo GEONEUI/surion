@@ -21,6 +21,8 @@ public class Review {
     private Long id;
     private String name;
     private String score;
+    private String content;
+
     @Enumerated(EnumType.STRING)
     private ReviewStatus reviewStatus;
 

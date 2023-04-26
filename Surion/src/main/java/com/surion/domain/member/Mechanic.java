@@ -21,7 +21,7 @@ public class Mechanic {
 
     @Id
 
-    @Column(name = "member_id")
+    @Column(name = "mechanic_id")
     private String id;
 
     private String shopName;
@@ -37,6 +37,7 @@ public class Mechanic {
     private String endTime;
     private int mechanicPoint;
     private int experience;
+    private String category;
 
 
     @OneToMany(mappedBy = "mechanic", cascade = CascadeType.ALL)

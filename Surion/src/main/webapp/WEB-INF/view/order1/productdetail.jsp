@@ -43,7 +43,7 @@
                                 <button type="button" class="btn share-button btn-none">쉐어버튼</button>
                                 <div class="row">
                                     <div class="col-lg-2">
-                                        업종(수리가능분야)
+                                        {mechanic} 업종(수리가능분야)
                                     </div>
                                     <div class="col-lg-2">
                                         지역 (안산)
