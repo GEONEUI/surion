@@ -42,7 +42,7 @@ public class OrderTwoController {
     
     //게시물등록폼
     @RequestMapping("/orderForm")
-    public String repairForm() {
+    public String orderForm() {
         return "/order2/orderForm";
     }
     
