@@ -193,7 +193,7 @@
 
 .esti {
 	display: flex;
-	align-item: center;
+	align-items: center;
 }
 
 .aa {
@@ -204,7 +204,7 @@
 
 .lastTitle {
 	width: 28rem;
-	margin-bottom: 1.5rem;
+	margin-bottom: 1rem;
 	border-style: none;
 }
 
@@ -234,6 +234,18 @@
 	color: red;
 	font-size: 13px;
 	padding-bottom: 16px;
+}
+
+/* 견적 협의 창에서 있는 협의 체크 버튼 */
+/* input[checkbox] 디폴트 display가 none이기 때문에 강제로 block 시킴 */
+.confer {
+	display: block !important;
+	margin-right: 5px;
+}
+
+.labelConfer {
+	display: flex;
+	padding-left: 17px;
 }
 
 /* input css */
@@ -491,7 +503,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -532,7 +544,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -573,7 +585,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -614,7 +626,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -655,7 +667,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc" placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 					
@@ -696,7 +708,7 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="기타" id="checkbox-area-4" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-4">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요." maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>';
 
@@ -705,10 +717,10 @@ input[type="checkbox"]:checked+label span::after {
 					+'<input type="checkbox" value="텍스트 창 만들기" id="checkbox-area-etc" name="selectOne"' +'onclick="checkOnlyOne(this)" class="selClass"/>'
 					+'<label for="checkbox-area-etc">'
 					+'<span></span>'
-					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요." style="width: 25rem; border-style: none;" ></div>'
+					+'<div><input type="text" class="inputEtc"  placeholder="기타 요청사항을 입력해주세요. (10자 이내)" maxlength="10" style="width: 25rem; border-style: none;" ></div>'
 					+'</label>'
 					+'</li>'
-
+					
 	const btn = ''
 					+'<input type="button" value="이전" class="prevBtn" onclick="prev()"/>'
 					+'<input type="button" value="다음" class="nextBtn" onclick="next2()"/>';
@@ -894,6 +906,7 @@ input[type="checkbox"]:checked+label span::after {
 	}
 	
 	function next4(){
+		
 		let newDate = new Date();
 		let year = newDate.getFullYear(); // 년도
 		let month = newDate.getMonth() + 1;  // 월
@@ -921,12 +934,52 @@ input[type="checkbox"]:checked+label span::after {
 							+'<div class="imageText">이미지를 업로드 해주세요.</div>'
 							+'</div>'
 							+'<div class="aa">제목</div>'
-							+'<input type="text" class="lastTitle" placeholder="30자 이내로 작성해주세요.">'
+							+'<input type="text" class="lastTitle" placeholder="25자 이내로 작성해주세요." maxlength="25">'
 							+'<div class="aa">내용</div>'
-							+'<textarea class="lastContent"> </textarea>'
-							+'<div class="esti"><div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="ex) 50000 or 협의"></div>';
+							+'<textarea class="lastContent" maxlength="270"> </textarea>'
+							+'<div class="esti">'
+							+'<div class="aa">희망 견적</div><input type="text" class="lastEstimate" placeholder="숫자만 입력해주세요."><label class="labelConfer"><input type="checkbox" name="confer" class="confer" value="협의">협의</label>'
+							+'</div>'
 							+'</form>'
 		selBtn.innerHTML = btn4;
+							
+		// 이미지 등록 시 빨간 텍스트 사라짐 // 					
+		var imageText = document.querySelector('.imageText'); 
+		var input = document.getElementsByTagName('input')[0];
+		input.onchange = function () {
+			if(document.querySelector('.imageUpload').value != ""){
+				imageText.textContent = "";
+			}
+			if(document.querySelector('.imageUpload').value == ""){
+				imageText.textContent = "이미지를 업로드 해주세요.";
+			}
+		}
+		
+		// 견적 적는 부분에 숫자만 들어가게 // 
+		var input3 = document.getElementsByTagName('input')[3];
+		input3.onkeypress = function(e){
+			console.log(e);
+			 if(event.keyCode >= 48 && event.keyCode <= 57){
+				  return true;
+ 			   } else {
+ 				  event.preventDefault();
+ 				  return false;
+ 			   }
+		}
+		
+		// 협의 버튼 클릭 시 숫자 입력 못하고 협의 내용 기입
+// 		var input4 = document.getElementsByTagName('input')[4];
+// 		const checkbox = document.querySelector('.confer');
+// 		input4.onclick = function() {
+// 			  console.log(checkbox.checked);
+// 			  if(checkbox.checked == true)  {
+// 				  input3.innerHTML = '<input type="text" class="lastEstimate" placeholder="협의" value="협의" readonly>';
+// 			  }
+// 			}
+							
+							
+							
+		
 		
 		barElem.style.width = 99 + "%";
 		barPercent.textContent = '99%';
@@ -945,7 +998,6 @@ input[type="checkbox"]:checked+label span::after {
 		list.push(imageUpload, lastTitleValue, lastContentValue, lastEstimateValue);
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
-		
 		
 			
 		goOrder(); // ajax로 list 데이터 보내기
@@ -1045,7 +1097,7 @@ input[type="checkbox"]:checked+label span::after {
 				"choice1" : list[0],
 				"choice2" : list[1],
 				"deliveryType" : list[2],
-				"data" : list[3],
+				"date" : list[3],
 				"image" : list[4],
 				"title" : list[5],
 				"content" : list[6],
@@ -1053,7 +1105,6 @@ input[type="checkbox"]:checked+label span::after {
 				"itemcategory_id" : 1,
 			}, 
 			success : function (data){
-				alert(data);
 			},
 			error : function (){
 				alert("error");

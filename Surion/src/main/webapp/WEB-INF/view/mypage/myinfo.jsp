@@ -88,10 +88,10 @@
 <p class="sub_title">나의정보</p>
 				<div class="item d-flex">
 					<div class="item_left">
-						<c:if test="${member.imgurl eq ''}">
+						<c:if test="${member.imgurl eq null}">
 							<img id="a" class="preview" src="${cpath}/resources/images/default.png" alt="기본프로필 이미지" width="110">
 						</c:if>
-						<c:if test="${member.imgurl ne ''}">
+						<c:if test="${member.imgurl ne null}">
 							<img id="b" class="preview" src="${cpath}/resources/images/${member.imgurl}" alt="기본프로필 이미지" width="110">
 						</c:if>
 							<button
@@ -108,7 +108,7 @@
 						<form id="frm" action="${cpath}/member/updateProfile" enctype="multipart/form-data" method="post">
 							<div class="formgroup">
 								<p>이름</p>
-								<input type="text" value="${member.id}" name="id" readonly="readonly">
+								<input type="text" value="${member.name}" name="name" readonly="readonly">
 								<span id="name"></span>
 							</div>
 							<div class="formgroup">
