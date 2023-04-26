@@ -21,22 +21,21 @@ import lombok.extern.log4j.Log4j2;
 @Controller
 @RequestMapping("/mypage/*")
 public class MyPageController {
-	
+
 	@Autowired
 	MemberService memberService;
 	
 	
 	@GetMapping("/myinfo")
 	public String myinfo(Model model, HttpServletRequest request, HttpSession session) {
+
 		String pagev = request.getParameter("pageview");
 		if(pagev == null) {
 			pagev = "1";
 		}
-		
 		Member m = (Member)session.getAttribute("member");
-		
 		int pageview = Integer.parseInt(pagev);
-		
+
 		model.addAttribute("pageview", pageview);
 		model.addAttribute("member", m);	
 		return "/mypage/mypage";

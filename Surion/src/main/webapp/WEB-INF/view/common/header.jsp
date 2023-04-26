@@ -211,7 +211,7 @@
 				<ul class="unav2">
 					<li><a href="#" class="ubold">전체카테고리</a></li>
 					<li><a href="${cpath}/repair/repairList">의뢰목록</a></li>
-					<li><a href="${cpath}/repair/orderList">엔지니어</a></li>
+					<li><a href="${cpath}/order2/orderList">엔지니어</a></li>
 					<li><a href="${cpath}/community/board">커뮤니티</a></li>
 					<li><a href="#">마켓</a></li>
 				</ul>

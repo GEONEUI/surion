@@ -299,7 +299,7 @@
                 <ul class="h_form">
                     <li class="h_list">
                         <div class="h_card">
-                            <i class="fa-light fa-wrench fa-2xl" style="color: #00c7ae; "></i><div>수리요청</div>
+						<i class="fa-light fa-wrench fa-2xl" style="color: #00c7ae; "></i><div>수리요청</div>
                         </div>
                         <a class="h_count" href="/#">0</a>
                     <li>

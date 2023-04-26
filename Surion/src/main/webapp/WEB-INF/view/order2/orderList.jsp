@@ -208,5 +208,6 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 	</script>
 
 	<%@ include file="../common/footer.jsp"%>
+
 </body>
 </html>

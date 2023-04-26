@@ -29,6 +29,7 @@ public class RepairController {
 		return "/repair/repairList";
 	}
 	
+
 	@RequestMapping("/repairForm")
 	public String repairForm() {
 		return "/repair/repairForm";
@@ -38,6 +39,7 @@ public class RepairController {
 	public String repairDetail(Model model, RepairForm repairForm) {
 		repairFormService.repairDetail(model, repairForm);
 		return "/repair/repairDetail";
+
 	}
 	
 	// 파일 업로드
