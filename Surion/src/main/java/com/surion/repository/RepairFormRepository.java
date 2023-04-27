@@ -22,7 +22,7 @@ public interface RepairFormRepository{
 	public void save(RepairForm m);
 
 	// RepairList 페이징하여 뿌리기
-	@Select("select * from suri_repairForm LIMIT #{startValue}, #{perPageNum}")
+	@Select("select * from suri_repairForm order by idx desc LIMIT #{startValue}, #{perPageNum}")
 	public List<RepairForm> findByAll(RepairListPaging pa);
 	
 	// RepairList 전체 숫자 카운팅

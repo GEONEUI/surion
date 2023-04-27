@@ -247,7 +247,7 @@
 			<c:forEach var="list" items="${list}">
 				<div class="repairList">
 					<div class="askListA" onclick="location.href='${cpath}/repair/repairDetail?idx=${list.idx}'">
-						<img src="${cpath}/resources/images/${fn:split(list.image, 'h')[1]}" alt="공백" />
+						<img src="${cpath}/resources/repairImages/${fn:split(list.image, 'h')[1]}" alt="공백" />
 					</div>
 					<div class="askListP">
 						<li>${list.title}</li>

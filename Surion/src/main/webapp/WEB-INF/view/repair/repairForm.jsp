@@ -945,8 +945,7 @@ input[type="checkbox"]:checked+label span::after {
 		select.innerHTML = ''																
 							+'<form action="${cpath}/repair/upload" method="post" enctype="multipart/form-data" id="imageUp">'
 							+'<div class="imageForm">'
-							+'<input type="file"  name="file" class="imageUpload" accept="image/jpeg, image/jpg, image/png, image/bmp">'
-							+'<input type="hidden" name="member_id" value="ff">'
+							+'<input type="file"  name="file" class="imageUpload" accept="image/png, image/jpeg, image/jpg, image/bmp">'
 							+'<div class="imageText">이미지를 업로드 해주세요.</div>'
 							+'</div>'
 							+'<div class="aa">제목</div>'
@@ -974,19 +973,19 @@ input[type="checkbox"]:checked+label span::after {
 				imageText.textContent = "";
 			}
 			
-			if(data !== 'PNG' && data !== 'JPEG' && data !== 'JPG'){
-				alert("파일 형식이 올바르지 않습니다. \n(허용 파일 형식 : PNG, JPEG, JPG)");
+			if(data !== 'PNG' && data !== 'JPEG' && data !== 'JPG' && data !== 'BMP'){
+				alert("파일 형식이 올바르지 않습니다. \n(허용 파일 형식 : png, jfif, pjp, jpg, pjepg, jpeg, bmp)");
 				return
 			}
 			
 		}
 		
 		// 협의 버튼 클릭 시 숫자 입력 못하고 협의 내용 기입
-		var input4 = document.getElementsByTagName('input')[4];
+		var input3 = document.getElementsByTagName('input')[3];
 		const checkbox = document.querySelector('.confer');
 		const lastEstimate = document.querySelector('.lastEstimate');
 		const ss = document.querySelector('#ss');
-		input4.onclick = function() {
+		input3.onclick = function() {
 			  console.log(checkbox.value);
 			  if(checkbox.checked == true)  {
 				  ss.innerHTML = '<input type="text" class="lastEstimate" placeholder="협의" value="협의" readonly>';
@@ -1023,7 +1022,7 @@ input[type="checkbox"]:checked+label span::after {
 		}
 		  // 파일 확장자가 허용된 확장자가 아니면 업로드 중단
 		if (!allowedExtensions.includes(fileExtension)) {
-		    alert('허용된 파일 확장자는 png, jpg, jpeg입니다.');
+		    alert('허용된 파일 확장자는 png, jfif, pjp, jpg, pjepg, jpeg, bmp입니다.');
 		    return;
 		}
 		
@@ -1046,12 +1045,12 @@ input[type="checkbox"]:checked+label span::after {
 		
 			
 		goOrder(); // ajax로 list 데이터 보내기
+		location.href="${cpath}/repair/repairList";
 	}
 	
 	
 
 	// 이전 버튼 //
-	
 	function prev(){
 		list.pop();
 		
@@ -1130,10 +1129,7 @@ input[type="checkbox"]:checked+label span::after {
 	barPercent.textContent = '75%';
 	}
 	
-	// 데이터 보내기 //
-	
-	
-	
+	// Ajax 데이터 보내기 //
 	function goOrder(){
 		$.ajax({
 			type : "post",
@@ -1150,17 +1146,15 @@ input[type="checkbox"]:checked+label span::after {
 				"estimate" : list[7],
 				"itemcategory_id" : list[0].key
 				},
-			success : function (data){
-			},
+			success : uploadImg,
 			error : function (){
 				alert("error");
 			}
 		});
-		uploadImg();
 	}
 	
 	function uploadImg(){
-		var frm = $('#imageUp');
+			var frm = $('#imageUp');
 			frm.submit();
 	}
 

@@ -118,22 +118,20 @@ public class RepairFormServiceImpl implements RepairFormService{
 			String money = decFormat.format(lstMoney);
 			model.addAttribute("money", money);
 		}
-	
-		
 		model.addAttribute("m", lst);
-		
 	}
 	
 	// orderForm에서 이미지 업로드 되는 메소드 //
 	@Override
 	public void upload(HttpServletRequest request) {
+		System.out.println("굿");
 		MultipartRequest multi = null;
 		
-		String save = request.getRealPath("/resources/images");
+		String save = request.getRealPath("/resources/repairImages");
 		int maxSize = 1024 * 1024 * 5;
-		
 		try {
 			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
+			System.out.println(save);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

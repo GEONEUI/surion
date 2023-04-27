@@ -24,7 +24,7 @@
 	.mainHere {
 		width: 100%;
 		height: 25rem;
-		background:url("${cpath}/resources/images/${fn:substring(m.image, 12, 99)}") center center / contain no-repeat;
+		background:url("${cpath}/resources/repairImages/${fn:substring(m.image, 12, 99)}") center center / contain no-repeat;
 		filter: drop-shadow(2px 4px 6px black);
 	}
 	
