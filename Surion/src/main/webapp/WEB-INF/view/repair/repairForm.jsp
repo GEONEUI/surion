@@ -1040,7 +1040,7 @@ input[type="checkbox"]:checked+label span::after {
 			return
 		}
 		
-		list.push(imageUpload, lastTitleValue, lastContentValue, lastEstimateValue);
+		list.push(imageUploadValue, lastTitleValue, lastContentValue, lastEstimateValue);
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
 		

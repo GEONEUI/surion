@@ -178,7 +178,7 @@
 
 
 </style>
-
+${member}
 <div class="usec_header">
 	<div class="uheader">
 		<div class="uinner">
