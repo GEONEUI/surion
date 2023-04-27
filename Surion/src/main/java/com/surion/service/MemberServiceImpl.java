@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService{
 	MemberRepository memberRepository;
 	
 	@Override
-	//
+	//회원가입
 	public String join(Member m, RedirectAttributes rttr) {
 		if(m.getId().equals("") || m.getId() == "" ||
 		   m.getPassword().equals("") || m.getPassword() == "" ||
@@ -43,22 +43,27 @@ public class MemberServiceImpl implements MemberService{
 		}
 		
 	}
-
+	
+	//로그인
 	@Override
-	public String findOne(Member m, HttpSession session, RedirectAttributes rttr) {
-		Member member = memberRepository.findById(m);
-		//아이디 있음
-		if(member != null) {
-			session.setAttribute("member", member); 
-			session.setMaxInactiveInterval(60*10);
-			rttr.addFlashAttribute("msgTitle", "Success Message!");
-			rttr.addFlashAttribute("msg", "로그인 성공!");
-			return "redirect:/";
-		}else { // 아이디 틀리거나 없음
-			rttr.addFlashAttribute("msgTitle", "Error Message!");
-			rttr.addFlashAttribute("msg", "아이디와 비밀번호를 확인해주세요.");
-			return "redirect:/member/login";
-		}
+	public String login(Member m, HttpSession session, RedirectAttributes rttr) {
+			Member member = memberRepository.login(m);
+			//아이디 있음
+			if(member != null) {
+				Member mechanic = memberRepository.findById(member);
+				//로그인정보
+				session.setAttribute("member", member);
+				//로그인한 유저의 사업자정보
+				session.setAttribute("mechanic", mechanic);
+				session.setMaxInactiveInterval(60*100);
+				rttr.addFlashAttribute("msgTitle", "Success Message!");
+				rttr.addFlashAttribute("msg", "로그인 성공!");
+				return "redirect:/";
+			}else { // 아이디 틀리거나 없음
+				rttr.addFlashAttribute("msgTitle", "Error Message!");
+				rttr.addFlashAttribute("msg", "아이디와 비밀번호를 확인해주세요.");
+				return "redirect:/member/login";
+			}
 	}
 
 	@Override
@@ -144,6 +149,8 @@ public class MemberServiceImpl implements MemberService{
 
 		return "redirect:/mypage/myinfo";
 	}
+
+
 
 
 

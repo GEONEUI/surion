@@ -42,7 +42,7 @@ public class MemberController {
 	//로그인
 	@PostMapping("/login")
 	public String login(Member m, HttpSession session, RedirectAttributes rttr) {
-		return memberService.findOne(m, session, rttr);
+		return memberService.login(m, session, rttr);
 	
 	}
 	

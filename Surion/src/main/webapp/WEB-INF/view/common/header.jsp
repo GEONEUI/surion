@@ -178,7 +178,6 @@
 
 
 </style>
-${member}
 <div class="usec_header">
 	<div class="uheader">
 		<div class="uinner">
@@ -247,6 +246,5 @@ ${member}
 		location.href='${cpath}/order2/orderJoin';
 	}
 </script>
-
 
 
