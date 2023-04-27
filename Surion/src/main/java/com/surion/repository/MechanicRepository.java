@@ -26,7 +26,7 @@ public class MechanicRepository {
                 .getResultList();
     }
 
-    public List<Mechanic> findByName(String shopName) {
+    public List<Mechanic> findByName (String shopName) {
         return em.createQuery("select m from Mechanic m where m.shopName =:shopName", Mechanic.class)
                 .setParameter("shopName", shopName)
                 .getResultList();

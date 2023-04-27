@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/.idea/surion2.iml" filepath="$PROJECT_DIR$/.idea/surion2.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/.idea/order2.iml" filepath="$PROJECT_DIR$/.idea/order2.iml" />
->>>>>>> 55b0d00c5a732a3fc818a948cd344b10a5c63dac
+      <module fileurl="file://$PROJECT_DIR$/.idea/SurionVer1.iml" filepath="$PROJECT_DIR$/.idea/SurionVer1.iml" />
     </modules>
   </component>
 </project>
