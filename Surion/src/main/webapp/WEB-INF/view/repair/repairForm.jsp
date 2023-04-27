@@ -311,7 +311,6 @@ input[type="checkbox"]:checked+label span::after {
 								<span class="barPercent">0%</span>
 							</div>
 						</div>
-						
 						<div class="below">
 							<div class="service">어떤 서비스를 받기 원하시나요?</div>
 							<ul class="select">
@@ -1040,7 +1039,7 @@ input[type="checkbox"]:checked+label span::after {
 			return
 		}
 		
-		list.push(imageUpload, lastTitleValue, lastContentValue, lastEstimateValue);
+		list.push(imageUploadValue, lastTitleValue, lastContentValue, lastEstimateValue);
 		console.log(list);
 		alert("견적 요청이 완료되었습니다.");
 		

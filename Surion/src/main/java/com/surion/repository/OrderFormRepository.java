@@ -1,6 +1,7 @@
 package com.surion.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -34,11 +35,12 @@ public interface OrderFormRepository {
 	@Update("update suri_orderJoin JOIN suri_member sm ON suri_orderJoin.id = sm.id SET suri_orderJoin.email = sm.email, suri_orderJoin.phone = sm.phone, suri_orderJoin.grade = sm.grade")
 	public void update1(OrderJoin orderJoin);
 	
-	@Select("select count(*) from suri_orderJoin where id = #{id}")
-	public int findByMechanic(@Param("id") String id);
-	
+
 }
-	
+
+//@Select("select shopName, office from suri_orderJoin where id = #{id}")
+//public void findByMechanic(@Param("id") String id);
+
 	//하나의 게시글 데이터를 반환 메서드
 	//@Select("select * from suri_orderForm where member_id = #{member_id}")
 	//public OrderForm findByBoard(@Param("member_id") String member_id);

@@ -2,6 +2,7 @@ package com.surion.service;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,7 +35,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	@Override
 	public void orderList(Model model, OrderListPaging pa) {
 		List<OrderForm> lst = orderFormRepository.findByAll();
-		System.out.println(lst);
 		model.addAttribute("list", lst);
 	}
 	
@@ -157,7 +157,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	            orderFormRepository.update1(orderJoin);
 	            rttr.addFlashAttribute("msgTitle", "Success Message!");
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
-	            session.setAttribute("result", 1);
 	            return "redirect:/";
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -172,6 +171,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	public void update1(OrderJoin orderJoin) {
 		orderFormRepository.update1(orderJoin);
 	}
+	
 }
 
 

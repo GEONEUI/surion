@@ -18,4 +18,5 @@ public interface OrderFormService {
 	public int check(OrderJoin orderJoin);
 	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session);	
 	public void update1(OrderJoin orderJoin);
+
 }

@@ -171,7 +171,6 @@
 	}
 
 </style>
-
 <div class="usec_header">
 	<div class="uheader">
 		<div class="uinner">
@@ -186,11 +185,11 @@
 				</c:if>
 				<c:if test="${!empty member}">
 					<ul class="unav1">
-						<c:if test="${result!=1}">
-							<li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
+						<c:if test="${mechanic eq null}">
+						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
 						</c:if>
-						<c:if test="${result!=0}">
-							<li><a href="javascript:goBoard()" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+						<c:if test="${mechanic ne null}">
+						   <li><a href="javascript:goBoard()" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
 						</c:if>
 						<c:if test="${member.imgurl eq null}">
 							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
@@ -242,8 +241,14 @@
 		location.href='${cpath}/member/join';
 	}
 	function gomechanic() {
-		location.href='${cpath}/order2/orderJoin';
-	}
+		  const member = sessionStorage.getItem('member');
+		  if (member) {
+		    location.href = '${cpath}/order2/orderJoin';
+		  } else {
+			alert('로그인을 해주세요.')
+		    location.href = '${cpath}/member/login';
+		  }
+		}
 	function goBoard(){
 		location.href='${cpath}/order2/orderForm';
 	}

@@ -172,7 +172,7 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 						class="ser" oninput="delBtn()" placeholder="주변 정비사 누가있지?" /> <i
 						class="fa-regular fa-circle-xmark inputBtn"></i>
 				</div>
-				<button id="mecha_btn" class="hbutton">프로필 등록</button>
+				<button id="mecha_btn" class="hbutton" onclick="handleButton()">프로필 등록</button>
 			</div>
 			<ul class="askList">
 			
@@ -210,6 +210,8 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				location.href='${cpath}/order2/orderForm';
 			});
 		});
+		
+	  
 	</script>
 
 	<%@ include file="../common/footer.jsp"%>

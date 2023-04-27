@@ -48,7 +48,8 @@ public class OrderTwoController {
     
     //게시물등록폼
     @RequestMapping("/orderForm")
-    public String orderForm() {
+    public String orderForm(Model model) {
+    	orderFormService.findByMechanic(null, model);
         return "/order2/orderForm";
     }
     
@@ -64,7 +65,7 @@ public class OrderTwoController {
     	return "/order2/orderFormProc";
     }
     
-    
+    //거래내역
     @RequestMapping("/transaction")
     public String transaction() {
         return "/order2/transaction";

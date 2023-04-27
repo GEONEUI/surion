@@ -47,9 +47,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public String findOne(Member m, HttpSession session, RedirectAttributes rttr) {
 		Member member = memberRepository.findById(m);
+		Member mechanic = memberRepository.findById(member);
 		//아이디 있음
 		if(member != null) {
 			session.setAttribute("member", member); 
+			session.setAttribute("mechanic", mechanic);
 			session.setMaxInactiveInterval(60*10);
 			rttr.addFlashAttribute("msgTitle", "Success Message!");
 			rttr.addFlashAttribute("msg", "로그인 성공!");

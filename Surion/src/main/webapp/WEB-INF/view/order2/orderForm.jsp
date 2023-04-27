@@ -455,7 +455,7 @@
 						<li class="text-areaw">
 						    <label class="sub_label" for="text-area-0">
 						        <span></span>
-						        <div class="sub_div">주소&nbsp;</div>
+						        <div class="sub_div">사업장 주소&nbsp;</div>
 						    </label>
 						    <div class="sub_div2">
 						        <input type="text" id="text-area-5" class="inputClass5" name="address" placeholder="시 / 구 입력해주세요."/>
