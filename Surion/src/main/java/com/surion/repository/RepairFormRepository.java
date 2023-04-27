@@ -44,4 +44,6 @@ public interface RepairFormRepository{
 	// 검색 전체 숫자 카운팅
 	@Select("select count(*) from suri_repairForm where title LIKE CONCAT ('%',#{keyword},'%')")
 	public int searchCount(RepairListPaging pa);
+	
+	// 의뢰목록에서 Mechanic이 제안하기
 }

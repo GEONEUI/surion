@@ -973,7 +973,7 @@ input[type="checkbox"]:checked+label span::after {
 				imageText.textContent = "";
 			}
 			
-			if(data !== 'PNG' && data !== 'JPEG' && data !== 'JPG' && data !== 'BMP'){
+			if(data !== 'PNG' && data !== 'JPEG' && data !== 'JPG' && data !== 'BMP' && data !== 'JFIF' && data !== 'PJP' && data !== 'PJPEG'){
 				alert("파일 형식이 올바르지 않습니다. \n(허용 파일 형식 : png, jfif, pjp, jpg, pjepg, jpeg, bmp)");
 				return
 			}
@@ -1011,7 +1011,7 @@ input[type="checkbox"]:checked+label span::after {
 		let lastEstimateValue = document.querySelector('.lastEstimate').value;
 		const file = imageUpload.files[0];  
 		console.log(file);
-		const allowedExtensions = ['png', 'jpg', 'jpeg'];
+		const allowedExtensions = ['png', 'jpg', 'jpeg', 'bmp', 'pjpeg', 'pjp', 'jfif'];
 		const fileExtension = file.name.split('.').pop().toLowerCase(); // 파일 확장자 추출
 		console.log(fileExtension);
 		

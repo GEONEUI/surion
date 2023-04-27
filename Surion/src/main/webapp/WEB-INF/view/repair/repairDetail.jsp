@@ -120,6 +120,101 @@
 	    margin-top:auto;
 	    margin-bottom:0;
 	}
+	
+/* 제안하기 modal */
+	 .modal {
+		position: absolute;
+		top: 0;
+	    left: 0;
+		width: 100%;
+		height: 100%;
+		display: none;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+		
+	.modal.show {
+	  	display: block;
+	}
+
+	.modal_body {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    width: 400px;
+	    height: 500px;
+	    padding: 40px;
+	    text-align: center;
+	    background-color: rgb(255, 255, 255);
+	    border-radius: 10px;
+	    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+	    transform: translateX(-50%) translateY(-50%);
+	}
+	
+	.modal_hr {
+		height: 3px;
+		background: #000;
+		margin: 0;
+		
+	}
+	.location {
+		display: flex;
+		border-bottom: 1.5px solid #e9e8e8;
+	}
+	
+	div.modal.show > form > div:nth-child(4) {
+		border-bottom: 2px solid #e9e8e8;
+		margin-bottom: 1rem;
+	}
+	
+	.left-font {
+ 		width: 6rem;
+ 		background: #00c7ae21;
+ 		font-weight: 500;
+	}
+	
+	.content-box {
+		width: 20rem;
+    	height: 19rem;
+    	padding: 7px;
+    	border-color: #babcbf;
+    	resize: none;
+    	margin-bottom: 5px;
+	}
+	
+	.bottom-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.submit-btn {
+		margin-right: 1rem;
+		width: 5rem;
+    	height: 2rem;
+    	background: #00c7ae;
+    	color: #fff;
+    	border: none;
+    	border-radius: 4px;
+	}
+	
+	.cancel-btn {
+		width: 3rem;
+    	height: 2rem;
+    	background: #00c7ae;
+    	color: #fff;
+    	border: none;
+    	border-radius: 4px;
+	}
+	
+/* 	고정 값 */
+	input[type=text] {
+		padding-left: 10px;
+		border-style: none;
+	}
+		
+	textarea:focus {
+		outline: none;
+	}
 </style>
 <body>
 
@@ -167,9 +262,49 @@
 	</div>
 </div>
 
+<div class="modal">
+	<form class="modal_body">
+		<hr class="modal_hr">
+		<div class="location">
+			<div class="left-font">위치</div>
+			<input type="text" class="inText" maxlength="22" placeholder="서울시 강동구.....">
+		</div>
+		<div class="location">
+			<div class="left-font">연락처</div>
+			<input type="text" class="inText" maxlength="22" placeholder="010-0000-0000.....">
+		</div>
+		<div class="location">
+			<div class="left-font">연락가능시간</div>
+			<input type="text" class="inText" maxlength="22" placeholder="00~00시.....">
+		</div>
+		<div>
+			<textarea class="content-box" placeholder="내용을 입력해 주세요." maxlength="400"></textarea>
+		</div>
+		<div class="bottom-btn">
+			<button type="submit" class="submit-btn">제안하기</button>
+			<button type="reset" class="cancel-btn">취소</button>
+		</div>
+	</form>
+</div>
 
-<script>
-
+<script>	
+	
+	// 제안하기 버튼 클릭 시 modal 등장
+	const modal = document.querySelector('.modal');
+	const sBtn = document.querySelector('.sBtn');
+	
+	sBtn.addEventListener('click', () => {
+		modal.classList.add('show');
+		document.body.style.overflow = 'hidden';
+	});
+	
+	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
+	const cancel_btn = document.querySelector('.cancel-btn');
+	cancel_btn.addEventListener('click', () => {
+		modal.classList.remove('show');
+		document.body.style.overflow = 'auto';
+	});
+		
 	
 	
 </script>
