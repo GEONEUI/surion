@@ -172,7 +172,7 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 						class="ser" oninput="delBtn()" placeholder="주변 정비사 누가있지?" /> <i
 						class="fa-regular fa-circle-xmark inputBtn"></i>
 				</div>
-				<button class="hbutton">검색</button>
+				<button id="mecha_btn" class="hbutton">프로필 등록</button>
 			</div>
 			<ul class="askList">
 			
@@ -205,6 +205,11 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 		function delBtn() {
 			inputBtn.classList.add('active');
 		};
+		$(document).ready(function(){
+			$("#mecha_btn").click(function(){
+				location.href='${cpath}/order2/orderForm';
+			});
+		});
 	</script>
 
 	<%@ include file="../common/footer.jsp"%>

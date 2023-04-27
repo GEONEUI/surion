@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
@@ -22,12 +24,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	@Autowired
 	OrderFormRepository orderFormRepository;
 	
-//	//정비사 등록폼 저장
-//	@Override
-//	public void save(OrderJoin orderJoin) {
-//		orderFormRepository.save(orderJoin);
-//	}
-//	
+	
 	//게시물 등록폼 저장
 	@Override
 	public void save(OrderForm orderForm) {
@@ -39,7 +36,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 		List<OrderForm> lst = orderFormRepository.findByAll();
 		System.out.println(lst);
 		model.addAttribute("list", lst);
-		
 	}
 	
 	@Override
@@ -51,9 +47,10 @@ public class OrderFormServiceImpl implements OrderFormService{
 	
 	//이미지 업로드 되는 메소드
 	@Override
-	public String upload(HttpServletRequest request, RedirectAttributes rttr) {
+	public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session) {
 		
 		MultipartRequest multi = null;
+		Member member = (Member) session.getAttribute("member");
 		
 		String Save = request.getRealPath("/resources/images/order");
 		int MaxSize = 1024 * 1024 * 5;
@@ -68,7 +65,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 		
 		
 		File newFile = multi.getFile("imageUp");
-		String member_id = multi.getParameter("member_id");
 		String experience = multi.getParameter("experience");
 	    String shopName = multi.getParameter("shopName");
 	    String intro = multi.getParameter("intro");
@@ -79,14 +75,8 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    String imgname = null;
 
 	    
-	    if(member_id.equals("") || member_id == "" ||
-	        experience.equals("") || experience == "" ||
-	        shopName.equals("") || shopName == "" ||
-	        intro.equals("") || intro =="" ||
-	        startTime.equals("") || startTime == "" ||
-	        endTime.equals("")|| endTime =="" ||
-	        category.equals("")|| category ==""){
-	    	 return "redirect:/order2/orderFormProc";
+	    if (member == null) { // 로그인하지 않은 경우
+	        return "redirect:${cpath}/common/login";
 	    }
 	    
 		
@@ -119,7 +109,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 
 		
 		OrderForm orderForm = new OrderForm();
-	    orderForm.setMember_id(member_id);
+	    orderForm.setId(member.getId());
 	    orderForm.setShopName(shopName);
 	    orderForm.setIntro(intro);
 	    orderForm.setStartTime(startTime);
@@ -130,7 +120,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setAddress(address);
 
 		
-		System.out.println(orderForm);
+		System.out.println(member.getId());
 		orderFormRepository.save(orderForm);
 		
 		return "redirect:/order2/orderList";
@@ -145,38 +135,50 @@ public class OrderFormServiceImpl implements OrderFormService{
 
 
 	@Override
-	public String join(OrderJoin oj, RedirectAttributes rttr) {
-		if(oj.getMechanic_id().equals("") || oj.getMechanic_id() == "" ||
-				   oj.getShopName().equals("") || oj.getShopName() == "" ||
-				   oj.getName().equals("") || oj.getName() == "" ||
-			       oj.getAddress().equals("") || oj.getAddress() == "") {
-					rttr.addFlashAttribute("msgTitle", "Error Message!");
-					rttr.addFlashAttribute("msg", "입력창에 공백이 있습니다.");
-					rttr.addFlashAttribute("mechanic", oj.getMechanic_id());
-					rttr.addFlashAttribute("shop", oj.getShopName());
-					rttr.addFlashAttribute("na", oj.getName());
-					rttr.addFlashAttribute("ad", oj.getAddress());
-					return "redirect:/member/join";
-				}else {
-					orderFormRepository.join(oj);
-					rttr.addFlashAttribute("msgTitle", "Success Message!");
-					rttr.addFlashAttribute("msg", "회원가입 성공!");
-					return "redirect:/";
-				}
-				
+	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
+		Member member = (Member) session.getAttribute("member");
+		orderJoin.setId(member.getId());
+		System.out.println(member.getId());
+	    
+	    if (orderJoin.getMechanic_id().isEmpty() ||
+	            orderJoin.getShopName().isEmpty() ||
+	            orderJoin.getName().isEmpty() ||
+	            orderJoin.getOffice().isEmpty()) {
+	        rttr.addFlashAttribute("msgTitle", "Error Message!");
+	        rttr.addFlashAttribute("msg", "입력창에 공백이 있습니다.");
+	        rttr.addFlashAttribute("mechanic", orderJoin.getMechanic_id());
+	        rttr.addFlashAttribute("shop", orderJoin.getShopName());
+	        rttr.addFlashAttribute("na", orderJoin.getName());
+	        rttr.addFlashAttribute("of", orderJoin.getOffice());
+	        return "redirect:/order2/orderJoin";
+	    } else { 
+	        try {
+	            orderFormRepository.join(orderJoin);
+	            orderFormRepository.update1(orderJoin);
+	            rttr.addFlashAttribute("msgTitle", "Success Message!");
+	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
+	            session.setAttribute("result", 1);
+	            return "redirect:/";
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            rttr.addFlashAttribute("msgTitle", "Error Message!");
+	            rttr.addFlashAttribute("msg", "정비사등록 중 오류가 발생했습니다.");
+	            return "redirect:/order2/orderJoin";
+	        }
+	    }
 	}
 
-	
-
-//	@Override
-//	public void join(OrderJoin orderJoin, RedirectAttributes rttr) {
-//		
-//	}
-
-	
-
-	
-
-
-	
+	@Override
+	public void update1(OrderJoin orderJoin) {
+		orderFormRepository.update1(orderJoin);
+	}
 }
+
+
+
+	
+
+	
+
+
+	

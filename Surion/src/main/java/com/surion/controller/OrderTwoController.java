@@ -3,6 +3,7 @@ package com.surion.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,8 +54,8 @@ public class OrderTwoController {
     
     //사진업로드
     @PostMapping("/upload")
-    public String upload(HttpServletRequest request, RedirectAttributes rttr) {
-    	return orderFormService.upload(request, rttr);
+    public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session) {
+    	return orderFormService.upload(request, rttr, session);
     }
     
     //게시물등록 오류
@@ -63,10 +64,6 @@ public class OrderTwoController {
     	return "/order2/orderFormProc";
     }
     
-    @RequestMapping("/orderList")
-    public String orderList() {
-        return "/order2/orderList";
-    }
     
     @RequestMapping("/transaction")
     public String transaction() {
@@ -84,10 +81,10 @@ public class OrderTwoController {
   	
   	//정비사 등록
   	@PostMapping("/join")
-  	public String join(OrderJoin orderJoin, RedirectAttributes rttr) {
-  		return orderFormService.join(orderJoin, rttr);
+  	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
+  		return orderFormService.join(orderJoin, rttr, session);
   	}
-
+  	
 
 
 }
