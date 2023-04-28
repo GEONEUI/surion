@@ -254,7 +254,17 @@
 							<li>견적 : </li>
 							<li>${money}</li>
 						</ul>
-						<button class="sBtn">제안하기</button>
+						<c:choose>
+							<c:when test="${member.id == m.member_id}">
+								<form action="${cpath}/mypage/boardUpdate" method="get">
+									<input type="hidden" value="${m.idx}" name="idx">
+									<button class="sBtn">게시글 수정/삭제</button>
+								</form>
+							</c:when>
+							<c:otherwise>
+								<button class="sBtn">제안하기</button>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
@@ -287,25 +297,26 @@
 	</form>
 </div>
 
+
 <script>	
 	
-	// 제안하기 버튼 클릭 시 modal 등장
-	const modal = document.querySelector('.modal');
-	const sBtn = document.querySelector('.sBtn');
+// 제안하기 버튼 클릭 시 modal 등장
+const modal = document.querySelector('.modal');
+const sBtn = document.querySelector('.sBtn');
+
+sBtn.addEventListener('click', () => {
+	modal.classList.add('show');
+	document.body.style.overflow = 'hidden';
+});
+
+// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
+const cancel_btn = document.querySelector('.cancel-btn');
+cancel_btn.addEventListener('click', () => {
+	modal.classList.remove('show');
+	document.body.style.overflow = 'auto';
+});
 	
-	sBtn.addEventListener('click', () => {
-		modal.classList.add('show');
-		document.body.style.overflow = 'hidden';
-	});
-	
-	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
-	const cancel_btn = document.querySelector('.cancel-btn');
-	cancel_btn.addEventListener('click', () => {
-		modal.classList.remove('show');
-		document.body.style.overflow = 'auto';
-	});
-		
-	
+
 	
 </script>
 

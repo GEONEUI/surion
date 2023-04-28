@@ -2,6 +2,7 @@ package com.surion.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
+
+import lombok.Delegate;
 
 @Mapper
 public interface RepairFormRepository{
@@ -45,5 +48,16 @@ public interface RepairFormRepository{
 	@Select("select count(*) from suri_repairForm where title LIKE CONCAT ('%',#{keyword},'%')")
 	public int searchCount(RepairListPaging pa);
 	
-	// 의뢰목록에서 Mechanic이 제안하기
+	//마이페이지용 검색
+	@Select("select * from suri_repairForm where member_id = #{member_id}")
+	public List<RepairForm> findByMemberId(@Param("member_id") String id);
+	
+	//마이페이지용 수정
+	@Update("update suri_repairForm set image = #{image}, title = #{title}, "
+			+ "content = #{content}, estimate=#{estimate} where idx = #{idx}")
+	public void updateRepair(RepairForm repairForm);
+	
+	//삭제
+	@Delete("delete from suri_repairForm where idx = #{idx}")
+	public void deleteRepair(RepairForm form);
 }

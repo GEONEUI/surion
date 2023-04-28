@@ -160,7 +160,7 @@
 
 	<!--채팅방 목록-->
 	<div class="card shadow-sm p-3 mb-5 bg-body rounded" id="chat1" style="border-radius: 15px; height:90%;">
-		<div class="container" style="overflow:auto;" id="target">
+		<div class="container" id="target">
 
 		</div>
 	</div>
@@ -180,6 +180,8 @@
 		$.ajax({
 			url:"/surion/chat/rooms",
          	type:"get",
+         	data:{
+         		"memberId" : "${member.id}"},
          	error:function(){
 				alert("채팅목록 불러오기 실패")
 			},

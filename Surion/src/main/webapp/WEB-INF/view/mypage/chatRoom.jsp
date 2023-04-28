@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <c:set var="cpath" value="${pageContext.request.contextPath}"/>
+
 
 <!DOCTYPE html>
 
@@ -94,25 +96,32 @@ pageEncoding="UTF-8"%>
                             <div class="d-flex">
                                 <div style="max-height: 600px;">
                                     <div class="card" id="chat1" style="border-radius: 15px; min-height: 550px;">
-
-                                        <div class="card-body" id="rarara" style="min-width: 528px">
-                                            <div style="overflow: auto; max-height: 373px;" class="msgArea"
+                                        <div class="card-body" id="rarara" style="min-width: 528px;max-width:529px">
+                                            <div style="overflow-y: auto; max-height: 373px;" class="msgArea"
                                                  id="chatMonitor">
                                                  <c:forEach var="list" items="${ message }">
                                                  	<c:choose>
                                                  		<c:when test="${list.member_id eq member.id}">
+                                                 			<c:set var="send_time" value="${list.send_time}"/>
                                                  			<input type=hidden id="memberId" value="${list.member_id}">
-                                                 			<div class="d-flex flex-row justify-content-end mb-3">
-													        	<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
-													        		<p class="small mb-0">${ list.message }</p>
+                                                 			<div class="justify-content-end d-flex flex-row mb-3">
+                                                 				<div class="row align-items-end">
+                                                 					<p class="col me-2 mb-0" style="font-size:small;">${fn:substring(send_time, 15, 21) }</p>
+                                                 				</div>
+                                                 	        	<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+													        		<p class="small mb-0 text-wrap">${ list.message }</p>
 													        	</div>
 													        </div>
                                                  		</c:when>
                                                  		<c:otherwise>
+                                                 		 	<c:set var="send_time" value="${list.send_time}"/>
                                                  			<div class="d-flex flex-row justify-content-start mb-3">
 												         	   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">
 												            	<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2)">
-												            		<p class="small mb-0">${ list.message }</p>
+												            		<p class="small mb-0 text-wrap">${ list.message }</p>
+												           	 	</div>
+												           	 	<div class="row align-items-end">
+												           	 		<p class="col mb-0" style="font-size:small;">${fn:substring(send_time, 15, 21) }</p>
 												           	 	</div>
 												            </div>
                                                  		</c:otherwise>
@@ -219,9 +228,16 @@ pageEncoding="UTF-8"%>
         room_id = localStorage.getItem('wschat.room_id');
         member_id = localStorage.getItem('wschat.member_id');
         findRoom();
-        console.log("------------" + room_id);
     });
 
+    function korTime(){
+    	const now = new Date(); // 현재 시간
+    	const utcNow = now.getTime() + (now.getTimezoneOffset() * 60 * 1000); // 현재 시간을 utc로 변환한 밀리세컨드값
+    	const koreaTimeDiff = 9 * 60 * 60 * 1000; // 한국 시간은 UTC보다 9시간 빠름(9시간의 밀리세컨드 표현)
+    	const koreaNow = new Date(utcNow + koreaTimeDiff); // utc로 변환된 값을 한국 시간으로 변환시키기 위해 9시간(밀리세컨드)를 더함
+		return koreaNow;
+    }
+    
     function findRoom() {
         $.ajax({
             url: '/surion/chat/room/' + room_id,
@@ -231,20 +247,19 @@ pageEncoding="UTF-8"%>
             },
             success: function (res) {
                 room = res.data;
-                console.log("room info---" + room);
+                console.log(res);
             }
         });
     }
 
     function sendMessage() {
         message = $('#messageVal').val();
-        let newDate = new Date();
         ws.send("/pub/chat/message", {}, JSON.stringify({
             type: 'TALK',
             room_id: room_id,
             member_id: member_id,
             message: message,
-            send_time: newDate
+            send_time: korTime()
         }));
        	insertMsg();
         message = '';
@@ -258,11 +273,11 @@ pageEncoding="UTF-8"%>
                  "message": message,
                  "room_id": room_id,
                  "member_id": member_id,
-                 "send_time": new Date
+                 "send_time": korTime()
              },
              success: console.log("insertMessageSuccess"),
              error: function () {
-                 alert('error')
+                 alert('insertMsg error')
              }
          });
     }
@@ -270,7 +285,7 @@ pageEncoding="UTF-8"%>
     function recvMessage(recv) {
         messages.unshift({
             "type": recv.type,
-            "romm_id": recv.type == 'ENTER' ? '[알림]' : recv.member_id,
+            "room_id": recv.type == 'ENTER' ? '[알림]' : recv.member_id,
             "message": recv.message,
             "send_time": recv.send_time
         })
@@ -285,15 +300,21 @@ pageEncoding="UTF-8"%>
 /* 		let id = document.getElementById('memberId').value;
  */        if (recv.member_id == '${member.id}') { 
            	addDiv += '<div class="d-flex flex-row justify-content-end mb-3">';
-            addDiv += ' <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">';
-            addDiv += ' <p class="small mb-0">' + recv.message + '</p>';
-            addDiv += '</div>'
-            addDiv += '</div>'
+           	addDiv += '<div class="row d-flex" style="align-items:flex-end">'
+           	addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
+            addDiv += '<div class="col p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">';
+            addDiv += '<p class="small mb-0 text-wrap">' + recv.message + '</p>';
+            addDiv += '</div>';
+            addDiv += '</div>';
+            addDiv += '</div>';
         } else {
            	addDiv += '<div class="d-flex flex-row justify-content-start mb-3">';
+        	addDiv += '<div class="row d-flex" style="align-items:flex-end">';
             addDiv += '<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">';
-            addDiv += '<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">';
-            addDiv += '<p class="small mb-0">' + recv.message + '</p>';
+            addDiv += '<div class="col p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">';
+            addDiv += '<p class="col small mb-0 text-wrap">' + recv.message + '</p>';
+            addDiv += '</div>';
+            addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
             addDiv += '</div>';
             addDiv += '</div>';
         }
@@ -322,15 +343,15 @@ pageEncoding="UTF-8"%>
     function connect() {
         // pub/sub event
         ws.connect({}, function (frame) {
-            ws.subscribe("/sub/chat/room/" + room_id, function (
-                message) {
+            ws.subscribe("/sub/chat/room/" + room_id, function (message) {
                 var recv = JSON.parse(message.body);
+                recv.send_time = new Date();
                 recvMessage(recv);
             });
             ws.send("/pub/chat/message", {}, JSON.stringify({
                 type: 'ENTER',
                 room_id: room_id,
-                member_id: member_id
+                member_id: member_id,
             }));
 
         }, function (error) {

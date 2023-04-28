@@ -1,4 +1,4 @@
-package com.surion.dto;
+package com.surion.domain.chat;
 
 
 import lombok.Getter;
