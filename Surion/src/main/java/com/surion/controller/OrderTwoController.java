@@ -38,19 +38,10 @@ public class OrderTwoController {
 		return "/order2/orderJoin";
 	}
 	
-	//정비사리스트
-    @GetMapping("/orderList")
-    public String orderList(Model model, OrderListPaging pa) {
-    	orderFormService.orderList(model, pa);
-        return "/order2/orderList";
-    }
-    
-    
-    //게시물등록폼
+    //프로필 등록
     @RequestMapping("/orderForm")
-    public String orderForm(Model model) {
-    	orderFormService.findByMechanic(null, model);
-        return "/order2/orderForm";
+    public String orderForm() {
+    	return "/order2/orderForm";
     }
     
     //사진업로드
@@ -59,11 +50,25 @@ public class OrderTwoController {
     	return orderFormService.upload(request, rttr, session);
     }
     
-    //게시물등록 오류
+    //프로필등록 오류
     @GetMapping("/orderFormProc")
     public String orderFormProc() {
     	return "/order2/orderFormProc";
     }
+    
+    //프로필리스트
+    @GetMapping("/orderList")
+    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request) {
+    	orderFormService.orderList(model, pa, request);
+        return "/order2/orderList";
+    }
+    
+    // RepairList 검색 
+   	@RequestMapping("/orderListSearch")
+   	public String repairListSearch(Model model, OrderListPaging pa, HttpServletRequest request) {
+   	orderFormService.search(model, pa, request);
+   	return "/order2/orderListSearch";
+   	}
     
     //거래내역
     @RequestMapping("/transaction")

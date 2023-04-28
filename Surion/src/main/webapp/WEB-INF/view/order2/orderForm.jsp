@@ -335,7 +335,6 @@
     </div>
   </div>
 </div>
-
 <!-- content -->
 <div class="sec_content">
   <div class="content">
@@ -343,7 +342,7 @@
       <div class="main1">
         <div class="mainForm">
           <div>
-            <div class="first">완료 시 평균 4개 의뢰 도착</div>
+            <div class="first">완료 시 평균 4개 의뢰 도착 </div>
             <div class="loading">
               <div class="bar"></div>
               <span class="barPercent">0%</span>
@@ -424,7 +423,7 @@
 						        <span></span>
 						        <div class="sub_div">상점명&nbsp;</div>
 						    </label>
-						    <input type="text" id="text-area-0" class="inputClass0" name="shopName"/>
+						    <input type="text" id="text-area-0" class="inputClass0" name="shopName" value="${mechanic.shopName}"/>
 						</li>
 						</div>
 						<div class= "div_height">
@@ -458,7 +457,7 @@
 						        <div class="sub_div">사업장 주소&nbsp;</div>
 						    </label>
 						    <div class="sub_div2">
-						        <input type="text" id="text-area-5" class="inputClass5" name="address" placeholder="시 / 구 입력해주세요."/>
+						        <input type="text" id="text-area-5" class="inputClass5" name="office" value="${mechanic.office}"/>
 						    </div>
 						</li>
 						</div>

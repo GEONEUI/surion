@@ -240,19 +240,12 @@
 	function gojoin(){
 		location.href='${cpath}/member/join';
 	}
-	function gomechanic() {
-		  const member = sessionStorage.getItem('member');
-		  if (member) {
-		    location.href = '${cpath}/order2/orderJoin';
-		  } else {
-			alert('로그인을 해주세요.')
-		    location.href = '${cpath}/member/login';
-		  }
+	function gomechanic() {		    
+		location.href = '${cpath}/order2/orderJoin';
 		}
 	function goBoard(){
 		location.href='${cpath}/order2/orderForm';
 	}
 </script>
-
 
 

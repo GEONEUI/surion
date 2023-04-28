@@ -251,7 +251,7 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				<c:when test="${!empty mechanic && empty mechanic}">
 					<button class="hbutton" onclick="addressCall()">프로필 등록</button>
 				</c:when>
-				<c:when test="${!empty mechanic}">
+				<c:when test="${!empty member.id}">
 					<button class="hbutton" onclick="location.href='${cpath}/order2/orderForm'">프로필 등록</button>
 				</c:when>
 				<c:when test="${empty mechanic}">
@@ -285,21 +285,21 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 			</ul>
 		<div class="under">
 			<c:if test="${paging.prev}">
-				<a href="${cpath}/order2/orderList?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
+				<a href="${cpath}/order2/orderListSearch?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
 			</c:if>
 			<ul class="underPage">
 				<c:forEach begin="${paging.startNum}" end="${paging.endNum}" var="i">
 					<c:if test="${paging.currentPage == i}">
-						<li class="bold"><a href="${cpath}/order2/orderList?pageNum=${i}">${i}</a></li>
+						<li class="bold"><a href="${cpath}/order2/orderListSearch?pageNum=${i}">${i}</a></li>
 					</c:if>
 					
 					<c:if test="${paging.currentPage != i}">
-						<li><a href="${cpath}/order2/orderList?pageNum=${i}">${i}</a></li>
+						<li><a href="${cpath}/order2/orderListSearch?pageNum=${i}">${i}</a></li>
 					</c:if>
 				</c:forEach>
 			</ul>
 			<c:if test="${paging.next}">
-				<a href="${cpath}/order2/orderList?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
+				<a href="${cpath}/order2/orderListSearch?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
 			</c:if>
 		</div>
 	</div>

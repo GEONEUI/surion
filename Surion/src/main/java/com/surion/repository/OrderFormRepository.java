@@ -11,12 +11,13 @@ import org.apache.ibatis.annotations.Update;
 
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
+import com.surion.entity.OrderListPaging;
 
 
 @Mapper
 public interface OrderFormRepository {
 	//정비사 게시물 폼 저장
-	@Insert("insert into suri_orderForm VALUES(#{id}, #{shopName}, #{intro}, #{img}, #{startTime}, #{endTime}, #{experience}, #{category}, #{office}, #{mechanic_id})")
+	@Insert("insert into suri_orderForm VALUES(NULL, #{id}, #{shopName}, #{intro}, #{img}, #{startTime}, #{endTime}, #{experience}, #{category}, #{office}, #{mechanic_id}, 0)")
 	public void save(OrderForm orderForm);
 	
 	@Update("update suri_orderForm set img = #{img} where id = #{id}")
@@ -25,6 +26,23 @@ public interface OrderFormRepository {
 	//정비사 게시물 리스트 
 	@Select("select * from suri_orderForm")
 	public List<OrderForm> findByAll();
+	
+	// OrderList 전체 숫자 카운팅
+	@Select("select count(*) from suri_orderForm")
+	public int findByCount();
+	
+	// 검색 전체 숫자 카운팅
+	@Select("select count(*) from suri_orderForm where shopName LIKE CONCAT ('%',#{keyword},'%')")
+	public int searchCount(OrderListPaging pa);
+	
+	// OrderList 검색
+	@Select("select * from suri_orderForm where shopName LIKE CONCAT ('%',#{keyword},'%') LIMIT #{startValue}, #{perPageNum}")
+	public List<OrderForm> search(OrderListPaging pa);
+	
+	// OrderList 조회수 증가
+	@Update("update suri_orderForm set readCount = readCount +1 where idx = #{idx}")
+	public void increaseCount(OrderForm orderForm);
+	
 	//사업자번호 중복검사
 	@Select("select count(*) from suri_orderJoin where mechanic_id = #{mechanic_id}")
 	public int check(OrderJoin orderJoin);
@@ -34,6 +52,8 @@ public interface OrderFormRepository {
 	
 	@Update("update suri_orderJoin JOIN suri_member sm ON suri_orderJoin.id = sm.id SET suri_orderJoin.email = sm.email, suri_orderJoin.phone = sm.phone, suri_orderJoin.grade = sm.grade")
 	public void update1(OrderJoin orderJoin);
+	
+	
 	
 
 }

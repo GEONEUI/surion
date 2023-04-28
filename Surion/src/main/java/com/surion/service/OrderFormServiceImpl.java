@@ -25,7 +25,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	@Autowired
 	OrderFormRepository orderFormRepository;
 	
-	
 	//게시물 등록폼 저장
 	@Override
 	public void save(OrderForm orderForm) {
@@ -33,7 +32,55 @@ public class OrderFormServiceImpl implements OrderFormService{
 	}
 	
 	@Override
-	public void orderList(Model model, OrderListPaging pa) {
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request) {
+		// 현재 보는 페이지를 설정하기 위한 초기값
+				String pageNum = request.getParameter("pageNum");
+				if(pageNum == null) {
+					pageNum = "1";
+				}
+				int page = Integer.parseInt(pageNum);
+//				System.out.println("page : " + page);
+				
+				int count = orderFormRepository.findByCount(); // 전체 게시글 count
+//				System.out.println("전체글--------> : " + count);
+				
+				pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT 앞부분 설정 (value, 12)
+//				System.out.println("StartValue : " + pa.getStartValue());
+//				-----------------------------------쿼리 실행 확인-------------------------------
+				
+				pa.setCurrentPage(page); // 초기 페이지를 1로 설정
+//				System.out.println("CurrentPage : " + pa.getCurrentPage());
+				
+				pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 마지막 페이지로 만듬
+//				System.out.println("Lastpage : " + pa.getLastPage());
+				
+				
+				// 뭘 보든 끝페이지 남기기 ex) 6 클릭해도 1~10, 13 클릭해도 11~20
+				// 6 / 10 = 0.6 (Math.ceil) = 1 * 10(DisPageNum) = 10 
+				pa.setEndNum((int) (Math.ceil(pa.getCurrentPage() / (double) pa.getDisPageNum()) * pa.getDisPageNum()));
+//				System.out.println("EndNum : " + pa.getEndNum());
+				
+				//  시작 페이지 번호를 1로 시작하게 만듬 ex) 1, 11, 21, 31
+				pa.setStartNum(pa.getEndNum() - pa.getDisPageNum() + 1);
+//				System.out.println("StartNum : "+ pa.getStartNum());
+				
+				// 마지막 페이지가 ex)46번 이런식이면 endNum을 재셋팅해줌.
+				// EndNum은 77번 라인의 주석 때문에 항상 10의 자리이기 때문
+				if(pa.getLastPage() < pa.getEndNum()) {
+					pa.setEndNum(pa.getLastPage());
+				}
+				
+				// 이전 버튼 : 게시글 1이 아닐 때 무조건 나타나게 함.
+				if(pa.getStartNum() != 1) {
+					pa.setPrev(true);
+				}
+				
+				// 다음 버튼 : 현재의 마지막 번호가 전체 마지막 숫자보다 작을 때 
+				if(pa.getEndNum() < pa.getLastPage()) {
+					pa.setNext(true);
+				}
+		
+		model.addAttribute("paging", pa);
 		List<OrderForm> lst = orderFormRepository.findByAll();
 		model.addAttribute("list", lst);
 	}
@@ -51,7 +98,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 		
 		MultipartRequest multi = null;
 		Member member = (Member) session.getAttribute("member");
-		
 		String Save = request.getRealPath("/resources/images/order");
 		int MaxSize = 1024 * 1024 * 5;
 		
@@ -71,14 +117,14 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    String startTime = multi.getParameter("startTime");
 	    String endTime = multi.getParameter("endTime");
 	    String category = multi.getParameter("category");
-	    String address = multi.getParameter("address");
+	    String office = multi.getParameter("office");
 	    String imgname = null;
 
 	    
 	    if (member == null) { // 로그인하지 않은 경우
 	        return "redirect:${cpath}/common/login";
 	    }
-	    
+	   
 		
 		//정상적으로 업로드가 되면
 		if(newFile != null) {
@@ -117,7 +163,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setCategory(category);
 	    orderForm.setExperience(experience);
 	    orderForm.setImg(imgname);
-	    orderForm.setAddress(address);
+	    orderForm.setOffice(office);
 
 		
 		System.out.println(member.getId());
@@ -170,6 +216,42 @@ public class OrderFormServiceImpl implements OrderFormService{
 	@Override
 	public void update1(OrderJoin orderJoin) {
 		orderFormRepository.update1(orderJoin);
+	}
+
+	@Override
+	public void readCount(OrderForm m) {
+		orderFormRepository.increaseCount(m);
+		
+	}
+
+	@Override
+	public void search(Model model, OrderListPaging pa ,HttpServletRequest request) {
+		// 현재 보는 페이지를 설정하기 위한 초기값
+				String pageNum = request.getParameter("pageNum");
+				if(pageNum == null) {
+					pageNum = "1";
+				}
+				int page = Integer.parseInt(pageNum);
+				int count = orderFormRepository.searchCount(pa); // 전체 게시글 count
+				pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT 앞부분 설정 (value, 12)
+//				-----------------------------------쿼리 실행 확인-------------------------------
+				pa.setCurrentPage(page); // 초기 페이지를 1로 설정
+				pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 마지막 페이지로 만듬
+				pa.setEndNum((int) (Math.ceil(pa.getCurrentPage() / (double) pa.getDisPageNum()) * pa.getDisPageNum()));
+				pa.setStartNum(pa.getEndNum() - pa.getDisPageNum() + 1);
+				if(pa.getLastPage() < pa.getEndNum()) {
+					pa.setEndNum(pa.getLastPage());
+				}
+				if(pa.getStartNum() != 1) {
+					pa.setPrev(true);
+				}
+				if(pa.getEndNum() < pa.getLastPage()) {
+					pa.setNext(true);
+				}
+				
+		model.addAttribute("paging", pa);
+		List<OrderForm> lst = orderFormRepository.search(pa);
+		model.addAttribute("list", lst);
 	}
 	
 }
