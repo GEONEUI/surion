@@ -22,7 +22,7 @@ public interface RepairFormRepository{
 	public void save(RepairForm m);
 
 	// RepairList 페이징하여 뿌리기
-	@Select("select * from suri_repairForm LIMIT #{startValue}, #{perPageNum}")
+	@Select("select * from suri_repairForm order by idx desc LIMIT #{startValue}, #{perPageNum}")
 	public List<RepairForm> findByAll(RepairListPaging pa);
 	
 	// RepairList 전체 숫자 카운팅
@@ -44,4 +44,6 @@ public interface RepairFormRepository{
 	// 검색 전체 숫자 카운팅
 	@Select("select count(*) from suri_repairForm where title LIKE CONCAT ('%',#{keyword},'%')")
 	public int searchCount(RepairListPaging pa);
+	
+	// 의뢰목록에서 Mechanic이 제안하기
 }
