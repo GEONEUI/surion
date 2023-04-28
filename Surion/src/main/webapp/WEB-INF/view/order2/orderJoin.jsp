@@ -65,8 +65,8 @@
 			</div>
 			<div class="uline">
 				<label>사업장 주소</label>
-				<input type="text" placeholder="주소를 입력해주세요." name="address" id="address" onclick= "adrs();" value="${ad}">
-				<span id="addressWarning" style="color:red"></span>
+				<input type="text" placeholder="주소를 입력해주세요." name="office" id="office" onclick= "off();" value="${of}">
+				<span id="officeWarning" style="color:red"></span>
 			</div>
 			<div class="uline">
 				<label>대표 이름</label>
@@ -128,19 +128,19 @@
 	
 	var mechanic_idWarning = $('#mechanic_idWarning');
 	var shopNameWarning = $('#shopNameWarning');
-	var addressWarning = $('#addressWarning');
+	var officeWarning = $('#officeWarning');
 	var nameWarning = $('#nameWarning');
 	var frm = $('#frm');
 	var mechanic_idflag = true;
 	var shopNameflag = false;
 	var nameflag = false;
-	var addressflag = false;
+	var officeflag = false;
 	var dataResult;
 	var confirm = false;
 	
 	var mechanic_idValue;
 	var shopNameValue;
-	var addressValue;
+	var officeValue;
 	var nameValue;
 	var lastIdValue;
 	var user_id;
@@ -154,8 +154,8 @@
 	    nameflag = true;
 	}
 
-	function adrs() {
-	    addressflag = true;
+	function off() {
+		officeflag = true;
 	}
 
 	makeResult();
@@ -178,7 +178,7 @@
 
 	        var shopNameValue = $('#shopName').val();
 	        var mechanic_idValue = $('#mechanic_id').val();
-	        var addressValue = $('#address').val();
+	        var officeValue = $('#office').val();
 	        var nameValue = $('#name').val();
 
 	        // 유효성 기본상태
@@ -209,14 +209,14 @@
 					}
 			}
 	        
-	        if (addressflag) {
-	            if (addressValue != '') {
-	            	addressWarning.html('');
+	        if (officeflag) {
+	            if (officeValue != '') {
+	            	officeWarning.html('');
 	            }
 
-	            if (addressValue == '') {
-	            	addressWarning.html('사업장 주소에 빈 값을 입력 하실 수 없습니다.');
-	            	addressWarning.css('color', 'red');
+	            if (officeValue == '') {
+	            	officeWarning.html('사업장 주소에 빈 값을 입력 하실 수 없습니다.');
+	            	officeWarning.css('color', 'red');
 					}
 			}
 	        if (nameflag) {

@@ -3,6 +3,7 @@ package com.surion.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,37 +38,39 @@ public class OrderTwoController {
 		return "/order2/orderJoin";
 	}
 	
-	//정비사리스트
-    @GetMapping("/orderList")
-    public String orderList(Model model, OrderListPaging pa) {
-    	orderFormService.orderList(model, pa);
-        return "/order2/orderList";
-    }
-    
-    
-    //게시물등록폼
+    //프로필 등록
     @RequestMapping("/orderForm")
     public String orderForm() {
-        return "/order2/orderForm";
+    	return "/order2/orderForm";
     }
     
     //사진업로드
     @PostMapping("/upload")
-    public String upload(HttpServletRequest request, RedirectAttributes rttr) {
-    	return orderFormService.upload(request, rttr);
+    public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session) {
+    	return orderFormService.upload(request, rttr, session);
     }
     
-    //게시물등록 오류
+    //프로필등록 오류
     @GetMapping("/orderFormProc")
     public String orderFormProc() {
     	return "/order2/orderFormProc";
     }
     
-    @RequestMapping("/orderList")
-    public String orderList() {
+    //프로필리스트
+    @GetMapping("/orderList")
+    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request) {
+    	orderFormService.orderList(model, pa, request);
         return "/order2/orderList";
     }
     
+    // RepairList 검색 
+   	@RequestMapping("/orderListSearch")
+   	public String repairListSearch(Model model, OrderListPaging pa, HttpServletRequest request) {
+   	orderFormService.search(model, pa, request);
+   	return "/order2/orderListSearch";
+   	}
+    
+    //거래내역
     @RequestMapping("/transaction")
     public String transaction() {
         return "/order2/transaction";
@@ -84,10 +87,10 @@ public class OrderTwoController {
   	
   	//정비사 등록
   	@PostMapping("/join")
-  	public String join(OrderJoin orderJoin, RedirectAttributes rttr) {
-  		return orderFormService.join(orderJoin, rttr);
+  	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
+  		return orderFormService.join(orderJoin, rttr, session);
   	}
-
+  	
 
 
 }

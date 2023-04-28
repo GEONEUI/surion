@@ -1,7 +1,5 @@
 package com.surion.entity;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderForm {
-	private String member_id;
+	private String id;
 
     private String shopName;
 
@@ -26,7 +24,11 @@ public class OrderForm {
     
     private String category;
 	
-    private String address;
+    private String office;
     
     private String mechanic_id;
+    
+    private int readCount;
+    
+    private int idx;
 }

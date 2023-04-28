@@ -176,7 +176,7 @@
  
 	//방찾기
     function findAllRoom() {
-		var viewHtml = null;
+		var viewHtml = '';
 		$.ajax({
 			url:"/surion/chat/rooms",
          	type:"get",

@@ -27,7 +27,11 @@ public class OrderOneController {
     public String mapTest(){
         return "/map/map";
     }
-
+    
+    @RequestMapping("/detail")
+    public String detail() {
+    	return "/order1/productdetail";
+    }
 
 
 }

@@ -12,7 +12,7 @@ public class Member {
 	private String grade;
 	private String imgurl;
 	private String name;
-	private String shoName;
+	private String shopName;
 	private String office;
 }
 

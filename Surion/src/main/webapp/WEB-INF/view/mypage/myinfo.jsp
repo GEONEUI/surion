@@ -114,7 +114,7 @@
 	}
 
 </style>
-<div id="map" style="width:300px;height:300px;margin-top:10px;display:none;"></div>
+<div id="map" style="width:300px;height:300px;margin-top:10px; display:none;"></div>
 <p class="sub_title">나의정보</p>
 				<div class="item d-flex">
 					<div class="item_left">
@@ -232,7 +232,13 @@
         position: new daum.maps.LatLng(37.537187, 127.005476),
         map: map
     });
+    
 
+
+    
+  
+    
+   
 
     function sample5_execDaumPostcode() {
         new daum.Postcode({
@@ -252,7 +258,7 @@
                         // 해당 주소에 대한 좌표를 받아서
                         var coords = new daum.maps.LatLng(result.y, result.x);
                         // 지도를 보여준다.
-                        mapContainer.style.display = "none";
+                        mapContainer.style.display = "block";
                         map.relayout();
                         // 지도 중심을 변경한다.
                         map.setCenter(coords);
