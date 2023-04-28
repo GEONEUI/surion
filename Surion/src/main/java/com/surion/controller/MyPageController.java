@@ -37,9 +37,6 @@ import lombok.extern.log4j.Log4j2;
 @Controller
 @RequestMapping("/mypage/*")
 public class MyPageController {
-
-	@Autowired
-	MemberService memberService;
 	
 	@Autowired
 	RepairFormRepository repairFormRepository;
@@ -49,19 +46,7 @@ public class MyPageController {
 	
 	@GetMapping("/myinfo")
 	public String myinfo(Model model, HttpServletRequest request, HttpSession session) {
-		List<RepairForm> list = new ArrayList<>();
-		String pagev = request.getParameter("pageview");
-		if(pagev == null) 
-			pagev = "1";
-		Member m = (Member)session.getAttribute("member");
-		if(pagev.equals("2")) {
-			list = repairFormRepository.findByMemberId(m.getId());
-		}
-		int pageview = Integer.parseInt(pagev);
-		model.addAttribute("myBorList", list);
-		model.addAttribute("pageview", pageview);
-		model.addAttribute("member", m);	
-		return "/mypage/mypage";
+		return mypageService.myinfo(model, request, session);
 
 	}
 	
@@ -78,8 +63,7 @@ public class MyPageController {
 	
 	@PostMapping("/boardDelete")
 	public String boardDelete(RepairForm form) {
-		repairFormRepository.deleteRepair(form);
-		return "redirect:/mypage/myinfo?pageview=2";
+		return mypageService.boardDelete(form);
 	}
 
 

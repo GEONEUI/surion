@@ -180,6 +180,8 @@
 		$.ajax({
 			url:"/surion/chat/rooms",
          	type:"get",
+         	data:{
+         		"memberId" : "${member.id}"},
          	error:function(){
 				alert("채팅목록 불러오기 실패")
 			},

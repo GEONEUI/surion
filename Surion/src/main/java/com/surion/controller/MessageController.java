@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
 import com.surion.repository.ChatRoomRepository;
+import com.surion.service.MessageService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -30,26 +31,20 @@ import java.util.UUID;
 @Controller
 public class MessageController{
 	
-	private ChatRoomRepository chatRoomRepository;
-	private final SimpMessagingTemplate template; // 특정 broker로 메세지 전달
+	private final MessageService messageService;
 	
-	@Autowired
-	public MessageController(ChatRoomRepository chatRoomRepository, SimpMessagingTemplate template) {
-		this.chatRoomRepository = chatRoomRepository;
-		this.template = template;
+	public MessageController(MessageService messageService) {
+		this.messageService = messageService;
 	}
 	
 	@MessageMapping("/chat/message")
 	public void message(Message message) {
-		if(Message.MessageType.ENTER.equals(message.getType()))
-			message.setMessage(message.getMember_id() + "님이 입장");
-		template.convertAndSend("/sub/chat/room/" + message.getRoom_id(), message);
+		messageService.message(message);
 	}
     
     @PostMapping("/insertChat")
 	public @ResponseBody int insertMessage(Message message) {
-		chatRoomRepository.insertMessage(message);
-		return message.getId();
+    	return messageService.insertMessage(message);
 	}     
 
 

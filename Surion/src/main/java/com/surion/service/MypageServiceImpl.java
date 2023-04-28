@@ -1,6 +1,8 @@
 package com.surion.service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,8 +31,19 @@ public class MypageServiceImpl implements MypageService{
 
 	@Override
 	public String myinfo(Model model, HttpServletRequest request, HttpSession session) {
-		// TODO Auto-generated method stub
-		return null;
+		List<RepairForm> list = new ArrayList<>();
+		String pagev = request.getParameter("pageview");
+		if(pagev == null) 
+			pagev = "1";
+		Member m = (Member)session.getAttribute("member");
+		if(pagev.equals("2")) {
+			list = repairFormRepository.findByMemberId(m.getId());
+		}
+		int pageview = Integer.parseInt(pagev);
+		model.addAttribute("myBorList", list);
+		model.addAttribute("pageview", pageview);
+		model.addAttribute("member", m);	
+		return "/mypage/mypage";
 	}
 
 	@Override
@@ -101,6 +114,12 @@ public class MypageServiceImpl implements MypageService{
 		
 		rttr.addFlashAttribute("updateMsg", "업데이트가 완료 되었습니다.");
 
+		return "redirect:/mypage/myinfo?pageview=2";
+	}
+
+	@Override
+	public String boardDelete(RepairForm form) {
+		repairFormRepository.deleteRepair(form);
 		return "redirect:/mypage/myinfo?pageview=2";
 	}
 
