@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Repository;
 
-import com.surion.dto.ChatRoom;
+import com.surion.domain.chat.ChatRoom;
 
 @Repository
 public class RealChatRepository {

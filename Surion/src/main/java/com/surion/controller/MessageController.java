@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.surion.dto.Message;
+import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
 import com.surion.repository.ChatRoomRepository;
 

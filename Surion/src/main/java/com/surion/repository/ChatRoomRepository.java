@@ -10,8 +10,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.surion.dto.ChatRoom;
-import com.surion.dto.Message;
+import com.surion.domain.chat.ChatRoom;
+import com.surion.domain.chat.Message;
 
 @Mapper
 public interface ChatRoomRepository {

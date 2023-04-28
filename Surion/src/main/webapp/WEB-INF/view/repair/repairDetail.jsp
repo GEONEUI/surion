@@ -24,7 +24,7 @@
 	.mainHere {
 		width: 100%;
 		height: 25rem;
-		background:url("${cpath}/resources/images/${fn:substring(m.image, 12, 99)}") center center / contain no-repeat;
+		background:url("${cpath}/resources/repairImages/${fn:substring(m.image, 12, 99)}") center center / contain no-repeat;
 		filter: drop-shadow(2px 4px 6px black);
 	}
 	
@@ -159,7 +159,17 @@
 							<li>견적 : </li>
 							<li>${money}</li>
 						</ul>
-						<button class="sBtn">제안하기</button>
+						<c:choose>
+							<c:when test="${member.id == m.member_id}">
+								<form action="${cpath}/mypage/boardUpdate" method="get">
+									<input type="hidden" value="${m.idx}" name="idx">
+									<button class="sBtn">게시글 수정/삭제</button>
+								</form>
+							</c:when>
+							<c:otherwise>
+								<button class="sBtn">제안하기</button>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>
@@ -170,7 +180,7 @@
 
 <script>
 
-	
+
 	
 </script>
 

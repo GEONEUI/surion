@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.surion.dto.ChatRoom;
-import com.surion.dto.Message;
+import com.surion.domain.chat.ChatRoom;
+import com.surion.domain.chat.Message;
 import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.RealChatRepository;
 
