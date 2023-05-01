@@ -10,7 +10,7 @@ import com.surion.entity.Member;
 
 public interface MemberService {
 	public String join(Member m, RedirectAttributes rttr);
-	public String findOne(Member m, HttpSession session, RedirectAttributes rttr);
+	public String login(Member m, HttpSession session, RedirectAttributes rttr);
 	public void logout(Member m, HttpSession session, RedirectAttributes rttr);
 	public int check(Member m);
 	public String updateProfile(HttpServletRequest requeset, HttpSession session, RedirectAttributes rttr);

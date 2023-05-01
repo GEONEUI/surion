@@ -10,8 +10,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
-import com.surion.dto.ChatRoom;
-import com.surion.dto.Message;
+import com.surion.domain.chat.ChatRoom;
+import com.surion.domain.chat.Message;
 
 @Mapper
 public interface ChatRoomRepository {
@@ -20,7 +20,7 @@ public interface ChatRoomRepository {
 	public void insertMessage(Message message);
 	
 	@Insert("insert into suri_chatroom(room_id, member_id) values(#{room_id}, #{member_id})")
-	public void saveChatRoom(@Param("room_id")String roomId, @Param("member_id")String memberId);
+	public int createChatRoom(ChatRoom chatRoom);
 	
 	@Select("select * from suri_chatroom where member_id=#{member_id}")
 	public List<ChatRoom> findAllRooms(@Param("member_id") String memberId);

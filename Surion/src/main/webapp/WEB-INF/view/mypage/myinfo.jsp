@@ -12,7 +12,13 @@
 				frm.find('input').attr('readonly', false);
 				frm.find('#email').html('<small>* 변경하실 이메일을 입력해주세요.</small>');
 				frm.find('#pass').html('<small>* 변경하실 비밀번호를 입력해주세요.</small>');
-				frm.find('#favor').html('<small>* 수리관심사를 선택해주세요.</small>');
+				frm.find('#address').html(''
+						+'<div class="addressLine">'
+						+'<input class="left" type="text" id="sample5_address" placeholder="주소" name="address" value="${member.address}">'
+						+'<input class="right" type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">'
+						+'</div>'
+						+'<small>* 변경하실 주소를 선택해주세요.</small>'
+				);
 				frm.find('#name').html('<small>* 변경하실 이름을 입력해주세요.</small>');
 				frm.find('#phone').html('<small>* 변경된 휴대폰 번호를 입력해주세요.</small>');
 				$('#target').html('<button data-oper="update" class="btn btn-sm" style="background:#00c7ae; color:#fff;">변경완료</button>');
@@ -24,6 +30,29 @@
 
 <style>
 
+
+	.addressLine{
+		display:flex;
+	}
+	
+	.addressLine > input{
+		border:1px solid #ccc;
+	}
+	
+	.addressLine .left{
+		width:80%;
+	}
+	
+	.addressLine .right{
+		width:20%;
+		background: #00c7ae;
+  	 	color: #fff;
+  	 	padding-left:0;
+	}
+	
+	
+	
+	
 
 	#my_page_right img{
 		margin-bottom: 20px;
@@ -85,6 +114,7 @@
 	}
 
 </style>
+<div id="map" style="width:300px;height:300px;margin-top:10px; display:none;"></div>
 <p class="sub_title">나의정보</p>
 				<div class="item d-flex">
 					<div class="item_left">
@@ -121,10 +151,10 @@
 								<input type="password" value="${member.password}" name="password" readonly="readonly">
 								<span id="pass"></span>
 							</div>
-							<div class="formgroup">
+							<div class="formgroup" id="address">
 								<p>주소</p>
 								<input type="text" name="address" value="${member.address}" readonly="readonly">
-								<span id="favor"></span>
+								<span id="addess"></span>
 							</div>
 							<div class="formgroup">
 								<p>휴대폰번호</p>
@@ -166,9 +196,7 @@
 	
 
 
-		
 		function preImg(input){
-			
 			
 			if(input.files && input.files[0]){
 				var reader = new FileReader();
@@ -185,8 +213,62 @@
 		}
 		
 
-	
-		
 	</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=555d7f6279f62f81ef88a8b268b9cfc0&libraries=services"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+
+    //지도를 미리 생성
+    var map = new daum.maps.Map(mapContainer, mapOption);
+    //주소-좌표 변환 객체를 생성
+    var geocoder = new daum.maps.services.Geocoder();
+    //마커를 미리 생성
+    var marker = new daum.maps.Marker({
+        position: new daum.maps.LatLng(37.537187, 127.005476),
+        map: map
+    });
+    
+
+
+    
+  
+    
+   
+
+    function sample5_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+            	var addr = data.address; // 최종 주소 변수 // 최종 주소 변수
+                // 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("sample5_address").value = addr;
+                console.log(addr);
+                // 주소로 상세 정보를 검색
+                geocoder.addressSearch(data.address, function(results, status) {
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === daum.maps.services.Status.OK) {
+                    	
+
+                        var result = results[0]; //첫번째 결과의 값을 활용
+
+                        // 해당 주소에 대한 좌표를 받아서
+                        var coords = new daum.maps.LatLng(result.y, result.x);
+                        // 지도를 보여준다.
+                        mapContainer.style.display = "block";
+                        map.relayout();
+                        // 지도 중심을 변경한다.
+                        map.setCenter(coords);
+                        // 마커를 결과값으로 받은 위치로 옮긴다.
+                        marker.setPosition(coords)
+                    }
+                });
+            }
+        }).open();
+    }
+</script>
 				
 				

@@ -155,6 +155,82 @@ input:focus {
 	color: #ccc;
 	padding-left: 1rem;
 }
+.under {
+	    display: flex;
+   		justify-content: center;
+   		margin-top: 3rem;
+   		align-items: center;
+	}
+	.underPage {
+		display: flex;
+	}
+	
+	.underPage li a {
+		padding: 0 2rem 0 2rem;
+		font-size: 14px;
+	}
+	.custom-btn {
+	  width: 45px;
+	  height: 40px;
+	  padding: 7px 6px;
+	  font-family: 'Lato', sans-serif;
+	  background: #fff;
+	  cursor: pointer;
+	  transition: all 0.3s ease;
+	  position: relative;
+	  display: inline-block;
+	  border-radius: 15px;
+	  font-weight: bold;
+	}
+	
+	.btn-11 {
+	  overflow: hidden;
+	  transition: all 0.3s ease;
+	}
+	.btn-11:hover {
+	  background: #00c7ae;
+	  color: #fff;
+	}
+	.btn-11:before {
+	    position: absolute;
+	    content: '';
+	    display: inline-block;
+	    top: -180px;
+	    left: 0;
+	    width: 30px;
+	    height: 100%;
+	    background-color: #fff;
+	    animation: shiny-btn1 3s ease-in-out infinite;
+	}
+	.btn-11:active{
+	  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
+	              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
+	    inset -4px -4px 6px 0 rgba(255,255,255,.2),
+	    inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+	}
+	
+	.bold a {
+		color: #00c7ae;
+	}
+	
+	.view {
+	    font-size: 1rem;
+   	 	color: rgb(154, 155, 167);
+   	 	align-items: center;
+	}
+	.custom-btn {
+	  width: 45px;
+	  height: 40px;
+	  padding: 7px 6px;
+	  font-family: 'Lato', sans-serif;
+	  background: #fff;
+	  cursor: pointer;
+	  transition: all 0.3s ease;
+	  position: relative;
+	  display: inline-block;
+	  border-radius: 15px;
+	  font-weight: bold;
+	}
 
 body > div.sec_content > div > ul > a > div.askListA > img{
 	height:100%;
@@ -165,17 +241,26 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 	
 	<div class="sec_content">
 		<div class="suriSize st">
-			<div class="headLine">
-				<p>지금 가장 뜨거운 픽! &#128293;</p>
-				<div class="askSearch">
-					<i class="fa-solid fa-magnifying-glass"></i> <input type="text"
-						class="ser" oninput="delBtn()" placeholder="주변 정비사 누가있지?" /> <i
-						class="fa-regular fa-circle-xmark inputBtn"></i>
-				</div>
-				<button class="hbutton">검색</button>
-			</div>
-			<ul class="askList">
+		<div class="headLine">
+		<p>최신 프로필 목록 리스트! &#128204;</p>
+		<form action="orderListSearch" method="get" class="askSearch">
+			<i class="fa-solid fa-magnifying-glass"></i>
+				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
+		</form>
+			<c:choose>
+				<c:when test="${!empty mechanic && empty mechanic}">
+					<button class="hbutton" onclick="addressCall()">프로필 등록</button>
+				</c:when>
+				<c:when test="${!empty mechanic}">
+					<button class="hbutton" onclick="location.href='${cpath}/order2/orderForm'">프로필 등록</button>
+				</c:when>
+				<c:when test="${empty mechanic}">
+					<button class="hbutton" onclick="alert('정비사 등록이 필요합니다.')">프로필 등록</button>
+				</c:when>
+			</c:choose>
+		</div>
 			
+			<ul class="askList">
 			 <c:forEach items="${list}" var="order">
 				<a href="/surion/order1/detail">
 					<div class="askListA">
@@ -189,7 +274,7 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 						</c:if>
 						<li>${intro} ...</li>
 						<div class="price">
-							<li>${order.address}</li>
+							<li>${order.office}</li>
 						</div>
 						<div class="star">
 							<li>★ 0.0 | 00개의 평가</li>
@@ -198,13 +283,33 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				</a>
 				</c:forEach>
 			</ul>
+		<div class="under">
+			<c:if test="${paging.prev}">
+				<a href="${cpath}/order2/orderList?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
+			</c:if>
+			<ul class="underPage">
+				<c:forEach begin="${paging.startNum}" end="${paging.endNum}" var="i">
+					<c:if test="${paging.currentPage == i}">
+						<li class="bold"><a href="${cpath}/order2/orderList?pageNum=${i}">${i}</a></li>
+					</c:if>
+					
+					<c:if test="${paging.currentPage != i}">
+						<li><a href="${cpath}/order2/orderList?pageNum=${i}">${i}</a></li>
+					</c:if>
+				</c:forEach>
+			</ul>
+			<c:if test="${paging.next}">
+				<a href="${cpath}/order2/orderList?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
+			</c:if>
 		</div>
 	</div>
+</div>
 	<script>
-		const inputBtn = document.querySelector('.inputBtn');
-		function delBtn() {
-			inputBtn.classList.add('active');
-		};
+	function addressCall(){
+		alert('정비사 등록을 해야 프로필 등록이 가능합니다.');
+		location.href="${cpath}/order2/orderJoin";
+	}
+
 	</script>
 
 	<%@ include file="../common/footer.jsp"%>

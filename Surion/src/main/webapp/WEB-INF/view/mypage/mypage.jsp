@@ -32,7 +32,7 @@
 				<jsp:include page="./myinfo.jsp"/>
 			</c:if>
 			 <c:if test="${pageview == 2}">
-				<jsp:include page="./chatRoom.jsp"/>
+				<jsp:include page="./myBoard.jsp"/>
 			</c:if>
 			 <c:if test="${pageview == 3}">
 				<jsp:include page="./chatList.jsp"/>
@@ -44,6 +44,11 @@
         </div> <!-- //row -->
     </div> <!-- //container -->
 </div><!-- //suriSize -->
+
+
+
+
+
 </body>
 
 <%@ include file="../common/footer.jsp" %>

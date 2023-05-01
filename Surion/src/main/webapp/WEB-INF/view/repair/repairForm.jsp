@@ -311,7 +311,6 @@ input[type="checkbox"]:checked+label span::after {
 								<span class="barPercent">0%</span>
 							</div>
 						</div>
-						
 						<div class="below">
 							<div class="service">어떤 서비스를 받기 원하시나요?</div>
 							<ul class="select">
