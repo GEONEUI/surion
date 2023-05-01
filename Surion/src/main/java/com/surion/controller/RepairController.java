@@ -16,6 +16,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
+import com.surion.entity.RepairOffer;
 import com.surion.service.RepairFormService;
 
 @Controller
@@ -27,7 +28,7 @@ public class RepairController {
 	
 	// 의뢰 목록
 	@RequestMapping("/repairList")
-	public String repairList(Model model, RepairListPaging pa,HttpServletRequest request) {
+	public String repairList(Model model, RepairListPaging pa, HttpServletRequest request) {
 		repairFormService.repairList(model, pa, request);
 		return "/repair/repairList";
 	}
@@ -65,6 +66,13 @@ public class RepairController {
 	public String upload(HttpServletRequest request) {
 		repairFormService.upload(request);
 		return "redirect:/";
+	}
+	
+	// Mechanic이 의뢰목록에서 견적 제안
+	@RequestMapping("/offer")
+	public String offer(RepairOffer offer) {
+		repairFormService.offer(offer);
+		return "redirect:/repair/repairList";
 	}
 	
 	

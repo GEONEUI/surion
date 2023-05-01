@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
+import com.surion.entity.RepairOffer;
 
 public interface RepairFormService {
 	// 견적 요청 저장
@@ -29,4 +30,7 @@ public interface RepairFormService {
 	
 	// repairList 검색
 	public void search(Model model, RepairListPaging pa, HttpServletRequest reuqest);
+	
+	// Mechanic의 의뢰 제안
+	public void offer(RepairOffer offer);
 }

@@ -16,6 +16,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
+import com.surion.entity.RepairOffer;
 import com.surion.repository.RepairFormRepository;
 
 @Service
@@ -150,8 +151,11 @@ public class RepairFormServiceImpl implements RepairFormService{
 		List<RepairForm> lst = repairFormRepository.search(pa);
 		model.addAttribute("list", lst);
 	}
-	
 
+	@Override
+	public void offer(RepairOffer offer) {
+		repairFormRepository.offer(offer);
+	}
 
 	
 	
