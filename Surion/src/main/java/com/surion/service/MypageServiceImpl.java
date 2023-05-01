@@ -70,8 +70,12 @@ public class MypageServiceImpl implements MypageService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+		
 		File newFile =  multi.getFile("image");
+		System.out.println("111"+newFile);
+		if(newFile == null)
+			newFile = multi.getFile("prevImage");
+		System.out.println("222" +newFile);
 		int idx = Integer.parseInt(multi.getParameter("idx"));
 		String title = multi.getParameter("title");
 		String date = multi.getParameter("date");

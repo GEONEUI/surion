@@ -39,16 +39,16 @@ pageEncoding="UTF-8"%>
     
    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
        .rate { display: inline-block;border: 0;margin-right: 85px;}
-.rate > input {display: none;}
-.rate > label {float: right;color: #ddd}
-.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005";}
-.rate .half:before {content: "\f089"; position: absolute;padding-right: 0;}
-.rate input:checked ~ label, 
-.rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
-.rate input:checked + .rate label:hover,
-.rate input input:checked ~ label:hover,
-.rate input:checked ~ .rate label:hover ~ label,  
-.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  }
+	.rate > input {display: none;}
+	.rate > label {float: right;color: #ddd}
+	.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005";}
+	.rate .half:before {content: "\f089"; position: absolute;padding-right: 0;}
+	.rate input:checked ~ label, 
+	.rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
+	.rate input:checked + .rate label:hover,
+	.rate input input:checked ~ label:hover,
+	.rate input:checked ~ .rate label:hover ~ label,  
+	.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  }
 
     #rarara {
         position: relative;
@@ -58,6 +58,25 @@ pageEncoding="UTF-8"%>
         position: absolute;
         bottom: 0;
     }
+    
+    .hr-sect {
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.35);
+        font-size: 12px;
+        margin: 8px 0px;
+      }
+      .hr-sect::before,
+      .hr-sect::after {
+        content: "";
+        flex-grow: 1;
+        background: rgba(0, 0, 0, 0.35);
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: 0px 16px;
+      }
 
 </style>
 
@@ -78,9 +97,14 @@ pageEncoding="UTF-8"%>
                                         <div class="card-body" id="rarara" style="min-width: 528px;max-width:529px">
                                             <div style="overflow-y: auto; max-height: 373px;" class="msgArea"
                                                  id="chatMonitor">
-                                                 <c:forEach var="list" items="${ message }">                                                 
+                                                 <c:set var="versus" value="0"/>
+                                                 <c:forEach var="list" items="${ message }">   
+                                                 	<c:if test="${fn:substring(versus, 0, 3)  ne fn:substring(list.send_time, 0, 3) }">
+                                                 		<div class="hr-sect">${fn:substring(list.send_time, 0, 10) }</div>
+                                                 	</c:if>                                              
                                                  	<c:choose>
-                                                 		<c:when test="${list.member_id eq member.id}">                                         
+                                                 		<c:when test="${list.member_id eq member.id}">
+                                                 			<c:set var="versus" value="${fn:substring(list.send_time, 0, 3)}"/>                                         
                                                  			<input type=hidden id="memberId" value="${list.member_id}">
                                                  			<div class="justify-content-end d-flex flex-row mb-3">
                                                  				<div class="row align-items-end">
@@ -92,6 +116,7 @@ pageEncoding="UTF-8"%>
 													        </div>
                                                  		</c:when>
                                                  		<c:otherwise>
+                                                 			<c:set var="versus" value="${fn:substring(list.send_time, 0, 3)}"/> 
                                                  			<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">
                                                  			<c:choose>
                                                  				<c:when test="${oppUrl ne null}">
@@ -221,6 +246,7 @@ pageEncoding="UTF-8"%>
         room_id = localStorage.getItem('wschat.room_id');
         member_id = localStorage.getItem('wschat.member_id');
         findRoom();
+        scrollToBottom();
     });
 
     function korTime(){

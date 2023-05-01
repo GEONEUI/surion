@@ -129,7 +129,9 @@
 					<div class="mainImg">
 						<div class="mainHere"></div>
 						<p class="propose">
-							<input type="file" name="image" value="${m.image}">
+							<input type="file" name="image">
+							<input type="hidden" name="prevImage" value="${m.image}">
+							${m.image}
 						</p>
 					</div>
 
@@ -189,10 +191,9 @@
 				$('input:checkbox[id="confer"]').attr("checked", true)
 			}
 		})
-		var input3 = document.getElementsByTagName('input')[3];
 		const checkbox = document.querySelector('#confer');
 		const ss = document.querySelector('#chek');
-		input3.onclick = function() {
+		checkbox.onclick = function() {
 			console.log(checkbox.value);
 			if (checkbox.checked == true) {
 				ss.innerHTML = '<input type="text" name="estimate" placeholder="협의" value="협의" readonly>';
