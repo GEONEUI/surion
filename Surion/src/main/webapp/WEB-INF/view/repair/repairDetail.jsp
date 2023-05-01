@@ -107,6 +107,15 @@
 		color: #fff;
 	}
 	
+	.updateBtn {
+		width: 100%;
+		height: 3rem;
+		background: #00c7ae;	
+		border-style: none;
+		border-radius: 0.4rem;
+		color: #fff;
+	}
+	
 	.propose {
 		padding-top: 22px;
 		margin-top: 2.8rem;
@@ -123,7 +132,7 @@
 	
 /* 제안하기 modal */
 	 .modal {
-		position: absolute;
+		position: fixed;
 		top: 0;
 	    left: 0;
 		width: 100%;
@@ -161,7 +170,7 @@
 		border-bottom: 1.5px solid #e9e8e8;
 	}
 	
-	div.modal.show > form > div:nth-child(4) {
+	div.modal.show > form > div:nth-child(6) {
 		border-bottom: 2px solid #e9e8e8;
 		margin-bottom: 1rem;
 	}
@@ -258,11 +267,11 @@
 							<c:when test="${member.id == m.member_id}">
 								<form action="${cpath}/mypage/boardUpdate" method="get">
 									<input type="hidden" value="${m.idx}" name="idx">
-									<button class="sBtn">게시글 수정/삭제</button>
-								</form>
+									<button class="updateBtn">게시글 수정/삭제</button>
+									</form>
 							</c:when>
 							<c:otherwise>
-								<button class="sBtn">제안하기</button>
+								<button class="sBtn" data-login-status="${member.id}">제안하기</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -273,22 +282,24 @@
 </div>
 
 <div class="modal">
-	<form class="modal_body">
+	<form action="${cpath}/repair/offer" class="modal_body"  method="get" name="frm1" onsubmit="return goCheck()">
 		<hr class="modal_hr">
+			<input type="hidden" name="mechanic_id" value="${member.id}">
+			<input type="hidden" name="member_id" value="${m.member_id}">
 		<div class="location">
 			<div class="left-font">위치</div>
-			<input type="text" class="inText" maxlength="22" placeholder="서울시 강동구.....">
+			<input type="text" class="inText" name="location" maxlength="22" placeholder="서울시 강동구.....">
 		</div>
 		<div class="location">
 			<div class="left-font">연락처</div>
-			<input type="text" class="inText" maxlength="22" placeholder="010-0000-0000.....">
+			<input type="text" class="inText" name="phone" maxlength="22" placeholder="010-0000-0000.....">
 		</div>
 		<div class="location">
 			<div class="left-font">연락가능시간</div>
-			<input type="text" class="inText" maxlength="22" placeholder="00~00시.....">
+			<input type="text" class="inText" name="ableTime" maxlength="22" placeholder="00~00시.....">
 		</div>
 		<div>
-			<textarea class="content-box" placeholder="내용을 입력해 주세요." maxlength="400"></textarea>
+			<textarea class="content-box" name="content" placeholder="내용을 입력해 주세요." maxlength="400"></textarea>
 		</div>
 		<div class="bottom-btn">
 			<button type="submit" class="submit-btn">제안하기</button>
@@ -297,26 +308,57 @@
 	</form>
 </div>
 
-
 <script>	
 	
 // 제안하기 버튼 클릭 시 modal 등장
-const modal = document.querySelector('.modal');
-const sBtn = document.querySelector('.sBtn');
-
-sBtn.addEventListener('click', () => {
-	modal.classList.add('show');
-	document.body.style.overflow = 'hidden';
-});
-
-// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
-const cancel_btn = document.querySelector('.cancel-btn');
-cancel_btn.addEventListener('click', () => {
-	modal.classList.remove('show');
-	document.body.style.overflow = 'auto';
-});
+	const modal = document.querySelector('.modal');
+	const sBtn = document.querySelector('.sBtn');
+	const loginStatus = sBtn.getAttribute('data-login-status');
 	
-
+	sBtn.addEventListener('click', () => {
+		  if (loginStatus === "") {
+		    alert("로그인을 해주세요.");
+		    return;
+		  }
+		  // 로그인 상태인 경우 처리
+		  modal.classList.add('show');
+		  document.body.style.overflow = 'hidden';
+	});
+	
+	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
+	const cancel_btn = document.querySelector('.cancel-btn');
+	cancel_btn.addEventListener('click', () => {
+		modal.classList.remove('show');
+		document.body.style.overflow = 'auto';
+	});
+	
+	// 모달 창 공란 입력 불가
+	function goCheck(){
+		tf = document.frm1;
+			if(tf.location.value == ""){
+				alert("위치 및 장소를 입력해주세요.");
+				tf.location.focus();
+				return false;
+			}
+			if(tf.phone.value == ""){
+				alert("핸드폰 번호를 입력해주세요.");
+				tf.phone.focus();
+				return false;
+			}
+			if(tf.ableTime.value == ""){
+				alert("연락 가능한 시간을 입력해주세요.");
+				tf.ableTime.focus();
+				return false;
+			}
+			if(tf.content.value == ""){
+				alert("상세 내용을 기재해주세요.");
+				tf.content.focus();
+				return false;
+			}
+			alert('견적 제안이 완료 되었습니다.');
+			return true;
+		};
+	
 	
 </script>
 

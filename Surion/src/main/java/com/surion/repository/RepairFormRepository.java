@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
+import com.surion.entity.RepairOffer;
 
 import lombok.Delegate;
 
@@ -48,16 +49,24 @@ public interface RepairFormRepository{
 	@Select("select count(*) from suri_repairForm where title LIKE CONCAT ('%',#{keyword},'%')")
 	public int searchCount(RepairListPaging pa);
 	
-	//마이페이지용 검색
+	// 마이페이지용 검색
 	@Select("select * from suri_repairForm where member_id = #{member_id}")
 	public List<RepairForm> findByMemberId(@Param("member_id") String id);
 	
-	//마이페이지용 수정
+	// 마이페이지용 수정
 	@Update("update suri_repairForm set image = #{image}, title = #{title}, "
 			+ "content = #{content}, estimate=#{estimate} where idx = #{idx}")
 	public void updateRepair(RepairForm repairForm);
 	
-	//삭제
+	// 의뢰 목록 삭제
 	@Delete("delete from suri_repairForm where idx = #{idx}")
+
 	public void deleteRepair(RepairForm repairForm);
+
+	
+	// 의뢰 목록에서 Mechanic이 의뢰 제안
+	@Insert("insert into suri_repairOffer values('null', #{mechanic_id}, #{member_id}, #{location}, #{phone}, #{ableTime}, #{content})")
+	public void offer(RepairOffer offer);
+	
+
 }
