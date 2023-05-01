@@ -61,7 +61,7 @@ public class MypageServiceImpl implements MypageService{
 		MultipartRequest multi = null;
 		
 		int maxSize = 1024 * 1024 *5; //5mb용량체크
-		String save = request.getRealPath("/resources/images");
+		String save = request.getRealPath("/resources/repairImages");
 		
 		
 		try {

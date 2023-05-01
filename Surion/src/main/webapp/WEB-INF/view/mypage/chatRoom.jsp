@@ -32,11 +32,11 @@ pageEncoding="UTF-8"%>
     }
     
    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-       .rate { display: inline-block;border: 0;margin-right: 15px;}
+       .rate { display: inline-block;border: 0;margin-right: 85px;}
 .rate > input {display: none;}
 .rate > label {float: right;color: #ddd}
-.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005 ";}
-.rate .half:before {content: "\f089 "; position: absolute;padding-right: 0;}
+.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005";}
+.rate .half:before {content: "\f089"; position: absolute;padding-right: 0;}
 .rate input:checked ~ label, 
 .rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
 .rate input:checked + .rate label:hover,
@@ -125,7 +125,7 @@ pageEncoding="UTF-8"%>
                                 </center>
                                 <p class="fs-3 text mt-1 mb-0">자전거 가게</p>
                                 <p class="fs-5 text mb-0">별점</p>
-                                <fieldset class="rate">
+                                <fieldset class="rate" >
                                     <input type="radio" id="rating10" name="rating" value="10"><label
                                         for="rating10" title="5점"></label> <input type="radio" id="rating9"
                                                                                   name="rating" value="9" checked><label

@@ -48,7 +48,6 @@ public interface RepairFormRepository{
 	@Select("select count(*) from suri_repairForm where title LIKE CONCAT ('%',#{keyword},'%')")
 	public int searchCount(RepairListPaging pa);
 	
-	
 	//마이페이지용 검색
 	@Select("select * from suri_repairForm where member_id = #{member_id}")
 	public List<RepairForm> findByMemberId(@Param("member_id") String id);

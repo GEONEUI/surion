@@ -30,25 +30,6 @@ public class RepairFormServiceImpl implements RepairFormService{
 		repairFormRepository.save(m);	
 	}
 
-	// orderForm 사진 저장 //
-//	@Override
-//	public void imageUpload(HttpServletRequest request) {
-//		MultipartRequest multi = null;
-//		
-//		String save = request.getRealPath("/resources/images");
-//		int maxSize = 1024*1024*5;
-//		
-//		try {
-//			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
-//			System.out.println(save);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		String id = multi.getParameter("member_id");
-//		System.out.println(id);
-//	}
-	
 	// DB : suri_repairForm 전체 리스트 가져와서 페이징
 	@Override
 	public void repairList(Model model, RepairListPaging pa, HttpServletRequest request) {
@@ -104,7 +85,7 @@ public class RepairFormServiceImpl implements RepairFormService{
 		model.addAttribute("list", lst);	
 	}
 	
-	// 의뢰목록에서 1개만ㅇ 열어서 보기 //
+	// 의뢰목록에서 1개만 열어서 보기 //
 	@Override
 	public void repairDetail(Model model, RepairForm m) {
 		DecimalFormat decFormat = new DecimalFormat("###,###");
@@ -124,14 +105,12 @@ public class RepairFormServiceImpl implements RepairFormService{
 	// orderForm에서 이미지 업로드 되는 메소드 //
 	@Override
 	public void upload(HttpServletRequest request) {
-		System.out.println("굿");
 		MultipartRequest multi = null;
 		
 		String save = request.getRealPath("/resources/repairImages");
 		int maxSize = 1024 * 1024 * 5;
 		try {
 			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
-			System.out.println(save);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

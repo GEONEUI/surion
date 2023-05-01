@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="cpath" value="${pageContext.request.contextPath}" />
+<c:set var="cpath" value="${pageContext.request.contextPath}" />  
 <style>
 	.usec_header{
 		background: #fff !important;
@@ -22,7 +22,7 @@
 		display:flex;
 		align-items:center;
 		justify-content:space-between;
-		height:74px;
+		height:8vh;
 		position:relative;
 	}
 
@@ -169,16 +169,8 @@
 	.myinfo.active{
 		display:block;
 	}
-	
-	.uheader_top h1{margin-bottom:0px; height:45px;}
-	
-	img{
-		vertical-align:unset !important;
-	}
-
 
 </style>
-
 <div class="usec_header">
 	<div class="uheader">
 		<div class="uinner">
@@ -193,13 +185,18 @@
 				</c:if>
 				<c:if test="${!empty member}">
 					<ul class="unav1">
-						<li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
+						<c:if test="${mechanic eq null}">
+						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
+						</c:if>
+						<c:if test="${mechanic ne null}">
+						   <li><a href="javascript:goBoard()" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+						</c:if>
 						<c:if test="${member.imgurl eq null}">
 							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
 						</c:if>
 						<c:if test="${member.imgurl ne null}">
 							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}" width="40" style="border-radius:12px;"></li>
-						</c:if>
+						</c:if>	
 					</ul>
 					<!--  내 정보 모탈창  -->
 					<div class="myinfo">
@@ -243,10 +240,12 @@
 	function gojoin(){
 		location.href='${cpath}/member/join';
 	}
-	function gomechanic() {
-		location.href='${cpath}/order2/orderJoin';
+	function gomechanic() {		    
+		location.href = '${cpath}/order2/orderJoin';
+		}
+	function goBoard(){
+		location.href='${cpath}/order2/orderForm';
 	}
 </script>
-
 
 
