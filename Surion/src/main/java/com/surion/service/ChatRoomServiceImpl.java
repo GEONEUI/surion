@@ -14,16 +14,19 @@ import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
 import com.surion.repository.ChatRoomRepository;
+import com.surion.repository.MemberRepository;
 
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService{
 
 	
 	private final ChatRoomRepository chatRoomRepository;
+	private final MemberRepository memberRepository;
 	
 	@Autowired
-	public ChatRoomServiceImpl(ChatRoomRepository chatRoomRepository) {
+	public ChatRoomServiceImpl(ChatRoomRepository chatRoomRepository, MemberRepository memberRepository) {
 		this.chatRoomRepository = chatRoomRepository;
+		this.memberRepository = memberRepository;
 	}
 
 	@Override
@@ -45,10 +48,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	}
 
 	@Override
-	public String roomDetail(Model model, String roomId) {
-		 model.addAttribute("room_id", roomId);
+	public String roomDetail(Model model, String roomId, HttpSession session) {
+		 	model.addAttribute("room_id", roomId);
 	        List<Message> message = chatRoomRepository.findRoomById(roomId);
+	        List<String> memberInRoom = chatRoomRepository.findMemberByRoomId(roomId);
+	        Member sessionMem = (Member)session.getAttribute("member");
+	        for(String member : memberInRoom) {//채팅창 상대방 정보 가져오기 위한 상대방 아이디 찾기
+	        	if(!member.equals(sessionMem.getId())) {
+	        		Member mem = new Member();
+	        		mem.setId(member);
+	        		Member memberInfo = memberRepository.login(mem);
+	        		model.addAttribute("oppUrl", memberInfo.getImgurl());
+	        	}
+	        }
+	        
 	        model.addAttribute("message", message);
+	        
 	        return "/mypage/chatRoom";
 	}
 

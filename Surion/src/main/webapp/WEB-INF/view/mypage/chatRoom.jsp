@@ -13,7 +13,13 @@ pageEncoding="UTF-8"%>
     body {
         background: #fff !important;
     }
-
+	
+	 .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
     #my_page_right {
         padding: 35px 30px;
     }
@@ -31,7 +37,7 @@ pageEncoding="UTF-8"%>
         resize: none;
     }
     
-   @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+   @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
        .rate { display: inline-block;border: 0;margin-right: 85px;}
 .rate > input {display: none;}
 .rate > label {float: right;color: #ddd}
@@ -54,6 +60,7 @@ pageEncoding="UTF-8"%>
     }
 
 </style>
+
 <body>
 <%@ include file="../common/header.jsp" %>
 <div class="suriSize">
@@ -71,9 +78,9 @@ pageEncoding="UTF-8"%>
                                         <div class="card-body" id="rarara" style="min-width: 528px;max-width:529px">
                                             <div style="overflow-y: auto; max-height: 373px;" class="msgArea"
                                                  id="chatMonitor">
-                                                 <c:forEach var="list" items="${ message }">
+                                                 <c:forEach var="list" items="${ message }">                                                 
                                                  	<c:choose>
-                                                 		<c:when test="${list.member_id eq member.id}">
+                                                 		<c:when test="${list.member_id eq member.id}">                                         
                                                  			<input type=hidden id="memberId" value="${list.member_id}">
                                                  			<div class="justify-content-end d-flex flex-row mb-3">
                                                  				<div class="row align-items-end">
@@ -86,7 +93,14 @@ pageEncoding="UTF-8"%>
                                                  		</c:when>
                                                  		<c:otherwise>
                                                  			<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">
-												         	   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">
+                                                 			<c:choose>
+                                                 				<c:when test="${oppUrl ne null}">
+												         	   		<img src="${cpath}/resources/images/${oppUrl}" style="border-radius:50%; width: 45px; height: 100%;">
+                                                 				</c:when>                                                 			
+                                                 				<c:otherwise>
+                                                 					<img src="${cpath}/resources/images/default.png" style="border-radius:50%; width: 45px; height: 100%;">
+                                                 				</c:otherwise>
+                                                 			</c:choose>
 												            	<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2)">
 												            		<p class="small mb-0 text-wrap" style="max-width:300px;">${ list.message }</p>
 												           	 	</div>
@@ -118,11 +132,20 @@ pageEncoding="UTF-8"%>
                             <!--고수 정보-->
                             <div class="card text-center me-0" id="chat2"
                                  style="border-radius: 15px; height: 100%; max-height: 550px;">
-                                <center>
-                                    <img class="d-flex mt-1"
-                                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                         alt="avatar 1" style="width: 120px; height: 120px;">
-                                </center>
+                                <div class="center">
+                                	<c:choose>
+                                		<c:when test="${oppUrl ne null}">
+                                   			<img class="d-flex mt-1"
+                                         	src="${cpath}/resources/images/default.png"
+                                         	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
+                                		</c:when>
+                                		<c:otherwise>
+                                		   <img class="d-flex mt-1"
+                                         	src="${cpath}/resources/images/default.png"
+                                         	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
+                                		</c:otherwise>
+                                	</c:choose>
+                                </div>
                                 <p class="fs-3 text mt-1 mb-0">자전거 가게</p>
                                 <p class="fs-5 text mb-0">별점</p>
                                 <fieldset class="rate" >
@@ -278,9 +301,13 @@ pageEncoding="UTF-8"%>
             addDiv += '</div>';
             addDiv += '</div>';
         } else {
-           	addDiv += '<div class="d-flex flex-row justify-content-start mb-3">';
-            addDiv += '<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">';
-            addDiv += '<div class="col p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">';
+           	addDiv += '<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">';
+           	if("${oppUrl}" != null){
+            	addDiv += '<img src="${cpath}/resources/images/${oppUrl}" style="width: 45px; height: 100%; border-radius:50%;">';
+           	} else {
+           		addDiv += '<img src="${cpath}/resources/images/default.png" style="width: 45px; height: 100%; border-radius:50%;">';
+           	}
+            addDiv += '<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">';
             addDiv += '<p class="small mb-0 text-wrap" style="max-width:300px;">' + recv.message + '</p>';
             addDiv += '</div>';
             addDiv += '<div class="row align-items-end">';

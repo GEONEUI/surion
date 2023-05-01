@@ -28,6 +28,9 @@ public interface ChatRoomRepository {
 	@Select("select * from suri_message where room_id=#{room_id}")
 	public List<Message> findRoomById(String roomId);
 	
+	@Select("select member_id from suri_chatroom where room_id=#{room_id}")
+	public List<String> findMemberByRoomId(String roomId);
+	
 	
 
 }
