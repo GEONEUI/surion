@@ -59,5 +59,5 @@ public interface RepairFormRepository{
 	
 	//삭제
 	@Delete("delete from suri_repairForm where idx = #{idx}")
-	public void deleteRepair(RepairForm form);
+	public void deleteRepair(RepairForm repairForm);
 }

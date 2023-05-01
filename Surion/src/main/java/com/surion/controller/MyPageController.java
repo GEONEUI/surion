@@ -62,8 +62,8 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/boardDelete")
-	public String boardDelete(RepairForm form) {
-		return mypageService.boardDelete(form);
+	public String boardDelete(RepairForm form, HttpServletRequest request) {
+		return mypageService.boardDelete(form, request);
 	}
 
 

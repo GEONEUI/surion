@@ -153,7 +153,7 @@
 								<textarea name="content" cols="43" rows="10">${m.content}</textarea>
 								<ul class="nikname">
 									<li>작업 요청일 :</li>
-									<li><input type="date" value="${m.date}" name="date"></li>
+									<li><input type="date" value="${m.date}" name="dateFrm" id="Date"></li>
 								</ul>
 								<ul class="nikname">
 									<li>견적 :</li>
@@ -191,6 +191,7 @@
 				$('input:checkbox[id="confer"]').attr("checked", true)
 			}
 		})
+		//협의 버튼 클릭 함수
 		const checkbox = document.querySelector('#confer');
 		const ss = document.querySelector('#chek');
 		checkbox.onclick = function() {
@@ -218,6 +219,11 @@
 
 			}
 		}
+		//오늘 이전 날짜 선택 금지 함수
+		var now_utc = Date.now()
+		var timeOff = new Date().getTimezoneOffset()*60000;
+		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+		document.getElementById("Date").setAttribute("min", today);
 	</script>
 
 	<%@ include file="../common/footer.jsp"%>

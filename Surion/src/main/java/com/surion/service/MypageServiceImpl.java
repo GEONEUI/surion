@@ -1,6 +1,7 @@
 package com.surion.service;
 
 import java.io.File;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRange;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -78,7 +80,7 @@ public class MypageServiceImpl implements MypageService{
 		System.out.println("222" +newFile);
 		int idx = Integer.parseInt(multi.getParameter("idx"));
 		String title = multi.getParameter("title");
-		String date = multi.getParameter("date");
+		String date = multi.getParameter("dateFrm");
 		String estimate = multi.getParameter("estimate");
 		String content = multi.getParameter("content");
 		String updateFileName = null;
@@ -122,7 +124,10 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	@Override
-	public String boardDelete(RepairForm form) {
+	public String boardDelete(RepairForm form, HttpServletRequest request) {
+		int idx = (int)request.getAttribute("idx");
+		form.setIdx(idx);
+		System.out.println(idx);
 		repairFormRepository.deleteRepair(form);
 		return "redirect:/mypage/myinfo?pageview=2";
 	}
