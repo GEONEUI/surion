@@ -15,7 +15,7 @@ public interface OrderFormService {
 	public void save(OrderForm orderForm);
 	
 	//게시물 리스트
-	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request);
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session);
 	
 	//이미지업로드 
 	public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session);
@@ -40,5 +40,6 @@ public interface OrderFormService {
 	
 	//orderList 검색
 	public void search(Model model, OrderListPaging pa, HttpServletRequest request);
+	
 	
 }

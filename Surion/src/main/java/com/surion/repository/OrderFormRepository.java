@@ -55,8 +55,13 @@ public interface OrderFormRepository {
 	//프로필 상세보기
 	@Select("select * from suri_orderForm where id = #{id}")
 	public  OrderForm findById(OrderForm orderForm);
-
-
+	
+	@Select("SELECT COUNT(*) from suri_orderForm WHERE id = #{id}")
+	public int findByBoard(@Param("id") String id);
+	
+	@Select("select COUNT(*) from suri_orderJoin where id= #{id}")
+	public int findByMechanic(@Param("id") String id);
+	
 }
 
 //@Select("select shopName, office from suri_orderJoin where id = #{id}")

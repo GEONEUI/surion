@@ -19,12 +19,16 @@ import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
+import com.surion.repository.MemberRepository;
 import com.surion.repository.OrderFormRepository;
 
 @Service
 public class OrderFormServiceImpl implements OrderFormService{
 	@Autowired
 	OrderFormRepository orderFormRepository;
+	
+	@Autowired
+	MemberRepository memberRepository;
 	
 	//게시물 등록폼 저장
 	@Override
@@ -33,8 +37,9 @@ public class OrderFormServiceImpl implements OrderFormService{
 	}
 	
 	@Override
-	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request) {
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session) {
 		// 현재 보는 페이지를 설정하기 위한 초기값
+				Member member = (Member) session.getAttribute("member");
 				String pageNum = request.getParameter("pageNum");
 				if(pageNum == null) {
 					pageNum = "1";
@@ -80,10 +85,16 @@ public class OrderFormServiceImpl implements OrderFormService{
 				if(pa.getEndNum() < pa.getLastPage()) {
 					pa.setNext(true);
 				}
+		OrderForm orderForm = new OrderForm();
+		orderForm.setId(member.getId());
 		
 		model.addAttribute("paging", pa);
 		List<OrderForm> lst = orderFormRepository.findByAll();
+		int result = orderFormRepository.findByBoard(member.getId());
+		int check = orderFormRepository.findByMechanic(member.getId());
+		model.addAttribute("check", check);
 		model.addAttribute("list", lst);
+		model.addAttribute("result", result);
 	}
 	
 	@Override
@@ -162,9 +173,9 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setExperience(experience);
 	    orderForm.setImg(imgname);
 	    orderForm.setOffice(office);
-		
 		System.out.println(member.getId());
 		orderFormRepository.save(orderForm);
+		
 		return "redirect:/order2/orderList";
 	}
 	
@@ -181,8 +192,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 		Member member = (Member) session.getAttribute("member");
 		orderJoin.setId(member.getId());
 		System.out.println(member.getId());
-		Member mechanic = (Member) session.getAttribute("mechanic");
-		
+		int result = orderFormRepository.findByBoard(member.getId());
 	    if (orderJoin.getMechanic_id().isEmpty() ||
 	            orderJoin.getShopName().isEmpty() ||
 	            orderJoin.getName().isEmpty() ||
@@ -198,8 +208,15 @@ public class OrderFormServiceImpl implements OrderFormService{
 	        try {
 	            orderFormRepository.join(orderJoin);
 	            orderFormRepository.update1(orderJoin);
+	            
+	            Member member2 = memberRepository.findById(member);
+	            
 	            rttr.addFlashAttribute("msgTitle", "Success Message!");
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
+	            session.setAttribute("result", result);
+
+	            member.setOffice(member2.getOffice());
+	            session.setAttribute("member", member);
 	            return "redirect:/";
 	        } catch (Exception e) {
 	            e.printStackTrace();

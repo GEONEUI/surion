@@ -234,20 +234,24 @@
 			<i class="fa-solid fa-magnifying-glass"></i>
 				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
 		</form>
-			<c:if test="${!empty member.id}">
-			<button class="hbutton" onclick="location.href='${cpath}/repair/repairForm'">견적 요청</button>
-			</c:if>
-			
-			<c:if test="${empty member.id}">
-			<button class="hbutton" onclick="alert('로그인이 필요합니다.')">견적 요청</button>
-			</c:if>
+			<c:choose>
+				<c:when test="${!empty member.id && empty member.address}">
+					<button class="hbutton" onclick="addressCall()">견적 요청</button>
+				</c:when>
+				<c:when test="${!empty member.id}">
+					<button class="hbutton" onclick="location.href='${cpath}/repair/repairForm'">견적 요청</button>
+				</c:when>
+				<c:when test="${empty member.id}">
+					<button class="hbutton" onclick="alert('로그인이 필요합니다.')">견적 요청</button>
+				</c:when>
+			</c:choose>
 		</div>
 	
 		<ul class="askList">
 			<c:forEach var="list" items="${list}">
 				<div class="repairList">
 					<div class="askListA" onclick="location.href='${cpath}/repair/repairDetail?idx=${list.idx}'">
-						<img src="${cpath}/resources/images/${fn:split(list.image, 'h')[1]}" alt="공백" />
+						<img src="${cpath}/resources/repairImages/${fn:split(list.image, 'h')[1]}" alt="공백" />
 					</div>
 					<div class="askListP">
 						<li>${list.title}</li>
@@ -297,9 +301,10 @@
 
 <script>
 
-
-
-
+	function addressCall(){
+		alert('주소를 입력해야 견적 요청이 가능합니다.');
+		location.href="${cpath}/mypage/myinfo";
+	}
 
 </script>
 

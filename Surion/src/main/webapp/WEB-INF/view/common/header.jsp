@@ -185,11 +185,18 @@
 				</c:if>
 				<c:if test="${!empty member}">
 					<ul class="unav1">
-						<c:if test="${mechanic eq null}">
+						<c:if test="${member.office eq ''}">
 						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
 						</c:if>
-						<c:if test="${mechanic ne null}">
-						   <li><a href="javascript:goBoard()" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+						<c:if test="${member.office ne ''}">
+						   <c:choose>
+								<c:when test="${result == 1}">
+									<li><a href="javascript:alert('이미 프로필 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${cpath}/order2/orderForm" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 						<c:if test="${member.imgurl eq null}">
 							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>

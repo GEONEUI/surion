@@ -255,6 +255,7 @@
          	   error: function(){ alert('채팅방 개설 실패')},
          	   success: function(res){
          		  console.log(res);
+         		  location.href = "/surion/mypage/myinfo?pageview=3";
          	   },
             });
         } else {
