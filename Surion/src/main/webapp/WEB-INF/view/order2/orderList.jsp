@@ -248,14 +248,14 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
 		</form>
 			<c:choose>
-				<c:when test="${!empty mechanic && empty mechanic}">
+				<c:when test="${!empty member && empty mechanic}">
 					<button class="hbutton" onclick="addressCall()">프로필 등록</button>
 				</c:when>
 				<c:when test="${!empty mechanic}">
-					<button class="hbutton" onclick="location.href='${cpath}/order2/orderForm'">프로필 등록</button>
+					<button class="hbutton"onclick="alert('이미 프로필 등록을 하셨습니다.')">프로필 등록</button>
 				</c:when>
 				<c:when test="${empty mechanic}">
-					<button class="hbutton" onclick="alert('정비사 등록이 필요합니다.')">프로필 등록</button>
+					<button class="hbutton" onclick="location.href='${cpath}/order2/orderForm'">프로필 등록</button>
 				</c:when>
 			</c:choose>
 		</div>

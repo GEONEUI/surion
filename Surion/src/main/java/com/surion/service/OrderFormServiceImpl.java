@@ -179,13 +179,14 @@ public class OrderFormServiceImpl implements OrderFormService{
 		return result;
 	}
 
-
+	//정비사등록
 	@Override
 	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
 		Member member = (Member) session.getAttribute("member");
 		orderJoin.setId(member.getId());
 		System.out.println(member.getId());
-	    
+		
+		
 	    if (orderJoin.getMechanic_id().isEmpty() ||
 	            orderJoin.getShopName().isEmpty() ||
 	            orderJoin.getName().isEmpty() ||
