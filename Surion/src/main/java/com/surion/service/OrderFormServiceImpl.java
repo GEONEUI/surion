@@ -1,6 +1,7 @@
 package com.surion.service;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +101,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 		Member member = (Member) session.getAttribute("member");
 		String Save = request.getRealPath("/resources/images/order");
 		int MaxSize = 1024 * 1024 * 5;
-		
 
 		try {
 			multi = new MultipartRequest(request, Save, MaxSize, "UTF-8", new DefaultFileRenamePolicy());
@@ -108,7 +108,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		File newFile = multi.getFile("imageUp");
 		String experience = multi.getParameter("experience");
@@ -120,7 +119,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    String office = multi.getParameter("office");
 	    String imgname = null;
 
-	    
 	    if (member == null) { // 로그인하지 않은 경우
 	        return "redirect:${cpath}/common/login";
 	    }
@@ -164,15 +162,13 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setExperience(experience);
 	    orderForm.setImg(imgname);
 	    orderForm.setOffice(office);
-
 		
 		System.out.println(member.getId());
 		orderFormRepository.save(orderForm);
-		
 		return "redirect:/order2/orderList";
 	}
 	
-
+	
 	@Override
 	public int check(OrderJoin orderJoin) {
 		int result = orderFormRepository.check(orderJoin);
@@ -185,7 +181,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 		Member member = (Member) session.getAttribute("member");
 		orderJoin.setId(member.getId());
 		System.out.println(member.getId());
-		
+		Member mechanic = (Member) session.getAttribute("mechanic");
 		
 	    if (orderJoin.getMechanic_id().isEmpty() ||
 	            orderJoin.getShopName().isEmpty() ||
@@ -220,8 +216,8 @@ public class OrderFormServiceImpl implements OrderFormService{
 	}
 
 	@Override
-	public void readCount(OrderForm m) {
-		orderFormRepository.increaseCount(m);
+	public void readCount(OrderForm orderForm) {
+		orderFormRepository.increaseCount(orderForm);
 		
 	}
 
@@ -253,6 +249,12 @@ public class OrderFormServiceImpl implements OrderFormService{
 		model.addAttribute("paging", pa);
 		List<OrderForm> lst = orderFormRepository.search(pa);
 		model.addAttribute("list", lst);
+	}
+	//게시물 상세보기
+	@Override
+	public void orderDetail(Model model, OrderForm orderForm) {
+		OrderForm pro = orderFormRepository.findById(orderForm);
+		model.addAttribute("profile", pro);
 	}
 	
 }

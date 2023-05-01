@@ -40,21 +40,22 @@ public interface OrderFormRepository {
 	public List<OrderForm> search(OrderListPaging pa);
 	
 	// OrderList 조회수 증가
-	@Update("update suri_orderForm set readCount = readCount +1 where idx = #{idx}")
+	@Update("update suri_orderForm set readCount = readCount +1 where id = #{id}")
 	public void increaseCount(OrderForm orderForm);
 	
 	//사업자번호 중복검사
 	@Select("select count(*) from suri_orderJoin where mechanic_id = #{mechanic_id}")
 	public int check(OrderJoin orderJoin);
-
+	//정비사 등록
 	@Insert("insert into suri_orderJoin (id, mechanic_id, name, shopName, office) VALUES (#{id}, #{mechanic_id}, #{name}, #{shopName}, #{office})")
 	public void join(OrderJoin orderJoin);
 	
 	@Update("update suri_orderJoin JOIN suri_member sm ON suri_orderJoin.id = sm.id SET suri_orderJoin.email = sm.email, suri_orderJoin.phone = sm.phone, suri_orderJoin.grade = sm.grade")
 	public void update1(OrderJoin orderJoin);
-	
-	
-	
+	//프로필 상세보기
+	@Select("select * from suri_orderForm where id = #{id}")
+	public  OrderForm findById(OrderForm orderForm);
+
 
 }
 
