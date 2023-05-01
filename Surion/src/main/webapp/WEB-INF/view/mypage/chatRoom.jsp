@@ -23,54 +23,26 @@ pageEncoding="UTF-8"%>
         color: red !important;
     }
 
-    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+  
 
     textarea {
         height: 100px;
         border: none;
         resize: none;
     }
-
-    .rate {
-        display: inline-block;
-        border: 0;
-        margin-right: 33%;
-    }
-
-    .rate > input {
-        display: none;
-    }
-
-    .rate > label {
-        float: right;
-        color: #ddd
-    }
-
-    .rate > label:before {
-        display: inline-block;
-        font-size: 1rem;
-        padding: .3rem .2rem;
-        margin: 0;
-        cursor: pointer;
-        font-family: FontAwesome;
-        content: "\f005 ";
-    }
-
-    .rate .half:before {
-        content: "\f089 ";
-        position: absolute;
-        padding-right: 0;
-    }
-
-    .rate input:checked ~ label, .rate label:hover, .rate label:hover ~ label {
-        color: #f73c32 !important;
-    }
-
-    .rate input:checked + .rate label:hover, .rate input input:checked ~ label:hover,
-    .rate input:checked ~ .rate label:hover ~ label, .rate label:hover ~ input:checked
-    ~ label {
-        color: #f73c32 !important;
-    }
+    
+   @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+       .rate { display: inline-block;border: 0;margin-right: 15px;}
+.rate > input {display: none;}
+.rate > label {float: right;color: #ddd}
+.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005 ";}
+.rate .half:before {content: "\f089 "; position: absolute;padding-right: 0;}
+.rate input:checked ~ label, 
+.rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
+.rate input:checked + .rate label:hover,
+.rate input input:checked ~ label:hover,
+.rate input:checked ~ .rate label:hover ~ label,  
+.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  }
 
     #rarara {
         position: relative;
@@ -102,26 +74,24 @@ pageEncoding="UTF-8"%>
                                                  <c:forEach var="list" items="${ message }">
                                                  	<c:choose>
                                                  		<c:when test="${list.member_id eq member.id}">
-                                                 			<c:set var="send_time" value="${list.send_time}"/>
                                                  			<input type=hidden id="memberId" value="${list.member_id}">
                                                  			<div class="justify-content-end d-flex flex-row mb-3">
                                                  				<div class="row align-items-end">
-                                                 					<p class="col me-2 mb-0" style="font-size:small;">${fn:substring(send_time, 15, 21) }</p>
+                                                 					<p class="col me-2 mb-0" style="font-size:small;">${fn:substring(list.send_time, 15, 21) }</p>
                                                  				</div>
-                                                 	        	<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
+                                                 	        	<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb; max-width:300px;">
 													        		<p class="small mb-0 text-wrap">${ list.message }</p>
 													        	</div>
 													        </div>
                                                  		</c:when>
                                                  		<c:otherwise>
-                                                 		 	<c:set var="send_time" value="${list.send_time}"/>
-                                                 			<div class="d-flex flex-row justify-content-start mb-3">
+                                                 			<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">
 												         	   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">
 												            	<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2)">
-												            		<p class="small mb-0 text-wrap">${ list.message }</p>
+												            		<p class="small mb-0 text-wrap" style="max-width:300px;">${ list.message }</p>
 												           	 	</div>
 												           	 	<div class="row align-items-end">
-												           	 		<p class="col mb-0" style="font-size:small;">${fn:substring(send_time, 15, 21) }</p>
+												           	 		<p class="col mb-0" style="font-size:small;">${fn:substring(list.send_time, 15, 21) }</p>
 												           	 	</div>
 												            </div>
                                                  		</c:otherwise>
@@ -300,20 +270,20 @@ pageEncoding="UTF-8"%>
 /* 		let id = document.getElementById('memberId').value;
  */        if (recv.member_id == '${member.id}') { 
            	addDiv += '<div class="d-flex flex-row justify-content-end mb-3">';
-           	addDiv += '<div class="row d-flex" style="align-items:flex-end">'
+           	addDiv += '<div class="row align-items-end">'
            	addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
-            addDiv += '<div class="col p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">';
-            addDiv += '<p class="small mb-0 text-wrap">' + recv.message + '</p>';
             addDiv += '</div>';
+            addDiv += '<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb; max-width:300px;">';
+            addDiv += '<p class="small mb-0 text-wrap">' + recv.message + '</p>';
             addDiv += '</div>';
             addDiv += '</div>';
         } else {
            	addDiv += '<div class="d-flex flex-row justify-content-start mb-3">';
-        	addDiv += '<div class="row d-flex" style="align-items:flex-end">';
             addDiv += '<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">';
             addDiv += '<div class="col p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">';
-            addDiv += '<p class="col small mb-0 text-wrap">' + recv.message + '</p>';
+            addDiv += '<p class="small mb-0 text-wrap" style="max-width:300px;">' + recv.message + '</p>';
             addDiv += '</div>';
+            addDiv += '<div class="row align-items-end">';
             addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
             addDiv += '</div>';
             addDiv += '</div>';
