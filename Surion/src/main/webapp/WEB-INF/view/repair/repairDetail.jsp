@@ -271,7 +271,7 @@
 									</form>
 							</c:when>
 							<c:otherwise>
-								<button class="sBtn" data-login-status="${member.id}">제안하기</button>
+								<button class="sBtn" data-login-status="${member.id}" data-mechanic-status="${mechanic}"> 제안하기</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -280,7 +280,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="modal">
 	<form action="${cpath}/repair/offer" class="modal_body"  method="get" name="frm1" onsubmit="return goCheck()">
 		<hr class="modal_hr">
@@ -314,15 +313,22 @@
 	const modal = document.querySelector('.modal');
 	const sBtn = document.querySelector('.sBtn');
 	const loginStatus = sBtn.getAttribute('data-login-status');
+	const mechanicStatus = sBtn.getAttribute('data-mechanic-status');
 	
 	sBtn.addEventListener('click', () => {
-		  if (loginStatus === "") {
-		    alert("로그인을 해주세요.");
-		    return;
-		  }
-		  // 로그인 상태인 경우 처리
-		  modal.classList.add('show');
-		  document.body.style.overflow = 'hidden';
+		// 로그인 확인
+		if (loginStatus === "") {
+		  	alert("로그인을 해주세요.");
+		  	return	
+		}
+		// 엔지니어 정보 확인
+		if(mechanicStatus === ""){
+			alert("엔지니어 등록을 해주세요.")
+			return
+		}
+	 	// 로그인 상태인 경우 처리
+		modal.classList.add('show');
+		document.body.style.overflow = 'hidden';
 	});
 	
 	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
@@ -358,7 +364,6 @@
 			alert('견적 제안이 완료 되었습니다.');
 			return true;
 		};
-	
 	
 </script>
 

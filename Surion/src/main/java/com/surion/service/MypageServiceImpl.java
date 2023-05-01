@@ -95,7 +95,7 @@ public class MypageServiceImpl implements MypageService{
 				if(newFile.exists()) {
 					newFile.delete();
 				}
-
+			
 				rttr.addFlashAttribute("msgTitle", "Error Message!");
 				rttr.addFlashAttribute("msg", "이미지는 PNG, JPG만 업로드 가능합니다.");
 				return "redirect:/mypage/myinfo";
