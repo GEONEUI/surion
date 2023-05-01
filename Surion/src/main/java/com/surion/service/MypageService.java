@@ -13,5 +13,5 @@ public interface MypageService {
 	String myinfo(Model model, HttpServletRequest request, HttpSession session);
 	public String boardUpdate(Model model, HttpServletRequest request);
 	public String boardUpdated(Model model, HttpServletRequest request, RedirectAttributes rttr);
-	public String boardDelete(RepairForm form, HttpServletRequest request);
+	public String boardDelete(RepairForm form);
 }

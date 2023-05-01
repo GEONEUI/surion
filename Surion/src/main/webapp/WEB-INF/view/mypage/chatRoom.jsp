@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 	.rate > input {display: none;}
 	.rate > label {float: right;color: #ddd}
 	.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005";}
-	.rate .half:before {content: "\f089"; position: absolute;padding-right: 0;}
+	.rate .half:before {content: "f089"; position: absolute;padding-right: 0;}
 	.rate input:checked ~ label, 
 	.rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
 	.rate input:checked + .rate label:hover,

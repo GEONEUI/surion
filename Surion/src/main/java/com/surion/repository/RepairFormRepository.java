@@ -54,7 +54,7 @@ public interface RepairFormRepository{
 	public List<RepairForm> findByMemberId(@Param("member_id") String id);
 	
 	// 마이페이지용 수정
-	@Update("update suri_repairForm set image = #{image}, title = #{title}, "
+	@Update("update suri_repairForm set image = #{image}, date = #{date}, title = #{title}, "
 			+ "content = #{content}, estimate=#{estimate} where idx = #{idx}")
 	public void updateRepair(RepairForm repairForm);
 	

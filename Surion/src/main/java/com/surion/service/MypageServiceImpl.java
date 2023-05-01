@@ -74,13 +74,9 @@ public class MypageServiceImpl implements MypageService{
 		}
 		
 		File newFile =  multi.getFile("image");
-		System.out.println("111"+newFile);
-		if(newFile == null)
-			newFile = multi.getFile("prevImage");
-		System.out.println("222" +newFile);
 		int idx = Integer.parseInt(multi.getParameter("idx"));
 		String title = multi.getParameter("title");
-		String date = multi.getParameter("dateFrm");
+		String date = multi.getParameter("date");
 		String estimate = multi.getParameter("estimate");
 		String content = multi.getParameter("content");
 		String updateFileName = null;
@@ -89,15 +85,19 @@ public class MypageServiceImpl implements MypageService{
 		rForm = repairFormRepository.findById(rForm);
 		System.out.println(rForm);
 		
+		System.out.println("newFile ------------------------------------>" + newFile);
+		
 		if(newFile != null) {
 			updateFileName = newFile.getName();
 			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
-			File oldFile = new File(save + "/" + rForm.getImage());
+			File oldFile = new File(save + "/" + rForm.getImage().substring(11));
 			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
-				if(oldFile.exists()) {
-					oldFile.delete();
-				}
+//				if(oldFile.exists()) {
+//					oldFile.delete();
+//				}
 			}else {
+				updateFileName = oldFile.getName();
+				System.out.println("뇨네"+updateFileName);
 				if(newFile.exists()) {
 					newFile.delete();
 				}
@@ -106,7 +106,12 @@ public class MypageServiceImpl implements MypageService{
 				rttr.addFlashAttribute("msg", "이미지는 PNG, JPG만 업로드 가능합니다.");
 				return "redirect:/mypage/myinfo";
 			}
+		}else {
+			File oldFile = new File(save + "/" + rForm.getImage().substring(11));
+			updateFileName = oldFile.getName();
 		}
+		
+	
 		
 		RepairForm form = RepairForm.builder()
 				.date(date).estimate(estimate)
@@ -115,6 +120,7 @@ public class MypageServiceImpl implements MypageService{
 				.build();
 		
 		//업데이트
+		System.out.println("--------------------------------------> " + form.toString());
 		repairFormRepository.updateRepair(form);
 	
 		
@@ -124,10 +130,8 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	@Override
-	public String boardDelete(RepairForm form, HttpServletRequest request) {
-		int idx = (int)request.getAttribute("idx");
-		form.setIdx(idx);
-		System.out.println(idx);
+	public String boardDelete(RepairForm form) {
+	
 		repairFormRepository.deleteRepair(form);
 		return "redirect:/mypage/myinfo?pageview=2";
 	}

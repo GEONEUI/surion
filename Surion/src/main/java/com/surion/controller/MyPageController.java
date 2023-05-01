@@ -61,9 +61,9 @@ public class MyPageController {
 		return mypageService.boardUpdated(model, request, rttr);		
 	}
 	
-	@PostMapping("/boardDelete")
-	public String boardDelete(RepairForm form, HttpServletRequest request) {
-		return mypageService.boardDelete(form, request);
+	@GetMapping("/boardDelete")
+	public String boardDelete(RepairForm form) {
+		return mypageService.boardDelete(form);
 	}
 
 

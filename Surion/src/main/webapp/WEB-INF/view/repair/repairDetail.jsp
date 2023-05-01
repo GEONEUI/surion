@@ -107,6 +107,16 @@
 		color: #fff;
 	}
 	
+	.subBtn {
+		width: 100%;
+		height: 3rem;
+		background: #00c7ae;	
+		border-style: none;
+		border-radius: 0.4rem;
+		color: #fff;
+	}
+	
+	
 	.updateBtn {
 		width: 100%;
 		height: 3rem;
@@ -265,9 +275,11 @@
 						</ul>
 						<c:choose>
 							<c:when test="${member.id == m.member_id}">
-								<form action="${cpath}/mypage/boardUpdate" method="get">
+								<form method="get" class="frm">
 									<input type="hidden" value="${m.idx}" name="idx">
-									<button class="updateBtn">게시글 수정/삭제</button>
+									<button type="button" class="subBtn" onclick="formClick('update')" style="width: 60%">게시글 수정</button>
+								<button type="button" class="subBtn" onclick="formClick('delete')"
+									style="width: 25%; margin-left: 15px;">삭제</button>
 									</form>
 							</c:when>
 							<c:otherwise>
@@ -309,6 +321,22 @@
 </div>
 
 <script>	
+
+function formClick(str) {
+	const frm = document.querySelector('.frm');
+	if (str == "update") {
+		frm.action = "${cpath}/mypage/boardUpdate";
+		frm.submit();
+	} else if (str == "delete") {
+		if (confirm('정말 게시글을 삭제 하시겠습니까?')) {
+			frm.action = "${cpath}/mypage/boardDelete";
+			frm.submit();
+		} else {
+			return;
+		}
+	}
+}
+
 	
 // 제안하기 버튼 클릭 시 modal 등장
 	const modal = document.querySelector('.modal');
