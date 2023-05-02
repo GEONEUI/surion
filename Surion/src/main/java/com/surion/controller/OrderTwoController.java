@@ -76,7 +76,7 @@ public class OrderTwoController {
         return "/order2/transaction";
     }
     
-
+    
     //중복체크
   	@GetMapping("/check")
   	public @ResponseBody int check(OrderJoin orderJoin) {
@@ -91,7 +91,10 @@ public class OrderTwoController {
   		return orderFormService.join(orderJoin, rttr, session);
   	}
   	
-  	
+  	@RequestMapping("/orderMyPage")
+  	public String orderMy() {
+  		return "/order2/orderMyPage";
+  	}
 
 }
 

@@ -30,5 +30,4 @@ public class OrderForm {
     
     private int readCount;
     
-    private int idx;
 }
