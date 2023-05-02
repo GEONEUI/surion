@@ -26,7 +26,7 @@ public class MessageServiceImpl implements MessageService{
 	@Override
 	public void message(Message message) {
 		if(Message.MessageType.ENTER.equals(message.getType()))
-			message.setMessage(message.getMember_id() + "님이 입장");
+			message.setMessage("[안내] 상대방에게 불쾌한 언행은 삼가주시길 바랍니다.");
 		template.convertAndSend("/sub/chat/room/" + message.getRoom_id(), message);
 	}
 

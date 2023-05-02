@@ -63,8 +63,11 @@ public interface OrderFormRepository {
 	@Select("select COUNT(*) from suri_orderJoin where id= #{id}")
 	public int findByMechanic(@Param("id") String id);
 	
-	@Update("update suri_member set office = #{office} where id= #{id}")
-	public void memberUpdate(Member member);
+	@Update("UPDATE suri_member SET office = #{office} WHERE id = #{id}")
+	public void updateOffice(@Param("id") String id, @Param("office") String office);
+	
+	@Update("UPDATE suri_orderForm JOIN suri_orderJoin ON suri_orderForm.id = suri_orderJoin.id SET suri_orderForm.mechanic_id = suri_orderJoin.mechanic_id")
+	void updateMechanic(OrderForm orderForm);
 }
 
 //@Select("select shopName, office from suri_orderJoin where id = #{id}")

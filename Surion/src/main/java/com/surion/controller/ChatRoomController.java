@@ -51,8 +51,8 @@ public class ChatRoomController {
     }
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
-    public String roomDetail(Model model, @PathVariable String roomId) {
-       return chatRoomService.roomDetail(model, roomId);
+    public String roomDetail(Model model, @PathVariable String roomId, HttpSession session) {
+       return chatRoomService.roomDetail(model, roomId, session);
     }
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")

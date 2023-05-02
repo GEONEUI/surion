@@ -54,26 +54,26 @@ public interface RepairFormRepository{
 	public List<RepairForm> findByMemberId(@Param("member_id") String id);
 	
 	// 마이페이지용 수정
-	@Update("update suri_repairForm set image = #{image}, title = #{title}, "
+	@Update("update suri_repairForm set image = #{image}, date = #{date}, title = #{title}, "
 			+ "content = #{content}, estimate=#{estimate} where idx = #{idx}")
 	public void updateRepair(RepairForm repairForm);
 	
 	// 의뢰 목록 삭제
 	@Delete("delete from suri_repairForm where idx = #{idx}")
-	public void deleteRepair(RepairForm form);
+	public void deleteRepair(RepairForm repairForm);
+
 	
 	// 의뢰 목록에서 Mechanic이 의뢰 제안
 	@Insert("insert into suri_repairOffer values('null', #{mechanic_id}, #{member_id}, #{estimate})")
 	public void offer(RepairOffer offer);
 	
 	// Ajax로 카테고리 선택
-	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
-	public List<RepairForm> category(int kind); 
-	// 카테고리 최신순
-	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
-	public List<RepairForm> categoryRecent(int kind); 
-	// 카테고리 인기순
-	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
-	public List<RepairForm> categoryPopular(int kind); 
-	
+//	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+//	public List<RepairForm> category(int kind); 
+//	// 카테고리 최신순
+//	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+//	public List<RepairForm> categoryRecent(int kind); 
+//	// 카테고리 인기순
+//	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+//	public List<RepairForm> categoryPopular(int kind); 
 }

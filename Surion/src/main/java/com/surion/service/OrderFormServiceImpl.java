@@ -29,6 +29,8 @@ public class OrderFormServiceImpl implements OrderFormService{
 	
 	@Autowired
 	MemberRepository memberRepository;
+
+	
 	
 	//게시물 등록폼 저장
 	@Override
@@ -107,7 +109,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	//이미지 업로드 되는 메소드
 	@Override
 	public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session) {
-		
 		MultipartRequest multi = null;
 		Member member = (Member) session.getAttribute("member");
 		String Save = request.getRealPath("/resources/images/order");
@@ -129,7 +130,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    String category = multi.getParameter("category");
 	    String office = multi.getParameter("office");
 	    String imgname = null;
-
 	    if (member == null) { // 로그인하지 않은 경우
 	        return "redirect:${cpath}/common/login";
 	    }
@@ -175,6 +175,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setOffice(office);
 		System.out.println(member.getId());
 		orderFormRepository.save(orderForm);
+		orderFormRepository.updateMechanic(orderForm);
 		return "redirect:/order2/orderList";
 	}
 	
@@ -207,14 +208,13 @@ public class OrderFormServiceImpl implements OrderFormService{
 	        try {
 	            orderFormRepository.join(orderJoin);
 	            orderFormRepository.update1(orderJoin);
-	            orderFormRepository.memberUpdate(member);
-//	            Member member2 = memberRepository.findById(member);
-	            
+	            orderFormRepository.updateOffice(member.getId(), orderJoin.getOffice());
+	                        
 	            rttr.addFlashAttribute("msgTitle", "Success Message!");
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
 	            session.setAttribute("result", result);
-	            
-//	            member.setOffice(member2.getOffice());
+	            member = memberRepository.findById(member);
+	            session.removeAttribute("member");
 	            session.setAttribute("member", member);
 	            return "redirect:/";
 	        } catch (Exception e) {
@@ -225,6 +225,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	        }
 	    }
 	}
+	
 
 	@Override
 	public void update1(OrderJoin orderJoin) {
@@ -272,6 +273,8 @@ public class OrderFormServiceImpl implements OrderFormService{
 		OrderForm pro = orderFormRepository.findById(orderForm);
 		model.addAttribute("profile", pro);
 	}
+
+	
 	
 }
 
