@@ -75,5 +75,10 @@ public class RepairController {
 		return "redirect:/repair/repairList";
 	}
 	
-	
+	@RequestMapping("/categoryAjax")
+	public @ResponseBody void categoryAjax(HttpServletRequest request) {
+		String kind = request.getParameter("kind");
+		
+		
+	}
 }

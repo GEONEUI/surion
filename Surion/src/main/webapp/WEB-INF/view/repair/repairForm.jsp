@@ -989,7 +989,7 @@ input[type="checkbox"]:checked+label span::after {
 			  if(checkbox.checked == true)  {
 				  ss.innerHTML = '<input type="text" class="lastEstimate" placeholder="협의" value="협의" readonly>';
 			  } else {
-				  ss.innerHTML = '<input type="number" id="number" class="lastEstimate" placeholder="숫자만 입력해주세요.">';
+				  ss.innerHTML = '<input type="number" id="number" class="lastEstimate" placeholder="금액은 숫자만 입력해주세요.">';
 			  }
 			}
 							
