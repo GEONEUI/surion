@@ -66,6 +66,7 @@ public class MemberServiceImpl implements MemberService{
 				session.setAttribute("member", member);
 				//로그인한 유저의 사업자정보
 				session.setAttribute("mechanic", mechanic);
+				
 				//정비사등록확인
 				session.setAttribute("result", result);
 				session.setMaxInactiveInterval(60*100);

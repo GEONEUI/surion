@@ -175,7 +175,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setOffice(office);
 		System.out.println(member.getId());
 		orderFormRepository.save(orderForm);
-		
 		return "redirect:/order2/orderList";
 	}
 	
@@ -208,14 +207,14 @@ public class OrderFormServiceImpl implements OrderFormService{
 	        try {
 	            orderFormRepository.join(orderJoin);
 	            orderFormRepository.update1(orderJoin);
-	            
-	            Member member2 = memberRepository.findById(member);
+	            orderFormRepository.memberUpdate(member);
+//	            Member member2 = memberRepository.findById(member);
 	            
 	            rttr.addFlashAttribute("msgTitle", "Success Message!");
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
 	            session.setAttribute("result", result);
-
-	            member.setOffice(member2.getOffice());
+	            
+//	            member.setOffice(member2.getOffice());
 	            session.setAttribute("member", member);
 	            return "redirect:/";
 	        } catch (Exception e) {

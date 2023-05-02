@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
@@ -62,6 +63,8 @@ public interface OrderFormRepository {
 	@Select("select COUNT(*) from suri_orderJoin where id= #{id}")
 	public int findByMechanic(@Param("id") String id);
 	
+	@Update("update suri_member set office = #{office} where id= #{id}")
+	public void memberUpdate(Member member);
 }
 
 //@Select("select shopName, office from suri_orderJoin where id = #{id}")

@@ -73,7 +73,7 @@
 			<div class="uline">
 				<label>사업자 번호</label>
 				<div class="idcheck">
-					<input type="text" placeholder="사업자 번호를 입력해주세요." name="mechanic_id" id="mechanic_id" value="${mechanic}">
+					<input type="text" placeholder="사업자 번호를 입력해주세요." name="mechanic_id" id="mechanic_id" value="${mecha}">
 					<button type="button" onclick="mechanic_idConfirm();">중복확인</button>
 				</div>
 				<span id="mechanic_idWarning" style="color:red"></span>

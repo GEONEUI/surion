@@ -183,12 +183,13 @@
 						<li><a href="javascript:gojoin()">무료 회원가입</a></li>
 					</ul>
 				</c:if>
+				${mechanic}
 				<c:if test="${!empty member}">
 					<ul class="unav1">
-						<c:if test="${member.office eq ''}">
+						<c:if test="${mechanic eq null}">
 						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
 						</c:if>
-						<c:if test="${member.office ne ''}">
+						<c:if test="${mechanic ne null}">
 						   <c:choose>
 								<c:when test="${result == 1}">
 									<li><a href="javascript:alert('이미 프로필 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
