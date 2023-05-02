@@ -37,5 +37,5 @@ public interface MemberRepository {
 	@Update("update suri_member set name = #{name}, email = #{email}, password = #{password}, address = #{address}, phone = #{phone}, imgurl = #{imgurl} where Id = #{id}")
 	public void updateProfile(Member m);
 	
-
+	
 }

@@ -58,8 +58,8 @@ public class OrderTwoController {
     
     //프로필리스트
     @GetMapping("/orderList")
-    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request) {
-    	orderFormService.orderList(model, pa, request);
+    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session) {
+    	orderFormService.orderList(model, pa, request, session);
         return "/order2/orderList";
     }
     
@@ -91,7 +91,7 @@ public class OrderTwoController {
   		return orderFormService.join(orderJoin, rttr, session);
   	}
   	
-
+  	
 
 }
 

@@ -15,13 +15,16 @@ public interface OrderFormService {
 	public void save(OrderForm orderForm);
 	
 	//게시물 리스트
-	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request);
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session);
 	
 	//이미지업로드 
 	public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session);
 	
 	//거래내역
 	public void transaction(Model model);
+	
+	//게시물 상세보기
+	public void orderDetail(Model model, OrderForm orderForm);
 	
 	//사업자번호 중복검사
 	public int check(OrderJoin orderJoin);
@@ -33,9 +36,10 @@ public interface OrderFormService {
 	public void update1(OrderJoin orderJoin);
 	
 	//조회수 증가
-	public void readCount(OrderForm m);
+	public void readCount(OrderForm orderForm);
 	
 	//orderList 검색
 	public void search(Model model, OrderListPaging pa, HttpServletRequest request);
+	
 	
 }
