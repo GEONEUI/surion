@@ -237,9 +237,9 @@
 		transition: all 0.3s ease;
 		position: relative;
 		display: inline-block;
-		 box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-		 7px 7px 20px 0px rgba(0,0,0,.1),
-		 4px 4px 5px 0px rgba(0,0,0,.1);
+/* 		 box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5), */
+/* 		 7px 7px 20px 0px rgba(0,0,0,.1), */
+/* 		 4px 4px 5px 0px rgba(0,0,0,.1); */
 		outline: none;
 		font-size: 12px;
 		margin-right: 1rem;
@@ -288,14 +288,14 @@
 			</c:choose>
 		</div>
 		<form class="category-Btn">
-			<button class="custom-btn btn-1" value="">#최신순</button>
-			<button class="custom-btn btn-1" value="">#인기순</button>
-			<button class="custom-btn btn-1" value="">#자전거</button>
-			<button class="custom-btn btn-1" value="">#오토바이</button>
-			<button class="custom-btn btn-1" value="">#에어컨</button>
-			<button class="custom-btn btn-1" value="">#보일러</button>
-			<button class="custom-btn btn-1" value="">#컴퓨터</button>
-			<button class="custom-btn btn-1" value="">#음향/악기</button>
+			<button class="custom-btn btn-1" data-btn="recent">#최신순</button>
+			<button class="custom-btn btn-1" data-btn="popular">#인기순</button>
+			<button class="custom-btn btn-1" data-btn="cycle">#자전거</button>
+			<button class="custom-btn btn-1" data-btn="bike">#오토바이</button>
+			<button class="custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
+			<button class="custom-btn btn-1" data-btn="boiler">#보일러</button>
+			<button class="custom-btn btn-1" data-btn="computer">#컴퓨터</button>
+			<button class="custom-btn btn-1" data-btn="sound">#음향/악기</button>
 		</form>
 	
 		<ul class="askList">
@@ -356,7 +356,30 @@
 		alert('주소를 입력해야 견적 요청이 가능합니다.');
 		location.href="${cpath}/mypage/myinfo";
 	}
-
+	
+	$(function(){
+    	$(".btn-1").on('click',function(){
+    			var btn = $(this).data()
+    			var kind = $(this).val();  //버튼이 클릭 되었을 때 그 버튼의 value를 var kind로 가져와서	
+    			$.ajax({
+    				 url : '${cpath}/repair/categoryAjax', // 이 주소로 
+    	              type : "post", // 포스트 방식으로 보내는데
+    	              cache: false,
+    	              headers: {"cache-control":"no-cache", "pragma": "no-cache"},
+    	              data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+    	              success : function(data){ 
+    	                 console.log(data);
+    	                	
+    	                 $('body').html(data); //성공할시에 body부분에 data라는 html문장들을 다 적용시키겠다
+    	              },
+    	              error : function(data){
+    	            	 alert('error');
+    	               
+    	              }//error
+    			})//ajax
+    		});//click
+    });//ready
+    
 </script>
 
 		<%@ include file="../common/footer.jsp" %>
