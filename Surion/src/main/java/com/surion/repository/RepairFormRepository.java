@@ -68,12 +68,12 @@ public interface RepairFormRepository{
 	public void offer(RepairOffer offer);
 	
 	// Ajax로 카테고리 선택
-//	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
-//	public List<RepairForm> category(int kind); 
-//	// 카테고리 최신순
-//	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
-//	public List<RepairForm> categoryRecent(int kind); 
-//	// 카테고리 인기순
-//	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
-//	public List<RepairForm> categoryPopular(int kind); 
+	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+	public List<RepairForm> category(int kind); 
+	// 카테고리 최신순
+	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+	public List<RepairForm> categoryRecent(int kind); 
+	// 카테고리 인기순
+	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+	public List<RepairForm> categoryPopular(int kind); 
 }
