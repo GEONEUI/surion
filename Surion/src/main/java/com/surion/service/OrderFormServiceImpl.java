@@ -1,6 +1,7 @@
 package com.surion.service;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -18,12 +19,18 @@ import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
+import com.surion.repository.MemberRepository;
 import com.surion.repository.OrderFormRepository;
 
 @Service
 public class OrderFormServiceImpl implements OrderFormService{
 	@Autowired
 	OrderFormRepository orderFormRepository;
+	
+	@Autowired
+	MemberRepository memberRepository;
+
+	
 	
 	//게시물 등록폼 저장
 	@Override
@@ -32,8 +39,9 @@ public class OrderFormServiceImpl implements OrderFormService{
 	}
 	
 	@Override
-	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request) {
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session) {
 		// 현재 보는 페이지를 설정하기 위한 초기값
+				Member member = (Member) session.getAttribute("member");
 				String pageNum = request.getParameter("pageNum");
 				if(pageNum == null) {
 					pageNum = "1";
@@ -79,10 +87,16 @@ public class OrderFormServiceImpl implements OrderFormService{
 				if(pa.getEndNum() < pa.getLastPage()) {
 					pa.setNext(true);
 				}
+		OrderForm orderForm = new OrderForm();
+		orderForm.setId(member.getId());
 		
 		model.addAttribute("paging", pa);
 		List<OrderForm> lst = orderFormRepository.findByAll();
+		int result = orderFormRepository.findByBoard(member.getId());
+		int check = orderFormRepository.findByMechanic(member.getId());
+		model.addAttribute("check", check);
 		model.addAttribute("list", lst);
+		model.addAttribute("result", result);
 	}
 	
 	@Override
@@ -95,12 +109,10 @@ public class OrderFormServiceImpl implements OrderFormService{
 	//이미지 업로드 되는 메소드
 	@Override
 	public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session) {
-		
 		MultipartRequest multi = null;
 		Member member = (Member) session.getAttribute("member");
 		String Save = request.getRealPath("/resources/images/order");
 		int MaxSize = 1024 * 1024 * 5;
-		
 
 		try {
 			multi = new MultipartRequest(request, Save, MaxSize, "UTF-8", new DefaultFileRenamePolicy());
@@ -108,7 +120,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		File newFile = multi.getFile("imageUp");
 		String experience = multi.getParameter("experience");
@@ -119,8 +130,6 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    String category = multi.getParameter("category");
 	    String office = multi.getParameter("office");
 	    String imgname = null;
-
-	    
 	    if (member == null) { // 로그인하지 않은 경우
 	        return "redirect:${cpath}/common/login";
 	    }
@@ -164,28 +173,26 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setExperience(experience);
 	    orderForm.setImg(imgname);
 	    orderForm.setOffice(office);
-
-		
 		System.out.println(member.getId());
 		orderFormRepository.save(orderForm);
-		
+		orderFormRepository.updateMechanic(orderForm);
 		return "redirect:/order2/orderList";
 	}
 	
-
+	
 	@Override
 	public int check(OrderJoin orderJoin) {
 		int result = orderFormRepository.check(orderJoin);
 		return result;
 	}
 
-
+	//정비사등록
 	@Override
 	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
 		Member member = (Member) session.getAttribute("member");
 		orderJoin.setId(member.getId());
 		System.out.println(member.getId());
-	    
+		int result = orderFormRepository.findByBoard(member.getId());
 	    if (orderJoin.getMechanic_id().isEmpty() ||
 	            orderJoin.getShopName().isEmpty() ||
 	            orderJoin.getName().isEmpty() ||
@@ -201,8 +208,14 @@ public class OrderFormServiceImpl implements OrderFormService{
 	        try {
 	            orderFormRepository.join(orderJoin);
 	            orderFormRepository.update1(orderJoin);
+	            orderFormRepository.updateOffice(member.getId(), orderJoin.getOffice());
+	                        
 	            rttr.addFlashAttribute("msgTitle", "Success Message!");
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
+	            session.setAttribute("result", result);
+	            member = memberRepository.findById(member);
+	            session.removeAttribute("member");
+	            session.setAttribute("member", member);
 	            return "redirect:/";
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -212,6 +225,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	        }
 	    }
 	}
+	
 
 	@Override
 	public void update1(OrderJoin orderJoin) {
@@ -219,8 +233,8 @@ public class OrderFormServiceImpl implements OrderFormService{
 	}
 
 	@Override
-	public void readCount(OrderForm m) {
-		orderFormRepository.increaseCount(m);
+	public void readCount(OrderForm orderForm) {
+		orderFormRepository.increaseCount(orderForm);
 		
 	}
 
@@ -253,6 +267,14 @@ public class OrderFormServiceImpl implements OrderFormService{
 		List<OrderForm> lst = orderFormRepository.search(pa);
 		model.addAttribute("list", lst);
 	}
+	//게시물 상세보기
+	@Override
+	public void orderDetail(Model model, OrderForm orderForm) {
+		OrderForm pro = orderFormRepository.findById(orderForm);
+		model.addAttribute("profile", pro);
+	}
+
+	
 	
 }
 

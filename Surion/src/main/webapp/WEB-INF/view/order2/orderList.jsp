@@ -11,106 +11,102 @@
 
 <style>
 ul {
-	padding-left: 0;
-}
-
-.sec_content {
-	width: 100%;
-	margin-bottom: 4rem;
-}
-
-.headLine {
-	height: 70px;
-	box-sizing: border-box;
-	padding-top: 0.7rem;
-	display: flex;
-	margin-top: 2rem;
-	border-radius: 1rem;
-	color: #000;
-	justify-content: space-between;
-}
-
-.hbutton {
-	width: 18%;
-	height: 3rem;
-	margin: 0.5rem 0 0 5rem;
-	background: #00c7ae;
-	border-style: none;
-	border-radius: 0.4rem;
-	color: #ffffff;
-}
-
-.headLine p {
-	width: 25%;
-	font-size: 1.2rem;
-	font-weight: bold;
-	padding: 1rem;
-}
-
-.inputBtn {
-	font-size: 1.3rem;
-	width: 2rem;
-	height: 1rem;
-	color: #847d7d;
-	padding-left: 0.5rem;
-	display: none;
-}
-
-.inputBtn.active {
-	display: unset;
-}
-
-.askList {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.askList a {
-	width: 22%;
-	height: 20rem;
-	margin-right: 4%;
-	margin-top: 4%;
-	color: #000;
-}
-
-.askList a:last-child {
-	margin-right: auto;
-}
-
-.askList a:nth-child(4n) {
-	margin-right: 0px;
-}
-
-.askListA {
-	height: 12rem;
-	background: #00c7ae;
-	border-radius: 0.5rem;
-}
-
-.askListA img {
-	width: 100%;
-	height: auto;
-}
-
-.askListP {
-	padding-top: 1rem;
-}
-
-.askListP li {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	word-break: break-all;
-}
-
-.askListP li:nth-child(1) {
-	color: rgb(154, 155, 167);
-	font-size: 11px;
-}
-
-.askListP li:nth-child(2) {
-	margin: 8px 0px 16px
-}
+		padding-left: 0;
+	}
+	.sec_content {
+		width: 100%;
+		margin-bottom: 4rem;
+	}
+	.headLine {
+		height: 70px;
+		box-sizing: border-box;
+		padding-top: 0.7rem;
+		display: flex;
+		margin-top: 2rem;
+		border-radius: 1rem;
+		color: #000;
+		justify-content: space-between;
+	}
+	.hbutton {
+		width: 18%;
+		height: 3rem;
+		margin: 0.5rem 0 0 5rem;
+		background: #00c7ae;	
+		border-style: none;
+		border-radius: 0.4rem;
+		color: #fff;
+	}
+	
+	.headLine p {
+		width: 25%;
+		font-size: 1.2rem;
+		font-weight: bold;
+		padding: 1rem;
+	}
+	
+	.inputBtn {
+		font-size: 1.3rem;
+		width: 2rem;
+		height: 1rem;
+		color: #847d7d;
+		padding-left: 0.5rem;
+		display: none;
+	}
+	.inputBtn.active {
+		display: unset;
+	}
+	.askList {
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.repairList {
+		width: 22%;
+		height: 20rem;
+		margin-right: 4%;
+		margin-top: 4%;
+		color: #000;
+	}
+	
+	.askList div:last-child {
+		margin-right: auto;
+	}
+	.askList div:nth-child(4n) {
+		margin-right: 0px;
+	}
+	
+	.askListA {
+		height: 192px;
+	}
+	.askListA img {
+		width:100%;
+		height: 100%;
+		cursor: pointer;
+		border-radius: 0.5rem;
+	}
+	.askListP {
+		padding-top: 1rem;
+	}
+	.askListP li{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-all;
+	}
+	.askListP li:nth-child(1){
+		color: rgb(154, 155, 167);
+		font-size: 12px;
+	}
+	.askListP li:nth-child(2){
+		height: 50px;
+		margin: 8px 0px 16px
+	}
+	.orderList {
+		width: 22%;
+		height: 20rem;
+		margin-right: 4%;
+		margin-top: 4%;
+		color: #000;
+	}
 
 .price {
 	display: flex;
@@ -248,22 +244,21 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
 		</form>
 			<c:choose>
-				<c:when test="${!empty mechanic && empty mechanic}">
+				<c:when test="${result == 1}">
+					<button class="hbutton" onclick="alert('이미 프로필 등록을 하셨습니다.')">프로필 등록</button>
+				</c:when>
+				<c:when test="${check ==0 && result == 0}">
 					<button class="hbutton" onclick="addressCall()">프로필 등록</button>
 				</c:when>
-				<c:when test="${!empty mechanic}">
+				<c:otherwise>
 					<button class="hbutton" onclick="location.href='${cpath}/order2/orderForm'">프로필 등록</button>
-				</c:when>
-				<c:when test="${empty mechanic}">
-					<button class="hbutton" onclick="alert('정비사 등록이 필요합니다.')">프로필 등록</button>
-				</c:when>
+				</c:otherwise>
 			</c:choose>
 		</div>
-			
 			<ul class="askList">
 			 <c:forEach items="${list}" var="order">
-				<a href="/surion/order1/detail">
-					<div class="askListA">
+				<div class="orderList">
+					<div class="askListA" onclick="location.href='${cpath}/order1/productDetail?id=${order.id}'">
  						<img src="${cpath}/resources/images/order/${order.img}" alt="" />
 					</div>
 					<div class="askListP">
@@ -277,10 +272,10 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 							<li>${order.office}</li>
 						</div>
 						<div class="star">
-							<li>★ 0.0 | 00개의 평가</li>
+							<li>★ 0.0 | 조회수&nbsp;${order.readCount}회</li>
 						</div>
 					</div>
-				</a>
+				</div>
 				</c:forEach>
 			</ul>
 		<div class="under">
@@ -309,7 +304,6 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 		alert('정비사 등록을 해야 프로필 등록이 가능합니다.');
 		location.href="${cpath}/order2/orderJoin";
 	}
-
 	</script>
 
 	<%@ include file="../common/footer.jsp"%>

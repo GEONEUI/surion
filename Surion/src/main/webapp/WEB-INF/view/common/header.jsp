@@ -178,18 +178,25 @@
 				<h1><a href="${cpath}/"><img src="${cpath}/resources/images/logo.png" alt="로고"></a></h1>
 				<c:if test="${empty member}">
 					<ul class="unav1">
-						<li><a href="javascript:gomechanic()">엔지니어 등록</a></li>
+						<li><a href="javascript:gologin2()">엔지니어 등록</a></li>
 						<li><a href="javascript:gologin()">로그인</a></li>
 						<li><a href="javascript:gojoin()">무료 회원가입</a></li>
 					</ul>
 				</c:if>
 				<c:if test="${!empty member}">
 					<ul class="unav1">
-						<c:if test="${mechanic eq null}">
+						<c:if test="${member.office eq ''}">
 						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
 						</c:if>
-						<c:if test="${mechanic ne null}">
-						   <li><a href="javascript:goBoard()" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+						<c:if test="${member.office ne ''}">
+						   <c:choose>
+								<c:when test="${result == 1}">
+									<li><a href="javascript:alert('이미 프로필 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${cpath}/order2/orderForm" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+								</c:otherwise>
+							</c:choose>
 						</c:if>
 						<c:if test="${member.imgurl eq null}">
 							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
@@ -245,6 +252,10 @@
 		}
 	function goBoard(){
 		location.href='${cpath}/order2/orderForm';
+	}
+	function gologin2(){
+		alert("로그인 후 이용해 주세요.")
+		location.href='${cpath}/member/login';
 	}
 </script>
 
