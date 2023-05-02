@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Builder
 public class OrderFormRepairOfferJoin {
 	private String startTime;
 	private String endTime;

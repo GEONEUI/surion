@@ -153,6 +153,9 @@ body {
 
 
 <!-- 여기부터 -->
+<c:if test="${joinList eq null}">
+<h1>널이지롱</h1>
+</c:if>
 <c:forEach var="list" items="${joinList}">
 	<div id="chat-list" onclick="go(this)">
 		<div class=" p-2 forum-content show">

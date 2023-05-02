@@ -42,15 +42,18 @@ public class MypageServiceImpl implements MypageService{
 		Member m = (Member)session.getAttribute("member");
 		if(pagev == null) 
 			pagev = "1";
-		if(pagev.equals("2")) {
+		else if(pagev.equals("2")) {
 			list = repairFormRepository.findByMemberId(m.getId());
 			model.addAttribute("myBorList", list);
-		}
-		if(pagev.equals("4")) {
-			OrderFormRepairOfferJoin offerJoin = OrderFormRepairOfferJoin.builder().member_id(m.getId()).build();
-			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(offerJoin);
+			
+		} else if(pagev.equals("4")) {
+			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(m);
+			for(int i = 0; i < joinList.size(); i++) {
+				System.out.println("------" + joinList.get(i));
+			}
 			model.addAttribute("joinList", joinList);
 		}
+		
 		int pageview = Integer.parseInt(pagev);
 		model.addAttribute("pageview", pageview);
 		model.addAttribute("member", m);	
