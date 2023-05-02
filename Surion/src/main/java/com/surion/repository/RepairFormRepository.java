@@ -63,7 +63,7 @@ public interface RepairFormRepository{
 	public void deleteRepair(RepairForm form);
 	
 	// 의뢰 목록에서 Mechanic이 의뢰 제안
-	@Insert("insert into suri_repairOffer values('null', #{mechanic_id}, #{member_id}, #{location}, #{phone}, #{ableTime}, #{content})")
+	@Insert("insert into suri_repairOffer values('null', #{mechanic_id}, #{member_id}, #{estimate})")
 	public void offer(RepairOffer offer);
 	
 	

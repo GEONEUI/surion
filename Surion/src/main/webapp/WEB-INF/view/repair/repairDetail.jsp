@@ -147,10 +147,10 @@
 
 	.modal_body {
 	    position: absolute;
-	    top: 50%;
+	    top: 40%;
 	    left: 50%;
 	    width: 400px;
-	    height: 500px;
+	    height: 160px;
 	    padding: 40px;
 	    text-align: center;
 	    background-color: rgb(255, 255, 255);
@@ -168,6 +168,7 @@
 	.location {
 		display: flex;
 		border-bottom: 1.5px solid #e9e8e8;
+		margin-bottom: 1rem;
 	}
 	
 	div.modal.show > form > div:nth-child(6) {
@@ -216,7 +217,7 @@
 	}
 	
 /* 	고정 값 */
-	input[type=text] {
+	input[type=number] {
 		padding-left: 10px;
 		border-style: none;
 	}
@@ -271,7 +272,7 @@
 									</form>
 							</c:when>
 							<c:otherwise>
-								<button class="sBtn" data-login-status="${member.id}" data-mechanic-status="${mechanic}"> 제안하기</button>
+								<button class="sBtn" data-profile-status="${result}"> 제안하기</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -286,19 +287,8 @@
 			<input type="hidden" name="mechanic_id" value="${member.id}">
 			<input type="hidden" name="member_id" value="${m.member_id}">
 		<div class="location">
-			<div class="left-font">위치</div>
-			<input type="text" class="inText" name="location" maxlength="22" placeholder="서울시 강동구.....">
-		</div>
-		<div class="location">
-			<div class="left-font">연락처</div>
-			<input type="text" class="inText" name="phone" maxlength="22" placeholder="010-0000-0000.....">
-		</div>
-		<div class="location">
-			<div class="left-font">연락가능시간</div>
-			<input type="text" class="inText" name="ableTime" maxlength="22" placeholder="00~00시.....">
-		</div>
-		<div>
-			<textarea class="content-box" name="content" placeholder="내용을 입력해 주세요." maxlength="400"></textarea>
+			<div class="left-font">금액</div>
+			<input type="number" class="inText" name="estimate" maxlength="10" oninput="maxLengthCheck(this)" placeholder="숫자만 입력해주세요.">
 		</div>
 		<div class="bottom-btn">
 			<button type="submit" class="submit-btn">제안하기</button>
@@ -312,8 +302,9 @@
 // 제안하기 버튼 클릭 시 modal 등장
 	const modal = document.querySelector('.modal');
 	const sBtn = document.querySelector('.sBtn');
-	const loginStatus = sBtn.getAttribute('data-login-status');
-	const mechanicStatus = sBtn.getAttribute('data-mechanic-status');
+	const loginStatus = "${member.id}";
+	const mechanicStatus = "${mechanic.id}";
+	const profileStatus = "${result}";
 	
 	sBtn.addEventListener('click', () => {
 		// 로그인 확인
@@ -322,8 +313,8 @@
 		  	return	
 		}
 		// 엔지니어 정보 확인
-		if(mechanicStatus === ""){
-			alert("엔지니어 등록을 해주세요.")
+		if(mechanicStatus === "" || profileStatus == 0){
+			alert("엔지니어/프로필 등록을 해주세요.")
 			return
 		}
 	 	// 로그인 상태인 경우 처리
@@ -341,30 +332,22 @@
 	// 모달 창 공란 입력 불가
 	function goCheck(){
 		tf = document.frm1;
-			if(tf.location.value == ""){
-				alert("위치 및 장소를 입력해주세요.");
-				tf.location.focus();
-				return false;
-			}
-			if(tf.phone.value == ""){
-				alert("핸드폰 번호를 입력해주세요.");
-				tf.phone.focus();
-				return false;
-			}
-			if(tf.ableTime.value == ""){
-				alert("연락 가능한 시간을 입력해주세요.");
-				tf.ableTime.focus();
-				return false;
-			}
-			if(tf.content.value == ""){
-				alert("상세 내용을 기재해주세요.");
-				tf.content.focus();
+			if(tf.estimate.value == ""){
+				alert("금액을 입력해주세요.");
+				tf.estimate.focus();
 				return false;
 			}
 			alert('견적 제안이 완료 되었습니다.');
 			return true;
 		};
 	
+		// input number 길이 제한
+		function maxLengthCheck(object){
+		    if (object.value.length > object.maxLength){
+		      object.value = object.value.slice(0, object.maxLength);
+		    }    
+		  }
+		
 </script>
 
 		<%@ include file="../common/footer.jsp" %>

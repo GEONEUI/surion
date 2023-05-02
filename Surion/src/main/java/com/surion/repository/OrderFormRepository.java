@@ -18,7 +18,7 @@ import com.surion.entity.OrderListPaging;
 @Mapper
 public interface OrderFormRepository {
 	//정비사 게시물 폼 저장
-	@Insert("insert into suri_orderForm VALUES(NULL, #{id}, #{shopName}, #{intro}, #{img}, #{startTime}, #{endTime}, #{experience}, #{category}, #{office}, #{mechanic_id}, 0)")
+	@Insert("insert into suri_orderForm VALUES(#{id}, #{shopName}, #{intro}, #{img}, #{startTime}, #{endTime}, #{experience}, #{category}, #{office}, #{mechanic_id}, 0)")
 	public void save(OrderForm orderForm);
 	
 	@Update("update suri_orderForm set img = #{img} where id = #{id}")

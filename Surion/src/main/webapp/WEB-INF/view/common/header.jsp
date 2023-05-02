@@ -183,7 +183,6 @@
 						<li><a href="javascript:gojoin()">무료 회원가입</a></li>
 					</ul>
 				</c:if>
-				${mechanic}
 				<c:if test="${!empty member}">
 					<ul class="unav1">
 						<c:if test="${mechanic eq null}">

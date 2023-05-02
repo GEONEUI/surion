@@ -359,8 +359,32 @@
 	
 	$(function(){
     	$(".btn-1").on('click',function(){
-    			var btn = $(this).data()
-    			var kind = $(this).val();  //버튼이 클릭 되었을 때 그 버튼의 value를 var kind로 가져와서	
+    			var kind;
+    			var btn = $(this).data('btn');
+    			if(btn == recent){
+    				kind = 1;
+    			}
+    			if(btn == popular){
+    				kind = 2;
+    			}
+    			if(btn == cycle){
+    				kind = 3;
+    			}
+    			if(btn == bike){
+    				kind = 4;
+    			}
+    			if(btn == Airconditioner){
+    				kind = 5;
+    			}
+    			if(btn == boiler){
+    				kind = 6;
+    			}
+    			if(btn == computer){
+    				kind = 7;
+    			}
+    			if(btn == sound){
+    				kind = 8;
+    			}
     			$.ajax({
     				 url : '${cpath}/repair/categoryAjax', // 이 주소로 
     	              type : "post", // 포스트 방식으로 보내는데
