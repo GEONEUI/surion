@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.boot.model.source.spi.CascadeStyleSource;
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -155,6 +156,13 @@ public class RepairFormServiceImpl implements RepairFormService{
 	@Override
 	public void offer(RepairOffer offer) {
 		repairFormRepository.offer(offer);
+	}
+
+	@Override
+	public List<RepairForm> category(HttpServletRequest request) {
+		int kind = Integer.parseInt(request.getParameter("kind"));   
+		List<RepairForm> lst = repairFormRepository.category(kind);
+		return lst;
 	}
 
 	

@@ -1,5 +1,7 @@
 package com.surion.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,9 +78,7 @@ public class RepairController {
 	}
 	
 	@RequestMapping("/categoryAjax")
-	public @ResponseBody void categoryAjax(HttpServletRequest request) {
-		String kind = request.getParameter("kind");
-		
-		
+	public @ResponseBody List<RepairForm> categoryAjax(HttpServletRequest request) {
+		return repairFormService.category(request);
 	}
 }

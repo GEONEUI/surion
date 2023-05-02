@@ -287,7 +287,7 @@
 				</c:when>
 			</c:choose>
 		</div>
-		<form class="category-Btn">
+		<div class="category-Btn">
 			<button class="custom-btn btn-1" data-btn="recent">#최신순</button>
 			<button class="custom-btn btn-1" data-btn="popular">#인기순</button>
 			<button class="custom-btn btn-1" data-btn="cycle">#자전거</button>
@@ -296,7 +296,7 @@
 			<button class="custom-btn btn-1" data-btn="boiler">#보일러</button>
 			<button class="custom-btn btn-1" data-btn="computer">#컴퓨터</button>
 			<button class="custom-btn btn-1" data-btn="sound">#음향/악기</button>
-		</form>
+		</div>
 	
 		<ul class="askList">
 			<c:forEach var="list" items="${list}">
@@ -361,28 +361,28 @@
     	$(".btn-1").on('click',function(){
     			var kind;
     			var btn = $(this).data('btn');
-    			if(btn == recent){
+    			if(btn == "cycle"){
     				kind = 1;
     			}
-    			if(btn == popular){
+    			else if(btn == "bike"){
     				kind = 2;
     			}
-    			if(btn == cycle){
+    			else if(btn == "Airconditioner"){
     				kind = 3;
     			}
-    			if(btn == bike){
+    			else if(btn == "boiler"){
     				kind = 4;
     			}
-    			if(btn == Airconditioner){
+    			else if(btn == "computer"){
     				kind = 5;
     			}
-    			if(btn == boiler){
+    			else if(btn == "sound"){
     				kind = 6;
     			}
-    			if(btn == computer){
+    			else if(btn == "recent"){
     				kind = 7;
     			}
-    			if(btn == sound){
+    			else if(btn == "popular"){
     				kind = 8;
     			}
     			$.ajax({
