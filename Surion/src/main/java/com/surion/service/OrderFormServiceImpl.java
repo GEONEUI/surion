@@ -42,6 +42,9 @@ public class OrderFormServiceImpl implements OrderFormService{
 	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session) {
 		// 현재 보는 페이지를 설정하기 위한 초기값
 				Member member = (Member) session.getAttribute("member");
+				if (member == null) {
+					member = new Member();
+			    }
 				String pageNum = request.getParameter("pageNum");
 				if(pageNum == null) {
 					pageNum = "1";
@@ -95,7 +98,9 @@ public class OrderFormServiceImpl implements OrderFormService{
 		int result = orderFormRepository.findByBoard(member.getId());
 		int check = orderFormRepository.findByMechanic(member.getId());
 		model.addAttribute("check", check);
+		//
 		model.addAttribute("list", lst);
+		//프로필등록 count
 		model.addAttribute("result", result);
 	}
 	
@@ -113,7 +118,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 		Member member = (Member) session.getAttribute("member");
 		String Save = request.getRealPath("/resources/images/order");
 		int MaxSize = 1024 * 1024 * 5;
-
+		
 		try {
 			multi = new MultipartRequest(request, Save, MaxSize, "UTF-8", new DefaultFileRenamePolicy());
 			System.out.println(Save);
@@ -133,14 +138,18 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    if (member == null) { // 로그인하지 않은 경우
 	        return "redirect:${cpath}/common/login";
 	    }
-	   
-		
+	    //프로필을 등록했는지 확인 
+	    int count = orderFormRepository.findByBoard(member.getId());
+
+	    // 이미 등록된 OrderForm 정보가 있다면 알림 메시지 출력
+	    if (count != 0) {
+	        rttr.addFlashAttribute("msg", "이미 등록된 정보가 있습니다.");
+	        return "redirect:/";
+	    }
 		//정상적으로 업로드가 되면
 		if(newFile != null) {
 			String lastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
-			//이전의 올린 게시글에  정보를 불러오는 메서드가 있어야한다.
-			//OrderForm oldBoard = orderFormRepository.findByBoard(member_id);
-			//File oldFile = new File(Save + "/" + 예전파일이름);
+
 			
 			rttr.addFlashAttribute("msg", "등록이 완료되었습니다.");
 			if(lastName.equals("PNG") || lastName.equals("JPG")) {
@@ -190,6 +199,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	@Override
 	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
 		Member member = (Member) session.getAttribute("member");
+		Member mechanic = (Member) session.getAttribute("mechanic");
 		orderJoin.setId(member.getId());
 		System.out.println(member.getId());
 		int result = orderFormRepository.findByBoard(member.getId());
@@ -214,8 +224,12 @@ public class OrderFormServiceImpl implements OrderFormService{
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
 	            session.setAttribute("result", result);
 	            member = memberRepository.findById(member);
+	            mechanic = memberRepository.findById(member);
 	            session.removeAttribute("member");
 	            session.setAttribute("member", member);
+	            session.removeAttribute("mechanic");
+	            session.setAttribute("mechanic", mechanic);
+	            
 	            return "redirect:/";
 	        } catch (Exception e) {
 	            e.printStackTrace();
