@@ -10,6 +10,51 @@ pageEncoding="UTF-8"%>
 <html lang="ko">
 <%@ include file="../common/front_header.jsp" %>
 <style>
+ 	@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+    .rate {
+        display: inline-block;
+        border: 0;
+        margin-right: 1%;
+    }
+
+    .rate > input {
+        display: none;
+    }
+
+    .rate > label {
+        float: right;
+        color: #ddd
+    }
+
+    .rate > label:before {
+        display: inline-block;
+        font-size: 1rem;
+        padding: .3rem .2rem;
+        margin: 0;
+        cursor: pointer;
+        font-family: FontAwesome;
+        content: "\f005 ";
+    }
+
+    .rate .half:before {
+        content: "\f089 ";
+        position: absolute;
+        padding-right: 0;
+    }
+
+    .rate input:checked ~ label,
+    .rate label:hover,
+    .rate label:hover ~ label {
+        color: #f73c32 !important;
+    }
+
+    .rate input:checked + .rate label:hover,
+    .rate input input:checked ~ label:hover,
+    .rate input:checked ~ .rate label:hover ~ label,
+    .rate label:hover ~ input:checked ~ label {
+        color: #f73c32 !important;
+    }
     body {
         background: #fff !important;
     }
@@ -36,20 +81,7 @@ pageEncoding="UTF-8"%>
         border: none;
         resize: none;
     }
-    
-   @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
-       .rate { display: inline-block;border: 0;margin-right: 85px;}
-	.rate > input {display: none;}
-	.rate > label {float: right;color: #ddd}
-	.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005";}
-	.rate .half:before {content: "f089"; position: absolute;padding-right: 0;}
-	.rate input:checked ~ label, 
-	.rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
-	.rate input:checked + .rate label:hover,
-	.rate input input:checked ~ label:hover,
-	.rate input:checked ~ .rate label:hover ~ label,  
-	.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  }
-
+   
     #rarara {
         position: relative;
     }
@@ -173,32 +205,37 @@ pageEncoding="UTF-8"%>
                                 </div>
                                 <p class="fs-3 text mt-1 mb-0">자전거 가게</p>
                                 <p class="fs-5 text mb-0">별점</p>
-                                <fieldset class="rate" >
-                                    <input type="radio" id="rating10" name="rating" value="10"><label
-                                        for="rating10" title="5점"></label> <input type="radio" id="rating9"
-                                                                                  name="rating" value="9" checked><label
-                                        class="half"
-                                        for="rating9" title="4.5점"></label> <input type="radio"
-                                                                                   id="rating8" name="rating" value="8"><label
-                                        for="rating8"
-                                        title="4점"></label> <input type="radio" id="rating7" name="rating"
-                                                                   value="7"><label class="half" for="rating7"
-                                                                                    title="3.5점"></label>
-                                    <input type="radio" id="rating6" name="rating" value="6"><label
-                                        for="rating6" title="3점"></label> <input type="radio" id="rating5"
-                                                                                 name="rating" value="5"><label
-                                        class="half" for="rating5"
-                                        title="2.5점"></label> <input type="radio" id="rating4"
-                                                                     name="rating" value="4"><label for="rating4"
-                                                                                                    title="2점"></label>
-                                    <input type="radio" id="rating3" name="rating" value="3"><label
-                                        class="half" for="rating3" title="1.5점"></label> <input
-                                        type="radio" id="rating2" name="rating" value="2"><label
-                                        for="rating2" title="1점"></label> <input type="radio" id="rating1"
-                                                                                 name="rating" value="1"><label
-                                        class="half" for="rating1"
-                                        title="0.5점"></label>
-                                </fieldset>
+                                	<div>
+	                                	<fieldset class="rate">
+	                                        <input type="radio" id="rating310" name="rating2" value="10" onclick="return(false);"
+	                                        ><label for="rating310"
+	                                                title="5점"></label>
+	                                        <input type="radio" id="rating39" name="rating2" value="9" onclick="return(false);"
+	                                               checked><label class="half" for="rating39" title="4.5점"></label>
+	                                        <input type="radio" id="rating38" name="rating2" value="8" onclick="return(false);"
+	                                        ><label for="rating38"
+	                                                title="4점"></label>
+	                                        <input type="radio" id="rating37" name="rating2" value="7" onclick="return(false);"
+	                                        ><label class="half" for="rating37"
+	                                                title="3.5점"></label>
+	                                        <input type="radio" id="rating36" name="rating2" value="6" onclick="return(false);"
+	                                        ><label for="rating36"
+	                                                title="3점"></label>
+	                                        <input type="radio" id="rating35" name="rating2" value="5" onclick="return(false);"
+	                                        ><label class="half" for="rating35"
+	                                                title="2.5점"></label>
+	                                        <input type="radio" id="rating34" name="rating2" value="4" onclick="return(false);"
+	                                        ><label for="rating34"
+	                                                 title="2점"></label>
+	                                        <input type="radio" id="rating33" name="rating2" value="3" onclick="return(false);"
+	                                        ><label class="half" for="rating33"
+	                                                title="1.5점"></label>
+	                                        <input type="radio" id="rating32" name="rating2" value="2" onclick="return(false);"
+	                                        ><label for="rating32" title="1점"></label>
+	                                        <input type="radio" id="rating31" name="rating2" value="1" onclick="return(false);">
+	                                        <label class="half" for="rating31" title="0.5점"></label>
+	                                    </fieldset>
+                                    </div>
                                 <p class="fs-6 text">4.5 / 5.0</p>
 
                                 <p class="fs-5 text">서울시 강동구</p>
@@ -231,7 +268,7 @@ pageEncoding="UTF-8"%>
 
 <script>
     // websocket & stomp initialize
-    var sock = new SockJS("http://" + location.host + "/surion/ws-stomp");
+    var sock = new SockJS("http://" + location.host + "${cpath}/ws-stomp");
     var ws = Stomp.over(sock);
     var reconnect = 0;
 
@@ -259,7 +296,7 @@ pageEncoding="UTF-8"%>
     
     function findRoom() {
         $.ajax({
-            url: '/surion/chat/room/' + room_id,
+            url: '${cpath}/chat/room/' + room_id,
             type: 'get',
             error: function () {
                 alert('채팅방 입장 실패');
@@ -273,6 +310,7 @@ pageEncoding="UTF-8"%>
 
     function sendMessage() {
         message = $('#messageVal').val();
+        messageArea.value = '';
         ws.send("/pub/chat/message", {}, JSON.stringify({
             type: 'TALK',
             room_id: room_id,
@@ -357,7 +395,6 @@ pageEncoding="UTF-8"%>
         if (event.keyCode === 13) {
             event.preventDefault();
             document.getElementById("sendBtn").click();
-            messageArea.value = '';
         }
     });
 

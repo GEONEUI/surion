@@ -17,7 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.Member;
+import com.surion.entity.OrderFormRepairOfferJoin;
 import com.surion.entity.RepairForm;
+import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.RepairFormRepository;
 
 @Service
@@ -25,24 +27,31 @@ public class MypageServiceImpl implements MypageService{
 	
 	
 	private final RepairFormRepository repairFormRepository;
+	private final ChatRoomRepository chatRoomRepository;
 	
 	@Autowired
-	public MypageServiceImpl(RepairFormRepository repairFormRepository) {
+	public MypageServiceImpl(RepairFormRepository repairFormRepository, ChatRoomRepository chatRoomRepository) {
 		this.repairFormRepository = repairFormRepository;
+		this.chatRoomRepository = chatRoomRepository;
 	}
 
 	@Override
 	public String myinfo(Model model, HttpServletRequest request, HttpSession session) {
 		List<RepairForm> list = new ArrayList<>();
 		String pagev = request.getParameter("pageview");
+		Member m = (Member)session.getAttribute("member");
 		if(pagev == null) 
 			pagev = "1";
-		Member m = (Member)session.getAttribute("member");
 		if(pagev.equals("2")) {
 			list = repairFormRepository.findByMemberId(m.getId());
+			model.addAttribute("myBorList", list);
+		}
+		if(pagev.equals("4")) {
+			OrderFormRepairOfferJoin offerJoin = OrderFormRepairOfferJoin.builder().member_id(m.getId()).build();
+			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(offerJoin);
+			model.addAttribute("joinList", joinList);
 		}
 		int pageview = Integer.parseInt(pagev);
-		model.addAttribute("myBorList", list);
 		model.addAttribute("pageview", pageview);
 		model.addAttribute("member", m);	
 		return "/mypage/mypage";
@@ -90,14 +99,11 @@ public class MypageServiceImpl implements MypageService{
 		if(newFile != null) {
 			updateFileName = newFile.getName();
 			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
-			File oldFile = new File(save + "/" + rForm.getImage().substring(11));
 			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
 //				if(oldFile.exists()) {
 //					oldFile.delete();
 //				}
 			}else {
-				updateFileName = oldFile.getName();
-				System.out.println("뇨네"+updateFileName);
 				if(newFile.exists()) {
 					newFile.delete();
 				}

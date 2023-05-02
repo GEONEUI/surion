@@ -60,7 +60,6 @@ public interface RepairFormRepository{
 	
 	// 의뢰 목록 삭제
 	@Delete("delete from suri_repairForm where idx = #{idx}")
-
 	public void deleteRepair(RepairForm repairForm);
 
 	
