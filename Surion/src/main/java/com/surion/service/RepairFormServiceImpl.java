@@ -159,10 +159,19 @@ public class RepairFormServiceImpl implements RepairFormService{
 	}
 
 	@Override
-	public List<RepairForm> category(HttpServletRequest request) {
+	public List<RepairForm> category(HttpServletRequest request, Model model) {
 		int kind = Integer.parseInt(request.getParameter("kind"));   
-		List<RepairForm> lst = repairFormRepository.category(kind);
-		return lst;
+		if(kind == 7) {
+			List<RepairForm> lst = repairFormRepository.categoryRecent(kind);
+			return lst;
+		}
+		if(kind == 8) {
+			List<RepairForm> lst = repairFormRepository.categoryPopular(kind);
+			return lst;
+		} else {
+			List<RepairForm> lst = repairFormRepository.category(kind);
+			return lst;
+		}
 	}
 
 	

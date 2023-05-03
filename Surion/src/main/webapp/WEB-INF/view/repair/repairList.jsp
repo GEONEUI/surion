@@ -138,6 +138,8 @@
 		background: #eeeeee;
 		margin: 0.8rem 3rem 0 3.5rem;
 		border-radius: 0.5rem;
+		display: flex;
+		align-items: center;
 	}
 
 	.ser {
@@ -237,9 +239,6 @@
 		transition: all 0.3s ease;
 		position: relative;
 		display: inline-block;
-/* 		 box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5), */
-/* 		 7px 7px 20px 0px rgba(0,0,0,.1), */
-/* 		 4px 4px 5px 0px rgba(0,0,0,.1); */
 		outline: none;
 		font-size: 12px;
 		margin-right: 1rem;
@@ -263,10 +262,14 @@
 		align-items: center;
 	}
 	
+	.btn-1.active {
+		background: rgb(0,3,255);
+		background: linear-gradient(0deg, #ccc 0%, #6c757d 100%);
+	}
+	
 </style>
 <body>
 	<%@ include file="../common/header.jsp" %>
-
 <div class="sec_content">
 	<div class="suriSize st">
 		<div class="headLine">
@@ -357,53 +360,88 @@
 		location.href="${cpath}/mypage/myinfo";
 	}
 	
+	// 카테고리버튼 Ajax
 	$(function(){
     	$(".btn-1").on('click',function(){
+    			$('.btn-1').removeClass('active');
     			var kind;
     			var btn = $(this).data('btn');
     			if(btn == "cycle"){
     				kind = 1;
+    				$(this).addClass('active');
     			}
     			else if(btn == "bike"){
     				kind = 2;
+    				$(this).addClass('active');
     			}
     			else if(btn == "Airconditioner"){
     				kind = 3;
+    				$(this).addClass('active');
     			}
     			else if(btn == "boiler"){
     				kind = 4;
+    				$(this).addClass('active');
     			}
     			else if(btn == "computer"){
     				kind = 5;
+    				$(this).addClass('active');
     			}
     			else if(btn == "sound"){
     				kind = 6;
+    				$(this).addClass('active');
     			}
     			else if(btn == "recent"){
     				kind = 7;
+    				$(this).addClass('active');
     			}
     			else if(btn == "popular"){
     				kind = 8;
+    				$(this).addClass('active');
     			}
     			$.ajax({
     				 url : '${cpath}/repair/categoryAjax', // 이 주소로 
     	              type : "post", // 포스트 방식으로 보내는데
-    	              cache: false,
-    	              headers: {"cache-control":"no-cache", "pragma": "no-cache"},
     	              data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
-    	              success : function(data){ 
-    	                 console.log(data);
-    	                	
-    	                 $('body').html(data); //성공할시에 body부분에 data라는 html문장들을 다 적용시키겠다
-    	              },
+    	              success : repairView,
     	              error : function(data){
     	            	 alert('error');
-    	               
-    	              }//error
+    	              },//error
     			})//ajax
     		});//click
     });//ready
     
+    // 카테고리버튼 html
+    function repairView(res){
+    	var view = "";
+    		$.each(res, function(idx, obj){
+    			console.log(obj);
+    			var imageStr = obj.image;
+		    	view +='<div class="repairList">';
+			    	view += '<div class="askListA" onclick="goDetail(`'+obj.idx+'`)">';
+			    		view +='<img src="' + '${cpath}/resources/repairImages/' +imageStr.split("h")[1]+  '" alt="공백" />';
+			    	view +='</div>';
+				    	view +='<div class="askListP">';
+				    		view +='<li>'+ obj.title +'</li>';
+				    		view +='<li>'+ obj.content +'</li>';
+				    		view +='<div class="price">';
+				    			if(obj.estimate == "협의"){
+				    				view +='<p class="view">'+ obj.readCount +'회</p>';
+				    				view +='<p>견적&nbsp'+ obj.estimate +'</p>';
+				    			}
+				    			if(obj.estimate != "협의"){
+				    				view +='<p class="view">'+ obj.readCount +'회</p>';
+				    				view +='<p>'+ parseInt(obj.estimate).toLocaleString() +'원 ~</p>';
+				    			}
+			    		view +='</div>';
+			    	view +='</div>';
+		   		 view +='</div>';
+    		});
+    	$('.askList').html(view);
+    }
+ 
+    function goDetail(rr){
+    	location.href="${cpath}/repair/repairDetail?idx=" + rr;
+    }
 </script>
 
 		<%@ include file="../common/footer.jsp" %>

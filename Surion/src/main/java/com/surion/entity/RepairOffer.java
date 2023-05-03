@@ -8,7 +8,4 @@ public class RepairOffer {
 	private String mechanic_id;
 	private String member_id;
 	private String estimate;
-//	private String phone;
-//	private String ableTime;
-//	private String content;
 }

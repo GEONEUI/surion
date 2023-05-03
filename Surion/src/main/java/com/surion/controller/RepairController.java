@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,9 +44,12 @@ public class RepairController {
 	
 	// RepairList 상세 보기
 	@RequestMapping("/repairDetail")
-	public String repairDetail(Model model, RepairForm m) {
+	public String repairDetail(Model model, @Param("idx") int idx) {
+		RepairForm m = new RepairForm();
+		m.setIdx(idx);
 		repairFormService.repairDetail(model, m);
 		repairFormService.readCount(m);
+		
 		return "/repair/repairDetail";
 
 	}
@@ -77,8 +81,8 @@ public class RepairController {
 		return "redirect:/repair/repairList";
 	}
 	
-	@RequestMapping("/categoryAjax")
-	public @ResponseBody List<RepairForm> categoryAjax(HttpServletRequest request) {
-		return repairFormService.category(request);
+	@PostMapping("/categoryAjax")
+	public @ResponseBody List<RepairForm> categoryAjax(HttpServletRequest request, Model model) {
+		return repairFormService.category(request, model);
 	}
 }

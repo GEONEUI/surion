@@ -36,6 +36,6 @@ public interface RepairFormService {
 	public void offer(RepairOffer offer);
 	
 	// 카테고리
-	public List<RepairForm> category(HttpServletRequest request);
+	public List<RepairForm> category(HttpServletRequest request, Model model);
 
 }

@@ -70,10 +70,10 @@ public interface RepairFormRepository{
 	// Ajax로 카테고리 선택
 	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
 	public List<RepairForm> category(int kind); 
-	// 카테고리 최신순
-	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+	// 최신순
+	@Select("select * from suri_repairForm order by idx desc")
 	public List<RepairForm> categoryRecent(int kind); 
-	// 카테고리 인기순
-	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
+	// 인기순
+	@Select("select * from suri_repairForm order by readCount desc")
 	public List<RepairForm> categoryPopular(int kind); 
 }
