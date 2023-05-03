@@ -3,6 +3,7 @@ package com.surion.repository;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,6 +14,7 @@ import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
+import com.surion.entity.RepairForm;
 
 
 @Mapper
@@ -55,7 +57,7 @@ public interface OrderFormRepository {
 	public void update1(OrderJoin orderJoin);
 	//프로필 상세보기
 	@Select("select * from suri_orderForm where id = #{id}")
-	public  OrderForm findById(OrderForm orderForm);
+	public  OrderForm findById(@Param("id")String id);
 	//게시물 등록했는지 확인
 	@Select("SELECT COUNT(*) from suri_orderForm WHERE id = #{id}")
 	public int findByBoard(@Param("id") String id);
@@ -68,6 +70,12 @@ public interface OrderFormRepository {
 	//프로필 등록시 order_Join테이블에서 mechanic_id가져오기
 	@Update("UPDATE suri_orderForm JOIN suri_orderJoin ON suri_orderForm.id = suri_orderJoin.id SET suri_orderForm.mechanic_id = suri_orderJoin.mechanic_id")
 	void updateMechanic(OrderForm orderForm);
+	//프로필 업데이트
+	@Update("update suri_orderForm set shopName = #{shopName}, mechanic_id = #{mechanic_id}, intro = #{intro}, office = #{office}, startTime = #{startTime}, endTime = #{endTime}, img = #{img} where id = #{id}")
+	public void updateOrder(OrderForm orderForm);
+	// 프로필 삭제
+	@Delete("delete from suri_orderForm where mechanic_id = #{mechanic_id}")
+	public void deleteOrder(OrderForm orderForm);
 }
 
 //@Select("select shopName, office from suri_orderJoin where id = #{id}")

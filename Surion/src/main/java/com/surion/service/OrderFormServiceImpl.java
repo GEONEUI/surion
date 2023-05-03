@@ -24,7 +24,7 @@ import com.surion.repository.OrderFormRepository;
 
 @Service
 public class OrderFormServiceImpl implements OrderFormService{
-	@Autowired
+ 	@Autowired
 	OrderFormRepository orderFormRepository;
 	
 	@Autowired
@@ -222,9 +222,11 @@ public class OrderFormServiceImpl implements OrderFormService{
 	                        
 	            rttr.addFlashAttribute("msgTitle", "Success Message!");
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
-	            session.setAttribute("result", result);
 	            member = memberRepository.findById(member);
 	            mechanic = memberRepository.findById(member);
+	            result = orderFormRepository.findByBoard(member.getId());
+	            session.removeAttribute("result");
+	            session.setAttribute("result", result);
 	            session.removeAttribute("member");
 	            session.setAttribute("member", member);
 	            session.removeAttribute("mechanic");
@@ -281,16 +283,19 @@ public class OrderFormServiceImpl implements OrderFormService{
 		List<OrderForm> lst = orderFormRepository.search(pa);
 		model.addAttribute("list", lst);
 	}
-	//게시물 상세보기
+	//프로필 상세보기
 	@Override
-	public void orderDetail(Model model, OrderForm orderForm) {
-		OrderForm pro = orderFormRepository.findById(orderForm);
-		model.addAttribute("profile", pro);
+	public void orderDetail(Model model, String id) {
+		OrderForm orderForm = orderFormRepository.findById(id);
+		model.addAttribute("profile", orderForm);
 	}
 
 	
-	
 }
+
+	
+	
+	
 
 
 

@@ -40,6 +40,9 @@
 			<c:if test="${pageview == 4}">
 				<jsp:include page="./requsetView.jsp"/>
 			</c:if>
+			<c:if test="${pageview == 5}">
+				<jsp:include page="./updateOrder.jsp"/>
+			</c:if>
 			</div>
         </div> <!-- //row -->
     </div> <!-- //container -->

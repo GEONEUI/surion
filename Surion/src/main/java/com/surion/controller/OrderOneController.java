@@ -36,8 +36,8 @@ public class OrderOneController {
     }
     
     @RequestMapping("/productDetail")
-    public String detail(Model model, OrderForm orderForm) {
-    	orderFormService.orderDetail(model, orderForm);
+    public String detail(Model model, String id, OrderForm orderForm) {
+    	orderFormService.orderDetail(model, id);
     	orderFormService.readCount(orderForm);
     	return "/order1/productDetail";
     }
