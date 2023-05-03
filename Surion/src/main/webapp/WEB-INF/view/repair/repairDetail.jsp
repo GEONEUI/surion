@@ -107,6 +107,25 @@
 		color: #fff;
 	}
 	
+	.subBtn {
+		width: 100%;
+		height: 3rem;
+		background: #00c7ae;	
+		border-style: none;
+		border-radius: 0.4rem;
+		color: #fff;
+	}
+	
+	
+	.updateBtn {
+		width: 100%;
+		height: 3rem;
+		background: #00c7ae;	
+		border-style: none;
+		border-radius: 0.4rem;
+		color: #fff;
+	}
+	
 	.propose {
 		padding-top: 22px;
 		margin-top: 2.8rem;
@@ -123,7 +142,7 @@
 	
 /* 제안하기 modal */
 	 .modal {
-		position: absolute;
+		position: fixed;
 		top: 0;
 	    left: 0;
 		width: 100%;
@@ -138,10 +157,10 @@
 
 	.modal_body {
 	    position: absolute;
-	    top: 50%;
+	    top: 40%;
 	    left: 50%;
 	    width: 400px;
-	    height: 500px;
+	    height: 160px;
 	    padding: 40px;
 	    text-align: center;
 	    background-color: rgb(255, 255, 255);
@@ -159,9 +178,10 @@
 	.location {
 		display: flex;
 		border-bottom: 1.5px solid #e9e8e8;
+		margin-bottom: 1rem;
 	}
 	
-	div.modal.show > form > div:nth-child(4) {
+	div.modal.show > form > div:nth-child(6) {
 		border-bottom: 2px solid #e9e8e8;
 		margin-bottom: 1rem;
 	}
@@ -207,7 +227,7 @@
 	}
 	
 /* 	고정 값 */
-	input[type=text] {
+	input[type=number] {
 		padding-left: 10px;
 		border-style: none;
 	}
@@ -256,13 +276,15 @@
 						</ul>
 						<c:choose>
 							<c:when test="${member.id == m.member_id}">
-								<form action="${cpath}/mypage/boardUpdate" method="get">
+								<form method="get" class="frm">
 									<input type="hidden" value="${m.idx}" name="idx">
-									<button class="sBtn">게시글 수정/삭제</button>
-								</form>
+									<button type="button" class="subBtn" onclick="formClick('update')" style="width: 60%">게시글 수정</button>
+								<button type="button" class="subBtn" onclick="formClick('delete')"
+									style="width: 25%; margin-left: 15px;">삭제</button>
+									</form>
 							</c:when>
 							<c:otherwise>
-								<button class="sBtn">제안하기</button>
+								<button class="sBtn" data-profile-status="${result}"> 제안하기</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -271,24 +293,14 @@
 		</div>
 	</div>
 </div>
-
 <div class="modal">
-	<form class="modal_body">
+	<form action="${cpath}/repair/offer" class="modal_body"  method="get" name="frm1" onsubmit="return goCheck()">
 		<hr class="modal_hr">
+			<input type="hidden" name="mechanic_id" value="${member.id}">
+			<input type="hidden" name="member_id" value="${m.member_id}">
 		<div class="location">
-			<div class="left-font">위치</div>
-			<input type="text" class="inText" maxlength="22" placeholder="서울시 강동구.....">
-		</div>
-		<div class="location">
-			<div class="left-font">연락처</div>
-			<input type="text" class="inText" maxlength="22" placeholder="010-0000-0000.....">
-		</div>
-		<div class="location">
-			<div class="left-font">연락가능시간</div>
-			<input type="text" class="inText" maxlength="22" placeholder="00~00시.....">
-		</div>
-		<div>
-			<textarea class="content-box" placeholder="내용을 입력해 주세요." maxlength="400"></textarea>
+			<div class="left-font">금액</div>
+			<input type="number" class="inText" name="estimate" maxlength="10" oninput="maxLengthCheck(this)" placeholder="숫자만 입력해주세요.">
 		</div>
 		<div class="bottom-btn">
 			<button type="submit" class="submit-btn">제안하기</button>
@@ -297,27 +309,73 @@
 	</form>
 </div>
 
-
 <script>	
+
+function formClick(str) {
+	const frm = document.querySelector('.frm');
+	if (str == "update") {
+		frm.action = "${cpath}/mypage/boardUpdate";
+		frm.submit();
+	} else if (str == "delete") {
+		if (confirm('정말 게시글을 삭제 하시겠습니까?')) {
+			frm.action = "${cpath}/mypage/boardDelete";
+			frm.submit();
+		} else {
+			return;
+		}
+	}
+}
+
 	
 // 제안하기 버튼 클릭 시 modal 등장
-const modal = document.querySelector('.modal');
-const sBtn = document.querySelector('.sBtn');
-
-sBtn.addEventListener('click', () => {
-	modal.classList.add('show');
-	document.body.style.overflow = 'hidden';
-});
-
-// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
-const cancel_btn = document.querySelector('.cancel-btn');
-cancel_btn.addEventListener('click', () => {
-	modal.classList.remove('show');
-	document.body.style.overflow = 'auto';
-});
+	const modal = document.querySelector('.modal');
+	const sBtn = document.querySelector('.sBtn');
+	const loginStatus = "${member.id}";
+	const mechanicStatus = "${mechanic.id}";
+	const profileStatus = "${result}";
 	
-
+	sBtn.addEventListener('click', () => {
+		// 로그인 확인
+		if (loginStatus === "") {
+		  	alert("로그인을 해주세요.");
+		  	return	
+		}
+		// 엔지니어 정보 확인
+		if(mechanicStatus === "" || profileStatus == 0){
+			alert("엔지니어/프로필 등록을 해주세요.")
+			return
+		}
+	 	// 로그인 상태인 경우 처리
+		modal.classList.add('show');
+		document.body.style.overflow = 'hidden';
+	});
 	
+	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
+	const cancel_btn = document.querySelector('.cancel-btn');
+	cancel_btn.addEventListener('click', () => {
+		modal.classList.remove('show');
+		document.body.style.overflow = 'auto';
+	});
+	
+	// 모달 창 공란 입력 불가
+	function goCheck(){
+		tf = document.frm1;
+			if(tf.estimate.value == ""){
+				alert("금액을 입력해주세요.");
+				tf.estimate.focus();
+				return false;
+			}
+			alert('견적 제안이 완료 되었습니다.');
+			return true;
+		};
+	
+		// input number 길이 제한
+		function maxLengthCheck(object){
+		    if (object.value.length > object.maxLength){
+		      object.value = object.value.slice(0, object.maxLength);
+		    }    
+		  }
+		
 </script>
 
 		<%@ include file="../common/footer.jsp" %>

@@ -96,7 +96,7 @@
 }
 
 .sBtn {
-	width: 70%;
+	width: 100%;
 	height: 3rem;
 	background: #00c7ae;
 	border-style: none;
@@ -122,17 +122,18 @@
 <body>
 
 	<%@ include file="../common/header.jsp"%>
-	<form method="post" enctype="multipart/form-data" class="frm">
+	<form method="post" enctype="multipart/form-data" action="${cpath}/mypage/boardUpdate">
 		<div class="sec_content">
 			<div class="suriSize st">
 				<div class="content">
 					<div class="mainImg">
 						<div class="mainHere"></div>
 						<p class="propose">
-							<input type="file" name="image" value="${m.image}">
+							<input type="file" name="image">
+							<input type="hidden" name="prevImage">
 						</p>
 					</div>
-
+						
 
 					<div class="mainContent">
 						<div>
@@ -151,7 +152,8 @@
 								<textarea name="content" cols="43" rows="10">${m.content}</textarea>
 								<ul class="nikname">
 									<li>작업 요청일 :</li>
-									<li><input type="date" value="${m.date}" name="date"></li>
+									<li><input type="date" value="${m.date}" name="date" id="Date"></li>
+									
 								</ul>
 								<ul class="nikname">
 									<li>견적 :</li>
@@ -169,10 +171,8 @@
 											id="confer" value="협의">협의</label> <input type="hidden"
 										value="${m.idx}" name="idx"></li>
 								</ul>
-								<button class="sBtn" type="button" onclick="formClick('update')">수정
-									완료</button>
-								<button class="sBtn" type="button" onclick="formClick('delete')"
-									style="width: 25%; margin-left: 15px;">삭제</button>
+								<button class="sBtn">수정 완료</button>
+								
 							</div>
 						</div>
 					</div>
@@ -189,10 +189,10 @@
 				$('input:checkbox[id="confer"]').attr("checked", true)
 			}
 		})
-		var input3 = document.getElementsByTagName('input')[3];
+		//협의 버튼 클릭 함수
 		const checkbox = document.querySelector('#confer');
 		const ss = document.querySelector('#chek');
-		input3.onclick = function() {
+		checkbox.onclick = function() {
 			console.log(checkbox.value);
 			if (checkbox.checked == true) {
 				ss.innerHTML = '<input type="text" name="estimate" placeholder="협의" value="협의" readonly>';
@@ -202,21 +202,11 @@
 			}
 		}
 
-		function formClick(str) {
-			const frm = document.querySelector('.frm');
-			if (str == "update") {
-				frm.action = "${cpath}/mypage/boardUpdate";
-				frm.submit();
-			} else if (str == "delete") {
-				if (confirm('정말 게시글을 삭제 하시겠습니까?')) {
-					frm.action = "${cpath}/mypage/boardDelete";
-					frm.submit();
-				} else {
-					return;
-				}
-
-			}
-		}
+		//오늘 이전 날짜 선택 금지 함수
+		var now_utc = Date.now()
+		var timeOff = new Date().getTimezoneOffset()*60000;
+		var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+		document.getElementById("Date").setAttribute("min", today);
 	</script>
 
 	<%@ include file="../common/footer.jsp"%>

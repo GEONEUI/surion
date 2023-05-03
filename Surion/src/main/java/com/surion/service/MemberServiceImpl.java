@@ -13,13 +13,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.Member;
+import com.surion.entity.OrderForm;
 import com.surion.repository.MemberRepository;
+import com.surion.repository.OrderFormRepository;
 
 @Service
 public class MemberServiceImpl implements MemberService{
 
 	@Autowired
 	MemberRepository memberRepository;
+	
+	
+	@Autowired 
+	OrderFormRepository orderFormRepository;
 	
 	@Override
 	//회원가입
@@ -51,10 +57,18 @@ public class MemberServiceImpl implements MemberService{
 			//아이디 있음
 			if(member != null) {
 				Member mechanic = memberRepository.findById(member);
+				
+				//정비사등록 확인
+				OrderForm orderForm = new OrderForm();
+				orderForm.setId(member.getId());
+				int result = orderFormRepository.findByBoard(member.getId());
 				//로그인정보
 				session.setAttribute("member", member);
 				//로그인한 유저의 사업자정보
 				session.setAttribute("mechanic", mechanic);
+				
+				//정비사등록확인
+				session.setAttribute("result", result);
 				session.setMaxInactiveInterval(60*100);
 				rttr.addFlashAttribute("msgTitle", "Success Message!");
 				rttr.addFlashAttribute("msg", "로그인 성공!");
@@ -144,6 +158,8 @@ public class MemberServiceImpl implements MemberService{
 
 		session.setAttribute("member", member);
 		session.setMaxInactiveInterval(60*20);
+		
+		
 		
 		rttr.addFlashAttribute("updateMsg", "업데이트가 완료 되었습니다.");
 

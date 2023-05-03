@@ -1,6 +1,7 @@
 package com.surion.service;
 
 import java.io.File;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRange;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -15,7 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.Member;
+import com.surion.entity.OrderFormRepairOfferJoin;
 import com.surion.entity.RepairForm;
+import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.RepairFormRepository;
 
 @Service
@@ -23,24 +27,34 @@ public class MypageServiceImpl implements MypageService{
 	
 	
 	private final RepairFormRepository repairFormRepository;
+	private final ChatRoomRepository chatRoomRepository;
 	
 	@Autowired
-	public MypageServiceImpl(RepairFormRepository repairFormRepository) {
+	public MypageServiceImpl(RepairFormRepository repairFormRepository, ChatRoomRepository chatRoomRepository) {
 		this.repairFormRepository = repairFormRepository;
+		this.chatRoomRepository = chatRoomRepository;
 	}
 
 	@Override
 	public String myinfo(Model model, HttpServletRequest request, HttpSession session) {
 		List<RepairForm> list = new ArrayList<>();
 		String pagev = request.getParameter("pageview");
+		Member m = (Member)session.getAttribute("member");
 		if(pagev == null) 
 			pagev = "1";
-		Member m = (Member)session.getAttribute("member");
-		if(pagev.equals("2")) {
+		else if(pagev.equals("2")) {
 			list = repairFormRepository.findByMemberId(m.getId());
+			model.addAttribute("myBorList", list);
+			
+		} else if(pagev.equals("4")) {
+			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(m);
+			for(int i = 0; i < joinList.size(); i++) {
+				System.out.println("------" + joinList.get(i));
+			}
+			model.addAttribute("joinList", joinList);
 		}
+		
 		int pageview = Integer.parseInt(pagev);
-		model.addAttribute("myBorList", list);
 		model.addAttribute("pageview", pageview);
 		model.addAttribute("member", m);	
 		return "/mypage/mypage";
@@ -70,7 +84,7 @@ public class MypageServiceImpl implements MypageService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+		
 		File newFile =  multi.getFile("image");
 		int idx = Integer.parseInt(multi.getParameter("idx"));
 		String title = multi.getParameter("title");
@@ -83,24 +97,30 @@ public class MypageServiceImpl implements MypageService{
 		rForm = repairFormRepository.findById(rForm);
 		System.out.println(rForm);
 		
+		System.out.println("newFile ------------------------------------>" + newFile);
+		
 		if(newFile != null) {
 			updateFileName = newFile.getName();
 			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
-			File oldFile = new File(save + "/" + rForm.getImage());
 			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
-				if(oldFile.exists()) {
-					oldFile.delete();
-				}
+//				if(oldFile.exists()) {
+//					oldFile.delete();
+//				}
 			}else {
 				if(newFile.exists()) {
 					newFile.delete();
 				}
-
+			
 				rttr.addFlashAttribute("msgTitle", "Error Message!");
 				rttr.addFlashAttribute("msg", "이미지는 PNG, JPG만 업로드 가능합니다.");
 				return "redirect:/mypage/myinfo";
 			}
+		}else {
+			File oldFile = new File(save + "/" + rForm.getImage().substring(11));
+			updateFileName = oldFile.getName();
 		}
+		
+	
 		
 		RepairForm form = RepairForm.builder()
 				.date(date).estimate(estimate)
@@ -109,6 +129,7 @@ public class MypageServiceImpl implements MypageService{
 				.build();
 		
 		//업데이트
+		System.out.println("--------------------------------------> " + form.toString());
 		repairFormRepository.updateRepair(form);
 	
 		
@@ -119,6 +140,7 @@ public class MypageServiceImpl implements MypageService{
 
 	@Override
 	public String boardDelete(RepairForm form) {
+	
 		repairFormRepository.deleteRepair(form);
 		return "redirect:/mypage/myinfo?pageview=2";
 	}
