@@ -5,8 +5,10 @@ import com.surion.domain.repair.RepairItem;
 import com.surion.domain.review.Review;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,17 @@ public class Member {
     @Enumerated (EnumType.STRING)
     private Grade grade;
 
+    private int point;
+
+    @Column(name = "retrieved_id")
+    private Integer retrievedId;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+
+    private String reviewId;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();

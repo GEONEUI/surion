@@ -7,8 +7,11 @@ import com.surion.domain.repair.Repair;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.ibatis.annotations.One;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,8 +23,25 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
     private String name;
-    private String score;
+    private int point;
     private String content;
+
+    private String attachedPhotoIds;
+
+    private String placeId;
+    private String userId;
+
+    @CreationTimestamp
+    private LocalDateTime createTime;
+
+
+    @UpdateTimestamp
+    private LocalDateTime updateTime;
+
+    private LocalDateTime deleteTime;
+
+    private int isDelete;
+
 
     @Enumerated(EnumType.STRING)
     private ReviewStatus reviewStatus;
@@ -39,5 +59,6 @@ public class Review {
 
     @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private Repair repair;
+
 
 }
