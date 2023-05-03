@@ -105,7 +105,7 @@
                         <a href="${cpath}/mypage/myinfo?pageview=1" class="nav-link nav-link-faded has-icon" class="myConfig">사용자 정보</a>
                         <a href="${cpath}/mypage/myinfo?pageview=2" class="nav-link nav-link-faded has-icon" class="myConfig">내 글 관리</a>
                         <a href="${cpath}/mypage/myinfo?pageview=3" class="nav-link nav-link-faded has-icon" class="myConfig chatList">채팅 목록</a>
-                        <a href="${cpath}/mypage/myinfo?pageview=4" class="nav-link nav-link-faded has-icon" class="myConfig">나의 의뢰</a>
+                        <a href="${cpath}/mypage/myinfo?pageview=4" class="nav-link nav-link-faded has-icon" class="myConfig">받은 견적</a>
                         <a href="${cpath}/mypage/myinfo?pageview=5" class="nav-link nav-link-faded has-icon" class="myConfig">여기부턴 정비사</a>
                       </nav>
                     </div>

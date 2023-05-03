@@ -170,7 +170,6 @@
  <script>
  
     let chatrooms = []
- 	let roomName = $('#roomName');
     
  	$(document).ready(function(){
  		findAllRoom();  		
@@ -183,21 +182,26 @@
 			url:"${cpath}/chat/rooms",
          	type:"get",
          	data:{
-         		"memberId" : "${member.id}"},
+         		"member_id" : "${member.id}"},
          	error:function(){
 				alert("채팅목록 불러오기 실패")
 			},
 			success:function(res){
 				$.each(res, function(idx, obj){
+					console.log(obj);
 					/* console.log(res); */
 					viewHtml += '<div onclick="enterRoom('+"'"+obj.room_id+"'"+')" class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">'; 
 					viewHtml += '<div class="d-flex">';
-					viewHtml +=	'<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" width="45px" height="45px">';
-					viewHtml += '<p class="fs-3 text ms-3">'+obj.member_id+'</p>'
+					if(obj.imgurl != null){						
+						viewHtml +=	'<img src="${cpath}/resources/images/'+obj.imgurl+'" alt="프로필" width="45px" height="45px" style="border-radius: 50%">';
+					} else {
+						viewHtml +=	'<img src="${cpath}/resources/images/default.png" alt="프로필" width="45px" height="45px" style="border-radius: 50%">';
+					}
+					viewHtml += '<p class="fs-3 text ms-3">'+obj.shopName+'</p>'
 					viewHtml += '</div>';
 					viewHtml += '<div class="d-flex justify-content-between">';
-					viewHtml += '<p class="fs-5 text">네</p>';
-					viewHtml += '<p class="fs-6 text">23.04.03</p>'
+					viewHtml += '<p class="fs-5 mb-5 text">'+obj.message+'</p>';
+					viewHtml += '<p class="fs-6 text">'+obj.send_time.substr(15, 6) +'</p>'
 					viewHtml += '</div>';
 					viewHtml += '</div>';
 					});    	            			  

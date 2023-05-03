@@ -149,12 +149,21 @@ body {
 #chat-list>div {
 	padding: 0 0 10px 0 !important;
 }
+
+.wait {
+	  display: grid;
+  place-items: center;
+  min-height: 50vh;
+}
 </style>
 
 
 <!-- 여기부터 -->
-<c:if test="${joinList eq null}">
-<h1>널이지롱</h1>
+<c:if test="${joinList eq '[]'}">
+	<div class="wait">
+		<h2>아직 들어온 견적이 없어요.</h2>
+		<h4>조금만 더 기다려 주세요!</h4>
+	</div>
 </c:if>
 <c:forEach var="list" items="${joinList}">
 	<div id="chat-list" onclick="go(this)">
@@ -164,8 +173,16 @@ body {
 				<div class="col-lg-7 card-body p-2 p-sm-3">
 					<div class="media forum-item">
 						<div class="d-flex">
-							<img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-								class="mr-3 rounded-circle" width="50" alt="User" />
+						<c:choose>
+							<c:when test="${list.imgurl eq null }">
+								<img src="${cpath}/resources/images/default.png"
+								class="mr-3 rounded-circle" width="50" height="50" alt="User" />
+							</c:when>
+							<c:otherwise>
+								<img src="${cpath}/resources/images/${list.imgurl}"
+								class="mr-3 rounded-circle" width="50" height="50" alt="User" />
+							</c:otherwise>
+						</c:choose>
 							<h3 class="ms-3 align-self-center">${list.shopName}</h3>
 						</div>
 						<div class="media-body d-flex">
@@ -204,7 +221,7 @@ body {
 				</div>
 				<div class="col-lg-5 card-body p-2 p-sm-3 align-self-center">
 					<div class="media forum-item d-flex justify-content-end">
-						<h1 class="display-5">${list.estimate} 원</h1>
+						<h1>${list.estimate} 원</h1>
 					</div>
 				</div>
 				<div class="col-lg-12 px-3" style="max-height: 300px">
@@ -213,7 +230,7 @@ body {
 					<p>${list.intro}</p>
 					<div class="d-flex justify-content-end pe-3 mb-3">
 						<button type="button" class="btn btn-outline-primary"
-							onclick="makeRoom('${list.mechanic_id}')">여기서 고치기</button>
+							onclick="makeRoom('${list.mechanic_id}', '${list.member_id}')">여기서 고치기</button>
 					</div>
 				</div>
 
@@ -225,27 +242,43 @@ body {
 
 
 <script>
+
+
+
 	function go(a) {
 		a.classList.toggle('active');
 	}
 
 	//방만들기
-	function makeRoom(id) {
-		if (confirm('해당 고수에게 맡기시겠습니까?')) {
+	function makeRoom(id, sessionId) {
+		if (confirm('해당 엔지니어에게 맡기시겠습니까?')) {
 			var params = new URLSearchParams();
-			params.append("name", id); //roomname 들어갔던자리,
+			params.append("name", id); 
 			//alert(params);
 
-			$.ajax({
+			$.ajax({//해당 엔지니어와 채팅방 개설 후 받았던 견적 삭제
 				url : "${cpath}/chat/room?" + params,
 				type : "post",
 				error : function() {
 					alert('채팅방 개설 실패')
 				},
 				success : function(res) {
-					console.log(res);
-					location.href = "${cpath}/mypage/myinfo?pageview=3";
-				},
+					$.ajax({
+						url : "${cpath}/mypage/offerDelete",
+						type : "post",
+						data :{
+							"id" : sessionId
+						},
+						error : function(){
+							console.log("받은 견적 목록 삭제 실패");
+						},
+						success : function(res){
+							console.log(res + "개 삭제 성공");
+							alert("견적이 수락 되었습니다. 채팅으로 이동합니다.")
+							location.href = "${cpath}/mypage/myinfo?pageview=3";
+						}
+					});
+				}
 			});
 		} else {
 			return;

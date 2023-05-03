@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
+import com.surion.entity.MemberChatRoomMessageJoin;
+import com.surion.entity.OrderFormRepairOfferJoin;
 import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.MemberRepository;
 
@@ -30,8 +32,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	}
 
 	@Override
-	public List<ChatRoom> findRoom(String memberId) {
-		return chatRoomRepository.findAllRooms(memberId);
+	public List<MemberChatRoomMessageJoin> findRoom(String member_id) {
+		return chatRoomRepository.findAllRooms(member_id);
 	}
 
 	@Override
@@ -40,10 +42,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 		Member member = (Member)session.getAttribute("member");
     	String myId = member.getId();
     	String roomId = UUID.randomUUID().toString();
-    	res += chatRoomRepository.createChatRoom(
-    			ChatRoom.builder().room_id(roomId).member_id(opponentId).build());
+//    	res += chatRoomRepository.createChatRoom(
+//    			ChatRoom.builder().room_id(roomId).member_id(opponentId).build());
 		res += chatRoomRepository.createChatRoom(
-				ChatRoom.builder().room_id(roomId).member_id(myId).build());
+				ChatRoom.builder().room_id(roomId).member_id(myId).mechanic_id(opponentId).build());
 		return res;
 	}
 
@@ -55,10 +57,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	        Member sessionMem = (Member)session.getAttribute("member");
 	        for(String member : memberInRoom) {//채팅창 상대방 정보 가져오기 위한 상대방 아이디 찾기
 	        	if(!member.equals(sessionMem.getId())) {
-	        		Member mem = new Member();
-	        		mem.setId(member);
-	        		Member memberInfo = memberRepository.login(mem);
-	        		model.addAttribute("oppUrl", memberInfo.getImgurl());
+	        		OrderFormRepairOfferJoin offerJoin = new OrderFormRepairOfferJoin();
+	        		offerJoin.setMember_id(sessionMem.getId());
+	        		offerJoin.setMechanic_id(member);
+	        		List<OrderFormRepairOfferJoin> list = chatRoomRepository.findOrderJoinByIds(offerJoin);
+	        		model.addAttribute("joinList", list);
 	        	}
 	        }
 	        

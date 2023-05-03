@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.surion.repository.ChatRoomRepository;
@@ -64,6 +65,13 @@ public class MyPageController {
 	@GetMapping("/boardDelete")
 	public String boardDelete(RepairForm form) {
 		return mypageService.boardDelete(form);
+	}
+	
+	@PostMapping("/offerDelete")
+	@ResponseBody
+	public int offerDelete(Member member) {
+		return mypageService.offerDelete(member);
+		 
 	}
 
 

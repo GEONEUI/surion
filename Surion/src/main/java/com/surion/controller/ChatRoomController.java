@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
+import com.surion.entity.MemberChatRoomMessageJoin;
 import com.surion.service.ChatRoomService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,8 +41,8 @@ public class ChatRoomController {
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
-    public List<ChatRoom> room(String memberId) {
-        return chatRoomService.findRoom(memberId);
+    public List<MemberChatRoomMessageJoin> room(String member_id) {
+        return chatRoomService.findRoom(member_id);
     }
     // 채팅방 생성
     @PostMapping("/room")

@@ -191,19 +191,19 @@ pageEncoding="UTF-8"%>
                                  style="border-radius: 15px; height: 100%; max-height: 550px;">
                                 <div class="center">
                                 	<c:choose>
-                                		<c:when test="${oppUrl ne null}">
-                                   			<img class="d-flex mt-1"
+                                		<c:when test="${joinList[0].imgurl eq null}">
+                                			<img class="d-flex mt-1"
                                          	src="${cpath}/resources/images/default.png"
                                          	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
                                 		</c:when>
                                 		<c:otherwise>
                                 		   <img class="d-flex mt-1"
-                                         	src="${cpath}/resources/images/default.png"
+                                         	src="${cpath}/resources/images/${joinList[0].imgurl}"
                                          	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
                                 		</c:otherwise>
                                 	</c:choose>
                                 </div>
-                                <p class="fs-3 text mt-1 mb-0">자전거 가게</p>
+                                <p class="fs-3 text mt-1 mb-0">${joinList[0].shopName}</p>
                                 <p class="fs-5 text mb-0">별점</p>
                                 	<div>
 	                                	<fieldset class="rate">
@@ -238,11 +238,10 @@ pageEncoding="UTF-8"%>
                                     </div>
                                 <p class="fs-6 text">4.5 / 5.0</p>
 
-                                <p class="fs-5 text">서울시 강동구</p>
-                                <p class="fs-5 text">연락가능시간 10시 ~ 21시</p>
+                                <p class="fs-5 text">${joinList[0].office}</p>
+                                <p class="fs-5 text">연락가능시간 ${joinList[0].startTime}시 ~ ${joinList[0].endTime}시</p>
                                 <p class="fs-5 text">고수상세정보</p>
-                                <p class="small mb-1 lh-2 mx-2">안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다.
-                                    출장/방문 수리 모두 가능합니다. 업계 최고 수준으로 모시겠습니다. 감사합니다.</p>
+                                <p class="small mb-1 lh-2 mx-2">${joinList[0].intro}</p>
 
                                 <button type="button" class="btn btn-outline-primary mx-3" style=""
                                         id="requestCompletedBtn">의뢰완료

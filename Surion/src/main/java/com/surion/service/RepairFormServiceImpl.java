@@ -154,6 +154,9 @@ public class RepairFormServiceImpl implements RepairFormService{
 
 	@Override
 	public void offer(RepairOffer offer) {
+		DecimalFormat dec = new DecimalFormat("###,###");
+		String estiConvert = dec.format(Integer.parseInt(offer.getEstimate()));
+		offer.setEstimate(estiConvert);
 		repairFormRepository.offer(offer);
 	}
 
