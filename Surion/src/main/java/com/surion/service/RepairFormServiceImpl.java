@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.boot.model.source.spi.CascadeStyleSource;
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
+import com.surion.entity.RepairOffer;
 import com.surion.repository.RepairFormRepository;
 
 @Service
@@ -150,8 +152,18 @@ public class RepairFormServiceImpl implements RepairFormService{
 		List<RepairForm> lst = repairFormRepository.search(pa);
 		model.addAttribute("list", lst);
 	}
-	
 
+	@Override
+	public void offer(RepairOffer offer) {
+		repairFormRepository.offer(offer);
+	}
+
+	@Override
+	public List<RepairForm> category(HttpServletRequest request) {
+		int kind = Integer.parseInt(request.getParameter("kind"));   
+		List<RepairForm> lst = repairFormRepository.category(kind);
+		return lst;
+	}
 
 	
 	

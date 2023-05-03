@@ -174,26 +174,26 @@
 	}
 	
 	.custom-btn {
-	  width: 45px;
-	  height: 40px;
-	  padding: 7px 6px;
-	  font-family: 'Lato', sans-serif;
-	  background: #fff;
-	  cursor: pointer;
-	  transition: all 0.3s ease;
-	  position: relative;
-	  display: inline-block;
-	  border-radius: 15px;
-	  font-weight: bold;
+		width: 45px;
+		height: 40px;
+		padding: 7px 6px;
+		font-family: 'Lato', sans-serif;
+		background: #fff;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		position: relative;
+		display: inline-block;
+		border-radius: 15px;
+		font-weight: bold;
 	}
 	
 	.btn-11 {
-	  overflow: hidden;
-	  transition: all 0.3s ease;
+	  	overflow: hidden;
+	  	transition: all 0.3s ease;
 	}
 	.btn-11:hover {
-	  background: #00c7ae;
-	  color: #fff;
+		background: #00c7ae;
+		color: #fff;
 	}
 	.btn-11:before {
 	    position: absolute;
@@ -207,7 +207,7 @@
 	    animation: shiny-btn1 3s ease-in-out infinite;
 	}
 	.btn-11:active{
-	  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
+	  	box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
 	              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
 	    inset -4px -4px 6px 0 rgba(255,255,255,.2),
 	    inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
@@ -222,6 +222,47 @@
    	 	color: rgb(154, 155, 167);
    	 	align-items: center;
 	}
+	
+
+	/* 	버튼 */
+	.custom-btn {
+		width: 80px;
+		height: 30px;
+		color: #fff;
+		border-radius: 25px;
+		font-family: 'Lato', sans-serif;
+		font-weight: 500;
+		background: transparent;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		position: relative;
+		display: inline-block;
+/* 		 box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5), */
+/* 		 7px 7px 20px 0px rgba(0,0,0,.1), */
+/* 		 4px 4px 5px 0px rgba(0,0,0,.1); */
+		outline: none;
+		font-size: 12px;
+		margin-right: 1rem;
+	}
+
+	/* 1 */
+	.btn-1 {
+		background: rgb(6,14,131);
+		background: linear-gradient(0deg, rgb(78 229 181) 0%, #4fc3b3 100%);
+		border: none;
+	}
+	
+	.btn-1:hover {
+		background: rgb(0,3,255);
+		background: linear-gradient(0deg, #ccc 0%, #6c757d 100%);
+	}
+	
+	.category-Btn {
+		margin-top: 1rem;
+		display: flex;
+		align-items: center;
+	}
+	
 </style>
 <body>
 	<%@ include file="../common/header.jsp" %>
@@ -230,10 +271,10 @@
 	<div class="suriSize st">
 		<div class="headLine">
 		<p>최신 의뢰 목록 리스트! &#128204;</p>
-		<form action="repairListSearch" method="get" class="askSearch">
-			<i class="fa-solid fa-magnifying-glass"></i>
-				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
-		</form>
+			<form action="repairListSearch" method="get" class="askSearch">
+				<i class="fa-solid fa-magnifying-glass"></i>
+					<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
+			</form>
 			<c:choose>
 				<c:when test="${!empty member.id && empty member.address}">
 					<button class="hbutton" onclick="addressCall()">견적 요청</button>
@@ -245,6 +286,16 @@
 					<button class="hbutton" onclick="alert('로그인이 필요합니다.')">견적 요청</button>
 				</c:when>
 			</c:choose>
+		</div>
+		<div class="category-Btn">
+			<button class="custom-btn btn-1" data-btn="recent">#최신순</button>
+			<button class="custom-btn btn-1" data-btn="popular">#인기순</button>
+			<button class="custom-btn btn-1" data-btn="cycle">#자전거</button>
+			<button class="custom-btn btn-1" data-btn="bike">#오토바이</button>
+			<button class="custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
+			<button class="custom-btn btn-1" data-btn="boiler">#보일러</button>
+			<button class="custom-btn btn-1" data-btn="computer">#컴퓨터</button>
+			<button class="custom-btn btn-1" data-btn="sound">#음향/악기</button>
 		</div>
 	
 		<ul class="askList">
@@ -305,7 +356,54 @@
 		alert('주소를 입력해야 견적 요청이 가능합니다.');
 		location.href="${cpath}/mypage/myinfo";
 	}
-
+	
+	$(function(){
+    	$(".btn-1").on('click',function(){
+    			var kind;
+    			var btn = $(this).data('btn');
+    			if(btn == "cycle"){
+    				kind = 1;
+    			}
+    			else if(btn == "bike"){
+    				kind = 2;
+    			}
+    			else if(btn == "Airconditioner"){
+    				kind = 3;
+    			}
+    			else if(btn == "boiler"){
+    				kind = 4;
+    			}
+    			else if(btn == "computer"){
+    				kind = 5;
+    			}
+    			else if(btn == "sound"){
+    				kind = 6;
+    			}
+    			else if(btn == "recent"){
+    				kind = 7;
+    			}
+    			else if(btn == "popular"){
+    				kind = 8;
+    			}
+    			$.ajax({
+    				 url : '${cpath}/repair/categoryAjax', // 이 주소로 
+    	              type : "post", // 포스트 방식으로 보내는데
+    	              cache: false,
+    	              headers: {"cache-control":"no-cache", "pragma": "no-cache"},
+    	              data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+    	              success : function(data){ 
+    	                 console.log(data);
+    	                	
+    	                 $('body').html(data); //성공할시에 body부분에 data라는 html문장들을 다 적용시키겠다
+    	              },
+    	              error : function(data){
+    	            	 alert('error');
+    	               
+    	              }//error
+    			})//ajax
+    		});//click
+    });//ready
+    
 </script>
 
 		<%@ include file="../common/footer.jsp" %>

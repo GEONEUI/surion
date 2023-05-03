@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="cpath" value="${pageContext.request.contextPath}" />
+
 
 <style>
     .rate {
@@ -178,7 +180,7 @@
     function findAllRoom() {
 		var viewHtml = '';
 		$.ajax({
-			url:"/surion/chat/rooms",
+			url:"${cpath}/chat/rooms",
          	type:"get",
          	data:{
          		"memberId" : "${member.id}"},
@@ -208,7 +210,7 @@
     function enterRoom(roomId) {
             localStorage.setItem('wschat.member_id', '${member.id}');
             localStorage.setItem('wschat.room_id',roomId);
-            location.href="/surion/chat/room/enter/"+roomId;
+            location.href="${cpath}/chat/room/enter/"+roomId;
         
     }
     
