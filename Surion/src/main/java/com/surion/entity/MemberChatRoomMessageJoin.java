@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class MemberChatRoomMessageJoin {
 	private String imgurl;
-	private String mechanic_id;
+	private String othermem_id;
 	private String message;
 	private String send_time;
 	private String room_id;

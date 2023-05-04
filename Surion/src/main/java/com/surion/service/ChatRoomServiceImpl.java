@@ -15,6 +15,7 @@ import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
 import com.surion.entity.MemberChatRoomMessageJoin;
 import com.surion.entity.OrderFormRepairOfferJoin;
+import com.surion.entity.OrderRoomMemberJoin;
 import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.MemberRepository;
 
@@ -45,7 +46,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 //    	res += chatRoomRepository.createChatRoom(
 //    			ChatRoom.builder().room_id(roomId).member_id(opponentId).build());
 		res += chatRoomRepository.createChatRoom(
-				ChatRoom.builder().room_id(roomId).member_id(myId).mechanic_id(opponentId).build());
+				ChatRoom.builder().room_id(roomId).member_id(myId).othermem_id(opponentId).build());
 		return res;
 	}
 
@@ -56,12 +57,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	        List<String> memberInRoom = chatRoomRepository.findMemberByRoomId(roomId);
 	        Member sessionMem = (Member)session.getAttribute("member");
 	        for(String member : memberInRoom) {//채팅창 상대방 정보 가져오기 위한 상대방 아이디 찾기
+	        	
 	        	if(!member.equals(sessionMem.getId())) {
-	        		OrderFormRepairOfferJoin offerJoin = new OrderFormRepairOfferJoin();
-	        		offerJoin.setMember_id(sessionMem.getId());
-	        		offerJoin.setMechanic_id(member);
-	        		List<OrderFormRepairOfferJoin> list = chatRoomRepository.findOrderJoinByIds(offerJoin);
+	        		
+	        		OrderRoomMemberJoin list = chatRoomRepository.findOrderJoinByIds(member);
 	        		model.addAttribute("joinList", list);
+	        		
+	        		
 	        	}
 	        }
 	        
@@ -73,6 +75,11 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	@Override
 	public List<Message> roomInfo(String roomId) {
 		return chatRoomRepository.findRoomById(roomId);
+	}
+
+	@Override
+	public String findLatestMessage(String roomId) {
+		return chatRoomRepository.findMessageByRoomId(roomId);
 	}
 
 

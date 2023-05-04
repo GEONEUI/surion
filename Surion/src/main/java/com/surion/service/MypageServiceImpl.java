@@ -43,7 +43,7 @@ public class MypageServiceImpl implements MypageService {
 		else if (pagev.equals("2")) {
 			list = repairFormRepository.findByMemberId(m.getId());
 			model.addAttribute("myBorList", list);
-
+		
 		} else if (pagev.equals("4")) {
 			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(m);
 			model.addAttribute("joinList", joinList);

@@ -169,8 +169,8 @@
 
  <script>
  
-    let chatrooms = []
-    
+    let target = document.getElementById('target');
+    let roomId = '';
  	$(document).ready(function(){
  		findAllRoom();  		
     });
@@ -182,14 +182,13 @@
 			url:"${cpath}/chat/rooms",
          	type:"get",
          	data:{
-         		"member_id" : "${member.id}"},
+         		"member_id" : "${member.id}"
+         		},
          	error:function(){
 				alert("채팅목록 불러오기 실패")
 			},
 			success:function(res){
 				$.each(res, function(idx, obj){
-					console.log(obj);
-					/* console.log(res); */
 					viewHtml += '<div onclick="enterRoom('+"'"+obj.room_id+"'"+')" class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">'; 
 					viewHtml += '<div class="d-flex">';
 					if(obj.imgurl != null){						
@@ -200,12 +199,30 @@
 					viewHtml += '<p class="fs-3 text ms-3">'+obj.shopName+'</p>'
 					viewHtml += '</div>';
 					viewHtml += '<div class="d-flex justify-content-between">';
-					viewHtml += '<p class="fs-5 mb-5 text">'+obj.message+'</p>';
-					viewHtml += '<p class="fs-6 text">'+obj.send_time.substr(15, 6) +'</p>'
-					viewHtml += '</div>';
-					viewHtml += '</div>';
+					roomId = obj.room_id
+					
+					$.ajax({
+						url: "${cpath}/chat/findMessage",
+						type: "post",
+						data:{
+							"room_id" : roomId
+						},
+						error:function(){
+							alert("채팅방 아이디 가져오기 실패");
+						},
+						success:function(message){
+							viewHtml += '<p class="fs-5 mb-5 text">'+message.substr(0, 20)+'</p>';
+							viewHtml += '<p class="fs-6 text">'+obj.send_time.substr(4, 17) +'</p>'
+							viewHtml += '</div>';
+							viewHtml += '</div>';
+			 	            target.innerHTML = viewHtml;	  
+					
+						}
+					});
+					
+					
 					});    	            			  
- 	            target.innerHTML = viewHtml;	  
+				
          		},
          	});
      }

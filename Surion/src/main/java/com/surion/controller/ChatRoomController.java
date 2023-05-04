@@ -61,4 +61,11 @@ public class ChatRoomController {
     public List<Message> roomInfo(@PathVariable String roomId) {
         return chatRoomService.roomInfo(roomId);
     }
+    //채팅목록용 최신 메세지 조회
+    @PostMapping("/findMessage")
+    @ResponseBody
+    public String findLatestMessage(String room_id) {
+    	return chatRoomService.findLatestMessage(room_id);
+    }
+    
 }

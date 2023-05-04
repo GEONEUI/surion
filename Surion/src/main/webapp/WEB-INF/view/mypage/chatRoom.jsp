@@ -151,8 +151,8 @@ pageEncoding="UTF-8"%>
                                                  			<c:set var="versus" value="${fn:substring(list.send_time, 0, 3)}"/> 
                                                  			<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">
                                                  			<c:choose>
-                                                 				<c:when test="${oppUrl ne null}">
-												         	   		<img src="${cpath}/resources/images/${oppUrl}" style="border-radius:50%; width: 45px; height: 100%;">
+                                                 				<c:when test="${joinList.imgurl ne null}">
+												         	   		<img src="${cpath}/resources/images/${joinList.imgurl}" style="border-radius:50%; width: 45px; height: 100%;">
                                                  				</c:when>                                                 			
                                                  				<c:otherwise>
                                                  					<img src="${cpath}/resources/images/default.png" style="border-radius:50%; width: 45px; height: 100%;">
@@ -190,20 +190,20 @@ pageEncoding="UTF-8"%>
                             <div class="card text-center me-0" id="chat2"
                                  style="border-radius: 15px; height: 100%; max-height: 550px;">
                                 <div class="center">
-                                	<c:choose>
-                                		<c:when test="${joinList[0].imgurl eq null}">
+                                 	<c:choose>
+                                		<c:when test="${joinList.imgurl eq null}">
                                 			<img class="d-flex mt-1"
                                          	src="${cpath}/resources/images/default.png"
                                          	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
                                 		</c:when>
                                 		<c:otherwise>
                                 		   <img class="d-flex mt-1"
-                                         	src="${cpath}/resources/images/${joinList[0].imgurl}"
+                                         	src="${cpath}/resources/images/${joinList.imgurl}"
                                          	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
                                 		</c:otherwise>
-                                	</c:choose>
+                                	</c:choose> 
                                 </div>
-                                <p class="fs-3 text mt-1 mb-0">${joinList[0].shopName}</p>
+                                <p class="fs-3 text mt-1 mb-0">${joinList.shopName}</p>
                                 <p class="fs-5 text mb-0">별점</p>
                                 	<div>
 	                                	<fieldset class="rate">
@@ -238,10 +238,10 @@ pageEncoding="UTF-8"%>
                                     </div>
                                 <p class="fs-6 text">4.5 / 5.0</p>
 
-                                <p class="fs-5 text">${joinList[0].office}</p>
-                                <p class="fs-5 text">연락가능시간 ${joinList[0].startTime}시 ~ ${joinList[0].endTime}시</p>
+                                <p class="fs-5 text">${joinList.office}</p>
+                                <p class="fs-5 text">연락가능시간 ${joinList.startTime}시 ~ ${joinList.endTime}시</p>
                                 <p class="fs-5 text">고수상세정보</p>
-                                <p class="small mb-1 lh-2 mx-2">${joinList[0].intro}</p>
+                                <p class="small mb-1 lh-2 mx-2">${joinList.intro}</p>
 
                                 <button type="button" class="btn btn-outline-primary mx-3" style=""
                                         id="requestCompletedBtn">의뢰완료

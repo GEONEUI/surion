@@ -17,5 +17,6 @@ public interface ChatRoomService {
 	public int createRoom(String opponentId, HttpSession session);
 	 public String roomDetail(Model model, @PathVariable String roomId, HttpSession session);
 	 public List<Message> roomInfo(@PathVariable String roomId);
+	 public String findLatestMessage(String roomId);
 	
 }

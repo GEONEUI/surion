@@ -17,7 +17,7 @@ public class ChatRoom {
 
 	private String room_id;
 	private String member_id;
-	private String mechanic_id;
+	private String othermem_id;
 
 
 
