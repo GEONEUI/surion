@@ -14,6 +14,7 @@ import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
 import com.surion.entity.MemberChatRoomMessageJoin;
+import com.surion.entity.MessageAndSendTime;
 import com.surion.entity.OrderFormRepairOfferJoin;
 import com.surion.entity.OrderRoomMemberJoin;
 import com.surion.repository.ChatRoomRepository;
@@ -78,7 +79,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	}
 
 	@Override
-	public String findLatestMessage(String roomId) {
+	public MessageAndSendTime findLatestMessage(String roomId) {
+		
 		return chatRoomRepository.findMessageByRoomId(roomId);
 	}
 

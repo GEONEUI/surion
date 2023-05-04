@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
 import com.surion.entity.MemberChatRoomMessageJoin;
+import com.surion.entity.MessageAndSendTime;
 import com.surion.service.ChatRoomService;
 
 import lombok.RequiredArgsConstructor;
@@ -64,7 +65,7 @@ public class ChatRoomController {
     //채팅목록용 최신 메세지 조회
     @PostMapping("/findMessage")
     @ResponseBody
-    public String findLatestMessage(String room_id) {
+    public MessageAndSendTime  findLatestMessage(String room_id) {
     	return chatRoomService.findLatestMessage(room_id);
     }
     

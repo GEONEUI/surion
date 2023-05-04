@@ -47,6 +47,9 @@ public class MyPageController {
 	
 	@GetMapping("/myinfo")
 	public String myinfo(Model model, HttpServletRequest request, HttpSession session) {
+		if(session.getAttribute("member") == null) {
+			return "redirect:/";
+		}
 		return mypageService.myinfo(model, request, session);
 
 	}

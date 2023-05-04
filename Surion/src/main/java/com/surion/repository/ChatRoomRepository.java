@@ -15,6 +15,7 @@ import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
 import com.surion.entity.MemberChatRoomMessageJoin;
+import com.surion.entity.MessageAndSendTime;
 import com.surion.entity.OrderFormRepairOfferJoin;
 import com.surion.entity.OrderRoomMemberJoin;
 
@@ -44,12 +45,12 @@ public interface ChatRoomRepository {
 	public List<MemberChatRoomMessageJoin> findAllRooms(@Param("member_id") String member_id);
 
 	//채팅목록 최신 대화내용
-	@Select("SELECT message"
+	@Select("SELECT message, send_time"
 			+ " FROM suri_message"
 			+ " WHERE room_id = #{room_id}"
 			+ " ORDER BY id DESC"
 			+ " LIMIT 1")
-	public String findMessageByRoomId(@Param("room_id") String room_id);
+	public MessageAndSendTime findMessageByRoomId(@Param("room_id") String room_id);
 	
 	@Select("select * from suri_message where room_id=#{room_id}")
 	public List<Message> findRoomById(String roomId);

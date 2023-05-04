@@ -211,8 +211,9 @@
 							alert("채팅방 아이디 가져오기 실패");
 						},
 						success:function(message){
-							viewHtml += '<p class="fs-5 mb-5 text">'+message.substr(0, 20)+'</p>';
-							viewHtml += '<p class="fs-6 text">'+obj.send_time.substr(4, 17) +'</p>'
+							console.log(message)
+							viewHtml += '<p class="fs-5 mb-5 text">'+message.message.substr(0, 20)+'</p>';
+							viewHtml += '<p class="fs-6 text">'+message.send_time.substr(4, 17) +'</p>'
 							viewHtml += '</div>';
 							viewHtml += '</div>';
 			 	            target.innerHTML = viewHtml;	  

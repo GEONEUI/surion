@@ -244,7 +244,7 @@ pageEncoding="UTF-8"%>
                                 <p class="small mb-1 lh-2 mx-2">${joinList.intro}</p>
 
                                 <button type="button" class="btn btn-outline-primary mx-3" style=""
-                                        id="requestCompletedBtn">의뢰완료
+                                        id="requestCompletedBtn" onclick="requestComplete()">의뢰완료
                                 </button>
                             </div>
                         </div>
@@ -256,6 +256,8 @@ pageEncoding="UTF-8"%>
         </div> <!-- //row -->
     </div> <!-- //container -->
 </div><!-- //suriSize -->
+
+
 </body>
 
 <%@ include file="../common/footer.jsp" %>
@@ -310,15 +312,22 @@ pageEncoding="UTF-8"%>
     function sendMessage() {
         message = $('#messageVal').val();
         messageArea.value = '';
-        ws.send("/pub/chat/message", {}, JSON.stringify({
-            type: 'TALK',
-            room_id: room_id,
-            member_id: member_id,
-            message: message,
-            send_time: korTime()
-        }));
-       	insertMsg();
-        message = '';
+        if(message == '\n'){
+        	return;
+        } else {
+        	
+	        ws.send("/pub/chat/message", {}, JSON.stringify({
+	            type: 'TALK',
+	            room_id: room_id,
+	            member_id: member_id,
+	            message: message,
+	            send_time: korTime()
+	        }));
+	       	insertMsg();
+	        message = '';
+        
+        }
+           	
     }
 
     function insertMsg(){
@@ -353,6 +362,7 @@ pageEncoding="UTF-8"%>
         var msgArea = document.querySelector('.msgArea');
         var newMsg = document.createElement("span");
         var addDiv = '';
+        let img = "${joinList.imgurl}";
 /* 		let id = document.getElementById('memberId').value;
  */        if (recv.member_id == '${member.id}') { 
            	addDiv += '<div class="d-flex flex-row justify-content-end mb-3">';
@@ -365,8 +375,8 @@ pageEncoding="UTF-8"%>
             addDiv += '</div>';
         } else {
            	addDiv += '<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">';
-           	if("${oppUrl}" != null){
-            	addDiv += '<img src="${cpath}/resources/images/${oppUrl}" style="width: 45px; height: 100%; border-radius:50%;">';
+           	if(img != ""){
+            	addDiv += '<img src="${cpath}/resources/images/${joinList.imgurl}" style="width: 45px; height: 100%; border-radius:50%;">';
            	} else {
            		addDiv += '<img src="${cpath}/resources/images/default.png" style="width: 45px; height: 100%; border-radius:50%;">';
            	}
@@ -384,7 +394,7 @@ pageEncoding="UTF-8"%>
     }
 
     const scrollToBottom = () => { //채팅창 스크롤 고정 함수
-        document.getElementById('chatMonitor').scrollBy({top: 100});
+        document.getElementById('chatMonitor').scrollBy({top: 1000000});
     };
 
 
@@ -397,7 +407,14 @@ pageEncoding="UTF-8"%>
         }
     });
 
-
+	function requestComplete(){
+		if(confirm('의뢰가 완전히 완료 되었나요?')){
+			
+		}else{
+			return;
+		}
+	}
+    
 
     function connect() {
         // pub/sub event
