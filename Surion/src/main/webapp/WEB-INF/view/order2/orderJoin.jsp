@@ -6,6 +6,8 @@
 	body{
 		 overFlow : scroll
 	}
+	
+	
 	/* 회원가입 */
 	.sec_ujoin{padding-top: 23px;flex-direction:column; width:100%; height:87vh;background:#fafafa; display:flex; align-items:center; justify-content:center;z-index: 99;}
 	.sec_ujoin h2{text-align:center; margin-bottom:30px;}
@@ -39,23 +41,22 @@
 		color: #fff;
 	}
 	
-	.addressLine{
+	.addressLine {
 		display:flex;
+		justify-content:space-between;
 	}
-	
-	.addressLine > input{
-		border:1px solid #ccc;
-	}
-	
-	.addressLine .left{
-		width:70%;
-	}
-	
-	.addressLine .right{
+	.addressLine button{
 		width:30%;
+		border:none;
+		color:#454545;
 		background: #00c7ae;
-  	 	color: #fff;
+		color: #fff;
 	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -88,7 +89,7 @@
 				<label>사업장 주소</label>
 				<div class= "addressLine" id="address">
 				  	<input class="left" type="text" placeholder="주소를 입력해주세요." name="office" id="sample5_address" onclick="off();" value="${of}">
-				  	<input class="right" type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">
+				  	<button class="right" type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">주소검색</button>
 			  	</div>
 			  	<span id="officeWarning" style="color:red"></span>
 			</div>

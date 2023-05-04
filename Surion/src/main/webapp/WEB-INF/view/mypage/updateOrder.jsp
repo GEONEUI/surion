@@ -112,7 +112,18 @@
 		font-size: 18px;
 		font-weight: bold;
 	}
-	
+	.time_div {
+	display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    width: inherit;
+    margin-right: 8px;
+    font-style: normal;
+    }
+	.time_div input{
+		margin-bottom : 0px;
+	}
 
 </style>
 <div id="map" style="width:300px;height:300px;margin-top:10px; display:none;"></div>
@@ -159,12 +170,13 @@
 							</div>
 							<div class="formgroup">
 								<p>연락가능시간</p>
-								<div style="display: flex;">
-								<input type="text" value="${orderForm.startTime}" name="startTime" readonly="readonly">
-								<input type="text" value="${orderForm.endTime}" name="endTime" readonly="readonly">
-								<span id="time"></span>
+								<div class= "time_div" style="display: flex;">
+								<input type="text" value="${orderForm.startTime}" name="startTime" readonly="readonly"><span>시</span>
+								<div>~</div>
+								<input type="text" value="${orderForm.endTime}" name="endTime" readonly="readonly"><span>시</span>
 								</div>
 							</div>
+							<span id="time"></span>
 							<div id="target" class="formgroup">
 								<button type="button" data-oper="infoChange" class="btn btn-sm btn-primary">정보변경</button>
 							</div>
