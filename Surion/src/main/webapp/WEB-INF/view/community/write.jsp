@@ -39,7 +39,7 @@ body {
 
 .insert_title {
 	width: 100%;
-	padding: 1.25rem 0;
+	padding: 1.25rem 5px;
 	margin-top: 15px;
 }
 
@@ -54,8 +54,8 @@ body {
 }
 
 .text {
+	padding:0 5px;
 	color: gray;
-	padding-top: 20px;
 	width: 100%;
 	height: 300px;
 	margin-top: 15px;
@@ -89,6 +89,21 @@ body {
     color: #fff;
 }
 
+.pick_picture input{
+	display:none;
+}
+
+.pick_picture label{
+	width:100%;
+	height:100%;
+	cursor:pointer;
+	display:flex;
+	align-items:center;
+}
+
+.bg{
+	background:#00c7ae;
+}
 
 </style>
 <script> 
@@ -104,38 +119,38 @@ function change(){
 	<div class="suriSize">
 		<div class="container">
 			<div class="row justify-content-between" style="min-height: 500px;">
-				<%@ include file="../common/communiSidebar.jsp"%>
-				<div class="col-lg-9" id="my_page_right">
+				<div class="col-lg-12" id="my_page_right">
 					<!-- 커뮤니티 글 등록 -->
-					<form action="${cpath}/community/writePro" method="post">
+					<form action="${cpath}/community/writePro" method="post" enctype="multipart/form-data">
 						<div class="subject">
 							<!-- <div class="option_subject">
 							주제선택 <i class="fa-solid fa-caret-down"></i>
 						</div> -->
 							<!-- 주제선택 -->
 							<div class="pull-right">
-									<select class="form-control btn btn-success" name="searchField">
-											<option value="0">주제 선택</option>
-											<option value="query">궁금해요</option>
-											<option value="howmuch">얼마예요</option>
-											<option value="findgosu">고수찾아요</option>
-											<option value="together">함께해요</option>
+									<select class="form-control height bg" name="comm_list">
+											<option value="0">(선택) 주제</option>
+											<option value="궁금해요">궁금해요</option>
+											<option value="얼마예요">얼마예요</option>
+											<option value="고수찾아요">고수찾아요</option>
+											<option value="함께해요">함께해요</option>
 									</select>
 							</div>
 							<!-- <input type="text" id="show"> -->
 							<div data-v-63515f9a class="write-button desktop">
 						<input type="submit" value="등록"
-							class="btn btn-outline-info">
+							class="btn btn-primary">
 					</div>
 						</div>
 						<div class="pick_picture">
-							<a><i class="fa-solid fa-camera"></i></a>
+							<label for="file"><i class="fa-solid fa-camera"></i></label>
+							<input id="file" type="file" name="img">
 						</div>
 						<input type="text" class="insert_title" placeholder="제목을 입력해주세요." name="title"/>
 						<div class="option">
 							<div class="option_service">
 								<!-- (선택) 서비스 <i class="fa-regular fa-chevron-down"></i> -->
-								<select class="form-control height" name="suri_list">
+								<select class="form-control height bg" name="suri_list">
 									<option value="0">(선택) 서비스</option>
 									<option value="자전거">자전거</option>
 									<option value="오토바이">오토바이</option>
@@ -144,19 +159,6 @@ function change(){
 									<option value="컴퓨터">컴퓨터</option>
 									<option value="이어폰/기타 등 음향">이어폰/기타 등 음향</option>
 									<option value="기타">기타</option>
-								</select>
-							</div>
-							<div class="option_loc">
-								<!-- (선택) 지역 <i class="fa-regular fa-chevron-down"></i> -->
-								<select class="form-control height" name="loc">
-									<option value="0">(선택) 지역</option>
-									<option value="전국">전국</option>
-									<option value="서울">서울</option>
-									<option value="경기">경기</option>
-									<option value="대전">대전</option>
-									<option value="대구">대구</option>
-									<option value="부산">부산</option>
-									<option value="제주">제주</option>
 								</select>
 							</div>
 						</div>
