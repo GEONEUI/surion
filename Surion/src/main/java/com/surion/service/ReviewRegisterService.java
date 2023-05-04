@@ -1,18 +1,31 @@
 package com.surion.service;
 
 
+import com.surion.domain.Image.Photo;
+import com.surion.domain.Image.PhotoDto;
 import com.surion.domain.member.Member;
 import com.surion.domain.review.Point;
 import com.surion.domain.review.Review;
+import com.surion.domain.review.ReviewCreateRequestDto;
 import com.surion.domain.review.ReviewForm;
 import com.surion.repository.MemberPointRepository;
+import com.surion.repository.PhotoRepository;
 import com.surion.repository.PointRewardRepository;
 import com.surion.repository.ReviewRegisterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
+import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +44,39 @@ public class ReviewRegisterService {
     private final ReviewRegisterRepository reviewRegisterRepository;
     private final PointRewardRepository pointRewardRepository;
     private final MemberPointRepository memberPointRepository;
+    private final PhotoRepository photoRepository;
+    private final FileHandler fileHandler;
 
+
+    // 이미지게시판자료
+    @Transactional
+    public Long create(
+            ReviewCreateRequestDto requestDto,
+            List<MultipartFile> files
+    ) throws Exception {
+        // 파일 처리를 위한 Board 객체 생성
+        Review review = new Review(
+                requestDto.getMember(),
+                requestDto.getContent(),
+                requestDto.getPoint()
+        );
+
+        List<Photo> photoList = fileHandler.parseFileInfo(review,files);
+
+        // 파일이 존재할 때에만 처리
+        if(!photoList.isEmpty()) {
+            for(Photo photo : photoList) {
+                // 파일을 DB에 저장
+                review.addPhoto(photoRepository.save(photo));
+            }
+        }
+        return reviewRegisterRepository.save(review).getId();
+    }
+
+
+
+
+    // 점수시스템 자료
     public String reviewRegister(ReviewForm reviewForm) {
 
         if (reviewRegisterRepository.existsById(reviewForm.getReviewId())) {
@@ -41,12 +86,12 @@ public class ReviewRegisterService {
         int point_sum = 0;
 
         Point firstPlacePointEntity = new Point();
-        if (reviewRegisterRepository.existsByPlaceId(reviewForm.getPlaceId()) == false) {
+        if (reviewRegisterRepository.existsByPlaceId(reviewForm.getMechanicId()) == false) {
             firstPlacePointEntity.setType(FIRSTPLACE);
             firstPlacePointEntity.setPoint(1);
             firstPlacePointEntity.setMark(POINT_INCREMENT);
             firstPlacePointEntity.setReviewId(reviewForm.getReviewId());
-            firstPlacePointEntity.setUserId(reviewForm.getUserId());
+            firstPlacePointEntity.setUserId(reviewForm.getMemberId());
 
             point_sum += 1;
             pointRewardRepository.save(firstPlacePointEntity);
@@ -55,9 +100,9 @@ public class ReviewRegisterService {
         Review reviewEntity = new Review();
         reviewEntity.setContent(reviewForm.getContent());
         reviewEntity.setId(reviewForm.getReviewId());
-        reviewEntity.setAttachedPhotoIds(reviewForm.getAttachedPhotoIds());
-        reviewEntity.setUserId(reviewForm.getUserId());
-        reviewEntity.setPlaceId(reviewForm.getPlaceId());
+        reviewEntity.setPhoto(reviewForm.getPhoto());
+        reviewEntity.setUserId(reviewForm.getMemberId());
+        reviewEntity.setPlaceId(reviewForm.getMechanicId());
 
         reviewRegisterRepository.save(reviewEntity);
 
@@ -68,19 +113,19 @@ public class ReviewRegisterService {
             contentPointEntity.setPoint(1);
             contentPointEntity.setMark(POINT_INCREMENT);
             contentPointEntity.setReviewId(reviewForm.getReviewId());
-            contentPointEntity.setUserId(reviewForm.getUserId());
+            contentPointEntity.setUserId(reviewForm.getMemberId());
 
             point_sum += 1;
         }
 
         Point photoPointEntity = new Point();
-        if (reviewForm.getAttachedPhotoIds().length() > 1)   // 1장 이상
+        if (reviewForm.getPhoto().size() > 1)   // 1장 이상
         {
             photoPointEntity.setType(PHOTO);
             photoPointEntity.setPoint(1);
             photoPointEntity.setMark(POINT_INCREMENT);
             photoPointEntity.setReviewId(reviewForm.getReviewId());
-            photoPointEntity.setUserId(reviewForm.getUserId());
+            photoPointEntity.setUserId(reviewForm.getMemberId());
 
             point_sum += 1;
         }
@@ -92,7 +137,7 @@ public class ReviewRegisterService {
         // 회원가입을 하면 user_id 를 받을테니, null 일수는 없지만
         // 회원가입을 하지 않은 회원이, user_id를 가지고 리뷰를 쓸 경우라고 판단하여 작성
         // 회원가입 관련 기능이 명세되어 있지 않으므로, 새로운 user면 저장하였음.
-        Optional<Member> member = memberPointRepository.findById(reviewForm.getUserId());
+        Optional<Member> member = memberPointRepository.findById(reviewForm.getMemberId());
 
         if (member.isPresent()) {
             member.get().setPoint(member.get().getPoint() + point_sum);
@@ -101,7 +146,7 @@ public class ReviewRegisterService {
         } else {
             Member userEntity = new Member();
 
-            userEntity.setId(reviewForm.getUserId());
+            userEntity.setId(reviewForm.getMemberId());
             userEntity.setPoint(point_sum);
 
             memberPointRepository.save(userEntity);
@@ -119,9 +164,9 @@ public class ReviewRegisterService {
         review.ifPresent(selectReview -> {
             reviewEntity.setContent(reviewForm.getContent());
             reviewEntity.setId(reviewForm.getReviewId());
-            reviewEntity.setAttachedPhotoIds(reviewForm.getAttachedPhotoIds());
-            reviewEntity.setUserId(reviewForm.getUserId());
-            reviewEntity.setPlaceId(reviewForm.getPlaceId());
+            reviewEntity.setPhoto(reviewForm.getPhoto()); // get이었음
+            reviewEntity.setUserId(reviewForm.getMemberId());
+            reviewEntity.setPlaceId(reviewForm.getMechanicId());
 
         });
         reviewRegisterRepository.save(reviewEntity);
@@ -138,9 +183,9 @@ public class ReviewRegisterService {
         }
 
         int checkPhoto = 0;
-        if (reviewForm.getAttachedPhotoIds().length() > 1) {
-            checkPhoto = 1;
-        }
+//        if (reviewForm.getPhoto().length() > 1) {
+//            checkPhoto = 1;
+//        }
 
 
         // 포인트 테이블에서 reviewId 로 조회를 해야해.
@@ -158,14 +203,14 @@ public class ReviewRegisterService {
         if (checkContent == 1 && contentPoint != null) {
             //그냥 넘어감.
         } else if (checkContent == 0 && contentPoint != null) {
-            int retrievedPointId = pointRetrieved(CONTENT, reviewForm.getUserId());
+            int retrievedPointId = pointRetrieved(CONTENT, reviewForm.getMemberId());
 
             contentPoint.setRetrievedId(retrievedPointId);
             pointRewardRepository.save(contentPoint);
         } else if (checkContent == 1 && contentPoint == null) {
-            Optional<Member> member = memberPointRepository.findById(reviewForm.getUserId());
+            Optional<Member> member = memberPointRepository.findById(reviewForm.getMemberId());
             Point contentPointEntity = new Point();
-            contentPointEntity.setUserId(reviewForm.getUserId());
+            contentPointEntity.setUserId(reviewForm.getMemberId());
             contentPointEntity.setType(CONTENT);
             contentPointEntity.setPoint(1);
             contentPointEntity.setMark(POINT_INCREMENT);
@@ -188,14 +233,14 @@ public class ReviewRegisterService {
         if (checkPhoto == 1 && photoPoint != null) {
             //그냥 넘어감.
         } else if (checkPhoto == 0 && photoPoint != null) {
-            int retrievedPointId = pointRetrieved(PHOTO, reviewForm.getUserId());
+            int retrievedPointId = pointRetrieved(PHOTO, reviewForm.getMemberId());
 
             photoPoint.setRetrievedId(retrievedPointId);
             pointRewardRepository.save(photoPoint);
         } else if (checkPhoto == 1 && photoPoint == null) {
-            Optional<Member> user2 = memberPointRepository.findById(reviewForm.getUserId());
+            Optional<Member> user2 = memberPointRepository.findById(reviewForm.getMemberId());
             Point photoPointEntity = new Point();
-            photoPointEntity.setUserId(reviewForm.getUserId());
+            photoPointEntity.setUserId(reviewForm.getMemberId());
             photoPointEntity.setType(PHOTO);
             photoPointEntity.setPoint(1);
             photoPointEntity.setMark(POINT_INCREMENT);
@@ -229,7 +274,7 @@ public class ReviewRegisterService {
         Point contentPoint = pointRewardRepository.findByReviewIdAndTypeAndMarkAndRetrievedIdIsNull(reviewForm.getReviewId(), CONTENT, POINT_INCREMENT);
 
         if (contentPoint != null) {
-            int retrievedPointId = pointRetrieved(CONTENT, reviewForm.getUserId());
+            int retrievedPointId = pointRetrieved(CONTENT, reviewForm.getMemberId());
 
             contentPoint.setRetrievedId(retrievedPointId);
             pointRewardRepository.save(contentPoint);
@@ -240,7 +285,7 @@ public class ReviewRegisterService {
         Point photoPoint = pointRewardRepository.findByReviewIdAndTypeAndMarkAndRetrievedIdIsNull(reviewForm.getReviewId(), PHOTO, POINT_INCREMENT);
 
         if (photoPoint != null) {
-            int retrievedPointId = pointRetrieved(PHOTO, reviewForm.getUserId());
+            int retrievedPointId = pointRetrieved(PHOTO, reviewForm.getMemberId());
 
             photoPoint.setRetrievedId(retrievedPointId);
             pointRewardRepository.save(photoPoint);
@@ -250,7 +295,7 @@ public class ReviewRegisterService {
         Point firstplacePoint = pointRewardRepository.findByReviewIdAndTypeAndMarkAndRetrievedIdIsNull(reviewForm.getReviewId(), FIRSTPLACE, POINT_INCREMENT);
 
         if (firstplacePoint != null) {
-            int retrievedPointId = pointRetrieved(FIRSTPLACE, reviewForm.getUserId());
+            int retrievedPointId = pointRetrieved(FIRSTPLACE, reviewForm.getMemberId());
 
             firstplacePoint.setRetrievedId(retrievedPointId);
             pointRewardRepository.save(firstplacePoint);
@@ -280,6 +325,5 @@ public class ReviewRegisterService {
     public List<Review> findAll() {
     return reviewRegisterRepository.findAll();
     }
-
 
 }

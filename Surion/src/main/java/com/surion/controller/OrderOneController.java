@@ -28,6 +28,4 @@ public class OrderOneController {
         return "/map/map";
     }
 
-
-
 }

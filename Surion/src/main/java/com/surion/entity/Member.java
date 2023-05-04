@@ -12,6 +12,7 @@ public class Member {
 	private String phone;
 	private String grade;
 	private String imgurl;
+
 }
 
 

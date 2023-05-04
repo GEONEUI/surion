@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.surion.entity.Member;
+import com.surion.domain.member.Member;
 import com.surion.service.MemberService;
 
 @Controller
