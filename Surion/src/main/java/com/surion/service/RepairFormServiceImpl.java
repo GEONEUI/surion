@@ -144,6 +144,7 @@ public class RepairFormServiceImpl implements RepairFormService{
 				if(pa.getStartNum() != 1) {
 					pa.setPrev(true);
 				}
+				
 				if(pa.getEndNum() < pa.getLastPage()) {
 					pa.setNext(true);
 				}

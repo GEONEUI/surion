@@ -111,7 +111,7 @@
 
 	.askListP li:nth-child(2){
 		height: 50px;
-		margin: 8px 0px 16px
+		margin: 8px 0px 16px;
 	}
 
 	.price {
@@ -174,8 +174,12 @@
 		padding: 0 2rem 0 2rem;
 		font-size: 14px;
 	}
+	.underPage button {
+		padding: 0 2rem 0 2rem;
+		font-size: 14px;
+	}
 	
-	.custom-btn {
+	.custom-btnn {
 		width: 45px;
 		height: 40px;
 		padding: 7px 6px;
@@ -193,10 +197,12 @@
 	  	overflow: hidden;
 	  	transition: all 0.3s ease;
 	}
+	
 	.btn-11:hover {
 		background: #00c7ae;
 		color: #fff;
 	}
+	
 	.btn-11:before {
 	    position: absolute;
 	    content: '';
@@ -208,6 +214,7 @@
 	    background-color: #fff;
 	    animation: shiny-btn1 3s ease-in-out infinite;
 	}
+	
 	.btn-11:active{
 	  	box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
 	              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
@@ -326,7 +333,7 @@
 		</ul>
 		<div class="under">
 			<c:if test="${paging.prev}">
-				<a href="${cpath}/repair/repairList?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
+				<a href="${cpath}/repair/repairList?pageNum=${paging.startNum - 1}" class="custom-btnn btn-11">이전</a>
 			</c:if>
 			<ul class="underPage">
 				<c:forEach begin="${paging.startNum}" end="${paging.endNum}" var="i">
@@ -340,7 +347,7 @@
 				</c:forEach>
 			</ul>
 			<c:if test="${paging.next}">
-				<a href="${cpath}/repair/repairList?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
+				<a href="${cpath}/repair/repairList?pageNum=${paging.endNum + 1}" class="custom-btnn btn-11">다음</a>
 			</c:if>
 		</div>
 	</div>
@@ -350,10 +357,10 @@
 
 
 
-
-
-
 <script>
+
+	var kind;
+	var test = 1;
 
 	function addressCall(){
 		alert('주소를 입력해야 견적 요청이 가능합니다.');
@@ -364,7 +371,7 @@
 	$(function(){
     	$(".btn-1").on('click',function(){
     			$('.btn-1').removeClass('active');
-    			var kind;
+    			
     			var btn = $(this).data('btn');
     			if(btn == "cycle"){
     				kind = 1;
@@ -398,50 +405,164 @@
     				kind = 8;
     				$(this).addClass('active');
     			}
-    			$.ajax({
+    	    	$.ajax({
     				 url : '${cpath}/repair/categoryAjax', // 이 주소로 
-    	              type : "post", // 포스트 방식으로 보내는데
-    	              data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
-    	              success : repairView,
-    	              error : function(data){
-    	            	 alert('error');
-    	              },//error
+    	             type : "post", // 포스트 방식으로 보내는데
+    	             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+    	             success : repairView,
+    	             error : function(data){
+    	           	 alert('error');
+    	             },//error
     			})//ajax
+    			
+    			
     		});//click
     });//ready
     
+    
+   
+    
+    function goAjax(data){
+    	
+
+    	test = data;
+    	
+    	
+    	$.ajax({
+			 url : '${cpath}/repair/categoryAjax', // 이 주소로 
+             type : "post", // 포스트 방식으로 보내는데
+             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+             success : repairView,
+             error : function(data){
+           	 alert('error');
+             },//error
+		})//ajax
+    }
+    
+  
+    
     // 카테고리버튼 html
     function repairView(res){
-    	var view = "";
-    		$.each(res, function(idx, obj){
-    			console.log(obj);
-    			var imageStr = obj.image;
-		    	view +='<div class="repairList">';
-			    	view += '<div class="askListA" onclick="goDetail(`'+obj.idx+'`)">';
-			    		view +='<img src="' + '${cpath}/resources/repairImages/' +imageStr.split("h")[1]+  '" alt="공백" />';
-			    	view +='</div>';
-				    	view +='<div class="askListP">';
-				    		view +='<li>'+ obj.title +'</li>';
-				    		view +='<li>'+ obj.content +'</li>';
-				    		view +='<div class="price">';
-				    			if(obj.estimate == "협의"){
-				    				view +='<p class="view">'+ obj.readCount +'회</p>';
-				    				view +='<p>견적&nbsp'+ obj.estimate +'</p>';
-				    			}
-				    			if(obj.estimate != "협의"){
-				    				view +='<p class="view">'+ obj.readCount +'회</p>';
-				    				view +='<p>'+ parseInt(obj.estimate).toLocaleString() +'원 ~</p>';
-				    			}
-			    		view +='</div>';
-			    	view +='</div>';
-		   		 view +='</div>';
-    		});
+    	var startValue = (test * 12) - 11;
+    	var endValue = startValue + 12;
+    	var count = res.length;
+
+    	var disPageNum = 10;
+    	var endPage = Math.ceil(test/disPageNum) * disPageNum;
+    	var StartPage = (endPage - disPageNum) + 1;
+    	var realEndPage = Math.ceil(count / endValue);
+    	
+    	if(realEndPage < endPage){
+    		endPage = realEndPage;
+    	}
+    
+  
+    	var prev = StartPage != 1 ? true : false; 
+    	var next = realEndPage < endPage ? true : false;
+    	
+    	var view;
+    	var paging;
+
+    	
+    	console.log("count : " + count);
+		console.log("startValue : " + startValue);
+		console.log("endValue : " + endValue);
+		console.log("disPageNum : " + disPageNum);
+		console.log("endPage : " + endPage);
+		console.log("StartPage : " + StartPage);
+		console.log("realEndPage : " + realEndPage);
+		console.log("prev : " + prev);
+		console.log("next : " + next);
+
+		
+		
+		
+		console.log("---------------------------------------------------");
+
+				
+		
+			
+		
+			$.each(res, function(idx, obj)){
+				
+			}
+		
+		
+				// 페이지 번호
+		      	for (var i = startValue; i < endValue; i++) {
+		
+	
+
+			    	view +='<div class="repairList">';
+				    	view += '<div class="askListA" onclick="goDetail('+res[i].idx+')">';
+				    		view +='<img src="' + '${cpath}/resources/repairImages/' + res[i].image.split("h")[1]+  '" alt="공백" />';
+				    	view +='</div>';
+					    	view +='<div class="askListP">';
+					    		view +='<li>'+ res[i].title +'</li>';
+					    		view +='<li>'+ res[i].content +'</li>';
+					    		view +='<div class="price">';
+					    			if(res[i].estimate == "협의"){
+					    				view +='<p class="view">'+ res[i].readCount +'회</p>';
+					    				view +='<p>견적&nbsp'+ res[i].estimate +'</p>';
+					    			}
+					    			if(res[i].estimate != "협의"){
+					    				view +='<p class="view">'+ res[i].readCount +'회</p>';
+					    				view +='<p>'+ parseInt(res[i].estimate).toLocaleString() +'원 ~</p>';
+					    			}
+				    		view +='</div>';
+				    	view +='</div>';
+			   		 view +='</div>';
+		      	};
+		      	
+		      	
+		      	// 이전, 다음 버튼
+	   		 	if(prev){
+					paging +='<button data-btn="prev" type="button" href="${cpath}/repair/repairAjax?pageNum=' + startNum + '" class="btnClick custom-btnn btn-11">이전</button>'
+	   		 	}
+				paging +='<ul class="underPage">'
+					for(var i = StartPage; i <= endPage; i++){
+						if(test == i){
+							paging +='<li class="bold"><button data-btn="current" class="btnClick" type="button" href="${cpath}/repair/repairAjax?pageNum='+ i +'">' + i + '</button></li>'
+						}
+						if(test != i){
+							paging +='<li><button class="btnClick" type="button" href="${cpath}/repair/repairAjax?pageNum='+ i +'">' + i + '</button></li>'
+						}
+					}
+				paging +='</ul>'
+				if(next){
+					paging +='<button data-btn="next" type="button" class="btnClick" href="${cpath}/repair/repairAjax?pageNum=' + nextt + '" class="custom-btnn btn-11">다음</button>'
+				}
+    		
     	$('.askList').html(view);
+    	$('.under').html(paging);
     }
+    
+    $(window).on('click', function(e){
+    	if($(e.target).hasClass('btnClick')){
+    		var href = $(e.target).attr('href');
+    		var btn = $(e.target).data('btn');
+
+    		$.ajax({
+    			url:href,
+    			type:"get",
+    			success:goAjax,
+    			error:function(){ alert('error')},
+    		})
+    		
+    		
+    	}
+    
+    })
+    
+	
+    
+ 
  
     function goDetail(rr){
     	location.href="${cpath}/repair/repairDetail?idx=" + rr;
     }
+    
+    
 </script>
 
 		<%@ include file="../common/footer.jsp" %>

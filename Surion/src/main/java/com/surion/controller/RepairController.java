@@ -36,6 +36,13 @@ public class RepairController {
 		return "/repair/repairList";
 	}
 	
+	@GetMapping("/repairAjax")
+	public @ResponseBody int repairList(@Param("pageNum")int pageNum){
+		System.out.println(pageNum);
+		return pageNum;
+	}
+	
+	
 	// 견적 요청
 	@RequestMapping("/repairForm")
 	public String repairForm() {

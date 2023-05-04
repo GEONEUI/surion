@@ -67,6 +67,9 @@ public interface RepairFormRepository{
 	@Insert("insert into suri_repairOffer values('null', #{mechanic_id}, #{member_id}, #{estimate})")
 	public void offer(RepairOffer offer);
 	
+	
+//	Ajax Sql ----------------------------------
+	
 	// Ajax로 카테고리 선택
 	@Select("select * from suri_repairForm where itemcategory_id = #{kind}")
 	public List<RepairForm> category(int kind); 
@@ -76,4 +79,7 @@ public interface RepairFormRepository{
 	// 인기순
 	@Select("select * from suri_repairForm order by readCount desc")
 	public List<RepairForm> categoryPopular(int kind); 
+	
+	
+// ---------------------------------------------
 }
