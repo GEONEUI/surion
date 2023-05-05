@@ -106,7 +106,7 @@
                         <a href="${cpath}/mypage/myinfo?pageview=2" class="nav-link nav-link-faded has-icon" class="myConfig">내 글 관리</a>
                         <a href="${cpath}/mypage/myinfo?pageview=3" class="nav-link nav-link-faded has-icon" class="myConfig chatList">채팅 목록</a>
                         <a href="${cpath}/mypage/myinfo?pageview=4" class="nav-link nav-link-faded has-icon" class="myConfig">나의 의뢰</a>
-                        <a href="${cpath}/mypage/myinfo?pageview=5" class="nav-link nav-link-faded has-icon" class="myConfig">여기부턴 정비사</a>
+                        <a href="${cpath}/mypage/myinfo?pageview=5" class="nav-link nav-link-faded has-icon" class="myConfig" id= "order">정비사 정보</a>
                       </nav>
                     </div>
                   </div>
@@ -119,4 +119,11 @@
         <!-- /Inner sidebar body -->
       </div>
       <!-- /Inner sidebar -->
-
+		<script>
+		  var link = document.getElementById("order"); // id가 'order'인 요소를 선택합니다.
+		  if ('${member.office}' === '') { // 만약 member.office가 빈 문자열이라면
+		    link.style.display = 'none'; // 링크를 숨깁니다.
+		  } else {
+		    link.href = `${cpath}/mypage/myinfo?pageview=5`; // 링크의 href 속성을 변경합니다.
+		  }
+		</script>

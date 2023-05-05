@@ -19,6 +19,8 @@ import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
+import com.surion.service.MemberService;
+import com.surion.service.MypageService;
 import com.surion.service.OrderFormService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,9 @@ public class OrderTwoController {
 	
 	@Autowired
 	OrderFormService orderFormService;
+	
+	@Autowired
+	MypageService mypageService;
 	
 	//정비사 등록폼
 	@RequestMapping("/orderJoin")
@@ -91,10 +96,7 @@ public class OrderTwoController {
   		return orderFormService.join(orderJoin, rttr, session);
   	}
   	
-  	@RequestMapping("/orderMyPage")
-  	public String orderMy() {
-  		return "/order2/orderMyPage";
-  	}
+
 
 }
 

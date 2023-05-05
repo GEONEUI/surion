@@ -16,7 +16,7 @@ public interface MemberRepository {
 	public void save(Member m);
 	
 	//로그인
-	@Select("select * from suri_member where id = #{id}")
+	@Select("select * from suri_member where id = #{id} AND password = #{password}")
 	public Member login(Member m);
 	
 	//로그인한 회원 정보 불러오기

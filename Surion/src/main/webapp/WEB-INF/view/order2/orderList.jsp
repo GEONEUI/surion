@@ -247,6 +247,9 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				<c:when test="${result == 1}">
 					<button class="hbutton" onclick="alert('이미 프로필 등록을 하셨습니다.')">프로필 등록</button>
 				</c:when>
+				<c:when test="${member eq null}">
+					<button class="hbutton" onclick="loginCall()">프로필 등록</button>
+				</c:when>
 				<c:when test="${check ==0 && result == 0}">
 					<button class="hbutton" onclick="addressCall()">프로필 등록</button>
 				</c:when>
@@ -303,6 +306,10 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 	function addressCall(){
 		alert('정비사 등록을 해야 프로필 등록이 가능합니다.');
 		location.href="${cpath}/order2/orderJoin";
+	}
+	function loginCall() {
+		alert('로그인을 하셔야 등록 할 수 있습니다.')
+		location.href="${cpath}/member/login";
 	}
 	</script>
 

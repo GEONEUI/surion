@@ -23,6 +23,7 @@ import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.RepairFormRepository;
 import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
+import com.surion.entity.OrderForm;
 import com.surion.entity.RepairForm;
 import com.surion.service.MemberService;
 import com.surion.service.MypageService;
@@ -65,6 +66,12 @@ public class MyPageController {
 	public String boardDelete(RepairForm form) {
 		return mypageService.boardDelete(form);
 	}
-
-
+	
+	//프로필 업데이트
+		@PostMapping("/updateProfile")
+		public String updateProfile(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
+			return mypageService.updateProfile(request, session, rttr);
+		}
+	
+	
 }

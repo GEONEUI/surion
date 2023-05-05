@@ -471,26 +471,8 @@
     	var viewImg = '';
 
     	
-    	console.log("count : " + count);
-		console.log("startValue : " + startValue);
-		console.log("endValue : " + endValue);
-		console.log("disPageNum : " + disPageNum);
-		console.log("endPage : " + endPage);
-		console.log("StartPage : " + StartPage);
-		console.log("realEndPage : " + realEndPage);
-		console.log("prev : " + prev);
-		console.log("next : " + next);
+  
 
-		
-		
-		
-		console.log("---------------------------------------------------");
-
-		
-		
-		
-
-		
 		console.log(viewImg);
 		
 

@@ -25,7 +25,7 @@ public interface OrderFormService {
 	public void transaction(Model model);
 	
 	//게시물 상세보기
-	public void orderDetail(Model model, OrderForm orderForm);
+	public void orderDetail(Model model, String id);
 	
 	//사업자번호 중복검사
 	public int check(OrderJoin orderJoin);
@@ -41,6 +41,5 @@ public interface OrderFormService {
 	
 	//orderList 검색
 	public void search(Model model, OrderListPaging pa, HttpServletRequest request);
-	
 	
 }
