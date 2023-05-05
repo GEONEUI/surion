@@ -6,15 +6,16 @@
 <html lang="ko">
 <%@ include file="./common/front_header.jsp" %>
 <style>
-	/* uvisual */
-	.usec_visual{
-		background: #000;
+	.rdg-image {
+	        image-rendering: -moz-crisp-edges;         /* Firefox */
+	        image-rendering: -o-crisp-edges;         /* Opera */
+	        image-rendering: -webkit-optimize-contrast;/* Webkit 표준 X */
+	        image-rendering: crisp-edges;
+	        -ms-interpolation-mode: nearest-neighbor;  /* IE 표준 X */
 	}
-	.usec_visual .uinner{}
-	.usec_visual .uinner .uvisual{
-		width: 100%;
-		height: 450px;
-		background: url('./image/visual.png')center center / cover no-repeat;
+		/* uvisual */
+	.uvisual img{
+		width:100%;
 	}
 
 
@@ -41,11 +42,9 @@
 <body>
 <%@ include file="./common/header.jsp" %>
 <div class="usec_visual">
-	<div class="uinner">
 		<div class="uvisual">
-			
+			<img class="rdg-image" src="${cpath}/resources/images/visual8.png">
 		</div>
-	</div>
 </div>
 <div class="suriSize st">
 	<div class="container">

@@ -111,7 +111,7 @@
 
 	.askListP li:nth-child(2){
 		height: 50px;
-		margin: 8px 0px 16px
+		margin: 8px 0px 16px;
 	}
 
 	.price {
@@ -138,6 +138,8 @@
 		background: #eeeeee;
 		margin: 0.8rem 3rem 0 3.5rem;
 		border-radius: 0.5rem;
+		display: flex;
+		align-items: center;
 	}
 
 	.ser {
@@ -172,8 +174,12 @@
 		padding: 0 2rem 0 2rem;
 		font-size: 14px;
 	}
+	.underPage button {
+		padding: 0 2rem 0 2rem;
+		font-size: 14px;
+	}
 	
-	.custom-btn {
+	.custom-btnn {
 		width: 45px;
 		height: 40px;
 		padding: 7px 6px;
@@ -191,10 +197,12 @@
 	  	overflow: hidden;
 	  	transition: all 0.3s ease;
 	}
+	
 	.btn-11:hover {
 		background: #00c7ae;
 		color: #fff;
 	}
+	
 	.btn-11:before {
 	    position: absolute;
 	    content: '';
@@ -206,6 +214,7 @@
 	    background-color: #fff;
 	    animation: shiny-btn1 3s ease-in-out infinite;
 	}
+	
 	.btn-11:active{
 	  	box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
 	              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
@@ -237,9 +246,6 @@
 		transition: all 0.3s ease;
 		position: relative;
 		display: inline-block;
-/* 		 box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5), */
-/* 		 7px 7px 20px 0px rgba(0,0,0,.1), */
-/* 		 4px 4px 5px 0px rgba(0,0,0,.1); */
 		outline: none;
 		font-size: 12px;
 		margin-right: 1rem;
@@ -263,10 +269,14 @@
 		align-items: center;
 	}
 	
+	.btn-1.active {
+		background: rgb(0,3,255);
+		background: linear-gradient(0deg, #ccc 0%, #6c757d 100%);
+	}
+	
 </style>
 <body>
 	<%@ include file="../common/header.jsp" %>
-
 <div class="sec_content">
 	<div class="suriSize st">
 		<div class="headLine">
@@ -287,7 +297,7 @@
 				</c:when>
 			</c:choose>
 		</div>
-		<form class="category-Btn">
+		<div class="category-Btn">
 			<button class="custom-btn btn-1" data-btn="recent">#최신순</button>
 			<button class="custom-btn btn-1" data-btn="popular">#인기순</button>
 			<button class="custom-btn btn-1" data-btn="cycle">#자전거</button>
@@ -296,7 +306,7 @@
 			<button class="custom-btn btn-1" data-btn="boiler">#보일러</button>
 			<button class="custom-btn btn-1" data-btn="computer">#컴퓨터</button>
 			<button class="custom-btn btn-1" data-btn="sound">#음향/악기</button>
-		</form>
+		</div>
 	
 		<ul class="askList">
 			<c:forEach var="list" items="${list}">
@@ -323,7 +333,7 @@
 		</ul>
 		<div class="under">
 			<c:if test="${paging.prev}">
-				<a href="${cpath}/repair/repairList?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
+				<a href="${cpath}/repair/repairList?pageNum=${paging.startNum - 1}" class="custom-btnn btn-11">이전</a>
 			</c:if>
 			<ul class="underPage">
 				<c:forEach begin="${paging.startNum}" end="${paging.endNum}" var="i">
@@ -337,7 +347,7 @@
 				</c:forEach>
 			</ul>
 			<c:if test="${paging.next}">
-				<a href="${cpath}/repair/repairList?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
+				<a href="${cpath}/repair/repairList?pageNum=${paging.endNum + 1}" class="custom-btnn btn-11">다음</a>
 			</c:if>
 		</div>
 	</div>
@@ -347,62 +357,233 @@
 
 
 
-
-
-
 <script>
+
+	var kind;
+	var currentPage = 1;
+	var startValue;
 
 	function addressCall(){
 		alert('주소를 입력해야 견적 요청이 가능합니다.');
 		location.href="${cpath}/mypage/myinfo";
 	}
 	
+	// 카테고리버튼 Ajax
 	$(function(){
     	$(".btn-1").on('click',function(){
-    			var kind;
+    			currentPage = 1;
+    			$('.btn-1').removeClass('active');
+    			
     			var btn = $(this).data('btn');
-    			if(btn == recent){
+    			if(btn == "cycle"){
     				kind = 1;
+    				$(this).addClass('active');
     			}
-    			if(btn == popular){
+    			else if(btn == "bike"){
     				kind = 2;
+    				$(this).addClass('active');
     			}
-    			if(btn == cycle){
+    			else if(btn == "Airconditioner"){
     				kind = 3;
+    				$(this).addClass('active');
     			}
-    			if(btn == bike){
+    			else if(btn == "boiler"){
     				kind = 4;
+    				$(this).addClass('active');
     			}
-    			if(btn == Airconditioner){
+    			else if(btn == "computer"){
     				kind = 5;
+    				$(this).addClass('active');
     			}
-    			if(btn == boiler){
+    			else if(btn == "sound"){
     				kind = 6;
+    				$(this).addClass('active');
     			}
-    			if(btn == computer){
+    			else if(btn == "recent"){
     				kind = 7;
+    				$(this).addClass('active');
     			}
-    			if(btn == sound){
+    			else if(btn == "popular"){
     				kind = 8;
+    				$(this).addClass('active');
     			}
-    			$.ajax({
+    	    	$.ajax({
     				 url : '${cpath}/repair/categoryAjax', // 이 주소로 
-    	              type : "post", // 포스트 방식으로 보내는데
-    	              cache: false,
-    	              headers: {"cache-control":"no-cache", "pragma": "no-cache"},
-    	              data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
-    	              success : function(data){ 
-    	                 console.log(data);
-    	                	
-    	                 $('body').html(data); //성공할시에 body부분에 data라는 html문장들을 다 적용시키겠다
-    	              },
-    	              error : function(data){
-    	            	 alert('error');
-    	               
-    	              }//error
+    	             type : "post", // 포스트 방식으로 보내는데
+    	             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+    	             success : repairView,
+    	             error : function(data){
+    	           	 alert('error');
+    	             },//error
     			})//ajax
+    			
+    			
     		});//click
     });//ready
+    
+    
+   
+    
+    function goAjax(data){
+    	
+ 
+    	currentPage = data;
+    	
+    	
+    	$.ajax({
+			 url : '${cpath}/repair/categoryAjax', // 이 주소로 
+             type : "post", // 포스트 방식으로 보내는데
+             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+             success : repairView,
+             error : function(data){
+           	 alert('error');
+             },//error
+		})//ajax
+    }
+    
+  
+    
+    // 카테고리버튼 html
+    function repairView(res){
+    	startValue = (currentPage * 12) - 12; 
+    	var endValue = startValue + 11;
+    	var count = res.length;
+
+    	var disPageNum = 10;
+    	var endPage = Math.ceil(currentPage/10) * 10;
+    	var StartPage = (endPage - disPageNum) + 1;
+    	var realEndPage = Math.ceil(count / 12);
+    	
+    	if(realEndPage < endPage){
+    		endPage = realEndPage;
+    	}
+    	
+    	if(count < endValue){
+    		endValue = count-1;
+    	}
+
+  
+    	var prev = StartPage == 1 ? false : true; 
+    	var next = realEndPage > endPage ? true : false;
+    	
+    	var view = '';
+    	var paging = '';
+    	var viewImg = '';
+
+    	
+    	console.log("count : " + count);
+		console.log("startValue : " + startValue);
+		console.log("endValue : " + endValue);
+		console.log("disPageNum : " + disPageNum);
+		console.log("endPage : " + endPage);
+		console.log("StartPage : " + StartPage);
+		console.log("realEndPage : " + realEndPage);
+		console.log("prev : " + prev);
+		console.log("next : " + next);
+
+		
+		
+		
+		console.log("---------------------------------------------------");
+
+		
+		
+		
+
+		
+		console.log(viewImg);
+		
+
+		
+				// 페이지 번호
+		      	for (var i = startValue; i <= endValue; i++) {
+					var imgArr = [];
+					var imgArr2 = [];
+		      		
+		      		
+		      		imgArr.push(res[i].image);
+		      		
+		      		imgArr2 = imgArr.map((key)=>{
+		      		    return key.split("h")[1];
+		      		})
+
+		      		
+		      		console.log(res[i].image);	      		
+	
+		      		
+	      			view+='<div class="repairList">';
+	      			view+='<div class="askListA">';
+	      			view+='<img src="${cpath}/resources/repairImages/'+ imgArr2 +'">';
+	      			view+='</div>';
+	      			view+='<div class="askListP">';
+	      			view+='<li>'+res[i].title+'</li>';
+	      			view+='<li>'+res[i].content+'</li>';
+	      			view+='<div class="price">';
+	      			view+='<p class="view">협의</p>';
+	      			view+='<p></p>';
+	      			view+='</div>';
+	      			view+='</div>';
+	      			view+='</div>';
+		      	};
+		      	
+		      	var prevItem = '';
+		      	var nextItem = '';
+		      	var pageMaker = '';
+		      	var prevNumber = StartPage - 1;
+		      	var nextNumber = endPage + 1;
+		      	
+		      	if(prev){
+		      		prevItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/repair/repairAjax?pageNum='+prevNumber+'">Previous</button></li>';
+		      	}
+		      	
+		      	if(next){
+		      		nextItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/repair/repairAjax?pageNum='+ nextNumber +'">Next</button></li>';
+		      	}
+		      	
+		      	
+		      	for(var i=StartPage; i<=endPage ;i++){
+		      		if(currentPage == i){
+		      			pageMaker+='<li class="page-item"><button type="button" class="active page-link btnClick" href="${cpath}/repair/repairAjax?pageNum='+ i +'">'+ i +'</button></li>';
+		      		}else{
+		      			pageMaker+='<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/repair/repairAjax?pageNum='+ i +'">'+ i +'</button></li>';
+		      		}
+		      		
+		      	}
+		      	
+		      	
+		      	
+
+		      	paging+='<ul class="pagination justify-content-center">';
+		      	paging+=prevItem;
+		      	paging+=pageMaker;
+		      	paging+=nextItem;
+		      	paging+='</ul>';
+		      	
+    		
+    	$('.askList').html(view);
+    	$('.under').html(paging);
+    }
+    
+    $(window).on('click', function(e){
+    	if($(e.target).hasClass('btnClick')){
+    		var href = $(e.target).attr('href');
+    		var btn = $(e.target).data('btn');
+
+    		$.ajax({
+    			url:href,
+    			type:"get",
+    			success:goAjax,
+    			error:function(){ alert('error')},
+    		})
+    		
+    		
+    	}
+    
+    })
+    
+	
+   
+    
     
 </script>
 

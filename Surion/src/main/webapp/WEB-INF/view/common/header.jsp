@@ -72,16 +72,6 @@
 		font-weight: bold;
 	}
 
-	/* uvisual */
-	.usec_visual{
-		background: #000;
-	}
-	.usec_visual .uinner{}
-	.usec_visual .uinner .uvisual{
-		width: 100%;
-		height: 450px;
-		background: url('${cpath}/resources/images/visual.png')center center / cover no-repeat;
-	}
 
 
 	/* search */
@@ -171,6 +161,7 @@
 	}
 
 </style>
+
 <div class="usec_header">
 	<div class="uheader">
 		<div class="uinner">

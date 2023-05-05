@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.boot.model.source.spi.CascadeStyleSource;
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -143,6 +144,7 @@ public class RepairFormServiceImpl implements RepairFormService{
 				if(pa.getStartNum() != 1) {
 					pa.setPrev(true);
 				}
+				
 				if(pa.getEndNum() < pa.getLastPage()) {
 					pa.setNext(true);
 				}
@@ -155,6 +157,22 @@ public class RepairFormServiceImpl implements RepairFormService{
 	@Override
 	public void offer(RepairOffer offer) {
 		repairFormRepository.offer(offer);
+	}
+
+	@Override
+	public List<RepairForm> category(HttpServletRequest request, Model model) {
+		int kind = Integer.parseInt(request.getParameter("kind"));   
+		if(kind == 7) {
+			List<RepairForm> lst = repairFormRepository.categoryRecent(kind);
+			return lst;
+		}
+		if(kind == 8) {
+			List<RepairForm> lst = repairFormRepository.categoryPopular(kind);
+			return lst;
+		} else {
+			List<RepairForm> lst = repairFormRepository.category(kind);
+			return lst;
+		}
 	}
 
 	

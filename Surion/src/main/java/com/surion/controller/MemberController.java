@@ -56,7 +56,6 @@ public class MemberController {
 	//중복체크
 	@GetMapping("/check")
 	public @ResponseBody int check(Member m) {
-		System.out.println(m.getId());
 		int result = memberService.check(m);
 		return result;
 	}
