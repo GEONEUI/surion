@@ -30,6 +30,8 @@
     
     .thumb img{
     	width:30%;
+    	margin-right:300px;
+    	
     }
     .bottomline1{
     	display:flex;
@@ -142,6 +144,11 @@
 	textarea:focus {
 		outline: none;
 	}
+	.thumb_sub {
+		display: flex;
+	    align-items: center;
+	    justify-content: center;
+	}
     
 </style>
 
@@ -151,12 +158,14 @@
             <div class="profile-section">
                 <div class="profile-overview">
                     <div class="thumb">
-                        <img src="${cpath}/resources/images/order/${profile.img}" alt="" />
+                    	<div class="thumb_sub">
+                        	<img src="${cpath}/resources/images/order/${profile.img}" alt="" /><div id="map" style="width:500px;height:300px;margin-top:10px;"></div></br>
+	                                    	${profile.office}
+                    	</div>
                     </div>
                     <div class="row" style="position: relative;">
                         <div class="col-lg-9">
                             <div class="info">
-                                <h2> ${profile.shopName} </h2>
                                 <div class="card-body d-flex justify-content-center align-items-center mt-3"  id="test"
                                      style="background: #fafafa;">
                                     <div class="col-lg-3 me-4">
@@ -211,18 +220,17 @@
                                     <div class="bottomline1">
                                     	<div class="left">
 	                                    	<h2 class="h2h2 ">상점 정보</h2>
+	                                    	<h3 style="margin-top: 10px;"> ${profile.shopName} </h3>
 	                                        <div> 연락 가능한 시간 : </br>${profile.startTime}시&nbsp;~&nbsp;${profile.endTime}시</div>
                                     	</div>
                                     	<div class="right">
-	                                    <div id="map" style="width:300px;height:300px;margin-top:10px;"></div></br>
-	                                    	${profile.office}
-                                    	</div>
+	                                    </div>
                                     </div>
                                     <div class="bottomline">
                                         <h2 class="h2h2">서비스 상세설명</h2>
                                         <div> ${profile.intro}</div>
                                     </div>
-
+									
                                     <div class="possibleItem bottomline">
                                         <h2 class="h2h2">수리 분야</h2>
                                         <div class="container">
@@ -420,8 +428,10 @@
 
                         <div class="col-lg-3" style="position: sticky; height:10vh; top:140px; right:0;">
                             <strong>${profile.shopName }</strong>에게 원하는 견적을 받아보세요</br>
-                            <button class="btn btn-sm" id="sBtn">견적받기</button>
-                            <button class="btn btn-sm">찜하기</button>
+                            <div style="margin-top: 20px;">
+	                            <button class="btn btn-sm" id="sBtn">견적받기</button>
+	                            <button class="btn btn-sm">찜하기</button>
+                   			</div>
                         </div>
                     </div>
                 </div>
@@ -480,9 +490,6 @@
 </script>
 
 <%@ include file="../common/footer.jsp" %>
-
-<div id="map" style="width:300px;height:300px;margin-top:10px;"></div>
-
 
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
