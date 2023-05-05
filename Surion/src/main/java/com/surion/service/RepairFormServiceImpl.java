@@ -82,6 +82,12 @@ public class RepairFormServiceImpl implements RepairFormService{
 			pa.setNext(true);
 		}
 		
+		String type = request.getParameter("type");
+		if(type == null) {
+			type = "";
+		}
+		
+		model.addAttribute("type", type);
 		model.addAttribute("paging", pa);
 		List<RepairForm> lst = repairFormRepository.findByAll(pa);
 		model.addAttribute("list", lst);	
