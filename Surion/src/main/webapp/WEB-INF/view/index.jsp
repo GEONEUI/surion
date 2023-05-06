@@ -107,7 +107,7 @@
 	<div class="container">
 			<div class="d-flex justify-content-between">
 				<h2 class="fs-2 mb-4">인기있는 수리목록</h2>
-				<a href="#" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
+				<a href="${cpath}/repair/repairList" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
 			</div>
 		</div>
 			<ul class="d-flex justify-content-between">
