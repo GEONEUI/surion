@@ -20,7 +20,7 @@ import com.surion.entity.RepairForm;
 @Mapper
 public interface OrderFormRepository {
 	//정비사 게시물 폼 저장
-	@Insert("insert into suri_orderForm VALUES(#{id}, #{shopName}, #{intro}, #{img}, #{startTime}, #{endTime}, #{experience}, #{category}, #{office}, #{mechanic_id}, 0)")
+	@Insert("insert into suri_orderForm VALUES(null, #{id}, #{shopName}, #{intro}, #{img}, #{startTime}, #{endTime}, #{experience}, #{category}, #{office}, #{mechanic_id}, 0)")
 	public void save(OrderForm orderForm);
 	
 	@Update("update suri_orderForm set img = #{img} where id = #{id}")
@@ -76,12 +76,20 @@ public interface OrderFormRepository {
 	// 프로필 삭제
 	@Delete("delete from suri_orderForm where mechanic_id = #{mechanic_id}")
 	public void deleteOrder(OrderForm orderForm);
+	
+	//Ajax Sql ----------------------------------
+	
+	// Ajax로 카테고리 선택
+	@Select("select * from suri_orderForm where category = #{kind}")
+	public List<OrderForm> category(int kind); 
+	// 최신순
+	@Select("select * from suri_orderForm order by idx desc")
+	public List<OrderForm> categoryRecent(int kind); 
+	// 인기순
+	@Select("select * from suri_orderForm order by readCount desc")
+	public List<OrderForm> categoryPopular(int kind); 
+	
 }
 
-//@Select("select shopName, office from suri_orderJoin where id = #{id}")
-//public void findByMechanic(@Param("id") String id);
 
-	//하나의 게시글 데이터를 반환 메서드
-	//@Select("select * from suri_orderForm where member_id = #{member_id}")
-	//public OrderForm findByBoard(@Param("member_id") String member_id);
 

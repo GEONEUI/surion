@@ -1,6 +1,8 @@
 package com.surion.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -96,7 +98,11 @@ public class OrderTwoController {
   		return orderFormService.join(orderJoin, rttr, session);
   	}
   	
-
+  	//카테고리선택
+  	@PostMapping("/categoryAjax")
+	public @ResponseBody List<OrderForm> categoryAjax(HttpServletRequest request, Model model) {
+		return orderFormService.category(request, model);
+	}
 
 }
 

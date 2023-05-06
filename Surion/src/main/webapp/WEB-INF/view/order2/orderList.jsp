@@ -3,7 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
 <!doctype html>
 <html lang="ko">
@@ -214,20 +215,45 @@ input:focus {
    	 	color: rgb(154, 155, 167);
    	 	align-items: center;
 	}
+	/* 	버튼 */
 	.custom-btn {
-	  width: 45px;
-	  height: 40px;
-	  padding: 7px 6px;
-	  font-family: 'Lato', sans-serif;
-	  background: #fff;
-	  cursor: pointer;
-	  transition: all 0.3s ease;
-	  position: relative;
-	  display: inline-block;
-	  border-radius: 15px;
-	  font-weight: bold;
+		width: 80px;
+		height: 30px;
+		color: #fff;
+		border-radius: 25px;
+		font-family: 'Lato', sans-serif;
+		font-weight: 500;
+		background: transparent;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		position: relative;
+		display: inline-block;
+		outline: none;
+		font-size: 12px;
+		margin-right: 1rem;
 	}
-
+	/* 1 */
+	.btn-1 {
+		background: rgb(6,14,131);
+		background: linear-gradient(0deg, rgb(78 229 181) 0%, #4fc3b3 100%);
+		border: none;
+	}
+	
+	.btn-1:hover {
+		background: rgb(0,3,255);
+		background: linear-gradient(0deg, #ccc 0%, #6c757d 100%);
+	}
+	
+	.category-Btn {
+		margin-top: 1rem;
+		display: flex;
+		align-items: center;
+	}
+	
+	.btn-1.active {
+		background: rgb(0,3,255);
+		background: linear-gradient(0deg, #ccc 0%, #6c757d 100%);
+	}
 body > div.sec_content > div > ul > a > div.askListA > img{
 	height:100%;
 }
@@ -258,6 +284,18 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				</c:otherwise>
 			</c:choose>
 		</div>
+		
+		<div class="category-Btn">
+			<button class="custom-btn btn-1" data-btn="recent">#최신순</button>
+			<button class="custom-btn btn-1" data-btn="popular">#인기순</button>
+			<button class="custom-btn btn-1" data-btn="cycle">#자전거</button>
+			<button class="custom-btn btn-1" data-btn="bike">#오토바이</button>
+			<button class="custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
+			<button class="custom-btn btn-1" data-btn="boiler">#보일러</button>
+			<button class="custom-btn btn-1" data-btn="computer">#컴퓨터</button>
+			<button class="custom-btn btn-1" data-btn="sound">#음향/악기</button>
+		</div>
+		
 			<ul class="askList">
 			 <c:forEach items="${list}" var="order">
 				<div class="orderList">
@@ -303,6 +341,205 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 	</div>
 </div>
 	<script>
+	
+	var kind;
+	var currentPage = 1;
+	var startValue;
+
+	// 카테고리버튼 Ajax
+	$(function(){
+    	$(".btn-1").on('click',function(){
+    			currentPage = 1;
+    			$('.btn-1').removeClass('active');
+    			
+    			var btn = $(this).data('btn');
+    			if(btn == "cycle"){
+    				kind = 1;
+    				$(this).addClass('active');
+    			}
+    			else if(btn == "bike"){
+    				kind = 2;
+    				$(this).addClass('active');
+    			}
+    			else if(btn == "Airconditioner"){
+    				kind = 3;
+    				$(this).addClass('active');
+    			}
+    			else if(btn == "boiler"){
+    				kind = 4;
+    				$(this).addClass('active');
+    			}
+    			else if(btn == "computer"){
+    				kind = 5;
+    				$(this).addClass('active');
+    			}
+    			else if(btn == "sound"){
+    				kind = 6;
+    				$(this).addClass('active');
+    			}
+    			else if(btn == "recent"){
+    				kind = 7;
+    				$(this).addClass('active');
+    			}
+    			else if(btn == "popular"){
+    				kind = 8;
+    				$(this).addClass('active');
+    			}
+    	    	$.ajax({
+    				 url : '${cpath}/order2/categoryAjax', // 이 주소로 
+    	             type : "post", // 포스트 방식으로 보내는데
+    	             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+    	             success : orderView,
+    	             error : function(data){
+    	           	 alert('error');
+    	             },//error
+    			})//ajax
+    			
+    			
+    		});//click
+    });//ready
+    
+    
+   
+    
+    function goAjax(data){
+    	
+ 
+    	currentPage = data;
+    	
+    	
+    	$.ajax({
+			 url : '${cpath}/order2/categoryAjax', // 이 주소로 
+             type : "post", // 포스트 방식으로 보내는데
+             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+             success : orderView,
+             error : function(data){
+           	 alert('error');
+             },//error
+		})//ajax
+    }
+    
+  
+    
+    // 카테고리버튼 html
+    function orderView(res){
+    	startValue = (currentPage * 12) - 12; 
+    	var endValue = startValue + 11;
+    	var count = res.length;
+
+    	var disPageNum = 10;
+    	var endPage = Math.ceil(currentPage/10) * 10;
+    	var StartPage = (endPage - disPageNum) + 1;
+    	var realEndPage = Math.ceil(count / 12);
+    	
+    	if(realEndPage < endPage){
+    		endPage = realEndPage;
+    	}
+    	
+    	if(count < endValue){
+    		endValue = count-1;
+    	}
+
+  
+    	var prev = StartPage == 1 ? false : true; 
+    	var next = realEndPage > endPage ? true : false;
+    	
+    	var view = '';
+    	var paging = '';
+    	var viewImg = '';
+
+    	
+  
+
+		console.log(viewImg);
+		
+
+		
+				// 페이지 번호
+		      	for (var i = startValue; i <= endValue; i++) {
+					var imgArr = [];
+					var imgArr2 = [];
+		      		
+		      		
+		      		imgArr.push(res[i].img);
+					
+		      		
+		      		console.log(imgArr);	      		
+	
+		      		
+	      			view+='<div class="orderList">';
+	      			view+='<div class="askListA">';
+	      			view+='<img src="${cpath}/resources/images/order/'+ imgArr +'">';
+	      			view+='</div>';
+	      			view+='<div class="askListP">';
+	      			view+='<li>'+res[i].title+'</li>';
+	      			view+='<li>'+res[i].content+'</li>';
+	      			view+='<div class="price">';
+	      			view+='<p class="view">협의</p>';
+	      			view+='<p></p>';
+	      			view+='</div>';
+	      			view+='</div>';
+	      			view+='</div>';
+		      	};
+		      	
+		      	var prevItem = '';
+		      	var nextItem = '';
+		      	var pageMaker = '';
+		      	var prevNumber = StartPage - 1;
+		      	var nextNumber = endPage + 1;
+		      	
+		      	if(prev){
+		      		prevItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+prevNumber+'">Previous</button></li>';
+		      	}
+		      	
+		      	if(next){
+		      		nextItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+ nextNumber +'">Next</button></li>';
+		      	}
+		      	
+		      	
+		      	for(var i=StartPage; i<=endPage ;i++){
+		      		if(currentPage == i){
+		      			pageMaker+='<li class="page-item"><button type="button" class="active page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
+		      		}else{
+		      			pageMaker+='<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
+		      		}
+		      		
+		      	}
+		      	
+		      	
+		      	
+
+		      	paging+='<ul class="pagination justify-content-center">';
+		      	paging+=prevItem;
+		      	paging+=pageMaker;
+		      	paging+=nextItem;
+		      	paging+='</ul>';
+		      	
+    		
+    	$('.askList').html(view);
+    	$('.under').html(paging);
+    }
+    
+    $(window).on('click', function(e){
+    	if($(e.target).hasClass('btnClick')){
+    		var href = $(e.target).attr('href');
+    		var btn = $(e.target).data('btn');
+
+    		$.ajax({
+    			url:href,
+    			type:"get",
+    			success:goAjax,
+    			error:function(){ alert('error')},
+    		})
+    		
+    		
+    	}
+    
+    })
+    
+	
+    	
+	
 	function addressCall(){
 		alert('정비사 등록을 해야 프로필 등록이 가능합니다.');
 		location.href="${cpath}/order2/orderJoin";

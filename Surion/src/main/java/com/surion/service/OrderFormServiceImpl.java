@@ -290,6 +290,22 @@ public class OrderFormServiceImpl implements OrderFormService{
 		model.addAttribute("profile", orderForm);
 	}
 
+	@Override
+	public List<OrderForm> category(HttpServletRequest request, Model model) {
+		int kind = Integer.parseInt(request.getParameter("kind"));   
+		if(kind == 7) {
+			List<OrderForm> lst = orderFormRepository.categoryRecent(kind);
+			return lst;
+		}
+		if(kind == 8) {
+			List<OrderForm> lst = orderFormRepository.categoryPopular(kind);
+			return lst;
+		} else {
+			List<OrderForm> lst = orderFormRepository.category(kind);
+			return lst;
+		}
+	}
+
 	
 }
 

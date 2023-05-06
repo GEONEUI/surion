@@ -1,5 +1,7 @@
 package com.surion.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -42,4 +44,6 @@ public interface OrderFormService {
 	//orderList 검색
 	public void search(Model model, OrderListPaging pa, HttpServletRequest request);
 	
+	// 카테고리
+	public List<OrderForm> category(HttpServletRequest request, Model model);
 }
