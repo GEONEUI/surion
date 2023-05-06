@@ -15,10 +15,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.surion.entity.Criteria;
 import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
+import com.surion.entity.PageMaker;
 import com.surion.repository.MemberRepository;
 import com.surion.repository.OrderFormRepository;
 
@@ -38,71 +40,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 		orderFormRepository.save(orderForm);
 	}
 	
-	@Override
-	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session) {
-		// 현재 보는 페이지를 설정하기 위한 초기값
-				Member member = (Member) session.getAttribute("member");
-				if (member == null) {
-					member = new Member();
-			    }
-				String pageNum = request.getParameter("pageNum");
-				if(pageNum == null) {
-					pageNum = "1";
-				}
-				int page = Integer.parseInt(pageNum);
-//				System.out.println("page : " + page);
-				
-				int count = orderFormRepository.findByCount(); // 전체 게시글 count
-//				System.out.println("전체글--------> : " + count);
-				
-				pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT 앞부분 설정 (value, 12)
-//				System.out.println("StartValue : " + pa.getStartValue());
-//				-----------------------------------쿼리 실행 확인-------------------------------
-				
-				pa.setCurrentPage(page); // 초기 페이지를 1로 설정
-//				System.out.println("CurrentPage : " + pa.getCurrentPage());
-				
-				pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 마지막 페이지로 만듬
-//				System.out.println("Lastpage : " + pa.getLastPage());
-				
-				
-				// 뭘 보든 끝페이지 남기기 ex) 6 클릭해도 1~10, 13 클릭해도 11~20
-				// 6 / 10 = 0.6 (Math.ceil) = 1 * 10(DisPageNum) = 10 
-				pa.setEndNum((int) (Math.ceil(pa.getCurrentPage() / (double) pa.getDisPageNum()) * pa.getDisPageNum()));
-//				System.out.println("EndNum : " + pa.getEndNum());
-				
-				//  시작 페이지 번호를 1로 시작하게 만듬 ex) 1, 11, 21, 31
-				pa.setStartNum(pa.getEndNum() - pa.getDisPageNum() + 1);
-//				System.out.println("StartNum : "+ pa.getStartNum());
-				
-				// 마지막 페이지가 ex)46번 이런식이면 endNum을 재셋팅해줌.
-				// EndNum은 77번 라인의 주석 때문에 항상 10의 자리이기 때문
-				if(pa.getLastPage() < pa.getEndNum()) {
-					pa.setEndNum(pa.getLastPage());
-				}
-				
-				// 이전 버튼 : 게시글 1이 아닐 때 무조건 나타나게 함.
-				if(pa.getStartNum() != 1) {
-					pa.setPrev(true);
-				}
-				
-				// 다음 버튼 : 현재의 마지막 번호가 전체 마지막 숫자보다 작을 때 
-				if(pa.getEndNum() < pa.getLastPage()) {
-					pa.setNext(true);
-				}
-		OrderForm orderForm = new OrderForm();
-		orderForm.setId(member.getId());
-		
-		model.addAttribute("paging", pa);
-		List<OrderForm> lst = orderFormRepository.findByAll();
-		int result = orderFormRepository.findByBoard(member.getId());
-		int check = orderFormRepository.findByMechanic(member.getId());
-		model.addAttribute("check", check);
-		//
-		model.addAttribute("list", lst);
-		//프로필등록 count
-		model.addAttribute("result", result);
-	}
+
 	
 	@Override
 	public void transaction(Model model) {
@@ -292,18 +230,51 @@ public class OrderFormServiceImpl implements OrderFormService{
 
 	@Override
 	public List<OrderForm> category(HttpServletRequest request, Model model) {
-		int kind = Integer.parseInt(request.getParameter("kind"));   
-		if(kind == 7) {
-			List<OrderForm> lst = orderFormRepository.categoryRecent(kind);
+		String kind = request.getParameter("kind");   
+		if(kind.equals("최신순")) {
+			List<OrderForm> lst = orderFormRepository.categoryRecent();
 			return lst;
 		}
-		if(kind == 8) {
-			List<OrderForm> lst = orderFormRepository.categoryPopular(kind);
+		if(kind.equals("인기순")) {
+			List<OrderForm> lst = orderFormRepository.categoryPopular();
 			return lst;
 		} else {
 			List<OrderForm> lst = orderFormRepository.category(kind);
 			return lst;
 		}
+	}
+
+
+
+	@Override
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session,
+			Criteria Cri) {
+		
+		
+		Member member = (Member) session.getAttribute("member");
+		if(member != null) {
+			int result = orderFormRepository.findByBoard(member.getId());
+			int check = orderFormRepository.findByMechanic(member.getId());
+			model.addAttribute("result", result);
+			model.addAttribute("check", check);
+		}
+		
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(Cri);
+		pageMaker.setTotalCount(orderFormRepository.findByCount());
+		
+		
+		
+		
+		
+		List<OrderForm> lst = orderFormRepository.findByAll(Cri);
+		System.out.println(lst);
+		
+		
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("list", lst);
+		
 	}
 
 	

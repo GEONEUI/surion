@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.surion.entity.Criteria;
 import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
@@ -27,8 +28,8 @@ public interface OrderFormRepository {
 	public void update(OrderForm orderForm);
 	
 	//정비사 게시물 리스트 
-	@Select("select * from suri_orderForm")
-	public List<OrderForm> findByAll();
+	@Select("select * from suri_orderForm limit #{startValue}, #{endValue}")
+	public List<OrderForm> findByAll(Criteria cri);
 	
 	// OrderList 전체 숫자 카운팅
 	@Select("select count(*) from suri_orderForm")
@@ -38,8 +39,8 @@ public interface OrderFormRepository {
 	@Select("select count(*) from suri_orderForm where shopName LIKE CONCAT ('%',#{keyword},'%')")
 	public int searchCount(OrderListPaging pa);
 	
-	// OrderList 검색
-	@Select("select * from suri_orderForm where shopName LIKE CONCAT ('%',#{keyword},'%') LIMIT #{startValue}, #{perPageNum}")
+	//OrderList 검색
+	@Select("select * from suri_orderForm where shopName LIKE CONCAT ('%',#{keyword},'%') LIMIT #{startValue}, #{endValue}")
 	public List<OrderForm> search(OrderListPaging pa);
 	
 	// OrderList 조회수 증가
@@ -81,13 +82,13 @@ public interface OrderFormRepository {
 	
 	// Ajax로 카테고리 선택
 	@Select("select * from suri_orderForm where category = #{kind}")
-	public List<OrderForm> category(int kind); 
+	public List<OrderForm> category(String kind); 
 	// 최신순
 	@Select("select * from suri_orderForm order by idx desc")
-	public List<OrderForm> categoryRecent(int kind); 
+	public List<OrderForm> categoryRecent(); 
 	// 인기순
 	@Select("select * from suri_orderForm order by readCount desc")
-	public List<OrderForm> categoryPopular(int kind); 
+	public List<OrderForm> categoryPopular(); 
 	
 }
 

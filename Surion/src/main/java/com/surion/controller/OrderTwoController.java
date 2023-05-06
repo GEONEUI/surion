@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.surion.entity.Criteria;
 import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
@@ -65,8 +67,8 @@ public class OrderTwoController {
     
     //프로필리스트
     @GetMapping("/orderList")
-    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session) {
-    	orderFormService.orderList(model, pa, request, session);
+    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session, Criteria cri) {
+    	orderFormService.orderList(model, pa, request, session, cri);
         return "/order2/orderList";
     }
     
@@ -102,6 +104,12 @@ public class OrderTwoController {
   	@PostMapping("/categoryAjax")
 	public @ResponseBody List<OrderForm> categoryAjax(HttpServletRequest request, Model model) {
 		return orderFormService.category(request, model);
+	}
+  	
+  	@GetMapping("/orderAjax")
+	public @ResponseBody int orderList(@Param("pageNum")int pageNum){
+		System.out.println(pageNum);
+		return pageNum;
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.surion.entity.Criteria;
 import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
@@ -18,7 +19,7 @@ public interface OrderFormService {
 	public void save(OrderForm orderForm);
 	
 	//게시물 리스트
-	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session);
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session, Criteria Cri);
 	
 	//이미지업로드 
 	public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session);

@@ -135,24 +135,24 @@ ul {
 	border-radius: 0.5rem;
 }
 
-.ser {
-	width: 78%;
-	height: 100%;
-	margin-left: 1rem;
-	border-style: none;
-	background: #eeeeee;
-}
+	.ser {
+		width: 78%;
+		height: 100%;
+		margin-left: 1rem;
+		border-style: none;
+		background: #eeeeee;
+	}
 
-input:focus {
-	outline: none;
-}
+	input:focus {
+		outline: none;
+	}
 
-.fa-magnifying-glass {
+	.fa-magnifying-glass {
 	font-size: 1.5rem;
 	color: #ccc;
 	padding-left: 1rem;
-}
-.under {
+	}
+	.under {
 	    display: flex;
    		justify-content: center;
    		margin-top: 3rem;
@@ -165,19 +165,6 @@ input:focus {
 	.underPage li a {
 		padding: 0 2rem 0 2rem;
 		font-size: 14px;
-	}
-	.custom-btn {
-	  width: 45px;
-	  height: 40px;
-	  padding: 7px 6px;
-	  font-family: 'Lato', sans-serif;
-	  background: #fff;
-	  cursor: pointer;
-	  transition: all 0.3s ease;
-	  position: relative;
-	  display: inline-block;
-	  border-radius: 15px;
-	  font-weight: bold;
 	}
 	
 	.btn-11 {
@@ -286,14 +273,14 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 		</div>
 		
 		<div class="category-Btn">
-			<button class="custom-btn btn-1" data-btn="recent">#최신순</button>
-			<button class="custom-btn btn-1" data-btn="popular">#인기순</button>
-			<button class="custom-btn btn-1" data-btn="cycle">#자전거</button>
-			<button class="custom-btn btn-1" data-btn="bike">#오토바이</button>
-			<button class="custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
-			<button class="custom-btn btn-1" data-btn="boiler">#보일러</button>
-			<button class="custom-btn btn-1" data-btn="computer">#컴퓨터</button>
-			<button class="custom-btn btn-1" data-btn="sound">#음향/악기</button>
+			<button onclick="typeClick($(this));" class="popular custom-btn btn-1" data-btn="recent">#최신순</button>
+			<button onclick="typeClick($(this));" class="recent custom-btn btn-1" data-btn="popular">#인기순</button>
+			<button onclick="typeClick($(this));" class="cycle custom-btn btn-1" data-btn="cycle">#자전거</button>
+			<button onclick="typeClick($(this));" class="bike custom-btn btn-1" data-btn="bike">#오토바이</button>
+			<button onclick="typeClick($(this));" class="Airconditioner custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
+			<button onclick="typeClick($(this));" class="boiler custom-btn btn-1" data-btn="boiler">#보일러</button>
+			<button onclick="typeClick($(this));" class="computer custom-btn btn-1" data-btn="computer">#컴퓨터</button>
+			<button onclick="typeClick($(this));" class="sound custom-btn btn-1" data-btn="sound">#음향/악기</button>
 		</div>
 		
 			<ul class="askList">
@@ -319,25 +306,27 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				</div>
 				</c:forEach>
 			</ul>
-		<div class="under">
-			<c:if test="${paging.prev}">
-				<a href="${cpath}/order2/orderList?pageNum=${paging.startNum - 1}" class="custom-btn btn-11">이전</a>
-			</c:if>
-			<ul class="underPage">
-				<c:forEach begin="${paging.startNum}" end="${paging.endNum}" var="i">
-					<c:if test="${paging.currentPage == i}">
-						<li class="bold"><a href="${cpath}/order2/orderList?pageNum=${i}">${i}</a></li>
-					</c:if>
-					
-					<c:if test="${paging.currentPage != i}">
-						<li><a href="${cpath}/order2/orderList?pageNum=${i}">${i}</a></li>
-					</c:if>
-				</c:forEach>
-			</ul>
-			<c:if test="${paging.next}">
-				<a href="${cpath}/order2/orderList?pageNum=${paging.endNum + 1}" class="custom-btn btn-11">다음</a>
-			</c:if>
-		</div>
+			
+
+				  <ul class="under pagination justify-content-center">
+				  	<c:if test="${pageMaker.prev}">
+				  		<li class="page-item"><a class="custom-btn btn-11" href="${cpath}/order2/orderList?currentPage=${pageMaker.startPage - 1}">Prev</a></li>
+				  	</c:if>
+				  	  	
+				  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+				  		<c:if test="${pageMaker.cri.currentPage == pageNum}">
+				  			<li class="page-item active"><a class="btn-11 page-link" href="${cpath}/order2/orderList?currentPage=${pageNum}">${pageNum}</a></li>
+				  		</c:if>
+				  		<c:if test="${pageMaker.cri.currentPage != pageNum}">
+				  			<li class="page-item"><a class="btn-11 page-link" href="${cpath}/order2/orderList?currentPage=${pageNum}">${pageNum}</a></li>
+				  		</c:if>
+				  	</c:forEach>
+
+				    <c:if test="${pageMaker.next}">
+				  		<li class="page-item"><a class="btn-11 page-link" href="${cpath}/order2/orderList?currentPage=${pageMaker.endPage + 1}">Next</a></li>
+				  	</c:if>
+				  </ul>
+
 	</div>
 </div>
 	<script>
@@ -346,67 +335,53 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 	var currentPage = 1;
 	var startValue;
 
-	// 카테고리버튼 Ajax
-	$(function(){
-    	$(".btn-1").on('click',function(){
-    			currentPage = 1;
-    			$('.btn-1').removeClass('active');
-    			
-    			var btn = $(this).data('btn');
-    			if(btn == "cycle"){
-    				kind = 1;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "bike"){
-    				kind = 2;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "Airconditioner"){
-    				kind = 3;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "boiler"){
-    				kind = 4;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "computer"){
-    				kind = 5;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "sound"){
-    				kind = 6;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "recent"){
-    				kind = 7;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "popular"){
-    				kind = 8;
-    				$(this).addClass('active');
-    			}
-    	    	$.ajax({
-    				 url : '${cpath}/order2/categoryAjax', // 이 주소로 
-    	             type : "post", // 포스트 방식으로 보내는데
-    	             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
-    	             success : orderView,
-    	             error : function(data){
-    	           	 alert('error');
-    	             },//error
-    			})//ajax
-    			
-    			
-    		});//click
-    });//ready
-    
+	
+	
+	function typeClick(el){
+		currentPage = 1;
+		$('.btn-1').removeClass('active');
+		
+		el.addClass('active');
+		if(el.hasClass('cycle')){
+			kind = "자전거";
+		}else if(el.hasClass('bike')){
+			kind = "오토바이";
+		}else if(el.hasClass('Airconditioner')){
+			kind = "에어컨";
+		}else if(el.hasClass('boiler')){
+			kind = "보일러";
+		}else if(el.hasClass('computer')){
+			kind = "컴퓨터";
+		}else if(el.hasClass('sound')){
+			kind = "음향/악기";
+		}else if(el.hasClass('recent')){
+			kind = "최신순";
+		}else if(el.hasClass('popular')){
+			kind = "인기순";
+		}
+		
+    	$.ajax({
+			 url : '${cpath}/order2/categoryAjax', // 이 주소로 
+            type : "post", // 포스트 방식으로 보내는데
+            data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+            success : orderView,
+            error : function(data){
+          	 alert('error');
+            },//error
+		})//ajax
+	}
+
+	
+
     
    
     
     function goAjax(data){
     	
- 
+ 		
     	currentPage = data;
     	
+    	alert(currentPage);
     	
     	$.ajax({
 			 url : '${cpath}/order2/categoryAjax', // 이 주소로 
@@ -447,9 +422,23 @@ body > div.sec_content > div > ul > a > div.askListA > img{
     	var view = '';
     	var paging = '';
     	var viewImg = '';
+    	
+    	console.log("startValue" + startValue);
+    	console.log("endValue" + endValue);
+    	
+    	
+    	console.log("count" + count);
+    	
+    	
+    	console.log("disPageNum" + disPageNum);
+    	console.log("StartPage" + StartPage);
+    	console.log("endPage" + endPage);
+    	console.log("realEndPage" + realEndPage);
+    	console.log("prev" + prev);
+    	console.log("next" + next);
 
     	
-  
+    	console.log("--------------------------------------------------------");
 
 		console.log(viewImg);
 		
@@ -462,24 +451,32 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 		      		
 		      		
 		      		imgArr.push(res[i].img);
-					
 		      		
-		      		console.log(imgArr);	      		
+		
+
+		      		
+		      		console.log(res[i].img);	      		
 	
 		      		
-	      			view+='<div class="orderList">';
-	      			view+='<div class="askListA">';
-	      			view+='<img src="${cpath}/resources/images/order/'+ imgArr +'">';
-	      			view+='</div>';
-	      			view+='<div class="askListP">';
-	      			view+='<li>'+res[i].title+'</li>';
-	      			view+='<li>'+res[i].content+'</li>';
-	      			view+='<div class="price">';
-	      			view+='<p class="view">협의</p>';
-	      			view+='<p></p>';
-	      			view+='</div>';
-	      			view+='</div>';
-	      			view+='</div>';
+		      		view += '<div class="orderList">';
+		      		view += '<div class="askListA">';
+		      		view +='<img src="${cpath}/resources/images/order/'+ imgArr +'">';
+		      		view += '</div>';
+		      		view += '<div class="askListP">';
+		      		view += '<li>' + res[i].shopName + '</li>';
+		      		var intro = res[i].intro;
+		      		if (intro.length > 40) {
+		      		  intro = intro.substring(0, 40) + '...';
+		      		}
+		      		view += '<li>' + res[i].intro + '</li>';
+		      		view += '<div class="price">';
+		      		view += '<li>' + res[i].office + '</li>';
+		      		view += '</div>';
+		      		view += '<div class="star">';
+		      		view += '<li>★ 0.0 | 조회수 ' + res[i].readCount + '회</li>';
+		      		view += '</div>';
+		      		view += '</div>';
+		      		view += '</div>';
 		      	};
 		      	
 		      	var prevItem = '';
@@ -524,6 +521,8 @@ body > div.sec_content > div > ul > a > div.askListA > img{
     	if($(e.target).hasClass('btnClick')){
     		var href = $(e.target).attr('href');
     		var btn = $(e.target).data('btn');
+    		
+    		console.log(href);
 
     		$.ajax({
     			url:href,
