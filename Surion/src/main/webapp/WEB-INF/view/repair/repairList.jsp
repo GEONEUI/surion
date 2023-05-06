@@ -503,8 +503,13 @@
 	      			view+='<li>'+res[i].title+'</li>';
 	      			view+='<li>'+res[i].content+'</li>';
 	      			view+='<div class="price">';
-	      			view+='<p class="view">협의</p>';
-	      			view+='<p></p>';
+	      			view+='<p class="view">'+ parseInt(res[i].readCount).toLocaleString('ko-KR') +'회</p>';
+	      			if(res[i].estimate == "협의"){
+		      			view+='<p>견적&nbsp'+ res[i].estimate +'</p>';
+	      			}
+	      			if(res[i].estimate != "협의"){
+		      			view+='<p>'+ parseInt(res[i].estimate).toLocaleString('ko-KR') +'원~</p>';
+	      			}
 	      			view+='</div>';
 	      			view+='</div>';
 	      			view+='</div>';
