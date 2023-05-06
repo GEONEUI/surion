@@ -47,7 +47,7 @@ public class MypageServiceImpl implements MypageService {
 		} else if (pagev.equals("4")) {
 			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(m);
 			model.addAttribute("joinList", joinList);
-		}
+		} 
 
 		int pageview = Integer.parseInt(pagev);
 		model.addAttribute("pageview", pageview);

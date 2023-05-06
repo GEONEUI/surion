@@ -386,7 +386,7 @@ pageEncoding="UTF-8"%>
             addDiv += '<div class="row align-items-end">';
             addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
             addDiv += '</div>';
-            addDiv += '</div>';
+        /*     addDiv += '</div>'; */
         }
         newMsg.innerHTML = addDiv;
         msgArea.append(newMsg);
