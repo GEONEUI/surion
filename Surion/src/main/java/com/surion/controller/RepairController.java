@@ -88,7 +88,7 @@ public class RepairController {
 		return "redirect:/repair/repairList";
 	}
 	
-	@PostMapping("/categoryAjax")
+	@RequestMapping("/categoryAjax")
 	public @ResponseBody List<RepairForm> categoryAjax(HttpServletRequest request, Model model) {
 		return repairFormService.category(request, model);
 	}

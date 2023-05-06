@@ -298,14 +298,14 @@
 			</c:choose>
 		</div>
 		<div class="category-Btn">
-			<button class="custom-btn btn-1" data-btn="recent">#최신순</button>
-			<button class="custom-btn btn-1" data-btn="popular">#인기순</button>
-			<button class="custom-btn btn-1" data-btn="cycle">#자전거</button>
-			<button class="custom-btn btn-1" data-btn="bike">#오토바이</button>
-			<button class="custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
-			<button class="custom-btn btn-1" data-btn="boiler">#보일러</button>
-			<button class="custom-btn btn-1" data-btn="computer">#컴퓨터</button>
-			<button class="custom-btn btn-1" data-btn="sound">#음향/악기</button>
+			<button onclick="typeClick($(this));" class="popular custom-btn btn-1" data-btn="recent">#최신순</button>
+			<button onclick="typeClick($(this));" class="recent custom-btn btn-1" data-btn="popular">#인기순</button>
+			<button onclick="typeClick($(this));" class="cycle custom-btn btn-1" data-btn="cycle">#자전거</button>
+			<button onclick="typeClick($(this));" class="bike custom-btn btn-1" data-btn="bike">#오토바이</button>
+			<button onclick="typeClick($(this));" class="Airconditioner custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
+			<button onclick="typeClick($(this));" class="boiler custom-btn btn-1" data-btn="boiler">#보일러</button>
+			<button onclick="typeClick($(this));" class="computer custom-btn btn-1" data-btn="computer">#컴퓨터</button>
+			<button onclick="typeClick($(this));" class="sound custom-btn btn-1" data-btn="sound">#음향/악기</button>
 		</div>
 	
 		<ul class="askList">
@@ -359,68 +359,70 @@
 
 <script>
 
+	var type = '${type}';
 	var kind;
 	var currentPage = 1;
 	var startValue;
 
+
+	
+	if(type == 1){
+		$(".cycle").trigger('click');
+	}else if(type == 2){
+		$(".bike").trigger('click');
+	}else if(type == 3){
+		$('.Airconditioner').trigger('click');
+	}else if(type == 4){
+		$('.boiler').trigger('click');
+	}else if(type == 5){
+		$('.computer').trigger('click');
+	}else if(type == 6){
+		$('.sound').trigger('click')
+	}
+	
+	
+	function typeClick(el){
+		currentPage = 1;
+		$('.btn-1').removeClass('active');
+		
+		el.addClass('active');
+		if(el.hasClass('cycle')){
+			kind = 1;
+		}else if(el.hasClass('bike')){
+			kind = 2;
+		}else if(el.hasClass('Airconditioner')){
+			kind = 3;
+		}else if(el.hasClass('boiler')){
+			kind = 4;
+		}else if(el.hasClass('computer')){
+			kind = 5;
+		}else if(el.hasClass('sound')){
+			kind = 6;
+		}else if(el.hasClass('recent')){
+			kind = 7;
+		}else if(el.hasClass('popular')){
+			kind = 8;
+		}
+		
+    	$.ajax({
+			 url : '${cpath}/repair/categoryAjax', // 이 주소로 
+            type : "post", // 포스트 방식으로 보내는데
+            data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
+            success : repairView,
+            error : function(data){
+          	 alert('error');
+            },//error
+		})//ajax
+	}
+
+	
+	
 	function addressCall(){
 		alert('주소를 입력해야 견적 요청이 가능합니다.');
 		location.href="${cpath}/mypage/myinfo";
 	}
 	
-	// 카테고리버튼 Ajax
-	$(function(){
-    	$(".btn-1").on('click',function(){
-    			currentPage = 1;
-    			$('.btn-1').removeClass('active');
-    			
-    			var btn = $(this).data('btn');
-    			if(btn == "cycle"){
-    				kind = 1;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "bike"){
-    				kind = 2;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "Airconditioner"){
-    				kind = 3;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "boiler"){
-    				kind = 4;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "computer"){
-    				kind = 5;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "sound"){
-    				kind = 6;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "recent"){
-    				kind = 7;
-    				$(this).addClass('active');
-    			}
-    			else if(btn == "popular"){
-    				kind = 8;
-    				$(this).addClass('active');
-    			}
-    	    	$.ajax({
-    				 url : '${cpath}/repair/categoryAjax', // 이 주소로 
-    	             type : "post", // 포스트 방식으로 보내는데
-    	             data : {"kind" : kind}, // kind를 kind로 명명하여 보내겠다
-    	             success : repairView,
-    	             error : function(data){
-    	           	 alert('error');
-    	             },//error
-    			})//ajax
-    			
-    			
-    		});//click
-    });//ready
-    
+
     
    
     

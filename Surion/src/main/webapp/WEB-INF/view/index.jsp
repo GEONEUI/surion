@@ -49,7 +49,7 @@
 <div class="suriSize st">
 	<div class="container">
 		<ul class="d-flex justify-content-around align-items-center">
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=1'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-bicycle fs-3"></i>
 					<figcaption class="fs-5">
@@ -57,7 +57,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=2'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-motorcycle fs-3"></i>
 					<figcaption class="fs-5">
@@ -65,7 +65,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=3'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-wind fs-3"></i>
 					<figcaption class="fs-5">
@@ -73,7 +73,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=4'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-temperature-arrow-up fs-3"></i>
 					<figcaption class="fs-5">
@@ -81,7 +81,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=5'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-light fa-desktop fs-3"></i>
 					<figcaption class="fs-5">
@@ -89,27 +89,11 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=6'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-headphones-simple fs-3"></i>
 					<figcaption class="fs-5">
 						음향 / 악기
-					</figcaption>
-				</figure>
-			</li>
-			<li>
-				<figure class="d-flex justify-content-center align-items-center flex-column">
-					<i class="fa-regular fa-plane-departure fs-3"></i>
-					<figcaption class="fs-5">
-						해외직구
-					</figcaption>
-				</figure>
-			</li>
-			<li>
-				<figure class="d-flex justify-content-center align-items-center flex-column">
-					<i class="fa-duotone fa-ellipsis fs-3"></i>
-					<figcaption class="fs-5">
-						기타
 					</figcaption>
 				</figure>
 			</li>
