@@ -30,17 +30,7 @@ public class OrderOneController {
         return "/order1/productdetail";
     }
 
-    @GetMapping("/map")
-    public String mapTest(){
-        return "/map/map";
-    }
     
-    @RequestMapping("/productDetail")
-    public String detail(Model model, String id, OrderForm orderForm) {
-    	orderFormService.orderDetail(model, id);
-    	orderFormService.readCount(orderForm);
-    	return "/order1/productDetail";
-    }
 
 
 }

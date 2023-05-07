@@ -39,7 +39,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	}
 	
 
-	
+	//거래내역
 	@Override
 	public void transaction(Model model) {
 		// TODO Auto-generated method stub
@@ -124,7 +124,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 		return "redirect:/order2/orderList";
 	}
 	
-	
+	//사업자번호 중복체크
 	@Override
 	public int check(OrderJoin orderJoin) {
 		int result = orderFormRepository.check(orderJoin);
@@ -178,18 +178,18 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    }
 	}
 	
-
+	//정비사등록시 멤버테이블 정보가져오기
 	@Override
 	public void update1(OrderJoin orderJoin) {
 		orderFormRepository.update1(orderJoin);
 	}
-
+	//조회수 증가
 	@Override
 	public void readCount(OrderForm orderForm) {
 		orderFormRepository.increaseCount(orderForm);
 		
 	}
-
+	//업체 검색
 	@Override
 	public void search(Model model, Criteria cri ,HttpServletRequest request) {
 		PageMaker pageMaker = new PageMaker();
@@ -205,25 +205,26 @@ public class OrderFormServiceImpl implements OrderFormService{
 		OrderForm orderForm = orderFormRepository.findById(id);
 		model.addAttribute("profile", orderForm);
 	}
-
+	
+	//카테고리
 	@Override
 	public List<OrderForm> category(HttpServletRequest request, Model model) {
-		String kind = request.getParameter("kind");   
-		if(kind.equals("최신순")) {
-			List<OrderForm> lst = orderFormRepository.categoryRecent();
-			return lst;
-		}
-		if(kind.equals("인기순")) {
-			List<OrderForm> lst = orderFormRepository.categoryPopular();
-			return lst;
-		} else {
-			List<OrderForm> lst = orderFormRepository.category(kind);
-			return lst;
-		}
+	    String kind = request.getParameter("kind");   
+	    if(kind.equals("최신순")) {
+	        List<OrderForm> lst = orderFormRepository.categoryRecent();
+	        return lst;
+	    }
+	    else if(kind.equals("인기순")) {
+	        List<OrderForm> lst = orderFormRepository.categoryPopular();
+	        return lst;
+	    }
+	    else {
+	        List<OrderForm> lst = orderFormRepository.category(kind);
+	        return lst;
+	    }
 	}
 
-
-
+	//페이징
 	@Override
 	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session,
 			Criteria Cri) {

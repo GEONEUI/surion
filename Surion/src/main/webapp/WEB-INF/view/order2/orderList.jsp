@@ -297,8 +297,8 @@ ul {
 		</div>
 		
 		<div class="category-Btn">
-			<button onclick="typeClick($(this));" class="popular custom-btn btn-1" data-btn="recent">#최신순</button>
-			<button onclick="typeClick($(this));" class="recent custom-btn btn-1" data-btn="popular">#인기순</button>
+			<button onclick="typeClick($(this));" class="recent custom-btn btn-1" data-btn="recent">#최신순</button>
+			<button onclick="typeClick($(this));" class="popular custom-btn btn-1" data-btn="popular">#인기순</button>
 			<button onclick="typeClick($(this));" class="cycle custom-btn btn-1" data-btn="cycle">#자전거</button>
 			<button onclick="typeClick($(this));" class="bike custom-btn btn-1" data-btn="bike">#오토바이</button>
 			<button onclick="typeClick($(this));" class="Airconditioner custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
