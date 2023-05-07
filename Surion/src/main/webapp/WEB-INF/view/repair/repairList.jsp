@@ -427,8 +427,8 @@
    
     
     function goAjax(data){
+    
     	
- 
     	currentPage = data;
     	
     	

@@ -1,10 +1,12 @@
 package com.surion.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,18 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.surion.entity.Member;
+import com.surion.entity.Criteria;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
-import com.surion.service.MemberService;
 import com.surion.service.MypageService;
 import com.surion.service.OrderFormService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
@@ -63,15 +61,15 @@ public class OrderTwoController {
     
     //프로필리스트
     @GetMapping("/orderList")
-    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session) {
-    	orderFormService.orderList(model, pa, request, session);
+    public String orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session, Criteria cri) {
+    	orderFormService.orderList(model, pa, request, session, cri);
         return "/order2/orderList";
     }
     
     // RepairList 검색 
    	@RequestMapping("/orderListSearch")
-   	public String repairListSearch(Model model, OrderListPaging pa, HttpServletRequest request) {
-   	orderFormService.search(model, pa, request);
+   	public String repairListSearch(Model model, Criteria cri, HttpServletRequest request) {
+   	orderFormService.search(model, cri, request);
    	return "/order2/orderListSearch";
    	}
     
@@ -96,7 +94,28 @@ public class OrderTwoController {
   		return orderFormService.join(orderJoin, rttr, session);
   	}
   	
-
-
+  	//카테고리선택
+  	@PostMapping("/categoryAjax")
+	public @ResponseBody List<OrderForm> categoryAjax(HttpServletRequest request, Model model) {
+		return orderFormService.category(request, model);
+	}
+  	
+  	@GetMapping("/orderAjax")
+	public @ResponseBody int orderList(@Param("pageNum")int pageNum){
+		System.out.println(pageNum);
+		return pageNum;
+	}
+  	//지도
+  	@GetMapping("/map")
+    public String mapTest(){
+        return "/map/map";
+    }
+    //상세페이지
+    @RequestMapping("/productDetail")
+    public String detail(Model model, String id, OrderForm orderForm) {
+    	orderFormService.orderDetail(model, id);
+    	orderFormService.readCount(orderForm);
+    	return "/order2/productDetail";
+    }
 }
 

@@ -4,7 +4,6 @@ import lombok.Data;
 
 
 @Data
-
 public class OrderListPaging {
 	private int startNum; // 아래 시작 페이지 번호
 	private int endNum; // 아래 끝 페이지 번호

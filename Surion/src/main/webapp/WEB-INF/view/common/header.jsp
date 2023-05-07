@@ -185,10 +185,10 @@
 						<c:if test="${member.office ne ''}">
 						   <c:choose>
 								<c:when test="${result == 1}">
-									<li><a href="javascript:alert('이미 프로필 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+									<li><a href="javascript:alert('이미 업체 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
 								</c:when>
 								<c:otherwise>
-									<li><a href="${cpath}/order2/orderForm" style="background: #00c7ae; border-radius: 4px; color: #fff;">프로필 등록</a></li>
+									<li><a href="${cpath}/order2/orderForm" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
