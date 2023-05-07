@@ -1,6 +1,7 @@
 package com.surion.service;
 
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -119,6 +120,23 @@ public class RepairFormServiceImpl implements RepairFormService{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		File newFile = multi.getFile("file");
+	
+		//업로드 성공!
+		if(multi != null) {
+			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
+			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
+				
+			}else {
+				if(newFile.exists()) {
+					newFile.delete();
+				}
+			}
+		}
+		
+		
+		
 	}
 
 	@Override

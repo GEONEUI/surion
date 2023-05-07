@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.surion.entity.CommunCriteria;
+import com.surion.entity.CommunPageMaker;
 import com.surion.entity.Community;
 import com.surion.entity.CommunityReply;
 import com.surion.entity.Member;
@@ -25,12 +27,7 @@ public class CommServiceImpl implements CommService{
 	
 	@Autowired
 	private CommRepository commRepository;
-	
-	@Override
-	public List<Community> listAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public String register(HttpServletRequest request, RedirectAttributes rttr) {
@@ -240,6 +237,20 @@ public class CommServiceImpl implements CommService{
 		
 		return "redirect:/community/board";
 		
+	}
+
+	
+	//보드 메인페이지
+	@Override
+	public void board(Model model, CommunCriteria cri) {
+		List<Community> lst = commRepository.listAll(cri);
+		CommunPageMaker pageMaker = new CommunPageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(commRepository.boardTotalCount());
+		
+		
+		model.addAttribute("lst", lst);
+		model.addAttribute("pageMaker", pageMaker);
 	}
 
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.surion.entity.CommunCriteria;
 import com.surion.entity.Community;
 import com.surion.entity.CommunityReply;
 import com.surion.repository.CommRepository;
@@ -29,13 +30,10 @@ public class CommunityController {
 	@Autowired
 	private CommService commService; 
 	
-	@Autowired
-	private CommRepository commRepository;
 	
 	@RequestMapping("/board")
-	public String board(Model model) {
-		List<Community> lst = commRepository.listAll();
-		model.addAttribute("lst", lst);
+	public String board(Model model, CommunCriteria cri) {
+		commService.board(model, cri);
 		return "/community/community";
 	}
 	

@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.surion.entity.CommunCriteria;
 import com.surion.entity.Community;
 import com.surion.entity.CommunityReply;
 import com.surion.entity.Member;
@@ -18,8 +19,12 @@ import com.surion.entity.Member;
 @Mapper
 public interface CommRepository{
 	
-	@Select("select * from suri_board order by idx DESC")
-	public List<Community> listAll();
+	//모든 게시글 가져오기
+	@Select("select * from suri_board order by idx DESC limit #{startValue}, #{endValue}")
+	public List<Community> listAll(CommunCriteria cri);
+	
+	@Select("select count(*) from suri_board")
+	public int boardTotalCount();
 	
 	@Insert("INSERT INTO suri_board(idx, id, title, content, img, suri_list, comm_list) select IFNULL(MAX(idx)+1,1),"
 			+ " #{id}, #{title}, #{content}, #{img}, #{suri_list}, #{comm_list} FROM suri_board")

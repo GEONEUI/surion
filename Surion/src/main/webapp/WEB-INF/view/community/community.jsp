@@ -53,7 +53,7 @@ table a{width:100%; display:block;}
 					</c:if>
 					<c:if test="${empty member}">
 						<div id="write_right">
-							<span style="color:red;">글작성을 위해서는 로그인이 필요합니다.</span>
+							<span style="color:red;">커뮤니티를 이용하시려면 로그이을 해주세요.</span>
 						</div>
 					</c:if>
 				<div class="card-body">
@@ -68,13 +68,53 @@ table a{width:100%; display:block;}
 						<c:forEach items="${lst}" var="list">
 							<tr>
 								<td width="15%">${list.comm_list}</td>
-								<td width="50%"><a href="${cpath}/community/detail?idx=${list.idx}">${list.title}</a></td>
+								<td width="50%">
+									<c:if test="${!empty member}">
+										<a href="${cpath}/community/detail?idx=${list.idx}">${list.title}</a>
+									</c:if>
+									<c:if test="${empty member}">
+										<a href="javascript:goLogin();">${list.title}</a>
+									</c:if>
+								</td>
 								<td width="10%" align="middle">${list.id}</td>
 								<td width="15%" align="middle">${fn:split(list.indate, " ")[0]}</td>
 								<td width="10%" align="middle">${list.readcount}</td>
 							</tr>
 						</c:forEach>
 					</table>
+					
+					
+			
+				
+				  <ul class="pagination justify-content-center">
+				  
+				  <c:if test="${pageMaker.prev}">
+				  	 <li class="page-item disabled">
+				      <li class="page-item"><a class="page-link" href="${cpath}/community/board?currentPage=${pageMaker.startPage - 1}">Prev</a></li>
+				    </li>
+				  </c:if>
+				   
+				   <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+				   	<c:if test="${pageMaker.cri.currentPage == pageNum}">
+				   		<li class="page-item active"><a class="page-link" href="${cpath}/community/board?currentPage=${pageNum}">${pageNum}</a></li>
+				   	</c:if>
+				   	<c:if test="${pageMaker.cri.currentPage != pageNum}">
+				   		<li class="page-item"><a class="page-link" href="${cpath}/community/board?currentPage=${pageNum}">${pageNum}</a></li>
+				   	</c:if>
+				   </c:forEach>
+
+				   <c:if test="${pageMaker.next}">
+				  	 <li class="page-item disabled">
+				      <li class="page-item"><a class="page-link" href="${cpath}/community/board?currentPage=${pageMaker.endPage + 1}">Next</a></li>
+				    </li>
+				  </c:if>
+				    <li class="page-item">
+				      
+				    </li>
+				  </ul>
+
+					
+					
 				</div>
 				
 						
@@ -91,6 +131,11 @@ table a{width:100%; display:block;}
 		</script>
 	</c:if>
 	
+	<script>
+		function goLogin(){
+			alert('로그인후 이용 가능합니다.');
+		}
+	</script>
 </body>
 
 <%@ include file="../common/footer.jsp"%>

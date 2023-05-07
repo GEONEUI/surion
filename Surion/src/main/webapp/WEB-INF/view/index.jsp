@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
@@ -19,9 +20,19 @@
 		width:100%;
 	}
 
+	.cursor{
+		cursor: pointer;
+	}
+
 
 	figure{
 		cursor:pointer;
+	}
+	
+	.content{
+		overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
 	}
 	i{
 		color: #888;
@@ -117,7 +128,7 @@
 						<figure>
 							<img src="${cpath}/resources/mainImage/${popularList.categoryImg}" alt="오토바이 이미지">
 							<figcaption class="fs-5 py-2">${popularList.category}</figcaption>
-							<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i><fmt:formatNumber pattern="#,###" value="${popularList.count}"/> 조회</p>
+							<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i><fmt:formatNumber pattern="#,###" value="${popularList.count}"/> 요청</p>
 						</figure>
 					</li>
 				</c:forEach>
@@ -129,52 +140,31 @@
 	<div class="container">
 		<div class="d-flex justify-content-between">
 				<h2 class="fs-2 mb-4">수리온 커뮤니티에 물어보세요</h2>
-				<a href="#" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
+				<a href="${cpath}/community/board" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
 			</div>
 		<div class="row d-flex">
 			<div class="col-lg-6 pe-4">
-				<div>
-					<small class="d-block text-secondary">함께해요</small>
-					<span class="d-block fw-bold">갑자기 차단기가 내려가서 전기사용이 안된다면?</span>
-					<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">403 6</span>
-				</div>
-				<div>
-					<small class="d-block text-secondary">얼마에요</small>
-					<span class="d-block fw-bold">갑자기 차단기가 내려가서 전기사용이 안된다면?</span>
-					<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">403 6</span>
-				</div>
-				<div>
-					<small class="d-block text-secondary">궁금해요</small>
-					<span class="d-block fw-bold">갑자기 차단기가 내려가서 전기사용이 안된다면?</span>
-					<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">403 6</span>
-				</div>
+				<c:forEach items="${communityList}" begin="0" end="2" var="list">
+					<div class="cursor" onclick="location.href='${cpath}/community/detail?idx=${list.idx}'">
+						<small class="d-block text-secondary">${list.comm_list}</small>
+						<span class="d-block fw-bold content">${list.content}</span>
+						<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">${fn:split(list.indate, " ")[0]}</span>
+					</div>
+				</c:forEach>
 			</div>
 			<div class="col-lg-6 ps-5 d-flex justify-content-between flex-column">
-				<div class="d-flex align-items-center" style="height:140px;">
-					<span class="d-block me-4">
-						<img src="./image/test.png" alt="테스트" width="200" style="border-radius:12px;">
-					</span>
-					<span class="d-block">
-						<span class="d-block mb-3 text-secondary">상세페이지 제작</span>
-						<span class="d-block fs-5 fw-bold">상세페이지로 구매율을 높이자!</span>
-						<span class="d-block">가온스튜디오</span>
-					</span>
-				</div>
-				<div class="d-flex align-items-center mb-5" style="height:140px;">
-					<span class="d-block me-4">
-						<img src="./image/test.png" alt="테스트" width="200" style="border-radius:12px;">
-					</span>
-					<span class="d-block">
-						<span class="d-block mb-3 text-secondary">상세페이지 제작</span>
-						<span class="d-block fs-5 fw-bold">상세페이지로 구매율을 높이자!</span>
-						<span class="d-block">가온스튜디오</span>
-					</span>
-				</div>
+				<c:forEach items="${communityList}" begin="3" end="5" var="list">
+					<div class="cursor" onclick="location.href='${cpath}/community/detail?idx=${list.idx}'">
+						<small class="d-block text-secondary">${list.comm_list}</small>
+						<span class="d-block fw-bold content">${list.content}</span>
+						<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">${fn:split(list.indate, " ")[0]}</span>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
 </div>	
-${communityList}
+
 <div class="container-fluid st px-5 py-5" style="background:#d4f1ed;">
 	<div class="container">
 		<h2 class="text-center pb-3 fs-2">크몽을 이용한 고객들의 생생한 후기!</h2>

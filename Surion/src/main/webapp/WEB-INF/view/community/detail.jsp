@@ -232,7 +232,7 @@
     }
 
     .replayImg {
-        margin-bottom: 70px;
+        margin: 70px 0;
     }
 
     .replayImg img {
@@ -241,7 +241,7 @@
     
     pre{
     	white-space: break-spaces;
-    	font-size: 22px;
+    	font-size: 18px;
     }
     
 
@@ -262,7 +262,13 @@
                     <h3>${community.title}</h3>
                     <div class="profile">
                         <div class="profile_left">
-                            <img src="${cpath}/resources/images/${originMember.imgurl}" alt="글쓴이 프로필 이미지">
+                        	<c:if test="${originMember.imgurl eq null}">
+                        		<img src="${cpath}/resources/communityImages/default.png" alt="글쓴이 프로필 이미지">
+                        	</c:if>
+                        	<c:if test="${originMember.imgurl ne null}">
+                        		<img src="${cpath}/resources/communityImages/${originMember.imgurl}" alt="글쓴이 프로필 이미지">
+                        	</c:if>
+                            
                             <div class="namedate">
                                 <div class="profile_name">id : ${community.id}</div>
                                 <div class="profile_date">CreateAt : ${community.indate}</div>

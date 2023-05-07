@@ -11,13 +11,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.surion.entity.CommunCriteria;
 import com.surion.entity.Community;
 import com.surion.entity.CommunityReply;
 
 
 public interface CommService {
-	//글 목록
-	public List<Community> listAll();
+	//커뮤니티 메인페이지
+	public void board(Model model, CommunCriteria cri);
 	//글 작성
 	public String register(HttpServletRequest request, RedirectAttributes rttr);
 	//하나을 게시글 보기
