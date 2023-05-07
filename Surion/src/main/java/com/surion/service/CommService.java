@@ -30,5 +30,8 @@ public interface CommService {
 	public void saveReply(CommunityReply communityReply);
 	//댓글삭제하기
 	public void deleteBoard(@Param("idx") int idx);
-	
+	//게시글 한개 가져오기
+	public void update(int idx, Model model);
+	//게시글 업데이트
+	public String updateMethod(HttpServletRequest request, RedirectAttributes rttr);
 }

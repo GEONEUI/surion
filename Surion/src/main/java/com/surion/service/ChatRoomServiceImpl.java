@@ -38,7 +38,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	public int createRoom(String opponentId, HttpSession session) {
 		int res = 0;
 		Member member = (Member)session.getAttribute("member");
-    	String myId = member.getId();
+		String myId = member.getId();
     	String roomId = UUID.randomUUID().toString();
     	res += chatRoomRepository.createChatRoom(
     			ChatRoom.builder().room_id(roomId).member_id(opponentId).build());

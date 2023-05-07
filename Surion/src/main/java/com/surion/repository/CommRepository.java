@@ -37,10 +37,6 @@ public interface CommRepository{
 	@Update("update suri_board set readcount = readcount + 1 where idx = #{idx}")
 	public void updateBoard(@Param("idx") int idx);
 	
-	//게시글 삭제하기
-	@Delete("delete from suri_board where idx = #{idx}")
-	public void deleteBoard(@Param("idx") int idx);
-	
 	//댓글 불러오기
 	@Select("SELECT e2.num, e2.id, e2.context, e2.indate, e1.imgurl as img FROM suri_member e1, suri_communityReply e2 WHERE e1.id = e2.id AND e2.idx = #{idx}")
 	public List<CommunityReply> findReply(@Param("idx")int idx);
@@ -50,9 +46,18 @@ public interface CommRepository{
 	public void	saveReply(CommunityReply communityReply);
 	
 	//댓글 삭제하기
-	@Delete("delete from suri_communityReply where num = ${num}")
+	@Delete("delete from suri_communityReply where num = #{num}")
 	public void deleteReply(CommunityReply communityReply);
 	
-
+	//게시글 삭제하기
+	@Delete("delete from suri_board where idx = #{idx}")
+	public void deleteBoard(@Param("idx") int idx);
 	
+	//게시글 한개 가져오기
+	@Select("select * from suri_board where idx = #{idx}")
+	public Community finyOneBoard(@Param("idx") int idx);
+
+	//게시글 업데이트
+	@Update("update suri_board set title = #{title}, content=#{content}, img=#{img}, suri_list=#{suri_list}, comm_list=#{comm_list} where idx = #{idx}")
+	public void update(Community community);
 }

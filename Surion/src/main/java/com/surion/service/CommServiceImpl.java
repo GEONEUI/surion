@@ -85,7 +85,6 @@ public class CommServiceImpl implements CommService{
 		
 		
 		commRepository.save(community);
-		System.out.println(community.getSuri_list() + "수리리스트 확인");
 		
 		rttr.addFlashAttribute("msg", "글작성이 완료되었습니다.");
 		return "redirect:/community/board";
@@ -115,20 +114,94 @@ public class CommServiceImpl implements CommService{
 		return lst;
 	}
 
+	
+	//댓글 작성하기
 	@Override
 	public void saveReply(CommunityReply communityReply) {
 		commRepository.saveReply(communityReply);
 	}
 
+	
+	//댓글 삭제하기
 	@Override
 	public void ReplyDelete(CommunityReply communityReply) {
 		commRepository.deleteReply(communityReply);
 	}
 
+	
+	//게시글 삭제하기
 	@Override
 	public void deleteBoard(int idx) {
 		commRepository.deleteBoard(idx);
 	}
+
+	@Override
+	public void update(int idx, Model model) {
+		Community comm = commRepository.finyOneBoard(idx);
+		model.addAttribute("comm", comm);
+	}
+
+	//게시글 업데이트
+	@Override
+	public String updateMethod(HttpServletRequest request, RedirectAttributes rttr) {
+		
+		int maxSize = 1024 * 1024 * 5; //5mb 조정
+		String save = request.getRealPath("/resources/communityImages");
+		
+		MultipartRequest multi = null;
+		
+		
+		try {
+			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	
+		File newFile = multi.getFile("img");
+		String comm_list = multi.getParameter("comm_list");
+		String title = multi.getParameter("title");
+		String suri_list = multi.getParameter("suri_list");
+		String content = multi.getParameter("content");
+		String fileName = newFile.getName();
+		String id = multi.getParameter("id");
+		int idx = Integer.parseInt(multi.getParameter("idx"));
+		
+		
+		//업로드 성공!
+		if(multi != null) {
+			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
+			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
+				
+			}else {
+				if(newFile.exists()) {
+					newFile.delete();
+					rttr.addFlashAttribute("msg", "이미지파일은 PNG, JPG만 가능합니다.");
+					return "redirect:/community/write";
+				}
+			}
+		}
+		
+		
+		Community community = new Community();
+		community.setComm_list(comm_list);
+		community.setTitle(title);
+		community.setSuri_list(suri_list);
+		community.setContent(content);
+		community.setImg(fileName);
+		community.setId(id);
+		community.setIdx(idx);
+		
+		System.out.println(community);
+	
+		commRepository.update(community);
+		
+		rttr.addFlashAttribute("msg", "업데이트가 완료되었습니다.");
+		return "redirect:/community/board";
+		
+	}
+
+
 
 
 

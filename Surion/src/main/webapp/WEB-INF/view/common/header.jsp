@@ -39,6 +39,9 @@
 	
 	.unav1 li img{
 		cursor:pointer;
+		width:50px;
+		height:50px;
+		border-radius:50%;
 	}
 
 	.unav1 li:nth-child(2){
@@ -190,10 +193,10 @@
 							</c:choose>
 						</c:if>
 						<c:if test="${member.imgurl eq null}">
-							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
+							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png"></li>
 						</c:if>
 						<c:if test="${member.imgurl ne null}">
-							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}" width="40" style="border-radius:12px;"></li>
+							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}"></li>
 						</c:if>	
 					</ul>
 					<!--  내 정보 모탈창  -->

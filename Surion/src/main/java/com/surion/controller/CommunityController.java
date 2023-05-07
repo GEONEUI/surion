@@ -58,12 +58,6 @@ public class CommunityController {
 		return "/community/detail";
 	}
 	
-	//글 수정
-	@GetMapping("/update")
-	public String updateForm() {
-		return "/update";
-	}
-	
 	//글 수정 동작
 	@PostMapping("/updatePro")
 	public String updatePro() {
@@ -96,6 +90,20 @@ public class CommunityController {
 	public @ResponseBody String ReplyDelete(CommunityReply communityReply) {
 		commService.ReplyDelete(communityReply);
 		return "성공";
+	}
+	
+	//업데이트(view)
+	@GetMapping("/update")
+	public String update(int idx, Model model) {
+		commService.update(idx,model);
+		return "/community/update";
+	}
+	
+	//업데이트(Method)
+	@PostMapping("/update")
+	public String updateMethod(HttpServletRequest request, RedirectAttributes rttr) {
+		commService.updateMethod(request, rttr);
+		return "redirect:/community/board";
 	}
 	
 	

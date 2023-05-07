@@ -82,6 +82,12 @@ body {
 		</div>
 		<!-- //suriSize -->
 	</div>
+	<c:if test="${!empty msg}">
+		<script>
+			alert('${msg}');
+		</script>
+	</c:if>
+	
 </body>
 
 <%@ include file="../common/footer.jsp"%>

@@ -74,6 +74,7 @@
     .pick_picture {
         align-items: center;
         display: flex;
+        padding-top: 5px;
     }
 
     .pick_picture i {
@@ -92,21 +93,25 @@
     }
 
     .pick_picture input {
-        display: none;
-    }
-
-    .pick_picture label {
         width: 100%;
-        height: 100%;
         cursor: pointer;
         display: flex;
         align-items: center;
     }
+    
+	label i{
+		margin-right:15px;
+	}
+
 
     .bg {
         background: #00c7ae;
     }
-</style>
+    
+    .fileName{
+    	margin-right:10px;
+    }
+</style>a
 <script>
     //선택한 것 보여주기
     function change() {
@@ -117,36 +122,37 @@
 </script>
 
 <body>
+	${comm }
     <%@ include file="../common/header.jsp"%>
     <div class="suriSize">
         <div class="container">
             <div class="row justify-content-between" style="min-height: 500px;">
                 <div class="col-lg-12" id="my_page_right">
                     <!-- 커뮤니티 글 등록 -->
-                    <form action="${cpath}/community/writePro" method="post" enctype="multipart/form-data">
+                    <form action="${cpath}/community/update" method="post" enctype="multipart/form-data">
                         <!-- 주제선택 -->
                         <div class="d-flex justify-content-between mb-3">
                             <div class="pull-right">
                                 <select class="form-control height bg" name="comm_list">
-                                    <option value="0">(선택) 주제</option>
+                                    <option value="0">(재선택) 주제</option>
                                     <option value="궁금해요">궁금해요</option>
                                     <option value="얼마예요">얼마예요</option>
                                     <option value="고수찾아요">고수찾아요</option>
                                     <option value="함께해요">함께해요</option>
                                 </select>
                             </div>
-                            <input type="submit" value="등록" class="btn btn-primary">
+                            <input type="submit" value="수정완료" class="btn btn-primary">
                         </div>
                         <div class="pick_picture">
-                            <label for="file"><i class="fa-solid fa-camera"></i></label>
+                            <label for="file"><i class="fa-solid fa-camera"></i></label> <span class="fileName">${comm.img}</span>
                             <input id="file" type="file" name="img">
                         </div>
-                        <input type="text" class="insert_title" placeholder="제목을 입력해주세요." name="title" />
+                        <input type="text" class="insert_title" placeholder="제목을 입력해주세요." name="title" value="${comm.title}"/>
                         <div class="option">
                             <div class="option_service">
                                 <!-- (선택) 서비스 <i class="fa-regular fa-chevron-down"></i> -->
                                 <select class="form-control height bg" name="suri_list">
-                                    <option value="미정">(선택) 서비스</option>
+                                    <option value="미정">(재선택) 서비스</option>
                                     <option value="자전거">자전거</option>
                                     <option value="오토바이">오토바이</option>
                                     <option value="에어컨">에어컨</option>
@@ -158,7 +164,8 @@
                             </div>
                         </div>
                         <input type="hidden" value="${member.id}" name="id">
-                        <textarea id="myTextarea" maxlength="500" class="text" rows="15" placeholder="내용은 500자 까지 입력하실 수 있습니다." name="content"></textarea>
+                        <input type="hidden" value="${comm.idx}" name="idx">
+                        <textarea id="myTextarea" maxlength="500" class="text" rows="15" placeholder="내용은 500자 까지 입력하실 수 있습니다." name="content">${comm.content}</textarea>
                     </form>
                 </div>
                 <!-- //row -->
