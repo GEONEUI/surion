@@ -507,29 +507,28 @@ ul {
 		      	var nextNumber = endPage + 1;
 		      	
 		      	if(prev){
-		      		prevItem = '<li class="page-item"><button type="button" class="page-link " href="${cpath}/order2/orderAjax?pageNum='+prevNumber+'">Previous</button></li>';
+		      	  prevItem = '<li><a class="btnClick custom-btnn btn-11" href="${cpath}/order2/orderAjax?pageNum='+prevNumber+'">이전</a></li>';
 		      	}
-		      	
-		      	if(next){
-		      		nextItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+ nextNumber +'">Next</button></li>';
-		      	}
-		      	
-		      	
-		      	for(var i=StartPage; i<=endPage ;i++){
-		      		if(currentPage == i){
-		      			pageMaker+='<li class="bold active"><a class="btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
-		      		}else{
-		      			pageMaker+='<li><a class="btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
-		      		}
-		      	}
-		      	
 
-				
-		      	paging+='<ul class="underPage">';
-		      	paging+=prevItem;
-		      	paging+=pageMaker;
-		      	paging+=nextItem;
-		      	paging+='</ul>';
+		      	if(next){
+		      	  nextItem = '<li><a class="btnClick custom-btnn btn-11" href="${cpath}/order2/orderAjax?pageNum='+ nextNumber +'">다음</a></li>';
+		      	}
+
+		      	// 페이지 번호 링크 추가
+		      	for(var i=StartPage; i<=endPage ;i++){
+		      	  if(currentPage == i){
+		      	    pageMaker+='<li class="bold active"><a class="btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</a></li>';
+		      	  }else{
+		      	    pageMaker+='<li><a class="btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</a></li>';
+		      	  }
+		      	}
+
+		      	paging += prevItem; // prevItem을 ul 이전에 추가
+		      	paging += '<ul class="underPage">';
+		      	paging += pageMaker;
+		      	paging += '</ul>';
+		      	paging += nextItem; // nextItem을 ul 이후에 추가
+		      	
 		      	
     		
     	$('.askList').html(view);
