@@ -18,4 +18,6 @@ public interface MemberService {
 	public Long findByMemberById(String id);
 
 	Long findByMemberById(Long id);
+
+    void save(Member member);
 }

@@ -1,10 +1,9 @@
 package com.surion.repository;
 
-import com.surion.domain.member.Mechanic;
+import com.surion.domain.mechanic.Mechanic;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.JoinColumn;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 

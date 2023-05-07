@@ -1,28 +1,31 @@
 package com.surion.domain.review;
 
+import com.surion.domain.mechanic.Mechanic;
 import com.surion.domain.member.Member;
+import com.surion.service.MechanicService;
+import com.surion.service.MemberService;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class ReviewCreateRequestDto {
-    private Member member;
+    private String memberId;
+    private String mechanicId;
     private String content;
-    private int point;
+    private int score;
+
 
     @Builder
-    public ReviewCreateRequestDto(Member member, String content, int point) {
-        this.member = member;
+    public ReviewCreateRequestDto(String memberId, String mechanicId, String content, int score) {
+        this.memberId = memberId;
+        this.mechanicId = mechanicId;
         this.content = content;
-        this.point = point;
-    }
-
-    public Review toEntity() {
-        return Review.builder()
-                .member(member)
-                .content(content)
-                .build();
+        this.score = score;
     }
 }
+

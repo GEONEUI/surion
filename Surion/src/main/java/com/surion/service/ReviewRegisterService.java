@@ -2,31 +2,21 @@ package com.surion.service;
 
 
 import com.surion.domain.Image.Photo;
-import com.surion.domain.Image.PhotoDto;
-import com.surion.domain.member.Mechanic;
+import com.surion.domain.mechanic.Mechanic;
 import com.surion.domain.member.Member;
-import com.surion.domain.review.Point;
-import com.surion.domain.review.Review;
-import com.surion.domain.review.ReviewCreateRequestDto;
-import com.surion.domain.review.ReviewForm;
+import com.surion.domain.review.*;
 import com.surion.repository.MemberPointRepository;
 import com.surion.repository.PhotoRepository;
 import com.surion.repository.PointRewardRepository;
 import com.surion.repository.ReviewRegisterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
-import java.io.File;
+
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,26 +42,29 @@ public class ReviewRegisterService {
 
 
     // 이미지게시판자료
+
+    /*
+     ** 게시글 저장
+     */
     @Transactional
     public Long create(
             ReviewCreateRequestDto requestDto,
             List<MultipartFile> files
     ) throws Exception {
-
         System.out.println("requestDto = " + requestDto);
 
+        Member member = memberService.findById(requestDto.getMemberId());
+        Mechanic mechanic = mechanicService.findById(requestDto.getMechanicId());
         // 파일 처리를 위한 Board 객체 생성
-        Review review = new Review(
-                requestDto.getMember(),
-                requestDto.getContent(),
-                requestDto.getPoint()
-        );
-
-
+        Review review = Review.builder()
+                .member(member)
+                .mechanic(mechanic)
+                .content(requestDto.getContent())
+                .score(requestDto.getScore())
+                .build();
         System.out.println("review = " + review);
 
         List<Photo> photoList = fileHandler.parseFileInfo(review,files);
-
         System.out.println("photoList = " + photoList);
 
         // 파일이 존재할 때에만 처리
@@ -81,17 +74,95 @@ public class ReviewRegisterService {
                 review.addPhoto(photoRepository.save(photo));
             }
         }
-
         return reviewRegisterRepository.save(review).getId();
+    }
+
+    // 게시글 업데이트
+    @Transactional
+    public void update(
+            Long id,
+            ReviewUpdateRequestDto requestDto,
+            List<MultipartFile> files
+    ) throws Exception {
+        Review review = reviewRegisterRepository.findById(id)
+                .orElseThrow(() -> new
+                        IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        List<Photo> photoList = fileHandler.parseFileInfo(review, files);
+
+        if(!photoList.isEmpty()) {
+            for(Photo photo : photoList) {
+                photoRepository.save(photo);
+            }
+        }
+        review.update(requestDto.getScore(), requestDto.getContent());
+    }
+
+    // 게시글 지우기
+    @Transactional
+    public void delete(Long id) {
+        Review review = reviewRegisterRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다.")
+                );
+        reviewRegisterRepository.delete(review);
+    }
+
+    // 게시글 전체 조회
+    public List<Review> findAll() {
+        return reviewRegisterRepository.findAll();
+    }
+
+    // 게시글 전체 조회 ( 정렬 : 작성일 최신순 )
+    public List<Review> findAllByOrderByCreatedAtDesc() {
+        return reviewRegisterRepository.findAllByOrderByCreatedAtDesc();
+    }
+
+    // 게시글 개별 조회
+    @Transactional(readOnly = true)
+    public ReviewResponseDto searchById(Long id, List<Long> fileId) {
+        Review entity = reviewRegisterRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        return new ReviewResponseDto(entity, fileId);
     }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // 점수시스템 자료
+
+    /*
+    리뷰 등록 + 리뷰 점수 시스템
+     */
     public String reviewRegister(ReviewForm reviewForm) {
         Member memberEntity = memberService.findById(reviewForm.getMemberId());
-        Mechanic mechanicEntity = mechanicService.findOne(reviewForm.getMechanicId());
+        Mechanic mechanicEntity = mechanicService.findById(reviewForm.getMechanicId());
 
         if (reviewRegisterRepository.existsById(reviewForm.getReviewId())) {
             return "FAIL";
@@ -105,7 +176,7 @@ public class ReviewRegisterService {
             firstPlacePointEntity.setPoint(1);
             firstPlacePointEntity.setMark(POINT_INCREMENT);
             firstPlacePointEntity.setReviewId(reviewForm.getReviewId());
-            firstPlacePointEntity.setUserId(reviewForm.getMemberId());
+            firstPlacePointEntity.setMemberId(reviewForm.getMemberId());
 
             point_sum += 1;
             pointRewardRepository.save(firstPlacePointEntity);
@@ -127,7 +198,7 @@ public class ReviewRegisterService {
             contentPointEntity.setPoint(1);
             contentPointEntity.setMark(POINT_INCREMENT);
             contentPointEntity.setReviewId(reviewForm.getReviewId());
-            contentPointEntity.setUserId(reviewForm.getMemberId());
+            contentPointEntity.setMemberId(reviewForm.getMemberId());
 
             point_sum += 1;
         }
@@ -139,7 +210,7 @@ public class ReviewRegisterService {
             photoPointEntity.setPoint(1);
             photoPointEntity.setMark(POINT_INCREMENT);
             photoPointEntity.setReviewId(reviewForm.getReviewId());
-            photoPointEntity.setUserId(reviewForm.getMemberId());
+            photoPointEntity.setMemberId(reviewForm.getMemberId());
 
             point_sum += 1;
         }
@@ -170,12 +241,15 @@ public class ReviewRegisterService {
     }
 
 
+    /*
+     리뷰 업데이트 + 점수 시스템
+     */
     public String reviewUpdate(ReviewForm reviewForm) {
 
         Review reviewEntity = new Review();
         Optional<Review> review = reviewRegisterRepository.findById(reviewForm.getReviewId());
         Member memberEntity = memberService.findById(reviewForm.getMemberId());
-        Mechanic mechanicEntity = mechanicService.findOne(reviewForm.getMechanicId());
+        Mechanic mechanicEntity = mechanicService.findById(reviewForm.getMechanicId());
 
         review.ifPresent(selectReview -> {
             reviewEntity.setContent(reviewForm.getContent());
@@ -188,7 +262,7 @@ public class ReviewRegisterService {
         reviewRegisterRepository.save(reviewEntity);
 
         // 리뷰를 수정하면 수정한 내용에 맞는 내용 점수를 계산하여 점수를 부여하거나
-        //        글만 작성한 리뷰에 사진을 추가하면 1점을 부여합니다.
+        // 글만 작성한 리뷰에 사진을 추가하면 1점을 부여합니다.
         // 글만 작성한 리뷰
         // 리뷰아이디로 리뷰를 가져와
         // 글만 작성? == 사진이 null
@@ -199,9 +273,9 @@ public class ReviewRegisterService {
         }
 
         int checkPhoto = 0;
-//        if (reviewForm.getPhoto().length() > 1) {
-//            checkPhoto = 1;
-//        }
+        if (reviewForm.getPhoto().size() > 1) {
+            checkPhoto = 1;
+        }
 
 
         // 포인트 테이블에서 reviewId 로 조회를 해야해.
@@ -226,7 +300,7 @@ public class ReviewRegisterService {
         } else if (checkContent == 1 && contentPoint == null) {
             Optional<Member> member = memberPointRepository.findById(reviewForm.getMemberId());
             Point contentPointEntity = new Point();
-            contentPointEntity.setUserId(reviewForm.getMemberId());
+            contentPointEntity.setMemberId(reviewForm.getMemberId());
             contentPointEntity.setType(CONTENT);
             contentPointEntity.setPoint(1);
             contentPointEntity.setMark(POINT_INCREMENT);
@@ -256,7 +330,7 @@ public class ReviewRegisterService {
         } else if (checkPhoto == 1 && photoPoint == null) {
             Optional<Member> user2 = memberPointRepository.findById(reviewForm.getMemberId());
             Point photoPointEntity = new Point();
-            photoPointEntity.setUserId(reviewForm.getMemberId());
+            photoPointEntity.setMemberId(reviewForm.getMemberId());
             photoPointEntity.setType(PHOTO);
             photoPointEntity.setPoint(1);
             photoPointEntity.setMark(POINT_INCREMENT);
@@ -274,12 +348,14 @@ public class ReviewRegisterService {
         return "SUCCESS";
     }
 
-
+    /*
+    리뷰 삭제
+     */
     public String reviewDelete(ReviewForm reviewForm) {
 
         Optional<Review> review = reviewRegisterRepository.findById(reviewForm.getReviewId());
 
-        // Review Soft Delete
+        // 리뷰 삭제
         review.ifPresent(selectReview -> {
             selectReview.setDeleteAt(LocalDateTime.now());
             selectReview.setIsDelete(YES);
@@ -316,14 +392,12 @@ public class ReviewRegisterService {
             firstplacePoint.setRetrievedId(retrievedPointId);
             pointRewardRepository.save(firstplacePoint);
         }
-
-
         return "SUCCESS";
     }
 
     private int pointRetrieved(int pointType, String userId) {
         Point retrievedPointEntity = new Point();
-        retrievedPointEntity.setUserId(userId);
+        retrievedPointEntity.setMemberId(userId);
         retrievedPointEntity.setType(pointType);
         retrievedPointEntity.setPoint(1);
         retrievedPointEntity.setMark(POINT_DECREMENT);
@@ -338,12 +412,7 @@ public class ReviewRegisterService {
         return savedRetrievedPoint.getId();
     }
 
-    public List<Review> findAll() {
-    return reviewRegisterRepository.findAll();
+    public Review findByMemberIdAndMechanicId(String id, String id1) {
+        return findByMemberIdAndMechanicId(id, id1);
     }
-    public List<Review> findAllByOrderByCreatedAtDesc() {
-        return reviewRegisterRepository.findAllByOrderByCreatedAtDesc();
-    }
-
-
 }

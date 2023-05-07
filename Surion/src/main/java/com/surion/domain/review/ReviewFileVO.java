@@ -8,7 +8,8 @@ import java.util.List;
 @Data
 public class ReviewFileVO {
     private String memberId;
+    private String mechanicId;
     private String content;
-    private int point;
+    private int score;
     private String files;
 }

@@ -8,16 +8,16 @@ import java.util.List;
 @Getter
 public class ReviewListResponseDto {
     private Long id;
-    private String member;
-    private String title;
+    private String memberId;
+    private String mechanicId;
     private String content;
     private List<Photo> file;
 
-    //     public BoardResponseDto(Board entity) {
+
     public ReviewListResponseDto(Review entity, List<Photo> file) {
-        this.id = 1L;
-//        this.id = entity.getId();
-        this.member = entity.getMember().getName();
+        this.id = entity.getId();
+        this.memberId = entity.getMember().getId();
+        this.mechanicId = entity.getMechanic().getId();
         this.content = entity.getContent();
         this.file = file;
     }

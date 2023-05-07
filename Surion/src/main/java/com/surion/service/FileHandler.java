@@ -3,11 +3,15 @@ package com.surion.service;
 import com.surion.domain.Image.Photo;
 import com.surion.domain.Image.PhotoDto;
 import com.surion.domain.review.Review;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,11 +32,13 @@ import java.util.List;
 
 @Component
 public class FileHandler {
+    private final HttpServletRequest request;
 
     private final PhotoService photoService;
 
-    public FileHandler(PhotoService photoService) {
+    public FileHandler(PhotoService photoService, HttpServletRequest request) {
         this.photoService = photoService;
+        this.request = request;
     }
 
 
@@ -48,9 +54,8 @@ public class FileHandler {
          */
         if(!CollectionUtils.isEmpty(multipartFiles)) {
 
-
             /*
-            * 시간 선언 - ( 목적 : 폴더 이름으로 사용 )
+             * 시간 선언 - ( 목적 : 폴더 이름으로 사용 )
              */
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -59,26 +64,15 @@ public class FileHandler {
             /*
              * 절대 경로 선언 - ( 프로젝트 디렉토리 내 저장을 위한 절대 경로 설정 )
              */
-            String absolutePath = new File("").getAbsolutePath() + File.separator;
+            String absolutePath = request.getSession().getServletContext().getRealPath("/");
             System.out.println("absolutePath = " + absolutePath);
 
             /*
-            * 절대 경로 세부 지정 - ( 파일 저장할 세부 경로 지정 )
+             * 절대 경로 세부 지정 - ( 파일 저장할 세부 경로 지정 )
              */
             String path = "resources" + File.separator + "images" + File.separator + current_date;
             File file = new File(absolutePath + path);
             System.out.println("path = " + path);
-
-            /*
-             * 절대 경로 폴더 생성 ( 존재하지 않을 경우, YYYYMM로 생성 )
-             */
-            if(!file.exists()) {
-                boolean wasSuccessful = file.mkdirs();
-                System.out.println("file.exists() = " + file.exists());
-
-                if(!wasSuccessful)
-                    System.out.println("file: was not successful");
-            }
 
             /*
              ** 다중 파일 저장

@@ -159,5 +159,10 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	}
 
+	@Override
+	public void save(Member member) {
+
+	}
+
 
 }

@@ -13,14 +13,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@Table(name = "tsuri_point")
 public class Point {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name = "member_id")
+    private String memberId;
 
     private int type;
 

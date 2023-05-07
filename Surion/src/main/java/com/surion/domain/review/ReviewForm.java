@@ -18,7 +18,7 @@ public class ReviewForm {
     String type;
     String action;
     Long reviewId;
-    int point;
+    int score;
     String content;
     List<Photo> photo;
     String MemberId;

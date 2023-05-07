@@ -1,15 +1,11 @@
 package com.surion.service;
 
-import com.surion.domain.member.Mechanic;
+import com.surion.domain.mechanic.Mechanic;
 import com.surion.repository.MechanicRepository;
-import com.surion.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
@@ -39,7 +35,7 @@ public class MechanicService {
         return mechanicRepository.findAll();
     }
 //  메카닉 조회
-    public Mechanic findOne(String mechanicId){
+    public Mechanic findById(String mechanicId){
         return mechanicRepository.findOne(mechanicId);
     }
 }

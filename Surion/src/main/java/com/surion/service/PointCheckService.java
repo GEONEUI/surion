@@ -21,8 +21,6 @@ public class PointCheckService {
         if (member.isPresent()) {
             return member.get().getPoint();
         }
-
-
         return 0;
     }
 

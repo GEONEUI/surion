@@ -1,6 +1,6 @@
 package com.surion.controller;
 
-import com.surion.domain.member.Mechanic;
+import com.surion.domain.mechanic.Mechanic;
 import com.surion.service.MechanicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class OrderOneController {
 
-    private final MechanicService ms;
+    private final MechanicService mechanicService;
 
     @GetMapping("/detail/{mechanic_id}")
     public String orderdetail(@PathVariable String mechanic_id, Model model){
-        Mechanic mechanic = ms.findOne(mechanic_id);
+        Mechanic mechanic = mechanicService.findById(mechanic_id);
         model.addAttribute("mechanic", mechanic);
         return "/order1/productdetail";
     }
