@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
+import com.surion.entity.MemberChatRoomMessageJoin;
+import com.surion.entity.MessageAndSendTime;
 import com.surion.service.ChatRoomService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,8 +42,8 @@ public class ChatRoomController {
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
-    public List<ChatRoom> room(String memberId) {
-        return chatRoomService.findRoom(memberId);
+    public List<MemberChatRoomMessageJoin> room(String member_id) {
+        return chatRoomService.findRoom(member_id);
     }
     // 채팅방 생성
     @PostMapping("/room")
@@ -60,4 +62,17 @@ public class ChatRoomController {
     public List<Message> roomInfo(@PathVariable String roomId) {
         return chatRoomService.roomInfo(roomId);
     }
+    //채팅목록용 최신 메세지 조회
+    @PostMapping("/findMessage")
+    @ResponseBody
+    public MessageAndSendTime  findLatestMessage(String room_id) {
+    	return chatRoomService.findLatestMessage(room_id);
+    }
+    //거래완료 버튼
+    @PostMapping("/stateUpdate")
+    @ResponseBody
+    public String stateUpdate(ChatRoom chatRoom, Model model) {
+    	return chatRoomService.stateUpdate(chatRoom, model);
+    }
+    
 }

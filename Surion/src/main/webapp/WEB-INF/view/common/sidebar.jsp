@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <style>
   body{
     margin-top:20px;
@@ -105,7 +107,7 @@
                         <a href="${cpath}/mypage/myinfo?pageview=1" class="nav-link nav-link-faded has-icon" class="myConfig">사용자 정보</a>
                         <a href="${cpath}/mypage/myinfo?pageview=2" class="nav-link nav-link-faded has-icon" class="myConfig">내 글 관리</a>
                         <a href="${cpath}/mypage/myinfo?pageview=3" class="nav-link nav-link-faded has-icon" class="myConfig chatList">채팅 목록</a>
-                        <a href="${cpath}/mypage/myinfo?pageview=4" class="nav-link nav-link-faded has-icon" class="myConfig">나의 의뢰</a>
+						<a href="${cpath}/mypage/myinfo?pageview=4" class="nav-link nav-link-faded has-icon" class="myConfig">받은 견적</a>
                         <a href="${cpath}/mypage/myinfo?pageview=5" class="nav-link nav-link-faded has-icon" class="myConfig" id= "order">정비사 정보</a>
                       </nav>
                     </div>

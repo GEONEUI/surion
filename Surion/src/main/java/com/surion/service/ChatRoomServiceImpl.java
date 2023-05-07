@@ -13,6 +13,10 @@ import org.springframework.ui.Model;
 import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
 import com.surion.entity.Member;
+import com.surion.entity.MemberChatRoomMessageJoin;
+import com.surion.entity.MessageAndSendTime;
+import com.surion.entity.OrderFormRepairOfferJoin;
+import com.surion.entity.OrderRoomMemberJoin;
 import com.surion.repository.ChatRoomRepository;
 import com.surion.repository.MemberRepository;
 
@@ -30,8 +34,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	}
 
 	@Override
-	public List<ChatRoom> findRoom(String memberId) {
-		return chatRoomRepository.findAllRooms(memberId);
+	public List<MemberChatRoomMessageJoin> findRoom(String member_id) {
+		return chatRoomRepository.findAllRooms(member_id);
 	}
 
 	@Override
@@ -40,10 +44,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 		Member member = (Member)session.getAttribute("member");
 		String myId = member.getId();
     	String roomId = UUID.randomUUID().toString();
-    	res += chatRoomRepository.createChatRoom(
-    			ChatRoom.builder().room_id(roomId).member_id(opponentId).build());
+//    	res += chatRoomRepository.createChatRoom(
+//    			ChatRoom.builder().room_id(roomId).member_id(opponentId).build());
 		res += chatRoomRepository.createChatRoom(
-				ChatRoom.builder().room_id(roomId).member_id(myId).build());
+				ChatRoom.builder().room_id(roomId).member_id(myId).othermem_id(opponentId).build());
 		return res;
 	}
 
@@ -53,12 +57,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	        List<Message> message = chatRoomRepository.findRoomById(roomId);
 	        List<String> memberInRoom = chatRoomRepository.findMemberByRoomId(roomId);
 	        Member sessionMem = (Member)session.getAttribute("member");
+	        
 	        for(String member : memberInRoom) {//채팅창 상대방 정보 가져오기 위한 상대방 아이디 찾기
 	        	if(!member.equals(sessionMem.getId())) {
-	        		Member mem = new Member();
-	        		mem.setId(member);
-	        		Member memberInfo = memberRepository.login(mem);
-	        		model.addAttribute("oppUrl", memberInfo.getImgurl());
+	        		OrderRoomMemberJoin list = chatRoomRepository.findOrderJoinByIds(member, sessionMem.getId());
+	        		model.addAttribute("joinList", list);
+	        		OrderRoomMemberJoin otherState = chatRoomRepository.findOrderJoinByIds(sessionMem.getId(), member);
+	        		model.addAttribute("otherState", otherState.getState());
 	        	}
 	        }
 	        
@@ -70,6 +75,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	@Override
 	public List<Message> roomInfo(String roomId) {
 		return chatRoomRepository.findRoomById(roomId);
+	}
+
+	@Override
+	public MessageAndSendTime findLatestMessage(String roomId) {
+		
+		return chatRoomRepository.findMessageByRoomId(roomId);
+	}
+
+	@Override
+	public String stateUpdate(ChatRoom chatRoom, Model model) {
+		chatRoomRepository.stateUpdate(chatRoom);
+		String otherState = chatRoomRepository.checkState(chatRoom);
+		if(otherState.equals("completed")) {
+			return "completed";
+		}
+		return "onGoing";
 	}
 
 

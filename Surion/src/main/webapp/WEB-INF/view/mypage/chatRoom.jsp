@@ -151,8 +151,8 @@ pageEncoding="UTF-8"%>
                                                  			<c:set var="versus" value="${fn:substring(list.send_time, 0, 3)}"/> 
                                                  			<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">
                                                  			<c:choose>
-                                                 				<c:when test="${oppUrl ne null}">
-												         	   		<img src="${cpath}/resources/images/${oppUrl}" style="border-radius:50%; width: 45px; height: 100%;">
+                                                 				<c:when test="${joinList.imgurl ne null}">
+												         	   		<img src="${cpath}/resources/images/${joinList.imgurl}" style="border-radius:50%; width: 45px; height: 100%;">
                                                  				</c:when>                                                 			
                                                  				<c:otherwise>
                                                  					<img src="${cpath}/resources/images/default.png" style="border-radius:50%; width: 45px; height: 100%;">
@@ -190,20 +190,20 @@ pageEncoding="UTF-8"%>
                             <div class="card text-center me-0" id="chat2"
                                  style="border-radius: 15px; height: 100%; max-height: 550px;">
                                 <div class="center">
-                                	<c:choose>
-                                		<c:when test="${oppUrl ne null}">
-                                   			<img class="d-flex mt-1"
+                                 	<c:choose>
+                                		<c:when test="${joinList.imgurl eq null}">
+                                			<img class="d-flex mt-1"
                                          	src="${cpath}/resources/images/default.png"
                                          	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
                                 		</c:when>
                                 		<c:otherwise>
                                 		   <img class="d-flex mt-1"
-                                         	src="${cpath}/resources/images/default.png"
+                                         	src="${cpath}/resources/images/${joinList.imgurl}"
                                          	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
                                 		</c:otherwise>
-                                	</c:choose>
+                                	</c:choose> 
                                 </div>
-                                <p class="fs-3 text mt-1 mb-0">자전거 가게</p>
+                                <p class="fs-3 text mt-1 mb-0">${joinList.shopName}</p>
                                 <p class="fs-5 text mb-0">별점</p>
                                 	<div>
 	                                	<fieldset class="rate">
@@ -238,15 +238,21 @@ pageEncoding="UTF-8"%>
                                     </div>
                                 <p class="fs-6 text">4.5 / 5.0</p>
 
-                                <p class="fs-5 text">서울시 강동구</p>
-                                <p class="fs-5 text">연락가능시간 10시 ~ 21시</p>
+                                <p class="fs-5 text">${joinList.office}</p>
+                                <p class="fs-5 text">연락가능시간 ${joinList.startTime}시 ~ ${joinList.endTime}시</p>
                                 <p class="fs-5 text">고수상세정보</p>
-                                <p class="small mb-1 lh-2 mx-2">안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다.
-                                    출장/방문 수리 모두 가능합니다. 업계 최고 수준으로 모시겠습니다. 감사합니다.</p>
-
+                                <p class="small mb-1 lh-2 mx-2">${joinList.intro}</p>
+								
+							<c:if test="${joinList.state eq 'completed'}">
                                 <button type="button" class="btn btn-outline-primary mx-3" style=""
-                                        id="requestCompletedBtn">의뢰완료
+                                        id="requestCompletedBtn" onclick="requestComplete()" disabled>의뢰완료
                                 </button>
+							</c:if>
+							<c:if test="${joinList.state eq 'onGoing'}">
+                                <button type="button" class="btn btn-outline-primary mx-3" style=""
+                                        id="requestCompletedBtn" onclick="requestComplete()">의뢰완료
+                                </button>
+							</c:if>
                             </div>
                         </div>
                     </div>
@@ -257,6 +263,8 @@ pageEncoding="UTF-8"%>
         </div> <!-- //row -->
     </div> <!-- //container -->
 </div><!-- //suriSize -->
+
+
 </body>
 
 <%@ include file="../common/footer.jsp" %>
@@ -267,6 +275,8 @@ pageEncoding="UTF-8"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
+
+console.log(test2);
     // websocket & stomp initialize
     var sock = new SockJS("http://" + location.host + "${cpath}/ws-stomp");
     var ws = Stomp.over(sock);
@@ -311,15 +321,22 @@ pageEncoding="UTF-8"%>
     function sendMessage() {
         message = $('#messageVal').val();
         messageArea.value = '';
-        ws.send("/pub/chat/message", {}, JSON.stringify({
-            type: 'TALK',
-            room_id: room_id,
-            member_id: member_id,
-            message: message,
-            send_time: korTime()
-        }));
-       	insertMsg();
-        message = '';
+        if(message == '\n'){
+        	return;
+        } else {
+        	
+	        ws.send("/pub/chat/message", {}, JSON.stringify({
+	            type: 'TALK',
+	            room_id: room_id,
+	            member_id: member_id,
+	            message: message,
+	            send_time: korTime()
+	        }));
+	       	insertMsg();
+	        message = '';
+        
+        }
+           	
     }
 
     function insertMsg(){
@@ -354,6 +371,7 @@ pageEncoding="UTF-8"%>
         var msgArea = document.querySelector('.msgArea');
         var newMsg = document.createElement("span");
         var addDiv = '';
+        let img = "${joinList.imgurl}";
 /* 		let id = document.getElementById('memberId').value;
  */        if (recv.member_id == '${member.id}') { 
            	addDiv += '<div class="d-flex flex-row justify-content-end mb-3">';
@@ -366,8 +384,8 @@ pageEncoding="UTF-8"%>
             addDiv += '</div>';
         } else {
            	addDiv += '<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">';
-           	if("${oppUrl}" != null){
-            	addDiv += '<img src="${cpath}/resources/images/${oppUrl}" style="width: 45px; height: 100%; border-radius:50%;">';
+           	if(img != ""){
+            	addDiv += '<img src="${cpath}/resources/images/${joinList.imgurl}" style="width: 45px; height: 100%; border-radius:50%;">';
            	} else {
            		addDiv += '<img src="${cpath}/resources/images/default.png" style="width: 45px; height: 100%; border-radius:50%;">';
            	}
@@ -377,7 +395,7 @@ pageEncoding="UTF-8"%>
             addDiv += '<div class="row align-items-end">';
             addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
             addDiv += '</div>';
-            addDiv += '</div>';
+        /*     addDiv += '</div>'; */
         }
         newMsg.innerHTML = addDiv;
         msgArea.append(newMsg);
@@ -385,7 +403,7 @@ pageEncoding="UTF-8"%>
     }
 
     const scrollToBottom = () => { //채팅창 스크롤 고정 함수
-        document.getElementById('chatMonitor').scrollBy({top: 100});
+        document.getElementById('chatMonitor').scrollBy({top: 1000000});
     };
 
 
@@ -398,7 +416,36 @@ pageEncoding="UTF-8"%>
         }
     });
 
-
+	function requestComplete(){
+		if(confirm('의뢰가 완전히 완료 되었나요?')){
+			$.ajax({
+				url:"${cpath}/chat/stateUpdate",
+				type:"post",
+				data:{
+					"room_id" : "${joinList.room_id}",
+					"member_id" : "${member.id}",
+					"othermem_id" : "${joinList.othermem_id}",
+					"state" : "completed"
+				},
+				success: function(result){
+					if(result == "completed"){
+						alert('거래가 완료 되었습니다. 채팅은 계속 가능합니다.');
+						$("#requestCompletedBtn").attr("disabled", true);
+						location.href = "${cpath}";
+					} else {
+						alert('상대방이 거래 완료 할 때까지 기다려주세요');
+						$("#requestCompletedBtn").attr("disabled", true);
+					}
+				},
+				error: function(){
+					alert('거래완료 실패');
+				}
+			})
+		}else{
+			return;
+		}
+	}
+    
 
     function connect() {
         // pub/sub event

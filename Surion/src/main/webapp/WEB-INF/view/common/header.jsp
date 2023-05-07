@@ -204,7 +204,7 @@
 						<div class="mybox">
 							<p>${member.id} &nbsp 고객님</p>
 							<ul>
-								<li><a href="#"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
+								<li><a href="${cpath}/mypage/myinfo?pageview=4"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
 								<li><a href="${cpath}/mypage/myinfo"><i class="fa-solid fa-circle-user" style="color: #525252; margin-right:10px;"></i> 마이페이지</a></li>
 							</ul>
 						</div>

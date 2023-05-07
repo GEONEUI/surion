@@ -64,7 +64,7 @@ public interface RepairFormRepository{
 
 	
 	// ��猶� 紐⑸����� Mechanic�� ��猶� ����
-	@Insert("insert into suri_repairOffer values('null', #{mechanic_id}, #{member_id}, #{estimate})")
+	@Insert("insert into suri_repairOffer(mechanic_id, member_id, estimate) values(#{mechanic_id}, #{member_id}, #{estimate})")
 	public void offer(RepairOffer offer);
 	
 	

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.surion.repository.ChatRoomRepository;
@@ -47,6 +48,9 @@ public class MyPageController {
 	
 	@GetMapping("/myinfo")
 	public String myinfo(Model model, HttpServletRequest request, HttpSession session) {
+		if(session.getAttribute("member") == null) {
+			return "redirect:/";
+		}
 		return mypageService.myinfo(model, request, session);
 
 	}
@@ -67,11 +71,18 @@ public class MyPageController {
 		return mypageService.boardDelete(form);
 	}
 	
+
 	//프로필 업데이트
-		@PostMapping("/updateProfile")
-		public String updateProfile(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
-			return mypageService.updateProfile(request, session, rttr);
-		}
+	@PostMapping("/updateProfile")
+	public String updateProfile(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
+		return mypageService.updateProfile(request, session, rttr);
+	}
 	
-	
+
+	@PostMapping("/offerDelete")
+	@ResponseBody
+	public int offerDelete(Member member) {
+		return mypageService.offerDelete(member);
+		 
+	}
 }
