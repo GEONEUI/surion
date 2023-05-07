@@ -24,7 +24,7 @@ public interface OrderFormRepository {
 	public void update(OrderForm orderForm);
 	
 	//정비사 게시물 리스트 
-	@Select("select * from suri_orderForm limit #{startValue}, #{endValue}")
+	@Select("select * from suri_orderForm order by idx asc limit #{startValue}, #{endValue}")
 	public List<OrderForm> findByAll(Criteria cri);
 	
 	// OrderList 전체 숫자 카운팅

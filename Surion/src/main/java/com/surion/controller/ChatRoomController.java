@@ -75,4 +75,6 @@ public class ChatRoomController {
     	return chatRoomService.stateUpdate(chatRoom, model);
     }
     
+    
+    
 }

@@ -276,7 +276,7 @@ pageEncoding="UTF-8"%>
 
 <script>
 
-console.log(test2);
+
     // websocket & stomp initialize
     var sock = new SockJS("http://" + location.host + "${cpath}/ws-stomp");
     var ws = Stomp.over(sock);
@@ -318,6 +318,8 @@ console.log(test2);
         });
     }
 
+    console.log($);
+    
     function sendMessage() {
         message = $('#messageVal').val();
         messageArea.value = '';
