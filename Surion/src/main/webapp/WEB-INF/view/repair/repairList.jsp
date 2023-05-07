@@ -168,12 +168,23 @@
 	}
 	.underPage {
 		display: flex;
+		align-items: center;
 	}
 	
 	.underPage li a {
 		padding: 0 2rem 0 2rem;
 		font-size: 14px;
 	}
+	
+	.btnClick {
+		padding: 0 2rem 0 2rem;
+		font-size: 14px;
+	    border: none;
+	}
+	.btnClick.active {
+		color: #00c7ae;
+	}
+	
 	.underPage button {
 		padding: 0 2rem 0 2rem;
 		font-size: 14px;
@@ -192,6 +203,25 @@
 		border-radius: 15px;
 		font-weight: bold;
 	}
+	
+/* 	ajax 이전/ 다음 버튼  */
+	.custom-btnnn {
+		width: 45px;
+		height: 40px;
+		font-family: 'Lato', sans-serif;
+		background: #fff;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		position: relative;
+		display: inline-block;
+		border-radius: 15px;
+		font-weight: bold;
+	}
+	
+	.page-item .custom-btnnn {
+		padding: inherit;
+	}
+	
 	
 	.btn-11 {
 	  	overflow: hidden;
@@ -298,8 +328,8 @@
 			</c:choose>
 		</div>
 		<div class="category-Btn">
-			<button onclick="typeClick($(this));" class="popular custom-btn btn-1" data-btn="recent">#최신순</button>
-			<button onclick="typeClick($(this));" class="recent custom-btn btn-1" data-btn="popular">#인기순</button>
+			<button onclick="typeClick($(this));" class="popular custom-btn btn-1" data-btn="recent">#인기순</button>
+			<button onclick="typeClick($(this));" class="recent custom-btn btn-1" data-btn="popular">#최신순</button>
 			<button onclick="typeClick($(this));" class="cycle custom-btn btn-1" data-btn="cycle">#자전거</button>
 			<button onclick="typeClick($(this));" class="bike custom-btn btn-1" data-btn="bike">#오토바이</button>
 			<button onclick="typeClick($(this));" class="Airconditioner custom-btn btn-1" data-btn="Airconditioner">#에어컨</button>
@@ -307,7 +337,6 @@
 			<button onclick="typeClick($(this));" class="computer custom-btn btn-1" data-btn="computer">#컴퓨터</button>
 			<button onclick="typeClick($(this));" class="sound custom-btn btn-1" data-btn="sound">#음향/악기</button>
 		</div>
-	
 		<ul class="askList">
 			<c:forEach var="list" items="${list}">
 				<div class="repairList">
@@ -472,8 +501,7 @@
     	var paging = '';
     	var viewImg = '';
 
-    	
-  
+  		
 
 		console.log(viewImg);
 		
@@ -496,15 +524,20 @@
 	
 		      		
 	      			view+='<div class="repairList">';
-	      			view+='<div class="askListA">';
+	      			view+='<div class="askListA" onclick="location.href=\'${cpath}/repair/repairDetail?idx='+res[i].idx+'\'">';
 	      			view+='<img src="${cpath}/resources/repairImages/'+ imgArr2 +'">';
 	      			view+='</div>';
 	      			view+='<div class="askListP">';
 	      			view+='<li>'+res[i].title+'</li>';
 	      			view+='<li>'+res[i].content+'</li>';
 	      			view+='<div class="price">';
-	      			view+='<p class="view">협의</p>';
-	      			view+='<p></p>';
+	      			view+='<p class="view">'+ parseInt(res[i].readCount).toLocaleString('ko-KR') +'회</p>';
+	      			if(res[i].estimate == "협의"){
+		      			view+='<p>견적&nbsp'+ res[i].estimate +'</p>';
+	      			}
+	      			if(res[i].estimate != "협의"){
+		      			view+='<p>'+ parseInt(res[i].estimate).toLocaleString('ko-KR') +'원~</p>';
+	      			}
 	      			view+='</div>';
 	      			view+='</div>';
 	      			view+='</div>';
@@ -517,11 +550,11 @@
 		      	var nextNumber = endPage + 1;
 		      	
 		      	if(prev){
-		      		prevItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/repair/repairAjax?pageNum='+prevNumber+'">Previous</button></li>';
+		      		prevItem = '<li class="page-item"><button type="button" class="btnClick custom-btnnn btn-11" href="${cpath}/repair/repairAjax?pageNum='+prevNumber+'">이전</button></li>';
 		      	}
 		      	
 		      	if(next){
-		      		nextItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/repair/repairAjax?pageNum='+ nextNumber +'">Next</button></li>';
+		      		nextItem = '<li class="page-item"><button type="button" class="btnClick custom-btnnn btn-11" href="${cpath}/repair/repairAjax?pageNum='+ nextNumber +'">다음</button></li>';
 		      	}
 		      	
 		      	
@@ -537,7 +570,7 @@
 		      	
 		      	
 
-		      	paging+='<ul class="pagination justify-content-center">';
+		      	paging+='<ul class="underPage">';
 		      	paging+=prevItem;
 		      	paging+=pageMaker;
 		      	paging+=nextItem;
