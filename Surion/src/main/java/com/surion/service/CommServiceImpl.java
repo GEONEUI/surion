@@ -41,6 +41,7 @@ public class CommServiceImpl implements CommService{
 		MultipartRequest multi = null;
 		
 		
+		
 		try {
 			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 		} catch (Exception e) {
@@ -49,6 +50,10 @@ public class CommServiceImpl implements CommService{
 		
 	
 		File newFile = multi.getFile("img");
+		if(newFile == null) {
+			newFile = new File("");
+		}
+		
 		String comm_list = multi.getParameter("comm_list");
 		String title = multi.getParameter("title");
 		String suri_list = multi.getParameter("suri_list");
@@ -56,10 +61,29 @@ public class CommServiceImpl implements CommService{
 		String fileName = newFile.getName();
 		String id = multi.getParameter("id");
 		
-		System.out.println("content ----- > " + content);
 		
+		Community community = new Community();
+		community.setComm_list(comm_list);
+		community.setTitle(title);
+		community.setSuri_list(suri_list);
+		community.setContent(content);
+		community.setImg(fileName);
+		community.setId(id);
 		
+		System.out.println(community);
 		
+		if(comm_list.equals("") || comm_list == "" ||
+		   title.equals("") || title == "" ||
+		   suri_list.equals("") || suri_list == "" ||
+		   content.equals("") || content == "" ||
+		   fileName.equals("") || fileName == "") {
+			rttr.addFlashAttribute("msg", "모든 항목을 선택해주세요. (공백은 불가능합니다)");
+			rttr.addFlashAttribute("community", community);
+			return "redirect:/community/write";
+		}
+			
+		
+
 		//업로드 성공!
 		if(multi != null) {
 			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
@@ -75,16 +99,12 @@ public class CommServiceImpl implements CommService{
 		}
 		
 		
-		Community community = new Community();
-		community.setComm_list(comm_list);
-		community.setTitle(title);
-		community.setSuri_list(suri_list);
-		community.setContent(content);
-		community.setImg(fileName);
-		community.setId(id);
+
 		
 		
 		commRepository.save(community);
+		
+
 		
 		rttr.addFlashAttribute("msg", "글작성이 완료되었습니다.");
 		return "redirect:/community/board";
@@ -157,8 +177,16 @@ public class CommServiceImpl implements CommService{
 			e.printStackTrace();
 		}
 		
-	
+		
+		
+		
+		
 		File newFile = multi.getFile("img");
+		
+		if(newFile == null) {
+			newFile = new File("");
+		}
+		
 		String comm_list = multi.getParameter("comm_list");
 		String title = multi.getParameter("title");
 		String suri_list = multi.getParameter("suri_list");
@@ -166,6 +194,30 @@ public class CommServiceImpl implements CommService{
 		String fileName = newFile.getName();
 		String id = multi.getParameter("id");
 		int idx = Integer.parseInt(multi.getParameter("idx"));
+		
+		
+		Community community = new Community();
+		community.setComm_list(comm_list);
+		community.setTitle(title);
+		community.setSuri_list(suri_list);
+		community.setContent(content);
+		community.setImg(fileName);
+		community.setId(id);
+		community.setIdx(idx);
+		
+		System.out.println(community);
+		
+		if(comm_list.equals("") || comm_list == "" ||
+		   title.equals("") || title == "" ||
+		   suri_list.equals("") || suri_list == "" ||
+		   content.equals("") || content == "" ||
+		   fileName.equals("") || fileName == "") {
+			rttr.addFlashAttribute("msg", "모든 항목을 선택해주세요. (공백은 불가능합니다)");
+			rttr.addFlashAttribute("community", community);
+			return "redirect:/community/updateView";
+		}
+		
+	
 		
 		
 		//업로드 성공!
@@ -182,21 +234,12 @@ public class CommServiceImpl implements CommService{
 			}
 		}
 		
-		
-		Community community = new Community();
-		community.setComm_list(comm_list);
-		community.setTitle(title);
-		community.setSuri_list(suri_list);
-		community.setContent(content);
-		community.setImg(fileName);
-		community.setId(id);
-		community.setIdx(idx);
-		
-		System.out.println(community);
+	
 	
 		commRepository.update(community);
 		
 		rttr.addFlashAttribute("msg", "업데이트가 완료되었습니다.");
+		
 		return "redirect:/community/board";
 		
 	}

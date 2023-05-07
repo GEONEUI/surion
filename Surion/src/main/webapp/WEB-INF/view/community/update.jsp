@@ -111,7 +111,7 @@
     .fileName{
     	margin-right:10px;
     }
-</style>a
+</style>
 <script>
     //선택한 것 보여주기
     function change() {
@@ -122,7 +122,6 @@
 </script>
 
 <body>
-	${comm }
     <%@ include file="../common/header.jsp"%>
     <div class="suriSize">
         <div class="container">
@@ -134,7 +133,7 @@
                         <div class="d-flex justify-content-between mb-3">
                             <div class="pull-right">
                                 <select class="form-control height bg" name="comm_list">
-                                    <option value="0">(재선택) 주제</option>
+                                    <option value="">(재선택) 주제</option>
                                     <option value="궁금해요">궁금해요</option>
                                     <option value="얼마예요">얼마예요</option>
                                     <option value="고수찾아요">고수찾아요</option>
@@ -152,7 +151,7 @@
                             <div class="option_service">
                                 <!-- (선택) 서비스 <i class="fa-regular fa-chevron-down"></i> -->
                                 <select class="form-control height bg" name="suri_list">
-                                    <option value="미정">(재선택) 서비스</option>
+                                    <option value="">(재선택) 서비스</option>
                                     <option value="자전거">자전거</option>
                                     <option value="오토바이">오토바이</option>
                                     <option value="에어컨">에어컨</option>
