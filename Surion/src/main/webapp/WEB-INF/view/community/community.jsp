@@ -36,6 +36,9 @@ body {
 .media-body h6{
 	font-size:19px;
 }
+
+table a{width:100%; display:block;}
+
 </style>
 <body>
 	<%@ include file="../common/header.jsp"%>

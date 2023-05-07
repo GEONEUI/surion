@@ -33,5 +33,5 @@ public interface CommService {
 	//게시글 한개 가져오기
 	public void update(int idx, Model model);
 	//게시글 업데이트
-	public String updateMethod(HttpServletRequest request, RedirectAttributes rttr);
+	public String update(HttpServletRequest request, RedirectAttributes rttr);
 }

@@ -241,7 +241,10 @@
     
     pre{
     	white-space: break-spaces;
+    	font-size: 22px;
     }
+    
+
 </style>
 <!-- <script> //선택한 것 보여주기 function change(){ var values =
    document.getElementById('test').value; document.getElementById('show').value =
@@ -275,9 +278,15 @@
                             </div>
                         </c:if>
                     </div>
-                    <pre class="mb-3" style="width:100%;" readonly="readonly">${community.content}
-                           	</pre>
-                    <div class="replayImg"><img src="${cpath}/resources/communityImages/${community.img}" alt="게시글 이미지"></div>
+                    <pre class="mb-3" style="width:100%;" readonly="readonly">${community.content}</pre>
+                    <div class="replayImg">
+                    	<c:if test="${community.img eq ''}">
+                    		
+                    	</c:if>
+                    	<c:if test="${community.img ne ''}">
+                    		<img src="${cpath}/resources/communityImages/${community.img}" alt="게시글 이미지">
+                    	</c:if>
+                    </div>
                     <div class="reply">
                         <div class="replayView"></div>
                         <div class="replaySave">

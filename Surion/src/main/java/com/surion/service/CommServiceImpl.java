@@ -75,8 +75,7 @@ public class CommServiceImpl implements CommService{
 		if(comm_list.equals("") || comm_list == "" ||
 		   title.equals("") || title == "" ||
 		   suri_list.equals("") || suri_list == "" ||
-		   content.equals("") || content == "" ||
-		   fileName.equals("") || fileName == "") {
+		   content.equals("") || content == "") {
 			rttr.addFlashAttribute("msg", "모든 항목을 선택해주세요. (공백은 불가능합니다)");
 			rttr.addFlashAttribute("community", community);
 			return "redirect:/community/write";
@@ -163,7 +162,7 @@ public class CommServiceImpl implements CommService{
 
 	//게시글 업데이트
 	@Override
-	public String updateMethod(HttpServletRequest request, RedirectAttributes rttr) {
+	public String update(HttpServletRequest request, RedirectAttributes rttr) {
 		
 		int maxSize = 1024 * 1024 * 5; //5mb 조정
 		String save = request.getRealPath("/resources/communityImages");
@@ -210,11 +209,10 @@ public class CommServiceImpl implements CommService{
 		if(comm_list.equals("") || comm_list == "" ||
 		   title.equals("") || title == "" ||
 		   suri_list.equals("") || suri_list == "" ||
-		   content.equals("") || content == "" ||
-		   fileName.equals("") || fileName == "") {
+		   content.equals("") || content == "") {
 			rttr.addFlashAttribute("msg", "모든 항목을 선택해주세요. (공백은 불가능합니다)");
 			rttr.addFlashAttribute("community", community);
-			return "redirect:/community/updateView";
+			return "redirect:/community/update?idx=" + community.getIdx();
 		}
 		
 	

@@ -93,10 +93,16 @@
     }
 
     .pick_picture input {
-        width: 100%;
         cursor: pointer;
         display: flex;
         align-items: center;
+    }
+    label{
+    	width: 100%;
+	    height: 100%;
+	    cursor: pointer;
+	    display: flex;
+	    align-items: center;
     }
     
 	label i{
@@ -143,8 +149,7 @@
                             <input type="submit" value="수정완료" class="btn btn-primary">
                         </div>
                         <div class="pick_picture">
-                            <label for="file"><i class="fa-solid fa-camera"></i></label> <span class="fileName">${comm.img}</span>
-                            <input id="file" type="file" name="img">
+                            <label for="file"><i class="fa-solid fa-camera"></i> <span class="fileName">현재파일 : ${comm.img}</span> <input id="file" type="file" name="img"></label> 
                         </div>
                         <input type="text" class="insert_title" placeholder="제목을 입력해주세요." name="title" value="${comm.title}"/>
                         <div class="option">
@@ -173,6 +178,12 @@
         </div>
         <!-- //suriSize -->
     </div>
+    
+    	<c:if test="${! empty msg}">
+		<script>
+			alert('${msg}');
+		</script>
+	</c:if>
 
     <script>
         const textarea = document.getElementById('myTextarea');

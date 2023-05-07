@@ -101,8 +101,8 @@ public class CommunityController {
 	
 	//업데이트(Method)
 	@PostMapping("/update")
-	public String updateMethod(HttpServletRequest request, RedirectAttributes rttr) {
-		return commService.updateMethod(request, rttr);
+	public String update(HttpServletRequest request, RedirectAttributes rttr) {
+		return commService.update(request, rttr);
 	}
 	
 	
