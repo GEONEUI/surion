@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.surion.entity.Criteria;
-import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
@@ -43,8 +42,9 @@ public interface OrderFormService {
 	public void readCount(OrderForm orderForm);
 	
 	//orderList 검색
-	public void search(Model model, OrderListPaging pa, HttpServletRequest request);
+	public void search(Model model, Criteria cri, HttpServletRequest request);
 	
 	// 카테고리
 	public List<OrderForm> category(HttpServletRequest request, Model model);
+	
 }

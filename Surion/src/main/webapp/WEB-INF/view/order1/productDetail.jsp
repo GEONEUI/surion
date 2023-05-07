@@ -16,7 +16,6 @@
 <%@ include file="../common/header.jsp" %>
 
 <style>
-
     .h2h2 {
         margin: 2px;
         padding-top: 10px;
@@ -29,8 +28,10 @@
     }
     
     .thumb img{
-    	width:30%;
-    	margin-right:300px;
+    	width: 400px;
+    	height: 300px;
+    	margin-right:50px;
+    	margin-bottom: 32px;
     	
     }
     .bottomline1{
@@ -147,7 +148,10 @@
 	.thumb_sub {
 		display: flex;
 	    align-items: center;
-	    justify-content: center;
+	    justify-content: left;
+	}
+	.office {
+		margin-top:10px;
 	}
     
 </style>
@@ -159,8 +163,7 @@
                 <div class="profile-overview">
                     <div class="thumb">
                     	<div class="thumb_sub">
-                        	<img src="${cpath}/resources/images/order/${profile.img}" alt="" /><div id="map" style="width:500px;height:300px;margin-top:10px;"></div></br>
-	                                    	${profile.office}
+                        	<img src="${cpath}/resources/images/order/${profile.img}" alt="" /><div><div id="map" style="width:400px;height:300px;"></div><div class="office">${profile.office}</div></div>
                     	</div>
                     </div>
                     <div class="row" style="position: relative;">

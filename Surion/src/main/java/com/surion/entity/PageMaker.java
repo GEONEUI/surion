@@ -36,7 +36,6 @@ public class PageMaker {
 		System.out.println("realEndPage  ----- > " + realEndPage);
 		System.out.println("prev  ----- > " + prev);
 		System.out.println("next  ----- > " + next);
-		
-		
+
 	}
 }

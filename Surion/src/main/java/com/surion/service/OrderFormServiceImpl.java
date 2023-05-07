@@ -1,9 +1,7 @@
 package com.surion.service;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -193,33 +191,13 @@ public class OrderFormServiceImpl implements OrderFormService{
 	}
 
 	@Override
-	public void search(Model model, OrderListPaging pa ,HttpServletRequest request) {
-		// 현재 보는 페이지를 설정하기 위한 초기값
-				String pageNum = request.getParameter("pageNum");
-				if(pageNum == null) {
-					pageNum = "1";
-				}
-				int page = Integer.parseInt(pageNum);
-				int count = orderFormRepository.searchCount(pa); // 전체 게시글 count
-				pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT 앞부분 설정 (value, 12)
-//				-----------------------------------쿼리 실행 확인-------------------------------
-				pa.setCurrentPage(page); // 초기 페이지를 1로 설정
-				pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 마지막 페이지로 만듬
-				pa.setEndNum((int) (Math.ceil(pa.getCurrentPage() / (double) pa.getDisPageNum()) * pa.getDisPageNum()));
-				pa.setStartNum(pa.getEndNum() - pa.getDisPageNum() + 1);
-				if(pa.getLastPage() < pa.getEndNum()) {
-					pa.setEndNum(pa.getLastPage());
-				}
-				if(pa.getStartNum() != 1) {
-					pa.setPrev(true);
-				}
-				if(pa.getEndNum() < pa.getLastPage()) {
-					pa.setNext(true);
-				}
-				
-		model.addAttribute("paging", pa);
-		List<OrderForm> lst = orderFormRepository.search(pa);
-		model.addAttribute("list", lst);
+	public void search(Model model, Criteria cri ,HttpServletRequest request) {
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(orderFormRepository.searchCount(cri));
+		List<OrderForm> list = orderFormRepository.search(cri);
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);			
 	}
 	//프로필 상세보기
 	@Override

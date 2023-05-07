@@ -152,7 +152,7 @@ ul {
 	color: #ccc;
 	padding-left: 1rem;
 	}
-	.under {
+.under {
 	    display: flex;
    		justify-content: center;
    		margin-top: 3rem;
@@ -166,15 +166,35 @@ ul {
 		padding: 0 2rem 0 2rem;
 		font-size: 14px;
 	}
+	.underPage button {
+		padding: 0 2rem 0 2rem;
+		font-size: 14px;
+	}
+	
+	.custom-btnn {
+		width: 45px;
+		height: 40px;
+		padding: 7px 6px;
+		font-family: 'Lato', sans-serif;
+		background: #fff;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		position: relative;
+		display: inline-block;
+		border-radius: 15px;
+		font-weight: bold;
+	}
 	
 	.btn-11 {
-	  overflow: hidden;
-	  transition: all 0.3s ease;
+	  	overflow: hidden;
+	  	transition: all 0.3s ease;
 	}
+	
 	.btn-11:hover {
-	  background: #00c7ae;
-	  color: #fff;
+		background: #00c7ae;
+		color: #fff;
 	}
+	
 	.btn-11:before {
 	    position: absolute;
 	    content: '';
@@ -186,8 +206,9 @@ ul {
 	    background-color: #fff;
 	    animation: shiny-btn1 3s ease-in-out infinite;
 	}
+	
 	.btn-11:active{
-	  box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
+	  	box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
 	              -4px -4px 6px 0 rgba(116, 125, 136, .2), 
 	    inset -4px -4px 6px 0 rgba(255,255,255,.2),
 	    inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
@@ -202,6 +223,8 @@ ul {
    	 	color: rgb(154, 155, 167);
    	 	align-items: center;
 	}
+	
+
 	/* 	버튼 */
 	.custom-btn {
 		width: 80px;
@@ -219,6 +242,7 @@ ul {
 		font-size: 12px;
 		margin-right: 1rem;
 	}
+
 	/* 1 */
 	.btn-1 {
 		background: rgb(6,14,131);
@@ -241,9 +265,7 @@ ul {
 		background: rgb(0,3,255);
 		background: linear-gradient(0deg, #ccc 0%, #6c757d 100%);
 	}
-body > div.sec_content > div > ul > a > div.askListA > img{
-	height:100%;
-}
+
 </style>
 <body>
 	<%@ include file="../common/header.jsp"%>
@@ -254,7 +276,7 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 		<p>최신 프로필 목록 리스트! &#128204;</p>
 		<form action="orderListSearch" method="get" class="askSearch">
 			<i class="fa-solid fa-magnifying-glass"></i>
-				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${paging.keyword}"/>
+				<input type="search" class="ser" placeholder="키워드를 검색해주세요." name="keyword" value="${pageMaker.cri.keyword}"/>
 		</form>
 			<c:choose>
 				<c:when test="${result == 1}">
@@ -306,27 +328,24 @@ body > div.sec_content > div > ul > a > div.askListA > img{
 				</div>
 				</c:forEach>
 			</ul>
-			
-
-				  <ul class="under pagination justify-content-center">
-				  	<c:if test="${pageMaker.prev}">
-				  		<li class="page-item"><a class="custom-btn btn-11" href="${cpath}/order2/orderList?currentPage=${pageMaker.startPage - 1}">Prev</a></li>
-				  	</c:if>
-				  	  	
-				  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
-				  		<c:if test="${pageMaker.cri.currentPage == pageNum}">
-				  			<li class="page-item active"><a class="btn-11 page-link" href="${cpath}/order2/orderList?currentPage=${pageNum}">${pageNum}</a></li>
-				  		</c:if>
-				  		<c:if test="${pageMaker.cri.currentPage != pageNum}">
-				  			<li class="page-item"><a class="btn-11 page-link" href="${cpath}/order2/orderList?currentPage=${pageNum}">${pageNum}</a></li>
-				  		</c:if>
-				  	</c:forEach>
-
-				    <c:if test="${pageMaker.next}">
-				  		<li class="page-item"><a class="btn-11 page-link" href="${cpath}/order2/orderList?currentPage=${pageMaker.endPage + 1}">Next</a></li>
-				  	</c:if>
-				  </ul>
-
+			  <ul class="under pagination justify-content-center">
+			  	<c:if test="${pageMaker.prev}">
+			  		<li><a href="${cpath}/order2/orderList?currentPage=${pageMaker.startPage - 1}" class="custom-btnn btn-11">이전</a></li>
+			  	</c:if>
+			  	<ul class="underPage">  	
+			  	<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
+			  		<c:if test="${pageMaker.cri.currentPage == pageNum}">
+			  			<li class="bold active"><a href="${cpath}/order2/orderList?currentPage=${pageNum}">${pageNum}</a></li>
+			  		</c:if>
+			  		<c:if test="${pageMaker.cri.currentPage != pageNum}">
+			  			<li><a href="${cpath}/order2/orderList?currentPage=${pageNum}">${pageNum}</a></li>
+			  		</c:if>
+			  	</c:forEach>
+				</ul>
+			    <c:if test="${pageMaker.next}">
+			  		<li><a href="${cpath}/order2/orderList?currentPage=${pageMaker.endPage + 1}" class="custom-btnn btn-11">다음</a></li>
+			  	</c:if>
+			  </ul>
 	</div>
 </div>
 	<script>

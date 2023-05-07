@@ -1,7 +1,6 @@
 package com.surion.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -11,11 +10,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.surion.entity.Criteria;
-import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
-import com.surion.entity.OrderListPaging;
-import com.surion.entity.RepairForm;
 
 
 @Mapper
@@ -37,11 +33,11 @@ public interface OrderFormRepository {
 	
 	// 검색 전체 숫자 카운팅
 	@Select("select count(*) from suri_orderForm where shopName LIKE CONCAT ('%',#{keyword},'%')")
-	public int searchCount(OrderListPaging pa);
+	public int searchCount(Criteria cri);
 	
 	//OrderList 검색
 	@Select("select * from suri_orderForm where shopName LIKE CONCAT ('%',#{keyword},'%') LIMIT #{startValue}, #{endValue}")
-	public List<OrderForm> search(OrderListPaging pa);
+	public List<OrderForm> search(Criteria cri);
 	
 	// OrderList 조회수 증가
 	@Update("update suri_orderForm set readCount = readCount +1 where id = #{id}")

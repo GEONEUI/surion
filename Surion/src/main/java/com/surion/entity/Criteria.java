@@ -6,7 +6,7 @@ import lombok.Data;
 public class Criteria {
 	private int currentPage;
 	private int endValue;
-	
+	private String keyword;
 	
 	public Criteria() {
 		this.currentPage = 1;
