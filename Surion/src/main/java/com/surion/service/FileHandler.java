@@ -7,12 +7,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * 목적 : 멀티파트를 이용한 파일업로드 처리 컴포넌트화
+ * 주요 로직 :
+ * 1. 전달된 MultipartFile 리스트에서 파일 데이터 추출
+ * 2. 파일 확장자 및 파일명을 지정 ( 파일명 : 파일명 중복을 피하기 위해 나노초와 파일명 결합 )
+ * 3. 파일 저장 경로 지정 ( 폴더명 : 날짜형식 YYYYMM, 경로 : resources/images/YYYYMM )
+ * 4. 파일 저장 경로가 존재하지 않을 경우 폴더 생성
+ * 5. 업로드한 파일 데이터를 저장 경로에 저장
+ * 6. 파일 정보를 Photo 객체로 변환 후, 리스트에 추가
+ * 7. Photo 객체 리스트 반환
+ */
+
 
 @Component
 public class FileHandler {
@@ -23,37 +35,56 @@ public class FileHandler {
         this.photoService = photoService;
     }
 
+
     public List<Photo> parseFileInfo(
-            Review review,    // Board에 존재하는 파일인지 확인하기 위함
+            Review review,
             List<MultipartFile> multipartFiles
     )    throws Exception {
         List<Photo> fileList = new ArrayList<>();   // 반환할 파일 리스트
 
-        // 전달되어 온 파일이 존재할 경우
+
+        /*
+         ** 멀티파트 파일 존재할 경우, 값 처리 메소드
+         */
         if(!CollectionUtils.isEmpty(multipartFiles)) {
-            // 파일명을 업로드 한 날짜로 변경
+
+
+            /*
+            * 시간 선언 - ( 목적 : 폴더 이름으로 사용 )
+             */
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             String current_date = now.format(dateTimeFormatter);
 
-            // 프로젝트 디렉토리 내 저장으리 위한 절대 경로 설정
-            // 경로 구분자 File.separator
-            String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
+            /*
+             * 절대 경로 선언 - ( 프로젝트 디렉토리 내 저장을 위한 절대 경로 설정 )
+             */
+            String absolutePath = new File("").getAbsolutePath() + File.separator;
+            System.out.println("absolutePath = " + absolutePath);
 
-            // 파일 저장할 세부 경로 지정
-            String path = "images" + File.separator + current_date;
-            File file = new File(path);
+            /*
+            * 절대 경로 세부 지정 - ( 파일 저장할 세부 경로 지정 )
+             */
+            String path = "resources" + File.separator + "images" + File.separator + current_date;
+            File file = new File(absolutePath + path);
+            System.out.println("path = " + path);
 
-            // 존재하지 않는 디렉토리일 때
+            /*
+             * 절대 경로 폴더 생성 ( 존재하지 않을 경우, YYYYMM로 생성 )
+             */
             if(!file.exists()) {
                 boolean wasSuccessful = file.mkdirs();
+                System.out.println("file.exists() = " + file.exists());
 
                 if(!wasSuccessful)
                     System.out.println("file: was not successful");
             }
 
-            // 다중 파일 처리
+            /*
+             ** 다중 파일 저장
+             */
             for(MultipartFile multipartFile : multipartFiles) {
+
                 // 파일 확장자 추출
                 String originalFileExtension;
                 String contentType = multipartFile.getContentType();
@@ -70,7 +101,7 @@ public class FileHandler {
                         break;
                 }
 
-                // 파일명 중복을 피하기 위해 나노초까지 고려
+                // 파일 이름 변경 ( 파일명 중복 회피 위한 나노초 추출 및 조합 )
                 String new_file_name = System.nanoTime() + originalFileExtension;
 
                 // 파일 DTO 생성
@@ -87,10 +118,11 @@ public class FileHandler {
                         photoDto.getFileSize()
                 );
 
+                System.out.println("photo = " + photo);
+
                 // 게시글에 존재하지 않는다면, 게시글에 사진 정보 저장
                 if(review.getId() != null)
                     photo.setReview(review);
-//                    photo.setItem(item);
 
                 // 생성 후 리스트에 추가
                 fileList.add(photo);
@@ -99,12 +131,16 @@ public class FileHandler {
                 file = new File(absolutePath + path + File.separator + new_file_name);
                 multipartFile.transferTo(file);
 
+                System.out.println("photo = " + photo.getFilePath());
+                System.out.println("file = " + file);
+
                 // 파일 권한 설정(쓰기, 읽기)
                 file.setWritable(true);
                 file.setReadable(true);
             }
+        } else {
+            System.out.println("fileList + \"???\" = " + fileList + "???");
         }
-
         return fileList;
     }
 }

@@ -17,7 +17,7 @@ public class OrderOneController {
     private final MechanicService ms;
 
     @GetMapping("/detail/{mechanic_id}")
-    public String orderdetail(@PathVariable long mechanic_id, Model model){
+    public String orderdetail(@PathVariable String mechanic_id, Model model){
         Mechanic mechanic = ms.findOne(mechanic_id);
         model.addAttribute("mechanic", mechanic);
         return "/order1/productdetail";

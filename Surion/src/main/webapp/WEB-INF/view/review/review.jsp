@@ -37,23 +37,26 @@
     <br>
     <textarea id="review-text" name="content" rows="4" cols="50" placeholder="리뷰내용을 입력해주세요"></textarea>
     <input type="hidden" name="point" id="point">
-    <input type="hidden" name="memberId" value="{memberId}">
+    <input type="hidden" name="memberId" value="{member.id}">
+    <input type="hidden" name="mechanicId" value="{mechanic.id}">
+    <input type="hidden" name="mechanicId" value="{mechanic.id}">
     <br>
     <input type="submit" value="제출">
 </form>
 
-<script>
-    var item = '';
-    const input = document.getElementById('upload-input');
-    input.addEventListener('change', function(e) {
-        const files = e.target.files;
-        for (let i = 0; i < files.length; i++) {
-            item += files[i].name
-            item += "|";
-        }
-        console.log(item.split("|"));
-    });
-</script>
+
+<%--<script>--%>
+<%--    var item = '';--%>
+<%--    const input = document.getElementById('upload-input');--%>
+<%--    input.addEventListener('change', function(e) {--%>
+<%--        const files = e.target.files;--%>
+<%--        for (let i = 0; i < files.length; i++) {--%>
+<%--            item += files[i].name--%>
+<%--            item += "|";--%>
+<%--        }--%>
+<%--        console.log(item.split("|"));--%>
+<%--    });--%>
+<%--</script>--%>
 
 <script>
 

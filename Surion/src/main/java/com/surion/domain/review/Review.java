@@ -21,7 +21,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name="Tsuri_review")
-public class Review extends BaseTimeEntity {
+public class Review
+//        extends BaseTimeEntity
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,16 +32,16 @@ public class Review extends BaseTimeEntity {
     private String name;
     private int point;
     private String content;
-    private String placeId; // 추후 메카닉으로 변경
-    private String userId; // 멤버아이디
 
     @CreationTimestamp
-    private LocalDateTime createTime;
-
+    @Column(name="creat_time")
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updateTime;
+    @Column(name="modified")
+    private LocalDateTime updateAt;
 
-    private LocalDateTime deleteTime;
+    @Column(name="delete_time")
+    private LocalDateTime deleteAt;
 
     private int isDelete;
 
@@ -93,5 +95,4 @@ public class Review extends BaseTimeEntity {
             // 파일 저장
             photo.setReview(this);
     }
-
 }

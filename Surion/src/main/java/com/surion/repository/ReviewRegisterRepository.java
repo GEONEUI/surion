@@ -11,11 +11,15 @@ import java.util.List;
 public interface ReviewRegisterRepository extends JpaRepository<Review, Long> {
     Review save(Review review);
 
-    boolean existsByPlaceId(String placeId);
+    boolean existsByMechanicId(String mechanicId);
 
-    List<Review> findByUserIdAndPlaceId(String userId, String placeId);
+    List<Review> findByMemberIdAndMechanicId(String memberId, String mechanicId);
 
     List<Review> findAll();
+
+    // 리뷰 조회 (리뷰 작성 최신순으로 정렬)
+    List<Review> findAllByOrderByCreatedAtDesc();
+
 
     //Review findByBetweenCreatedAt(LocalDateTime from, LocalDateTime to);
 

@@ -3,6 +3,7 @@ package com.surion.service;
 
 import com.surion.domain.Image.Photo;
 import com.surion.domain.Image.PhotoDto;
+import com.surion.domain.member.Mechanic;
 import com.surion.domain.member.Member;
 import com.surion.domain.review.Point;
 import com.surion.domain.review.Review;
@@ -46,6 +47,8 @@ public class ReviewRegisterService {
     private final MemberPointRepository memberPointRepository;
     private final PhotoRepository photoRepository;
     private final FileHandler fileHandler;
+    private final MemberService memberService;
+    private final MechanicService mechanicService;
 
 
     // 이미지게시판자료
@@ -54,6 +57,9 @@ public class ReviewRegisterService {
             ReviewCreateRequestDto requestDto,
             List<MultipartFile> files
     ) throws Exception {
+
+        System.out.println("requestDto = " + requestDto);
+
         // 파일 처리를 위한 Board 객체 생성
         Review review = new Review(
                 requestDto.getMember(),
@@ -61,7 +67,12 @@ public class ReviewRegisterService {
                 requestDto.getPoint()
         );
 
+
+        System.out.println("review = " + review);
+
         List<Photo> photoList = fileHandler.parseFileInfo(review,files);
+
+        System.out.println("photoList = " + photoList);
 
         // 파일이 존재할 때에만 처리
         if(!photoList.isEmpty()) {
@@ -70,6 +81,7 @@ public class ReviewRegisterService {
                 review.addPhoto(photoRepository.save(photo));
             }
         }
+
         return reviewRegisterRepository.save(review).getId();
     }
 
@@ -78,6 +90,8 @@ public class ReviewRegisterService {
 
     // 점수시스템 자료
     public String reviewRegister(ReviewForm reviewForm) {
+        Member memberEntity = memberService.findById(reviewForm.getMemberId());
+        Mechanic mechanicEntity = mechanicService.findOne(reviewForm.getMechanicId());
 
         if (reviewRegisterRepository.existsById(reviewForm.getReviewId())) {
             return "FAIL";
@@ -86,7 +100,7 @@ public class ReviewRegisterService {
         int point_sum = 0;
 
         Point firstPlacePointEntity = new Point();
-        if (reviewRegisterRepository.existsByPlaceId(reviewForm.getMechanicId()) == false) {
+        if (reviewRegisterRepository.existsByMechanicId(reviewForm.getMechanicId()) == false) {
             firstPlacePointEntity.setType(FIRSTPLACE);
             firstPlacePointEntity.setPoint(1);
             firstPlacePointEntity.setMark(POINT_INCREMENT);
@@ -101,8 +115,8 @@ public class ReviewRegisterService {
         reviewEntity.setContent(reviewForm.getContent());
         reviewEntity.setId(reviewForm.getReviewId());
         reviewEntity.setPhoto(reviewForm.getPhoto());
-        reviewEntity.setUserId(reviewForm.getMemberId());
-        reviewEntity.setPlaceId(reviewForm.getMechanicId());
+        reviewEntity.setMember(memberEntity);
+        reviewEntity.setMechanic(mechanicEntity);
 
         reviewRegisterRepository.save(reviewEntity);
 
@@ -160,13 +174,15 @@ public class ReviewRegisterService {
 
         Review reviewEntity = new Review();
         Optional<Review> review = reviewRegisterRepository.findById(reviewForm.getReviewId());
+        Member memberEntity = memberService.findById(reviewForm.getMemberId());
+        Mechanic mechanicEntity = mechanicService.findOne(reviewForm.getMechanicId());
 
         review.ifPresent(selectReview -> {
             reviewEntity.setContent(reviewForm.getContent());
             reviewEntity.setId(reviewForm.getReviewId());
             reviewEntity.setPhoto(reviewForm.getPhoto()); // get이었음
-            reviewEntity.setUserId(reviewForm.getMemberId());
-            reviewEntity.setPlaceId(reviewForm.getMechanicId());
+            reviewEntity.setMember(memberEntity);
+            reviewEntity.setMechanic(mechanicEntity);
 
         });
         reviewRegisterRepository.save(reviewEntity);
@@ -265,7 +281,7 @@ public class ReviewRegisterService {
 
         // Review Soft Delete
         review.ifPresent(selectReview -> {
-            selectReview.setDeleteTime(LocalDateTime.now());
+            selectReview.setDeleteAt(LocalDateTime.now());
             selectReview.setIsDelete(YES);
         });
 
@@ -325,5 +341,9 @@ public class ReviewRegisterService {
     public List<Review> findAll() {
     return reviewRegisterRepository.findAll();
     }
+    public List<Review> findAllByOrderByCreatedAtDesc() {
+        return reviewRegisterRepository.findAllByOrderByCreatedAtDesc();
+    }
+
 
 }

@@ -60,5 +60,4 @@ public class Photo extends BaseTimeEntity {
             // 파일 추가
             review.getPhoto().add(this);
     }
-
 }

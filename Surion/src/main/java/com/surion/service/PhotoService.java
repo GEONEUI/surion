@@ -16,6 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PhotoService {
     private final PhotoRepository photoRepository;
+
+    public List<Photo> findAll() { return photoRepository.findAll();
+    }
+//    public List<Photo> findAllById(Long reviewId){return photoRepository.findAllByReviewId(reviewId)};
 //    @Value("${image.upload.dir}") // application.properties에서 이미지 업로드 경로 지정
 //    private String uploadDir;
 
@@ -33,14 +37,11 @@ public class PhotoService {
         Photo entity = photoRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 파일이 존재하지 않습니다.")
         );
-
         PhotoDto photoDto = PhotoDto.builder()
                 .origFileName(entity.getOrigFileName())
                 .filePath(entity.getFilePath())
                 .fileSize(entity.getFileSize())
                 .build();
-
         return photoDto;
     }
-
 }

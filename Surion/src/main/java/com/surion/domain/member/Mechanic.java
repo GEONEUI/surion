@@ -20,7 +20,6 @@ import java.util.List;
 public class Mechanic {
 
     @Id
-
     @Column(name = "mechanic_id")
     private String id;
 
@@ -51,5 +50,4 @@ public class Mechanic {
 
     @OneToMany(mappedBy = "mechanic", cascade = CascadeType.ALL)
     private List<ItemMechanic> mechanics = new ArrayList<>();
-    
 }

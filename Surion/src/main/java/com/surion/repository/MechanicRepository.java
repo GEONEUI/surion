@@ -17,7 +17,7 @@ public class MechanicRepository {
         em.persist(mechanic);
     }
 
-    public Mechanic findOne(Long id){
+    public Mechanic findOne(String id){
         return em.find(Mechanic.class, id);
     }
 

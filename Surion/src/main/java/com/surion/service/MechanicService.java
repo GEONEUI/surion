@@ -39,7 +39,7 @@ public class MechanicService {
         return mechanicRepository.findAll();
     }
 //  메카닉 조회
-    public Mechanic findOne(Long memberId){
-        return mechanicRepository.findOne(memberId);
+    public Mechanic findOne(String mechanicId){
+        return mechanicRepository.findOne(mechanicId);
     }
 }
