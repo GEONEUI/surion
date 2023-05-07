@@ -19,5 +19,5 @@ public interface ChatRoomService {
 	 public String roomDetail(Model model, @PathVariable String roomId, HttpSession session);
 	 public List<Message> roomInfo(@PathVariable String roomId);
 	 public MessageAndSendTime findLatestMessage(String roomId);
-	
+	public String stateUpdate(ChatRoom chatRoom, Model model);
 }

@@ -57,14 +57,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	        List<Message> message = chatRoomRepository.findRoomById(roomId);
 	        List<String> memberInRoom = chatRoomRepository.findMemberByRoomId(roomId);
 	        Member sessionMem = (Member)session.getAttribute("member");
+	        
 	        for(String member : memberInRoom) {//채팅창 상대방 정보 가져오기 위한 상대방 아이디 찾기
-	        	
 	        	if(!member.equals(sessionMem.getId())) {
-	        		
-	        		OrderRoomMemberJoin list = chatRoomRepository.findOrderJoinByIds(member);
+	        		OrderRoomMemberJoin list = chatRoomRepository.findOrderJoinByIds(member, sessionMem.getId());
 	        		model.addAttribute("joinList", list);
-	        		
-	        		
+	        		OrderRoomMemberJoin otherState = chatRoomRepository.findOrderJoinByIds(sessionMem.getId(), member);
+	        		model.addAttribute("otherState", otherState.getState());
 	        	}
 	        }
 	        
@@ -82,6 +81,16 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	public MessageAndSendTime findLatestMessage(String roomId) {
 		
 		return chatRoomRepository.findMessageByRoomId(roomId);
+	}
+
+	@Override
+	public String stateUpdate(ChatRoom chatRoom, Model model) {
+		chatRoomRepository.stateUpdate(chatRoom);
+		String otherState = chatRoomRepository.checkState(chatRoom);
+		if(otherState.equals("completed")) {
+			return "completed";
+		}
+		return "onGoing";
 	}
 
 

@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.surion.domain.chat.ChatRoom;
 import com.surion.domain.chat.Message;
@@ -59,14 +60,15 @@ public interface ChatRoomRepository {
 	public List<String> findMemberByRoomId(String roomId);
 	
 	//채팅방 내 엔지니어 상세정보
-	@Select("SELECT DISTINCT m.imgurl, o.startTime, o.endTime, o.office, o.shopName, o.intro"
+	@Select("SELECT DISTINCT c.othermem_id, c.room_id, c.state, m.imgurl, o.startTime, o.endTime, o.office, o.shopName, o.intro"
 			+ " FROM suri_orderForm o"
 			+ " INNER JOIN suri_chatroom c"
 			+ " ON c.othermem_id = o.id"
 			+ " JOIN suri_member m"
 			+ " ON o.id = m.id"
-			+ " WHERE c.othermem_id = #{othermem_id}")
-	public OrderRoomMemberJoin findOrderJoinByIds(@Param("othermem_id") String othermem_id);
+			+ " WHERE c.othermem_id = #{othermem_id}"
+			+ " AND c.member_id = #{member_id}")
+	public OrderRoomMemberJoin findOrderJoinByIds(@Param("othermem_id") String othermem_id,@Param("member_id") String memberId);
 
 	//내가 받은견적 리스트용 엔지니어 상세정보
 	@Select("SELECT m.idx, m.imgurl, o.startTime, o.endTime, o.office, o.shopName, o.intro, r.estimate, r.mechanic_id, r.member_id"
@@ -81,4 +83,12 @@ public interface ChatRoomRepository {
 	@Delete("delete from suri_repairOffer where member_id = #{id}")
 	public int deleteOfferListByMemberId(Member member);
 
+	//거래완료 버튼 클릭 후 state = 거래완료로 변환
+	@Update("update suri_chatroom set state = #{state} where room_id = #{room_id} and member_id = #{member_id}")
+	public void stateUpdate(ChatRoom chatRoom);
+	
+	@Select("select state from suri_chatroom where member_id = #{othermem_id} and room_id = #{room_id}")
+	public String checkState(ChatRoom chatRoom);
+	
+	
 }

@@ -180,7 +180,7 @@ body {
 					$.ajax({
 						url: "${cpath}/chat/findMessage",
 						type: "post",
-						async:false,
+						async:false, //ajax는 비동기라서 값을 원하는대로 못가져 올 수도 있기에, 동기로 바꿈
 						data:{
 							"room_id" : obj.room_id
 						},
@@ -216,8 +216,8 @@ body {
 						viewHtml += '</div>';
 						
 					}
-					console.log(PreMessage);
-					console.log(sendTime);
+					/* console.log(PreMessage);
+					console.log(sendTime); */
 				    target.innerHTML = viewHtml;	  
 					
 					});    	            			  

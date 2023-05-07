@@ -68,5 +68,11 @@ public class ChatRoomController {
     public MessageAndSendTime  findLatestMessage(String room_id) {
     	return chatRoomService.findLatestMessage(room_id);
     }
+    //거래완료 버튼
+    @PostMapping("/stateUpdate")
+    @ResponseBody
+    public String stateUpdate(ChatRoom chatRoom, Model model) {
+    	return chatRoomService.stateUpdate(chatRoom, model);
+    }
     
 }

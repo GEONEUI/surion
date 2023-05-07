@@ -13,5 +13,8 @@ public class OrderRoomMemberJoin {
 	private String office;
 	private String shopName;
 	private String intro;
+	private String state;
+	private String othermem_id;
+	private String room_id;
 
 }

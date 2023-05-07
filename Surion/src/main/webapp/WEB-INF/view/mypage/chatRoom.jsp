@@ -242,10 +242,17 @@ pageEncoding="UTF-8"%>
                                 <p class="fs-5 text">연락가능시간 ${joinList.startTime}시 ~ ${joinList.endTime}시</p>
                                 <p class="fs-5 text">고수상세정보</p>
                                 <p class="small mb-1 lh-2 mx-2">${joinList.intro}</p>
-
+								
+							<c:if test="${joinList.state eq 'completed'}">
+                                <button type="button" class="btn btn-outline-primary mx-3" style=""
+                                        id="requestCompletedBtn" onclick="requestComplete()" disabled>의뢰완료
+                                </button>
+							</c:if>
+							<c:if test="${joinList.state eq 'onGoing'}">
                                 <button type="button" class="btn btn-outline-primary mx-3" style=""
                                         id="requestCompletedBtn" onclick="requestComplete()">의뢰완료
                                 </button>
+							</c:if>
                             </div>
                         </div>
                     </div>
@@ -268,6 +275,8 @@ pageEncoding="UTF-8"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
+
+console.log(test2);
     // websocket & stomp initialize
     var sock = new SockJS("http://" + location.host + "${cpath}/ws-stomp");
     var ws = Stomp.over(sock);
@@ -409,7 +418,29 @@ pageEncoding="UTF-8"%>
 
 	function requestComplete(){
 		if(confirm('의뢰가 완전히 완료 되었나요?')){
-			
+			$.ajax({
+				url:"${cpath}/chat/stateUpdate",
+				type:"post",
+				data:{
+					"room_id" : "${joinList.room_id}",
+					"member_id" : "${member.id}",
+					"othermem_id" : "${joinList.othermem_id}",
+					"state" : "completed"
+				},
+				success: function(result){
+					if(result == "completed"){
+						alert('거래가 완료 되었습니다. 채팅은 계속 가능합니다.');
+						$("#requestCompletedBtn").attr("disabled", true);
+						location.href = "${cpath}";
+					} else {
+						alert('상대방이 거래 완료 할 때까지 기다려주세요');
+						$("#requestCompletedBtn").attr("disabled", true);
+					}
+				},
+				error: function(){
+					alert('거래완료 실패');
+				}
+			})
 		}else{
 			return;
 		}
