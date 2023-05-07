@@ -57,7 +57,6 @@ body {
 	padding:0 5px;
 	color: gray;
 	width: 100%;
-	height: 300px;
 	margin-top: 15px;
 }
 
@@ -151,7 +150,7 @@ function change(){
 							<div class="option_service">
 								<!-- (선택) 서비스 <i class="fa-regular fa-chevron-down"></i> -->
 								<select class="form-control height bg" name="suri_list">
-									<option value="0">(선택) 서비스</option>
+									<option value="미정">(선택) 서비스</option>
 									<option value="자전거">자전거</option>
 									<option value="오토바이">오토바이</option>
 									<option value="에어컨">에어컨</option>
@@ -165,6 +164,7 @@ function change(){
 						<input type="hidden" value="${member.id}" name="id">
 						<textarea
 							class="text"
+							rows="20"
 							placeholder="요청 서비스 정보를 공유하거나 고객과 고수님들에게 궁금한 서비스를 물어보세요.&#13;&#10;주제에 맞지 않는 글이나 커뮤니티 이용정책에 위배되어 일정 수 이상 신고를 받는 경우 글이 숨김 및 삭제될 수 있습니다."
 							name="content"
 						></textarea>

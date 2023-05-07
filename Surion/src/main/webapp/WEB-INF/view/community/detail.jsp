@@ -76,8 +76,16 @@
 
                     .profile {
                         display: flex;
+                        justify-content:space-between;
+                        align-items:center;
                         padding: 45px 0;
                     }
+                    
+                                        
+                    .profile_left{
+                    	display:flex;
+                    }
+                    
 
                     .profile img {
                         border-radius: 20%;
@@ -164,8 +172,7 @@
                     }
 
                     .reply {
-                        margin-top: 150px;
-
+                       
                     }
 
                     .reply .replaySave {
@@ -219,6 +226,15 @@
                     .replayRemove {
                         margin-left: auto;
                     }
+                    
+                    .replayImg{
+                    	margin-bottom:100px;
+                    }
+                    
+                    .replayImg img{
+                    	max-width:500px;
+                    }
+
                 </style>
                 <!-- <script> //선택한 것 보여주기 function change(){ var values =
                 document.getElementById('test').value; document.getElementById('show').value =
@@ -233,18 +249,25 @@
                                         <div class="category">커뮤니티 > ${community.comm_list}</div>
                                         <div class="subject">${community.suri_list}</div>
                                         <h3>${community.title}</h3>
-                                        <textarea class="mb-3" style="width:100%;" readonly="readonly">${community.content}</textarea>
                                         <div class="profile">
-                                            <img
-                                                src="${cpath}/resources/images/${originMember.imgurl}"
-                                                alt="글쓴이 프로필 이미지"
-                                                width="50">
-                                                <div class="namedate">
-                                                    <div class="profile_name">id : ${community.id}</div>
-                                                    <div class="profile_date">CreateAt : ${community.indate}</div>
-                                                </div>
-                                            </div>
-                                            <img src="${cpath}/resources/communityImages/${community.img}" alt="게시글 이미지">
+                                        	<div class="profile_left">
+                                        		<img src="${cpath}/resources/images/${originMember.imgurl}" alt="글쓴이 프로필 이미지" width="50">
+	                                        	<div class="namedate">
+		                                                <div class="profile_name">id : ${community.id}</div>
+		                                                <div class="profile_date">CreateAt : ${community.indate}</div>
+	                                            </div>
+                                        	</div>
+                                        	
+                                        	<c:if test="${member.id == community.id}">
+                                        	<div>
+                                        		 <a class="btn btn-danger btn-sm" href="goUpdate();">수정하기</a>
+                                        		 <a class="btn btn-danger btn-sm" href='${cpath}/community/delete?idx=${community.idx}'>삭제하기</a>
+                                        		 <a class="btn btn-danger btn-sm" href='${cpath}/community/board'>목록으로</a>                                        	
+                                        	</div>
+                                        	</c:if>
+                                        </div>
+                                        <textarea rows="20" class="mb-3" style="width:100%;" readonly="readonly">${community.content}</textarea>
+                                            <div class="replayImg"><img src="${cpath}/resources/communityImages/${community.img}" alt="게시글 이미지"></div>
                                                 <div class="reply">
                                                     <div class="replayView"></div>
                                                     <div class="replaySave">
@@ -257,6 +280,10 @@
                                             </div>
 
                                             <script>
+                                            
+                                            
+                                            
+                                            
 
                                                 var id = '${member.id}';
                                                 var idx = '${community.idx}';
@@ -266,6 +293,7 @@
                                                 $(function () {
                                                     getDate();
                                                 });
+                                      
 
                                                 function getSave() {
                                                     contextValue = $('#context').val();
@@ -346,12 +374,13 @@
                                                         }
                                                     })
                                                 }
+                                                
+                                                function goUpdate(){
+                                                	alert('ss');
+                                                }
+                                                
                                             </script>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </body>
 
                     <%@ include file="../common/footer.jsp"%>

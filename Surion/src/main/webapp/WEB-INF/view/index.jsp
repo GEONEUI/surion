@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
@@ -111,34 +112,15 @@
 			</div>
 		</div>
 			<ul class="d-flex justify-content-between">
-				<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate1.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">오토바이</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
-				<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate2.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">자전거</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
-				<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate3.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">에어컨</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
-					<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate4.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">보일러</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
+				<c:forEach items="${popularList}" begin="0" end="3" var="popularList">
+					<li class="w22" onclick="location.href='${cpath}${popularList.url}'">
+						<figure>
+							<img src="${cpath}/resources/mainImage/${popularList.categoryImg}" alt="오토바이 이미지">
+							<figcaption class="fs-5 py-2">${popularList.category}</figcaption>
+							<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i><fmt:formatNumber pattern="#,###" value="${popularList.count}"/> 조회</p>
+						</figure>
+					</li>
+				</c:forEach>
 			</ul>
 	</div>
 </div>
@@ -192,6 +174,7 @@
 		</div>
 	</div>
 </div>	
+${communityList}
 <div class="container-fluid st px-5 py-5" style="background:#d4f1ed;">
 	<div class="container">
 		<h2 class="text-center pb-3 fs-2">크몽을 이용한 고객들의 생생한 후기!</h2>
@@ -201,10 +184,10 @@
 				<iframe width="100%" height="240" src="https://www.youtube.com/embed/RMdz_zIjUso" title="[모두의학교 x 서울시설공단] 일상기술자 프로젝트🛠 집수리편 🏡" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 			</div>
 			<div class="col-lg-4">
-				<iframe width="100%" height="240" src="https://www.youtube.com/embed/RMdz_zIjUso" title="[모두의학교 x 서울시설공단] 일상기술자 프로젝트🛠 집수리편 🏡" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+				<iframe width="100%" height="240" src="https://www.youtube.com/embed/Nunfq4M6cjQ" title="생활안전예방서비스 개념 소개(2차년도)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 			</div>
 			<div class="col-lg-4">
-				<iframe width="100%" height="240" src="https://www.youtube.com/embed/RMdz_zIjUso" title="[모두의학교 x 서울시설공단] 일상기술자 프로젝트🛠 집수리편 🏡" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+				<iframe width="100%" height="240" src="https://www.youtube.com/embed/_nTR39J-slE" title="[exTV가 살려드림] 고속도로에서 사고가 났다고?!? 그럼 어떻게 해??" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 			</div>
 		</div>
 	</div>

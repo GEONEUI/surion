@@ -56,6 +56,8 @@ public class CommServiceImpl implements CommService{
 		String fileName = newFile.getName();
 		String id = multi.getParameter("id");
 		
+		System.out.println("content ----- > " + content);
+		
 		
 		
 		//업로드 성공!
@@ -83,7 +85,7 @@ public class CommServiceImpl implements CommService{
 		
 		
 		commRepository.save(community);
-		System.out.println("테스트");
+		System.out.println(community.getSuri_list() + "수리리스트 확인");
 		
 		rttr.addFlashAttribute("msg", "글작성이 완료되었습니다.");
 		return "redirect:/community/board";
@@ -121,6 +123,11 @@ public class CommServiceImpl implements CommService{
 	@Override
 	public void ReplyDelete(CommunityReply communityReply) {
 		commRepository.deleteReply(communityReply);
+	}
+
+	@Override
+	public void deleteBoard(int idx) {
+		commRepository.deleteBoard(idx);
 	}
 
 
