@@ -105,6 +105,17 @@ public class OrderTwoController {
 		System.out.println(pageNum);
 		return pageNum;
 	}
-
+  	//지도
+  	@GetMapping("/map")
+    public String mapTest(){
+        return "/map/map";
+    }
+    //상세페이지
+    @RequestMapping("/productDetail")
+    public String detail(Model model, String id, OrderForm orderForm) {
+    	orderFormService.orderDetail(model, id);
+    	orderFormService.readCount(orderForm);
+    	return "/order2/productDetail";
+    }
 }
 

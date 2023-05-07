@@ -278,13 +278,13 @@ ul {
 		</form>
 			<c:choose>
 				<c:when test="${!empty mechanic && empty mechanic}">
-					<button class="hbutton" onclick="addressCall()">프로필 등록</button>
+					<button class="hbutton" onclick="addressCall()">업체 등록</button>
 				</c:when>
 				<c:when test="${!empty mechanic}">
-					<button class="hbutton" onclick="alert('이미 프로필 등록을 하셨습니다.')">프로필 등록</button>
+					<button class="hbutton" onclick="alert('이미 업체 등록을 하셨습니다.')">업체 등록</button>
 				</c:when>
 				<c:when test="${empty mechanic}">
-					<button class="hbutton" onclick="alert('정비사 등록이 필요합니다.')">프로필 등록</button>
+					<button class="hbutton" onclick="alert('엔지니어 등록이 필요합니다.')">업체 등록</button>
 				</c:when>
 			</c:choose>
 		</div>
@@ -292,7 +292,7 @@ ul {
 			<ul class="askList">
 			 <c:forEach items="${list}" var="order">
 				<div class="orderList">
-					<div class="askListA" onclick="location.href='${cpath}/order1/productDetail?id=${order.id}'">
+					<div class="askListA" onclick="location.href='${cpath}/order2/productDetail?id=${order.id}'">
  						<img src="${cpath}/resources/images/order/${order.img}" alt="" />
 					</div>
 					<div class="askListP">

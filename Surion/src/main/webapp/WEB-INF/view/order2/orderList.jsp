@@ -152,7 +152,7 @@ ul {
 	color: #ccc;
 	padding-left: 1rem;
 	}
-.under {
+	.under {
 	    display: flex;
    		justify-content: center;
    		margin-top: 3rem;
@@ -161,6 +161,7 @@ ul {
 	.underPage {
 		display: flex;
 	}
+	
 	
 	.underPage li a {
 		padding: 0 2rem 0 2rem;
@@ -265,6 +266,7 @@ ul {
 		background: rgb(0,3,255);
 		background: linear-gradient(0deg, #ccc 0%, #6c757d 100%);
 	}
+	
 
 </style>
 <body>
@@ -280,16 +282,16 @@ ul {
 		</form>
 			<c:choose>
 				<c:when test="${result == 1}">
-					<button class="hbutton" onclick="alert('이미 프로필 등록을 하셨습니다.')">프로필 등록</button>
+					<button class="hbutton" onclick="alert('이미 업체 등록을 하셨습니다.')">업체 등록</button>
 				</c:when>
 				<c:when test="${member eq null}">
-					<button class="hbutton" onclick="loginCall()">프로필 등록</button>
+					<button class="hbutton" onclick="loginCall()">업체 등록</button>
 				</c:when>
 				<c:when test="${check ==0 && result == 0}">
-					<button class="hbutton" onclick="addressCall()">프로필 등록</button>
+					<button class="hbutton" onclick="addressCall()">업체 등록</button>
 				</c:when>
 				<c:otherwise>
-					<button class="hbutton" onclick="location.href='${cpath}/order2/orderForm'">프로필 등록</button>
+					<button class="hbutton" onclick="location.href='${cpath}/order2/orderForm'">업체 등록</button>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -308,7 +310,7 @@ ul {
 			<ul class="askList">
 			 <c:forEach items="${list}" var="order">
 				<div class="orderList">
-					<div class="askListA" onclick="location.href='${cpath}/order1/productDetail?id=${order.id}'">
+					<div class="askListA" onclick="location.href='${cpath}/order2/productDetail?id=${order.id}'">
  						<img src="${cpath}/resources/images/order/${order.img}" alt="" />
 					</div>
 					<div class="askListP">
@@ -328,7 +330,7 @@ ul {
 				</div>
 				</c:forEach>
 			</ul>
-			  <ul class="under pagination justify-content-center">
+			  <ul class="under justify-content-center">
 			  	<c:if test="${pageMaker.prev}">
 			  		<li><a href="${cpath}/order2/orderList?currentPage=${pageMaker.startPage - 1}" class="custom-btnn btn-11">이전</a></li>
 			  	</c:if>
@@ -400,7 +402,7 @@ ul {
  		
     	currentPage = data;
     	
-    	alert(currentPage);
+    	
     	
     	$.ajax({
 			 url : '${cpath}/order2/categoryAjax', // 이 주소로 
@@ -474,11 +476,11 @@ ul {
 		
 
 		      		
-		      		console.log(res[i].img);	      		
+		      		console.log(res[i]);	      		
 	
 		      		
 		      		view += '<div class="orderList">';
-		      		view += '<div class="askListA">';
+		      		view += '<div class="askListA" onclick="location.href=\'${cpath}/order2/productDetail?id=' + encodeURIComponent(res[i].id) + '\'">';
 		      		view +='<img src="${cpath}/resources/images/order/'+ imgArr +'">';
 		      		view += '</div>';
 		      		view += '<div class="askListP">';
@@ -505,7 +507,7 @@ ul {
 		      	var nextNumber = endPage + 1;
 		      	
 		      	if(prev){
-		      		prevItem = '<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+prevNumber+'">Previous</button></li>';
+		      		prevItem = '<li class="page-item"><button type="button" class="page-link " href="${cpath}/order2/orderAjax?pageNum='+prevNumber+'">Previous</button></li>';
 		      	}
 		      	
 		      	if(next){
@@ -515,17 +517,15 @@ ul {
 		      	
 		      	for(var i=StartPage; i<=endPage ;i++){
 		      		if(currentPage == i){
-		      			pageMaker+='<li class="page-item"><button type="button" class="active page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
+		      			pageMaker+='<li class="bold active"><a class="btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
 		      		}else{
-		      			pageMaker+='<li class="page-item"><button type="button" class="page-link btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
+		      			pageMaker+='<li><a class="btnClick" href="${cpath}/order2/orderAjax?pageNum='+ i +'">'+ i +'</button></li>';
 		      		}
-		      		
 		      	}
 		      	
-		      	
-		      	
 
-		      	paging+='<ul class="pagination justify-content-center">';
+				
+		      	paging+='<ul class="underPage">';
 		      	paging+=prevItem;
 		      	paging+=pageMaker;
 		      	paging+=nextItem;
@@ -537,23 +537,22 @@ ul {
     }
     
     $(window).on('click', function(e){
-    	if($(e.target).hasClass('btnClick')){
-    		var href = $(e.target).attr('href');
-    		var btn = $(e.target).data('btn');
-    		
-    		console.log(href);
+        if($(e.target).hasClass('btnClick')){
+            e.preventDefault(); // 기본 이벤트를 막기 위해 필요합니다.
+            
+            var href = $(e.target).attr('href');
+            var btn = $(e.target).data('btn');
 
-    		$.ajax({
-    			url:href,
-    			type:"get",
-    			success:goAjax,
-    			error:function(){ alert('error')},
-    		})
-    		
-    		
-    	}
-    
-    })
+            console.log(href);
+
+            $.ajax({
+                url:href,
+                type:"get",
+                success:goAjax,
+                error:function(){ alert('error')},
+            });
+        }
+    });
     
 	
     	

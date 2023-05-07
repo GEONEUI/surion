@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: deukkwonpark
-  Date: 2023/04/10
-  Time: 7:36 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

@@ -9,12 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderForm {
+	
+	private int idx;
+	
 	private String id;
 
     private String shopName;
 
     private String intro;
-
+    
     private String img;
 
     private String startTime;
