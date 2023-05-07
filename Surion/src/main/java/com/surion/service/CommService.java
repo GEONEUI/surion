@@ -24,8 +24,11 @@ public interface CommService {
 	public void getOneBoard(@Param("idx") int idx, Model model);
 	//댓글보기
 	public List<CommunityReply> findReply(int idx);
+	//게시글 삭제하기
+	public void ReplyDelete(CommunityReply communityReply);
 	//댓글가져오기
 	public void saveReply(CommunityReply communityReply);
 	//댓글삭제하기
-	public void ReplyDelete(CommunityReply communityReply);
+	public void deleteBoard(@Param("idx") int idx);
+	
 }

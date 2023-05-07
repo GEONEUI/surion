@@ -215,7 +215,6 @@
 					<li><a href="${cpath}/repair/repairList">의뢰목록</a></li>
 					<li><a href="${cpath}/order2/orderList">엔지니어</a></li>
 					<li><a href="${cpath}/community/board">커뮤니티</a></li>
-					<li><a href="#">마켓</a></li>
 				</ul>
 				<p>원하는 서비스를 못 찾겠다면, <span class="ubold">프로젝트 의뢰</span>하세요! ></p>
 			</div>

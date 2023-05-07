@@ -72,8 +72,9 @@ public class CommunityController {
 	
 	//글 삭제
 	@GetMapping("/delete")
-	public String delete() {
-		return "community/community";
+	public String delete(@Param("idx") int idx) {
+		commService.deleteBoard(idx);
+		return "redirect:/community/board";
 	}
 	
 	//댓글 보기
