@@ -29,12 +29,8 @@
       <span class="average">${review.point}</span>
     </div>
   </div>
-  <script>
-    const rating = document.querySelector(".rating[data-rating='${review.point}']");
-    setRating(rating, ${review.point});
-  </script>
-</c:forEach>
 
+</script>
 
 </body>
 </html>

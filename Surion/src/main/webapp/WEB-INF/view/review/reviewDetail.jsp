@@ -11,6 +11,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .image{
+           width: 200px;
+           height:200px;
+        }
+        .star {
+            font-size: 20px;
+        }
+    </style>
     <meta charset="UTF-8">
     <title>개별 리뷰 조회</title>
 </head>
@@ -18,26 +27,48 @@
 <h1>개별 리뷰 조회</h1>
 <table>
     <tr>
+        <th>사진</th>
+        <td colspan="2">
+            <c:forEach var="photo" items="${photoList}">
+                <img class="image" src="${pageContext.request.contextPath}/${photo.filePath}" alt="image">
+            </c:forEach>
+        </td>
+    </tr>
+    <tr>
         <th>작성자</th>
         <td>${review.id}</td>
     </tr>
     <tr>
-        <th>제목</th>
-    </tr>
-    <tr>
-        <th>내용</th>
-        <td>${review.content}</td>
-        <td>${review.score}</td>
-    </tr>
-    <tr>
-        <th>사진</th>
+        <th>평점</th>
         <td>
-            <c:forEach var="photo" items="${photoList}">
-                <img src="${pageContext.request.contextPath}/${photo.filePath}" alt="image">
-            </c:forEach>
+            <span class="stars">
+              <span class="star">&#9734;</span>
+              <span class="star">&#9734;</span>
+              <span class="star">&#9734;</span>
+              <span class="star">&#9734;</span>
+              <span class="star">&#9734;</span>
+            </span>
+            ${review.score}
         </td>
     </tr>
+
 </table>
+
+<script>
+    function fillStars(score) {
+        // 별점을 표시할 span 태그를 선택합니다.
+        const stars = document.querySelector('.stars');
+
+        // score 변수에 저장된 점수를 기준으로 별 모양을 채웁니다.
+        for (let i = 0; i < score; i++) {
+            stars.children[i].innerHTML = '&#9733;'; // 채워진 별 모양
+        }
+    }
+
+    // 페이지 로드시 자동으로 별 모양 채우기
+    const score = ${review.score}; // JSP EL을 사용하여 변수를 가져옵니다.
+    fillStars(score);
+</script>
 </body>
 </html>
 
