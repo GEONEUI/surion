@@ -64,6 +64,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	        		model.addAttribute("joinList", list);
 	        		OrderRoomMemberJoin otherState = chatRoomRepository.findOrderJoinByIds(sessionMem.getId(), member);
 	        		model.addAttribute("otherState", otherState.getState());
+	        		System.out.println(list.getShopName());
+	        		System.out.println(list.getRoom_id());
 	        	}
 	        }
 	        
