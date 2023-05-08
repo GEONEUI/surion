@@ -283,15 +283,18 @@
 									style="width: 25%; margin-left: 15px;">삭제</button>
 									</form>
 							</c:when>
+							
 							<c:otherwise>
 								<c:if test="${empty member}">
-									<button class="sBtn" onclick="gologin();"> 제안하기</button>
+									<button class="sBtn" onclick="gogo();"> 제안하기</button>
 								</c:if>
-								<c:if test="${member.office eq  ''}">
-									<button class="sBtn" onclick="goAsk();"> 제안하기</button>
-								</c:if>
-								<c:if test="${member.office ne  ''}">
-									<button class="sBtn" onclick="goOrder();"> 제안하기</button>
+								<c:if test="${!empty member}">
+									<c:if test="${member.office eq  ''}">
+										<button class="sBtn" onclick="goAsk();"> 제안하기</button>
+									</c:if>
+									<c:if test="${member.office ne  ''}">
+										<button class="sBtn" onclick="goOrder();"> 제안하기</button>
+									</c:if>
 								</c:if>
 							</c:otherwise>
 						</c:choose>
@@ -349,11 +352,11 @@ function formClick(str) {
 	
 	
 	function goAsk(){
-		alert("로그인해주세요.");
+		alert("엔지니어/프로필 등록을 해주세요.");
 	}
 
-	function gologin(){
-		alert("엔지니어/프로필 등록을 해주세요.");
+	function gogo(){
+		alert("로그인을 해주세요.");
 	}
 
 	function goOrder(){

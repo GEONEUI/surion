@@ -331,47 +331,7 @@
                                         </div>
                                         <div> 실제 수리온 서비스를 받은 고객들의 평가입니다.</div>
                                     </div>
-                                    <div class="bottomline">
-                                        <h2 class="h2h2">리뷰</h2>
-                                        <div class="row">
-                                            <div class="col-lg-3">
-                                                <div class="card" style="width: 10rem;">
-                                                    <img class="card-img-top" src="..." alt="Card image cap">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"> 깨끗히 잘합니다. </h5>
-                                                        <p class="card-text">후기에요~ 넘나 좋아요</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="card" style="width: 10rem;">
-                                                    <img class="card-img-top" src="..." alt="Card image cap">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">또 이용하고싶어요</h5>
-                                                        <p class="card-text">이사오자마자 다른 곳으로 또 이사갈 뻔</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="card" style="width: 10rem;">
-                                                    <img class="card-img-top" src="..." alt="Card image cap">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">흘린 거 주워먹어도 될 정도로..</h5>
-                                                        <p class="card-text">겁나 맛있었어요 </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="card" style="width: 10rem;">
-                                                    <img class="card-img-top" src="..." alt="Card image cap">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">사진은 없지만</h5>
-                                                        <p class="card-text"> 조금 아쉬웠어요 </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="bottomline"></div>
                                     <div class="bottomline" id="qna" style="padding-bottom: 30px;">
                                         <h2 class="h2h2">자주 묻는 질문 </h2>
                                         <div class="accordion-item" style="margin-bottom: 20px">
