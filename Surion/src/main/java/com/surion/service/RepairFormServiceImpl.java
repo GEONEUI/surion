@@ -126,7 +126,7 @@ public class RepairFormServiceImpl implements RepairFormService{
 		//업로드 성공!
 		if(multi != null) {
 			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
-			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
+			if(imgLastName.equals("PNG") || imgLastName.equals("JPG") || imgLastName.equals("BMP") || imgLastName.equals("JPEG") || imgLastName.equals("PJPEG") || imgLastName.equals("PJP") || imgLastName.equals("JFIF")) {
 				
 			}else {
 				if(newFile.exists()) {

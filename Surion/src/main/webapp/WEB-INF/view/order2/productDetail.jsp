@@ -425,7 +425,7 @@
                         <div class="col-lg-3" style="position: sticky; height:10vh; top:140px; right:0;">
                             <strong>${profile.shopName }</strong>에게 원하는 견적을 받아보세요</br>
                             <div style="margin-top: 20px;">
-	                            <button class="btn btn-sm" id="sBtn">견적받기</button>
+	                            <button class="btn btn-sm" id="sBtn">요청하기</button>
 	                            <button class="btn btn-sm">찜하기</button>
                    			</div>
                         </div>
@@ -466,13 +466,16 @@
 <script>	
 	
 	// 제안하기 버튼 클릭 시 modal 등장
-	const modal = document.querySelector('.modal');
-	const sBtn = document.querySelector('#sBtn');
+	const sBtn = document.querySelectorAll('.btn-sm');
 	
-	sBtn.addEventListener('click', () => {
-		modal.classList.add('show');
-		document.body.style.overflow = 'hidden';
-	});
+	
+	sBtn.forEach((idx, obj)=>{
+		idx.addEventListener('click', function(){
+			alert('업데이트 진행 예정입니다.');
+		});
+	})
+	
+	
 	
 	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
 	const cancel_btn = document.querySelector('.cancel-btn');

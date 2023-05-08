@@ -36,6 +36,10 @@
 		text-decoration: none;
 		color: #333;
 	}
+	
+	img {
+    	image-rendering: -webkit-optimize-contrast !important;
+	}
 
 	.suriSize{
 		width: 1200px;
