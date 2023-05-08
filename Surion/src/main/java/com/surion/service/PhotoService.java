@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,12 @@ public class PhotoService {
 
     public List<Photo> findByReviewId(Long id) {
         return photoRepository.findByReviewId(id);
+    }
+
+    public void deletePhoto(Long fileId) {
+        Photo photo = photoRepository.findById(fileId)
+                .orElseThrow(() -> new EntityNotFoundException("Photo not found with id " + fileId));
+        photoRepository.delete(photo);
     }
 
 

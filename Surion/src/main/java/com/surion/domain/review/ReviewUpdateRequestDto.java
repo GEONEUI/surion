@@ -8,12 +8,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewUpdateRequestDto {
 
-    private int score;
+    private String memberId;
+    private String mechanicId;
     private String content;
+    private int score;
 
     @Builder
-    public ReviewUpdateRequestDto(int score, String content) {
-        this.score = score;
+    public ReviewUpdateRequestDto(String memberId, String mechanicId, String content, int score) {
+        this.memberId = memberId;
+        this.mechanicId = mechanicId;
         this.content = content;
+        this.score = score;
     }
 }

@@ -51,6 +51,9 @@
             ${review.score}
         </td>
     </tr>
+    <tr>
+        <td><a href="/edit/${review.id}">수정</a> <a href="/delete/${review.id}">삭제</a></td>
+    </tr>
 
 </table>
 

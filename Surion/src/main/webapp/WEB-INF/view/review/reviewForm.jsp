@@ -127,35 +127,35 @@
 
 
 
-    <%--제출--%>
-    function submitReview() {
-        const score = $('#score').val();
-        const content = $('#review-text').val();
-        console.log(score, content)
+<%--    &lt;%&ndash;제출&ndash;%&gt;--%>
+<%--    function submitReview() {--%>
+<%--        const score = $('#score').val();--%>
+<%--        const content = $('#review-text').val();--%>
+<%--        console.log(score, content)--%>
 
-        // 서버에 리뷰를 저장하는 Ajax 요청
-        $.ajax({
-            type: 'POST',
-            url: '/review/api/review',
-            data: {
-                score: score
-                ,
-                content: content
-            },
-            success: function(response) {
+<%--        // 서버에 리뷰를 저장하는 Ajax 요청--%>
+<%--        $.ajax({--%>
+<%--            type: 'POST',--%>
+<%--            url: '/review/api/review',--%>
+<%--            data: {--%>
+<%--                score: score--%>
+<%--                ,--%>
+<%--                content: content--%>
+<%--            },--%>
+<%--            success: function(response) {--%>
 
-                // 서버에서 응답이 왔을 때 실행되는 코드
-                console.log('리뷰 저장 성공:', response);
-                alert('리뷰가 저장되었습니다.');
-                location.reload(); // 페이지 새로고침
-            },
-            error: function(xhr, status, error) {
-                // 서버에서 에러 응답이 왔을 때 실행되는 코드
-                console.error('리뷰 저장 실패:', status, error);
-                alert('리뷰 저장에 실패하였습니다. 다시 시도해주세요.');
-            }
-        });
-    }
+<%--                // 서버에서 응답이 왔을 때 실행되는 코드--%>
+<%--                console.log('리뷰 저장 성공:', response);--%>
+<%--                alert('리뷰가 저장되었습니다.');--%>
+<%--                location.reload(); // 페이지 새로고침--%>
+<%--            },--%>
+<%--            error: function(xhr, status, error) {--%>
+<%--                // 서버에서 에러 응답이 왔을 때 실행되는 코드--%>
+<%--                console.error('리뷰 저장 실패:', status, error);--%>
+<%--                alert('리뷰 저장에 실패하였습니다. 다시 시도해주세요.');--%>
+<%--            }--%>
+<%--        });--%>
+<%--    }--%>
 </script>
 
 
