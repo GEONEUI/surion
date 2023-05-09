@@ -232,14 +232,12 @@ color:#555;
 						viewHtml += '</div>';
 					} else {
 						viewHtml += '<p class="text ft">'+PreMessage.substr(0, 20)+'</p>';
+						viewHtml += '<p class="text mrau">'+sendTime.substr(4, 17) +'</p>';
 						viewHtml += '</div>';
-						viewHtml += '</div>';
-						viewHtml += '<p class="text mrau">'+sendTime.substr(4, 17) +'</p>'
 						viewHtml += '</div>';
 						
 					}
-					
-					viewHtml += '</div>';
+		
 
 					/* console.log(PreMessage);
 					console.log(sendTime); */
