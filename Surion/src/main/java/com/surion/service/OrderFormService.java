@@ -15,7 +15,7 @@ import com.surion.entity.OrderListPaging;
 
 public interface OrderFormService {
 	//게시물등록
-	public void save(OrderForm orderForm);
+	public void save(OrderForm orderForm, HttpSession session);
 	
 	//게시물 리스트
 	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session, Criteria Cri);

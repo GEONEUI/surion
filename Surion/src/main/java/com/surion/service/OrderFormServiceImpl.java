@@ -34,8 +34,10 @@ public class OrderFormServiceImpl implements OrderFormService{
 	
 	//게시물 등록폼 저장
 	@Override
-	public void save(OrderForm orderForm) {
+	public void save(OrderForm orderForm, HttpSession session) {
 		orderFormRepository.save(orderForm);
+		orderFormRepository.rollUpdate(orderForm);
+
 	}
 	
 

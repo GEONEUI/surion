@@ -194,6 +194,7 @@ body {
 							
 						}
 					});
+					
 					viewHtml += '<div onclick="enterRoom('+"'"+obj.room_id+"'"+')" class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">'; 
 					viewHtml += '<div class="d-flex">';
 					if(obj.imgurl != null){						
@@ -201,7 +202,11 @@ body {
 					} else {
 						viewHtml +=	'<img src="${cpath}/resources/images/default.png" alt="프로필" width="45px" height="45px" style="border-radius: 50%">';
 					}
-					viewHtml += '<p class="fs-3 text ms-3">'+obj.shopName+'</p>'
+					if(obj.shopName == null){
+						viewHtml += '<p class="fs-3 text ms-3">'+ obj.othermem_id + '</p>'
+					}else {					
+						viewHtml += '<p class="fs-3 text ms-3">'+obj.shopName +'(' + obj.othermem_id +')</p>'
+					}
 					viewHtml += '</div>';
 					viewHtml += '<div class="d-flex justify-content-between">';
 					

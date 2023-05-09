@@ -43,15 +43,14 @@ public class MypageServiceImpl implements MypageService {
 		OrderForm orderForm = orderFormRepository.findById(member.getId());
 
 		String pagev = request.getParameter("pageview");
-		Member m = (Member) session.getAttribute("member");
 		if (pagev == null)
 			pagev = "1";
 		else if (pagev.equals("2")) {
-			list = repairFormRepository.findByMemberId(m.getId());
+			list = repairFormRepository.findByMemberId(member.getId());
 			model.addAttribute("myBorList", list);
 		
 		} else if (pagev.equals("4")) {
-			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(m);
+			List<OrderFormRepairOfferJoin> joinList = chatRoomRepository.findOrderJoinByMemberId(member);
 			model.addAttribute("joinList", joinList);
 		} 
 
@@ -59,7 +58,7 @@ public class MypageServiceImpl implements MypageService {
 		
 		model.addAttribute("orderForm", orderForm);
 		model.addAttribute("pageview", pageview);
-		model.addAttribute("member", m);
+		model.addAttribute("member", member);
 		return "/mypage/mypage";
 	}
 

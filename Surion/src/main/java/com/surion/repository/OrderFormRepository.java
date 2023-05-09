@@ -19,6 +19,9 @@ public interface OrderFormRepository {
 	//정비사 게시물 폼 저장
 	@Insert("insert into suri_orderForm VALUES(null, #{id}, #{shopName}, #{intro}, #{img}, #{startTime}, #{endTime}, #{experience}, #{category}, #{office}, #{mechanic_id}, 0)")
 	public void save(OrderForm orderForm);
+	//정비사로 등급변환
+	@Update("UPDATE suri_member SET roll = 'engineer' WHERE id = #{id}")
+	public void rollUpdate(OrderForm orderForm);
 	
 	@Update("update suri_orderForm set img = #{img} where id = #{id}")
 	public void update(OrderForm orderForm);
