@@ -53,7 +53,7 @@ table a{width:100%; display:block;}
 					</c:if>
 					<c:if test="${empty member}">
 						<div id="write_right">
-							<span style="color:red;">커뮤니티를 이용하시려면 로그이을 해주세요.</span>
+							<span style="color:red;">커뮤니티를 이용하시려면 로그인을 해주세요.</span>
 						</div>
 					</c:if>
 				<div class="card-body">

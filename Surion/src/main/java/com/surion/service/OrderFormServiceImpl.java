@@ -151,6 +151,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	        rttr.addFlashAttribute("shop", orderJoin.getShopName());
 	        rttr.addFlashAttribute("na", orderJoin.getName());
 	        rttr.addFlashAttribute("of", orderJoin.getOffice());
+	        
 	        return "redirect:/order2/orderJoin";
 	    } else { 
 	        try {
@@ -161,6 +162,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	            rttr.addFlashAttribute("msgTitle", "Success Message!");
 	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
 	            member = memberRepository.findById(member);
+	            member.setOffice(orderJoin.getOffice());
 	            mechanic = memberRepository.findById(member);
 	            result = orderFormRepository.findByBoard(member.getId());
 	            session.removeAttribute("result");

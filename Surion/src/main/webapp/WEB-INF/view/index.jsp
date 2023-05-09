@@ -167,8 +167,8 @@
 
 <div class="container-fluid st px-5 py-5" style="background:#d4f1ed;">
 	<div class="container">
-		<h2 class="text-center pb-3 fs-2">크몽을 이용한 고객들의 생생한 후기!</h2>
-		<p class="text-center pb-3">216만명의 의로인이 98.6% 만족했습니다.</p>
+		<h2 class="text-center pb-3 fs-2">수리온이 선택한 유용한 동영상!</h2>
+		<p class="text-center pb-3">어디서든 필요한 지식</p>
 		<div class="row">
 			<div class="col-lg-4">
 				<iframe width="100%" height="240" src="https://www.youtube.com/embed/RMdz_zIjUso" title="[모두의학교 x 서울시설공단] 일상기술자 프로젝트🛠 집수리편 🏡" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
