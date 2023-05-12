@@ -15,4 +15,5 @@ public class Community {
 	private String suri_list;
 	private String comm_list;
 	private String indate;
+	private int readcount; 
 }

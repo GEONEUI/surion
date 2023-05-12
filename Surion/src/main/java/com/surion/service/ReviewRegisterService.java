@@ -138,23 +138,6 @@ public class ReviewRegisterService {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // 점수시스템 자료
 
     /*
@@ -244,7 +227,8 @@ public class ReviewRegisterService {
     /*
      리뷰 업데이트 + 점수 시스템
      */
-    public String reviewUpdate(ReviewForm reviewForm) {
+    public String
+    reviewUpdate(ReviewForm reviewForm) {
 
         Review reviewEntity = new Review();
         Optional<Review> review = reviewRegisterRepository.findById(reviewForm.getReviewId());
@@ -310,7 +294,8 @@ public class ReviewRegisterService {
 
             pointRewardRepository.save(contentPointEntity);
             memberPointRepository.save(member.get());
-        } else if (checkContent == 0 && contentPoint == null) {
+        } else if (checkContent == 0 &&
+                contentPoint == null) {
             //그냥 넘어감.
         }
 

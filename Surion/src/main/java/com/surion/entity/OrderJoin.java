@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderJoin {
 	private int idx;
-	private String member_id;
+	private String id;
 	private String mechanic_id;
 	private String name;
 	private String shopName;
-	private String address;
+	private String office;
 	private String email;
 	private String phone;
 	private String grade;
+	
+	
 }

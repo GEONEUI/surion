@@ -1,25 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="cpath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
 <%@ include file="./common/front_header.jsp" %>
 <style>
-	/* uvisual */
-	.usec_visual{
-		background: #000;
+	.rdg-image {
+	        image-rendering: -moz-crisp-edges;         /* Firefox */
+	        image-rendering: -o-crisp-edges;         /* Opera */
+	        image-rendering: -webkit-optimize-contrast;/* Webkit 표준 X */
+	        image-rendering: crisp-edges;
+	        -ms-interpolation-mode: nearest-neighbor;  /* IE 표준 X */
 	}
-	.usec_visual .uinner{}
-	.usec_visual .uinner .uvisual{
-		width: 100%;
-		height: 450px;
-		background: url('./image/visual.png')center center / cover no-repeat;
+		/* uvisual */
+	.uvisual img{
+		width:100%;
+	}
+
+	.cursor{
+		cursor: pointer;
 	}
 
 
 	figure{
 		cursor:pointer;
+	}
+	
+	.content{
+		overflow: hidden;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
 	}
 	i{
 		color: #888;
@@ -41,16 +54,14 @@
 <body>
 <%@ include file="./common/header.jsp" %>
 <div class="usec_visual">
-	<div class="uinner">
 		<div class="uvisual">
-			
+			<img class="rdg-image" src="${cpath}/resources/images/visual8.png">
 		</div>
-	</div>
 </div>
 <div class="suriSize st">
 	<div class="container">
 		<ul class="d-flex justify-content-around align-items-center">
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=1'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-bicycle fs-3"></i>
 					<figcaption class="fs-5">
@@ -58,7 +69,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=2'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-motorcycle fs-3"></i>
 					<figcaption class="fs-5">
@@ -66,7 +77,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=3'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-wind fs-3"></i>
 					<figcaption class="fs-5">
@@ -74,7 +85,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=4'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-temperature-arrow-up fs-3"></i>
 					<figcaption class="fs-5">
@@ -82,7 +93,7 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=5'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-light fa-desktop fs-3"></i>
 					<figcaption class="fs-5">
@@ -90,27 +101,11 @@
 					</figcaption>
 				</figure>
 			</li>
-			<li>
+			<li onclick="location.href='${cpath}/repair/repairList?type=6'">
 				<figure class="d-flex justify-content-center align-items-center flex-column">
 					<i class="fa-duotone fa-headphones-simple fs-3"></i>
 					<figcaption class="fs-5">
 						음향 / 악기
-					</figcaption>
-				</figure>
-			</li>
-			<li>
-				<figure class="d-flex justify-content-center align-items-center flex-column">
-					<i class="fa-regular fa-plane-departure fs-3"></i>
-					<figcaption class="fs-5">
-						해외직구
-					</figcaption>
-				</figure>
-			</li>
-			<li>
-				<figure class="d-flex justify-content-center align-items-center flex-column">
-					<i class="fa-duotone fa-ellipsis fs-3"></i>
-					<figcaption class="fs-5">
-						기타
 					</figcaption>
 				</figure>
 			</li>
@@ -124,38 +119,19 @@
 	<div class="container">
 			<div class="d-flex justify-content-between">
 				<h2 class="fs-2 mb-4">인기있는 수리목록</h2>
-				<a href="#" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
+				<a href="${cpath}/repair/repairList" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
 			</div>
 		</div>
 			<ul class="d-flex justify-content-between">
-				<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate1.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">오토바이</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
-				<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate2.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">자전거</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
-				<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate3.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">에어컨</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
-					<li class="w22">
-					<figure>
-						<img src="${cpath}/resources/images/main_rate4.jpg" alt="오토바이 이미지">
-						<figcaption class="fs-5 py-2">보일러</figcaption>
-						<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i>766,555요청</p>
-					</figure>
-				</li>
+				<c:forEach items="${popularList}" begin="0" end="3" var="popularList">
+					<li class="w22" onclick="location.href='${cpath}${popularList.url}'">
+						<figure>
+							<img src="${cpath}/resources/mainImage/${popularList.categoryImg}" alt="오토바이 이미지">
+							<figcaption class="fs-5 py-2">${popularList.category}</figcaption>
+							<p class="text-secondary"><i class="me-1 fa-sharp fa-solid fa-envelope"></i><fmt:formatNumber pattern="#,###" value="${popularList.count}"/> 요청</p>
+						</figure>
+					</li>
+				</c:forEach>
 			</ul>
 	</div>
 </div>
@@ -164,51 +140,31 @@
 	<div class="container">
 		<div class="d-flex justify-content-between">
 				<h2 class="fs-2 mb-4">수리온 커뮤니티에 물어보세요</h2>
-				<a href="#" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
+				<a href="${cpath}/community/board" style="color:#00c7ae;">전체보기 <i style="color:#00c7ae;" class="fa-solid fa-caret-right"></i></a>
 			</div>
 		<div class="row d-flex">
 			<div class="col-lg-6 pe-4">
-				<div>
-					<small class="d-block text-secondary">함께해요</small>
-					<span class="d-block fw-bold">갑자기 차단기가 내려가서 전기사용이 안된다면?</span>
-					<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">403 6</span>
-				</div>
-				<div>
-					<small class="d-block text-secondary">얼마에요</small>
-					<span class="d-block fw-bold">갑자기 차단기가 내려가서 전기사용이 안된다면?</span>
-					<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">403 6</span>
-				</div>
-				<div>
-					<small class="d-block text-secondary">궁금해요</small>
-					<span class="d-block fw-bold">갑자기 차단기가 내려가서 전기사용이 안된다면?</span>
-					<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">403 6</span>
-				</div>
+				<c:forEach items="${communityList}" begin="0" end="2" var="list">
+					<div class="cursor" onclick="location.href='${cpath}/community/detail?idx=${list.idx}'">
+						<small class="d-block text-secondary">${list.comm_list}</small>
+						<span class="d-block fw-bold content">${list.content}</span>
+						<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">${fn:split(list.indate, " ")[0]}</span>
+					</div>
+				</c:forEach>
 			</div>
 			<div class="col-lg-6 ps-5 d-flex justify-content-between flex-column">
-				<div class="d-flex align-items-center" style="height:140px;">
-					<span class="d-block me-4">
-						<img src="./image/test.png" alt="테스트" width="200" style="border-radius:12px;">
-					</span>
-					<span class="d-block">
-						<span class="d-block mb-3 text-secondary">상세페이지 제작</span>
-						<span class="d-block fs-5 fw-bold">상세페이지로 구매율을 높이자!</span>
-						<span class="d-block">가온스튜디오</span>
-					</span>
-				</div>
-				<div class="d-flex align-items-center mb-5" style="height:140px;">
-					<span class="d-block me-4">
-						<img src="./image/test.png" alt="테스트" width="200" style="border-radius:12px;">
-					</span>
-					<span class="d-block">
-						<span class="d-block mb-3 text-secondary">상세페이지 제작</span>
-						<span class="d-block fs-5 fw-bold">상세페이지로 구매율을 높이자!</span>
-						<span class="d-block">가온스튜디오</span>
-					</span>
-				</div>
+				<c:forEach items="${communityList}" begin="3" end="5" var="list">
+					<div class="cursor" onclick="location.href='${cpath}/community/detail?idx=${list.idx}'">
+						<small class="d-block text-secondary">${list.comm_list}</small>
+						<span class="d-block fw-bold content">${list.content}</span>
+						<span class="text-secondary d-block pb-4 mb-4 fw-normal" style="border-bottom:1px solid #ecebeb;">${fn:split(list.indate, " ")[0]}</span>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
 </div>	
+
 <div class="container-fluid st px-5 py-5" style="background:#d4f1ed;">
 	<div class="container">
 		<h2 class="text-center pb-3 fs-2">크몽을 이용한 고객들의 생생한 후기!</h2>
@@ -218,10 +174,10 @@
 				<iframe width="100%" height="240" src="https://www.youtube.com/embed/RMdz_zIjUso" title="[모두의학교 x 서울시설공단] 일상기술자 프로젝트🛠 집수리편 🏡" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 			</div>
 			<div class="col-lg-4">
-				<iframe width="100%" height="240" src="https://www.youtube.com/embed/RMdz_zIjUso" title="[모두의학교 x 서울시설공단] 일상기술자 프로젝트🛠 집수리편 🏡" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+				<iframe width="100%" height="240" src="https://www.youtube.com/embed/Nunfq4M6cjQ" title="생활안전예방서비스 개념 소개(2차년도)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 			</div>
 			<div class="col-lg-4">
-				<iframe width="100%" height="240" src="https://www.youtube.com/embed/RMdz_zIjUso" title="[모두의학교 x 서울시설공단] 일상기술자 프로젝트🛠 집수리편 🏡" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+				<iframe width="100%" height="240" src="https://www.youtube.com/embed/_nTR39J-slE" title="[exTV가 살려드림] 고속도로에서 사고가 났다고?!? 그럼 어떻게 해??" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 			</div>
 		</div>
 	</div>

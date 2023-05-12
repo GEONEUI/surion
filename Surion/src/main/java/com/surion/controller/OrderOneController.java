@@ -1,8 +1,13 @@
 package com.surion.controller;
 
+
 import com.surion.domain.mechanic.Mechanic;
 import com.surion.service.MechanicService;
+import com.surion.service.OrderFormService;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class OrderOneController {
 
+
     private final MechanicService mechanicService;
+
+	@Autowired
+	OrderFormService orderFormService;
+	
+    private final MechanicService ms;
+
 
     @GetMapping("/detail/{mechanic_id}")
     public String orderdetail(@PathVariable String mechanic_id, Model model){
@@ -27,5 +39,6 @@ public class OrderOneController {
     public String mapTest(){
         return "/map/map";
     }
+
 
 }

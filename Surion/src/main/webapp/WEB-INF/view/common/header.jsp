@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="cpath" value="${pageContext.request.contextPath}" />
+<c:set var="cpath" value="${pageContext.request.contextPath}" />  
 <style>
 	.usec_header{
 		background: #fff !important;
@@ -22,7 +22,7 @@
 		display:flex;
 		align-items:center;
 		justify-content:space-between;
-		height:74px;
+		height:8vh;
 		position:relative;
 	}
 
@@ -39,6 +39,9 @@
 	
 	.unav1 li img{
 		cursor:pointer;
+		width:50px;
+		height:50px;
+		border-radius:50%;
 	}
 
 	.unav1 li:nth-child(2){
@@ -72,16 +75,6 @@
 		font-weight: bold;
 	}
 
-	/* uvisual */
-	.usec_visual{
-		background: #000;
-	}
-	.usec_visual .uinner{}
-	.usec_visual .uinner .uvisual{
-		width: 100%;
-		height: 450px;
-		background: url('${cpath}/resources/images/visual.png')center center / cover no-repeat;
-	}
 
 
 	/* search */
@@ -169,13 +162,6 @@
 	.myinfo.active{
 		display:block;
 	}
-	
-	.uheader_top h1{margin-bottom:0px; height:45px;}
-	
-	img{
-		vertical-align:unset !important;
-	}
-
 
 </style>
 
@@ -186,27 +172,39 @@
 				<h1><a href="${cpath}/"><img src="${cpath}/resources/images/logo.png" alt="로고"></a></h1>
 				<c:if test="${empty member}">
 					<ul class="unav1">
-						<li><a href="javascript:gomechanic()">엔지니어 등록</a></li>
+						<li><a href="javascript:gologin2()">엔지니어 등록</a></li>
 						<li><a href="javascript:gologin()">로그인</a></li>
 						<li><a href="javascript:gojoin()">무료 회원가입</a></li>
 					</ul>
 				</c:if>
 				<c:if test="${!empty member}">
 					<ul class="unav1">
-						<li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
+						<c:if test="${member.office eq ''}">
+						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
+						</c:if>
+						<c:if test="${member.office ne ''}">
+						   <c:choose>
+								<c:when test="${result == 1}">
+									<li><a href="javascript:alert('이미 업체 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${cpath}/order2/orderForm" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:if>
 						<c:if test="${member.imgurl eq null}">
-							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png" width="40" style="border-radius:12px;"></li>
+							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png"></li>
 						</c:if>
 						<c:if test="${member.imgurl ne null}">
-							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}" width="40" style="border-radius:12px;"></li>
-						</c:if>
+							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}"></li>
+						</c:if>	
 					</ul>
 					<!--  내 정보 모탈창  -->
 					<div class="myinfo">
 						<div class="mybox">
 							<p>${member.id} &nbsp 고객님</p>
 							<ul>
-								<li><a href="#"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
+								<li><a href="${cpath}/mypage/myinfo?pageview=4"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
 								<li><a href="${cpath}/mypage/myinfo"><i class="fa-solid fa-circle-user" style="color: #525252; margin-right:10px;"></i> 마이페이지</a></li>
 							</ul>
 						</div>
@@ -220,7 +218,6 @@
 					<li><a href="${cpath}/repair/repairList">의뢰목록</a></li>
 					<li><a href="${cpath}/order2/orderList">엔지니어</a></li>
 					<li><a href="${cpath}/community/board">커뮤니티</a></li>
-					<li><a href="#">마켓</a></li>
 				</ul>
 				<p>원하는 서비스를 못 찾겠다면, <span class="ubold">프로젝트 의뢰</span>하세요! ></p>
 			</div>
@@ -243,10 +240,16 @@
 	function gojoin(){
 		location.href='${cpath}/member/join';
 	}
-	function gomechanic() {
-		location.href='${cpath}/order2/orderJoin';
+	function gomechanic() {		    
+		location.href = '${cpath}/order2/orderJoin';
+		}
+	function goBoard(){
+		location.href='${cpath}/order2/orderForm';
+	}
+	function gologin2(){
+		alert("로그인 후 이용해 주세요.")
+		location.href='${cpath}/member/login';
 	}
 </script>
-
 
 

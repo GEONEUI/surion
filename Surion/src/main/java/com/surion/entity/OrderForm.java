@@ -1,21 +1,23 @@
 package com.surion.entity;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderForm {
-	private String member_id;
+	
+	private int idx;
+	
+	private String id;
 
     private String shopName;
 
     private String intro;
-
+    
     private String img;
 
     private String startTime;
@@ -26,7 +28,10 @@ public class OrderForm {
     
     private String category;
 	
-    private String address;
+    private String office;
     
     private String mechanic_id;
+    
+    private int readCount;
+    
 }

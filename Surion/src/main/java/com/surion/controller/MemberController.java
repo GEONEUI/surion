@@ -1,4 +1,4 @@
-package com.surion.controller;
+  package com.surion.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -42,7 +42,7 @@ public class MemberController {
 	//로그인
 	@PostMapping("/login")
 	public String login(Member m, HttpSession session, RedirectAttributes rttr) {
-		return memberService.findOne(m, session, rttr);
+		return memberService.login(m, session, rttr);
 	
 	}
 	
@@ -56,7 +56,6 @@ public class MemberController {
 	//중복체크
 	@GetMapping("/check")
 	public @ResponseBody int check(Member m) {
-		System.out.println(m.getId());
 		int result = memberService.check(m);
 		return result;
 	}

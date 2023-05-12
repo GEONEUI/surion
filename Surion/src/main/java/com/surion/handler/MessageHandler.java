@@ -4,7 +4,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.surion.dto.Message;
+import com.surion.domain.chat.Message;
 
 @RestController
 public class MessageHandler {

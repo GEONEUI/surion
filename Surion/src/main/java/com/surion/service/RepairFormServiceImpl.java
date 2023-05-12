@@ -1,21 +1,21 @@
 package com.surion.service;
 
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.RepairForm;
 import com.surion.entity.RepairListPaging;
+import com.surion.entity.RepairOffer;
 import com.surion.repository.RepairFormRepository;
 
 @Service
@@ -24,35 +24,16 @@ public class RepairFormServiceImpl implements RepairFormService{
 	@Autowired
 	RepairFormRepository repairFormRepository;
 	
-	// 의뢰자가 orderForm 날리는 거 저장 // 
+	// ��猶곗��媛� orderForm ��由щ�� 嫄� ���� // 
 	@Override
 	public void save(RepairForm m) {
 		repairFormRepository.save(m);	
 	}
 
-	// orderForm 사진 저장 //
-//	@Override
-//	public void imageUpload(HttpServletRequest request) {
-//		MultipartRequest multi = null;
-//		
-//		String save = request.getRealPath("/resources/images");
-//		int maxSize = 1024*1024*5;
-//		
-//		try {
-//			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
-//			System.out.println(save);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		String id = multi.getParameter("member_id");
-//		System.out.println(id);
-//	}
-	
-	// DB : suri_repairForm 전체 리스트 가져와서 페이징
+	// DB : suri_repairForm ��泥� 由ъ�ㅽ�� 媛��몄���� ���댁�
 	@Override
 	public void repairList(Model model, RepairListPaging pa, HttpServletRequest request) {
-		// 현재 보는 페이지를 설정하기 위한 초기값
+		// ���� 蹂대�� ���댁�瑜� �ㅼ����湲� ���� 珥�湲곌�
 		String pageNum = request.getParameter("pageNum");
 		if(pageNum == null) {
 			pageNum = "1";
@@ -60,51 +41,57 @@ public class RepairFormServiceImpl implements RepairFormService{
 		int page = Integer.parseInt(pageNum);
 //		System.out.println("page : " + page);
 		
-		int count = repairFormRepository.findByCount(); // 전체 게시글 count
-//		System.out.println("전체글--------> : " + count);
+		int count = repairFormRepository.findByCount(); // ��泥� 寃���湲� count
+//		System.out.println("��泥닿�--------> : " + count);
 		
-		pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT 앞부분 설정 (value, 12)
+		pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT ��遺�遺� �ㅼ�� (value, 12)
 //		System.out.println("StartValue : " + pa.getStartValue());
-//		-----------------------------------쿼리 실행 확인-------------------------------
+//		-----------------------------------荑쇰━ �ㅽ�� ����-------------------------------
 		
-		pa.setCurrentPage(page); // 초기 페이지를 1로 설정
+		pa.setCurrentPage(page); // 珥�湲� ���댁�瑜� 1濡� �ㅼ��
 //		System.out.println("CurrentPage : " + pa.getCurrentPage());
 		
-		pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 마지막 페이지로 만듬
+		pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 留�吏�留� ���댁�濡� 留���
 //		System.out.println("Lastpage : " + pa.getLastPage());
 		
 		
-		// 뭘 보든 끝페이지 남기기 ex) 6 클릭해도 1~10, 13 클릭해도 11~20
+		// 萸� 蹂대�� �����댁� �④린湲� ex) 6 �대┃�대�� 1~10, 13 �대┃�대�� 11~20
 		// 6 / 10 = 0.6 (Math.ceil) = 1 * 10(DisPageNum) = 10 
 		pa.setEndNum((int) (Math.ceil(pa.getCurrentPage() / (double) pa.getDisPageNum()) * pa.getDisPageNum()));
 //		System.out.println("EndNum : " + pa.getEndNum());
 		
-		//  시작 페이지 번호를 1로 시작하게 만듬 ex) 1, 11, 21, 31
+		//  ���� ���댁� 踰��몃�� 1濡� ������寃� 留��� ex) 1, 11, 21, 31
 		pa.setStartNum(pa.getEndNum() - pa.getDisPageNum() + 1);
 //		System.out.println("StartNum : "+ pa.getStartNum());
 		
-		// 마지막 페이지가 ex)46번 이런식이면 endNum을 재셋팅해줌.
-		// EndNum은 77번 라인의 주석 때문에 항상 10의 자리이기 때문
+		// 留�吏�留� ���댁�媛� ex)46踰� �대�곗���대㈃ endNum�� �ъ�����댁�.
+		// EndNum�� 77踰� �쇱�몄�� 二쇱�� ��臾몄�� ���� 10�� ��由ъ�닿린 ��臾�
 		if(pa.getLastPage() < pa.getEndNum()) {
 			pa.setEndNum(pa.getLastPage());
 		}
 		
-		// 이전 버튼 : 게시글 1이 아닐 때 무조건 나타나게 함.
+		// �댁�� 踰��� : 寃���湲� 1�� ���� �� 臾댁“嫄� ������寃� ��.
 		if(pa.getStartNum() != 1) {
 			pa.setPrev(true);
 		}
 		
-		// 다음 버튼 : 현재의 마지막 번호가 전체 마지막 숫자보다 작을 때 
+		// �ㅼ�� 踰��� : ���ъ�� 留�吏�留� 踰��멸� ��泥� 留�吏�留� �レ��蹂대�� ���� �� 
 		if(pa.getEndNum() < pa.getLastPage()) {
 			pa.setNext(true);
 		}
 		
+		String type = request.getParameter("type");
+		if(type == null) {
+			type = "";
+		}
+		
+		model.addAttribute("type", type);
 		model.addAttribute("paging", pa);
 		List<RepairForm> lst = repairFormRepository.findByAll(pa);
 		model.addAttribute("list", lst);	
 	}
 	
-	// 의뢰목록에서 1개만ㅇ 열어서 보기 //
+	// ��猶곕ぉ濡����� 1媛�留� �댁�댁�� 蹂닿린 //
 	@Override
 	public void repairDetail(Model model, RepairForm m) {
 		DecimalFormat decFormat = new DecimalFormat("###,###");
@@ -118,25 +105,38 @@ public class RepairFormServiceImpl implements RepairFormService{
 			String money = decFormat.format(lstMoney);
 			model.addAttribute("money", money);
 		}
-	
-		
 		model.addAttribute("m", lst);
-		
 	}
 	
-	// orderForm에서 이미지 업로드 되는 메소드 //
+	// orderForm���� �대�몄� ��濡��� ���� 硫����� //
 	@Override
 	public void upload(HttpServletRequest request) {
 		MultipartRequest multi = null;
 		
-		String save = request.getRealPath("/resources/images");
+		String save = request.getRealPath("/resources/repairImages");
 		int maxSize = 1024 * 1024 * 5;
-		
 		try {
 			multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		File newFile = multi.getFile("file");
+	
+		//업로드 성공!
+		if(multi != null) {
+			String imgLastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
+			if(imgLastName.equals("PNG") || imgLastName.equals("JPG")) {
+				
+			}else {
+				if(newFile.exists()) {
+					newFile.delete();
+				}
+			}
+		}
+		
+		
+		
 	}
 
 	@Override
@@ -146,17 +146,17 @@ public class RepairFormServiceImpl implements RepairFormService{
 
 	@Override
 	public void search(Model model, RepairListPaging pa ,HttpServletRequest request) {
-		// 현재 보는 페이지를 설정하기 위한 초기값
+		// ���� 蹂대�� ���댁�瑜� �ㅼ����湲� ���� 珥�湲곌�
 				String pageNum = request.getParameter("pageNum");
 				if(pageNum == null) {
 					pageNum = "1";
 				}
 				int page = Integer.parseInt(pageNum);
-				int count = repairFormRepository.searchCount(pa); // 전체 게시글 count
-				pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT 앞부분 설정 (value, 12)
-//				-----------------------------------쿼리 실행 확인-------------------------------
-				pa.setCurrentPage(page); // 초기 페이지를 1로 설정
-				pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 마지막 페이지로 만듬
+				int count = repairFormRepository.searchCount(pa); // ��泥� 寃���湲� count
+				pa.setStartValue((page-1) * pa.getPerPageNum()); // LIMIT ��遺�遺� �ㅼ�� (value, 12)
+//				-----------------------------------荑쇰━ �ㅽ�� ����-------------------------------
+				pa.setCurrentPage(page); // 珥�湲� ���댁�瑜� 1濡� �ㅼ��
+				pa.setLastPage((int) Math.ceil(count / (double) pa.getPerPageNum())); // 留�吏�留� ���댁�濡� 留���
 				pa.setEndNum((int) (Math.ceil(pa.getCurrentPage() / (double) pa.getDisPageNum()) * pa.getDisPageNum()));
 				pa.setStartNum(pa.getEndNum() - pa.getDisPageNum() + 1);
 				if(pa.getLastPage() < pa.getEndNum()) {
@@ -165,6 +165,7 @@ public class RepairFormServiceImpl implements RepairFormService{
 				if(pa.getStartNum() != 1) {
 					pa.setPrev(true);
 				}
+				
 				if(pa.getEndNum() < pa.getLastPage()) {
 					pa.setNext(true);
 				}
@@ -173,8 +174,31 @@ public class RepairFormServiceImpl implements RepairFormService{
 		List<RepairForm> lst = repairFormRepository.search(pa);
 		model.addAttribute("list", lst);
 	}
-	
 
+	@Override
+	public void offer(RepairOffer offer) {
+		DecimalFormat dec = new DecimalFormat("###,###");
+		String estiConvert = dec.format(Integer.parseInt(offer.getEstimate()));
+		offer.setEstimate(estiConvert);
+		System.out.println("offer ------ - -- - - > "  + offer);
+		repairFormRepository.offer(offer);
+	}
+
+	@Override
+	public List<RepairForm> category(HttpServletRequest request, Model model) {
+		int kind = Integer.parseInt(request.getParameter("kind"));   
+		if(kind == 7) {
+			List<RepairForm> lst = repairFormRepository.categoryRecent(kind);
+			return lst;
+		}
+		if(kind == 8) {
+			List<RepairForm> lst = repairFormRepository.categoryPopular(kind);
+			return lst;
+		} else {
+			List<RepairForm> lst = repairFormRepository.category(kind);
+			return lst;
+		}
+	}
 
 	
 	

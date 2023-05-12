@@ -30,4 +30,8 @@ public class MechanicRepository {
                 .setParameter("shopName", shopName)
                 .getResultList();
     }
+//    SELECT * FROM tsuri_review WHERE member_id = 33 AND mechanic_id = '44';
+
+
+
 }

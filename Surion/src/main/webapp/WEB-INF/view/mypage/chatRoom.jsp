@@ -1,38 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <c:set var="cpath" value="${pageContext.request.contextPath}"/>
+
 
 <!DOCTYPE html>
 
 <html lang="ko">
 <%@ include file="../common/front_header.jsp" %>
 <style>
-    body {
-        background: #fff !important;
-    }
-
-    #my_page_right {
-        padding: 35px 30px;
-    }
-
-
-    #navLink a:nth-child(${pageview}) {
-        color: red !important;
-    }
-
-    @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
-    textarea {
-        height: 100px;
-        border: none;
-        resize: none;
-    }
+ 	@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
     .rate {
         display: inline-block;
         border: 0;
-        margin-right: 33%;
+        margin-right: 1%;
     }
 
     .rate > input {
@@ -60,16 +43,45 @@ pageEncoding="UTF-8"%>
         padding-right: 0;
     }
 
-    .rate input:checked ~ label, .rate label:hover, .rate label:hover ~ label {
+    .rate input:checked ~ label,
+    .rate label:hover,
+    .rate label:hover ~ label {
         color: #f73c32 !important;
     }
 
-    .rate input:checked + .rate label:hover, .rate input input:checked ~ label:hover,
-    .rate input:checked ~ .rate label:hover ~ label, .rate label:hover ~ input:checked
-    ~ label {
+    .rate input:checked + .rate label:hover,
+    .rate input input:checked ~ label:hover,
+    .rate input:checked ~ .rate label:hover ~ label,
+    .rate label:hover ~ input:checked ~ label {
         color: #f73c32 !important;
     }
+    body {
+        background: #fff !important;
+    }
+	
+	 .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+    #my_page_right {
+        padding: 35px 30px;
+    }
 
+
+    #navLink a:nth-child(${pageview}) {
+        color: red !important;
+    }
+
+  
+
+    textarea {
+        height: 100px;
+        border: none;
+        resize: none;
+    }
+   
     #rarara {
         position: relative;
     }
@@ -78,8 +90,28 @@ pageEncoding="UTF-8"%>
         position: absolute;
         bottom: 0;
     }
+    
+    .hr-sect {
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.35);
+        font-size: 12px;
+        margin: 8px 0px;
+      }
+      .hr-sect::before,
+      .hr-sect::after {
+        content: "";
+        flex-grow: 1;
+        background: rgba(0, 0, 0, 0.35);
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: 0px 16px;
+      }
 
 </style>
+
 <body>
 <%@ include file="../common/header.jsp" %>
 <div class="suriSize">
@@ -94,25 +126,43 @@ pageEncoding="UTF-8"%>
                             <div class="d-flex">
                                 <div style="max-height: 600px;">
                                     <div class="card" id="chat1" style="border-radius: 15px; min-height: 550px;">
-
-                                        <div class="card-body" id="rarara" style="min-width: 528px">
-                                            <div style="overflow: auto; max-height: 373px;" class="msgArea"
+                                        <div class="card-body" id="rarara" style="min-width: 528px;max-width:529px">
+                                            <div style="overflow-y: auto; max-height: 373px;" class="msgArea"
                                                  id="chatMonitor">
-                                                 <c:forEach var="list" items="${ message }">
+                                                 <c:set var="versus" value="0"/>
+                                                 <c:forEach var="list" items="${ message }">   
+                                                 	<c:if test="${fn:substring(versus, 0, 3)  ne fn:substring(list.send_time, 0, 3) }">
+                                                 		<div class="hr-sect">${fn:substring(list.send_time, 0, 10) }</div>
+                                                 	</c:if>                                              
                                                  	<c:choose>
                                                  		<c:when test="${list.member_id eq member.id}">
+                                                 			<c:set var="versus" value="${fn:substring(list.send_time, 0, 3)}"/>                                         
                                                  			<input type=hidden id="memberId" value="${list.member_id}">
-                                                 			<div class="d-flex flex-row justify-content-end mb-3">
-													        	<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">
-													        		<p class="small mb-0">${ list.message }</p>
+                                                 			<div class="justify-content-end d-flex flex-row mb-3">
+                                                 				<div class="row align-items-end">
+                                                 					<p class="col me-2 mb-0" style="font-size:small;">${fn:substring(list.send_time, 15, 21) }</p>
+                                                 				</div>
+                                                 	        	<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb; max-width:300px;">
+													        		<p class="small mb-0 text-wrap">${ list.message }</p>
 													        	</div>
 													        </div>
                                                  		</c:when>
                                                  		<c:otherwise>
-                                                 			<div class="d-flex flex-row justify-content-start mb-3">
-												         	   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">
+                                                 			<c:set var="versus" value="${fn:substring(list.send_time, 0, 3)}"/> 
+                                                 			<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">
+                                                 			<c:choose>
+                                                 				<c:when test="${joinList.imgurl ne null}">
+												         	   		<img src="${cpath}/resources/images/${joinList.imgurl}" style="border-radius:50%; width: 45px; height: 100%;">
+                                                 				</c:when>                                                 			
+                                                 				<c:otherwise>
+                                                 					<img src="${cpath}/resources/images/default.png" style="border-radius:50%; width: 45px; height: 100%;">
+                                                 				</c:otherwise>
+                                                 			</c:choose>
 												            	<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2)">
-												            		<p class="small mb-0">${ list.message }</p>
+												            		<p class="small mb-0 text-wrap" style="max-width:300px;">${ list.message }</p>
+												           	 	</div>
+												           	 	<div class="row align-items-end">
+												           	 		<p class="col mb-0" style="font-size:small;">${fn:substring(list.send_time, 15, 21) }</p>
 												           	 	</div>
 												            </div>
                                                  		</c:otherwise>
@@ -139,50 +189,70 @@ pageEncoding="UTF-8"%>
                             <!--고수 정보-->
                             <div class="card text-center me-0" id="chat2"
                                  style="border-radius: 15px; height: 100%; max-height: 550px;">
-                                <center>
-                                    <img class="d-flex mt-1"
-                                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                                         alt="avatar 1" style="width: 120px; height: 120px;">
-                                </center>
-                                <p class="fs-3 text mt-1 mb-0">자전거 가게</p>
+                                <div class="center">
+                                 	<c:choose>
+                                		<c:when test="${joinList.imgurl eq null}">
+                                			<img class="d-flex mt-1"
+                                         	src="${cpath}/resources/images/default.png"
+                                         	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
+                                		</c:when>
+                                		<c:otherwise>
+                                		   <img class="d-flex mt-1"
+                                         	src="${cpath}/resources/images/${joinList.imgurl}"
+                                         	alt="프로필" style="width: 120px; height: 120px; border-radius:50%">
+                                		</c:otherwise>
+                                	</c:choose> 
+                                </div>
+                                <p class="fs-3 text mt-1 mb-0">${joinList.shopName}</p>
                                 <p class="fs-5 text mb-0">별점</p>
-                                <fieldset class="rate">
-                                    <input type="radio" id="rating10" name="rating" value="10"><label
-                                        for="rating10" title="5점"></label> <input type="radio" id="rating9"
-                                                                                  name="rating" value="9" checked><label
-                                        class="half"
-                                        for="rating9" title="4.5점"></label> <input type="radio"
-                                                                                   id="rating8" name="rating" value="8"><label
-                                        for="rating8"
-                                        title="4점"></label> <input type="radio" id="rating7" name="rating"
-                                                                   value="7"><label class="half" for="rating7"
-                                                                                    title="3.5점"></label>
-                                    <input type="radio" id="rating6" name="rating" value="6"><label
-                                        for="rating6" title="3점"></label> <input type="radio" id="rating5"
-                                                                                 name="rating" value="5"><label
-                                        class="half" for="rating5"
-                                        title="2.5점"></label> <input type="radio" id="rating4"
-                                                                     name="rating" value="4"><label for="rating4"
-                                                                                                    title="2점"></label>
-                                    <input type="radio" id="rating3" name="rating" value="3"><label
-                                        class="half" for="rating3" title="1.5점"></label> <input
-                                        type="radio" id="rating2" name="rating" value="2"><label
-                                        for="rating2" title="1점"></label> <input type="radio" id="rating1"
-                                                                                 name="rating" value="1"><label
-                                        class="half" for="rating1"
-                                        title="0.5점"></label>
-                                </fieldset>
+                                	<div>
+	                                	<fieldset class="rate">
+	                                        <input type="radio" id="rating310" name="rating2" value="10" onclick="return(false);"
+	                                        ><label for="rating310"
+	                                                title="5점"></label>
+	                                        <input type="radio" id="rating39" name="rating2" value="9" onclick="return(false);"
+	                                               checked><label class="half" for="rating39" title="4.5점"></label>
+	                                        <input type="radio" id="rating38" name="rating2" value="8" onclick="return(false);"
+	                                        ><label for="rating38"
+	                                                title="4점"></label>
+	                                        <input type="radio" id="rating37" name="rating2" value="7" onclick="return(false);"
+	                                        ><label class="half" for="rating37"
+	                                                title="3.5점"></label>
+	                                        <input type="radio" id="rating36" name="rating2" value="6" onclick="return(false);"
+	                                        ><label for="rating36"
+	                                                title="3점"></label>
+	                                        <input type="radio" id="rating35" name="rating2" value="5" onclick="return(false);"
+	                                        ><label class="half" for="rating35"
+	                                                title="2.5점"></label>
+	                                        <input type="radio" id="rating34" name="rating2" value="4" onclick="return(false);"
+	                                        ><label for="rating34"
+	                                                 title="2점"></label>
+	                                        <input type="radio" id="rating33" name="rating2" value="3" onclick="return(false);"
+	                                        ><label class="half" for="rating33"
+	                                                title="1.5점"></label>
+	                                        <input type="radio" id="rating32" name="rating2" value="2" onclick="return(false);"
+	                                        ><label for="rating32" title="1점"></label>
+	                                        <input type="radio" id="rating31" name="rating2" value="1" onclick="return(false);">
+	                                        <label class="half" for="rating31" title="0.5점"></label>
+	                                    </fieldset>
+                                    </div>
                                 <p class="fs-6 text">4.5 / 5.0</p>
 
-                                <p class="fs-5 text">서울시 강동구</p>
-                                <p class="fs-5 text">연락가능시간 10시 ~ 21시</p>
+                                <p class="fs-5 text">${joinList.office}</p>
+                                <p class="fs-5 text">연락가능시간 ${joinList.startTime}시 ~ ${joinList.endTime}시</p>
                                 <p class="fs-5 text">고수상세정보</p>
-                                <p class="small mb-1 lh-2 mx-2">안녕하세요. 강동구에서 자전거 정비업체를 운영하고 있습니다.
-                                    출장/방문 수리 모두 가능합니다. 업계 최고 수준으로 모시겠습니다. 감사합니다.</p>
-
+                                <p class="small mb-1 lh-2 mx-2">${joinList.intro}</p>
+								
+							<c:if test="${joinList.state eq 'completed'}">
                                 <button type="button" class="btn btn-outline-primary mx-3" style=""
-                                        id="requestCompletedBtn">의뢰완료
+                                        id="requestCompletedBtn" onclick="requestComplete()" disabled>의뢰완료
                                 </button>
+							</c:if>
+							<c:if test="${joinList.state eq 'onGoing'}">
+                                <button type="button" class="btn btn-outline-primary mx-3" style=""
+                                        id="requestCompletedBtn" onclick="requestComplete()">의뢰완료
+                                </button>
+							</c:if>
                             </div>
                         </div>
                     </div>
@@ -193,6 +263,8 @@ pageEncoding="UTF-8"%>
         </div> <!-- //row -->
     </div> <!-- //container -->
 </div><!-- //suriSize -->
+
+
 </body>
 
 <%@ include file="../common/footer.jsp" %>
@@ -203,8 +275,10 @@ pageEncoding="UTF-8"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
+
+
     // websocket & stomp initialize
-    var sock = new SockJS("http://" + location.host + "/surion/ws-stomp");
+    var sock = new SockJS("http://" + location.host + "${cpath}/ws-stomp");
     var ws = Stomp.over(sock);
     var reconnect = 0;
 
@@ -219,35 +293,52 @@ pageEncoding="UTF-8"%>
         room_id = localStorage.getItem('wschat.room_id');
         member_id = localStorage.getItem('wschat.member_id');
         findRoom();
-        console.log("------------" + room_id);
+        scrollToBottom();
     });
 
+    function korTime(){
+    	const now = new Date(); // 현재 시간
+    	const utcNow = now.getTime() + (now.getTimezoneOffset() * 60 * 1000); // 현재 시간을 utc로 변환한 밀리세컨드값
+    	const koreaTimeDiff = 9 * 60 * 60 * 1000; // 한국 시간은 UTC보다 9시간 빠름(9시간의 밀리세컨드 표현)
+    	const koreaNow = new Date(utcNow + koreaTimeDiff); // utc로 변환된 값을 한국 시간으로 변환시키기 위해 9시간(밀리세컨드)를 더함
+		return koreaNow;
+    }
+    
     function findRoom() {
         $.ajax({
-            url: '/surion/chat/room/' + room_id,
+            url: '${cpath}/chat/room/' + room_id,
             type: 'get',
             error: function () {
                 alert('채팅방 입장 실패');
             },
             success: function (res) {
                 room = res.data;
-                console.log("room info---" + room);
+                console.log(res);
             }
         });
     }
 
+    console.log($);
+    
     function sendMessage() {
         message = $('#messageVal').val();
-        let newDate = new Date();
-        ws.send("/pub/chat/message", {}, JSON.stringify({
-            type: 'TALK',
-            room_id: room_id,
-            member_id: member_id,
-            message: message,
-            send_time: newDate
-        }));
-       	insertMsg();
-        message = '';
+        messageArea.value = '';
+        if(message == '\n'){
+        	return;
+        } else {
+        	
+	        ws.send("/pub/chat/message", {}, JSON.stringify({
+	            type: 'TALK',
+	            room_id: room_id,
+	            member_id: member_id,
+	            message: message,
+	            send_time: korTime()
+	        }));
+	       	insertMsg();
+	        message = '';
+        
+        }
+           	
     }
 
     function insertMsg(){
@@ -258,11 +349,11 @@ pageEncoding="UTF-8"%>
                  "message": message,
                  "room_id": room_id,
                  "member_id": member_id,
-                 "send_time": new Date
+                 "send_time": korTime()
              },
              success: console.log("insertMessageSuccess"),
              error: function () {
-                 alert('error')
+                 alert('insertMsg error')
              }
          });
     }
@@ -270,7 +361,7 @@ pageEncoding="UTF-8"%>
     function recvMessage(recv) {
         messages.unshift({
             "type": recv.type,
-            "romm_id": recv.type == 'ENTER' ? '[알림]' : recv.member_id,
+            "room_id": recv.type == 'ENTER' ? '[알림]' : recv.member_id,
             "message": recv.message,
             "send_time": recv.send_time
         })
@@ -282,20 +373,31 @@ pageEncoding="UTF-8"%>
         var msgArea = document.querySelector('.msgArea');
         var newMsg = document.createElement("span");
         var addDiv = '';
+        let img = "${joinList.imgurl}";
 /* 		let id = document.getElementById('memberId').value;
  */        if (recv.member_id == '${member.id}') { 
            	addDiv += '<div class="d-flex flex-row justify-content-end mb-3">';
-            addDiv += ' <div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb;">';
-            addDiv += ' <p class="small mb-0">' + recv.message + '</p>';
-            addDiv += '</div>'
-            addDiv += '</div>'
+           	addDiv += '<div class="row align-items-end">'
+           	addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
+            addDiv += '</div>';
+            addDiv += '<div class="p-3 me-3 border" style="border-radius: 15px; background-color: #fbfbfb; max-width:300px;">';
+            addDiv += '<p class="small mb-0 text-wrap">' + recv.message + '</p>';
+            addDiv += '</div>';
+            addDiv += '</div>';
         } else {
-           	addDiv += '<div class="d-flex flex-row justify-content-start mb-3">';
-            addDiv += '<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" style="width: 45px; height: 100%;">';
+           	addDiv += '<div class="d-flex flex-row justify-content-start mb-3" style="max-width:300px">';
+           	if(img != ""){
+            	addDiv += '<img src="${cpath}/resources/images/${joinList.imgurl}" style="width: 45px; height: 100%; border-radius:50%;">';
+           	} else {
+           		addDiv += '<img src="${cpath}/resources/images/default.png" style="width: 45px; height: 100%; border-radius:50%;">';
+           	}
             addDiv += '<div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">';
-            addDiv += '<p class="small mb-0">' + recv.message + '</p>';
+            addDiv += '<p class="small mb-0 text-wrap" style="max-width:300px;">' + recv.message + '</p>';
             addDiv += '</div>';
+            addDiv += '<div class="row align-items-end">';
+            addDiv += '<p class="col mb-0 me-0" style="font-size:small;">'+recv.send_time.getHours()+':'+recv.send_time.getMinutes()+'</p>'
             addDiv += '</div>';
+        /*     addDiv += '</div>'; */
         }
         newMsg.innerHTML = addDiv;
         msgArea.append(newMsg);
@@ -303,7 +405,7 @@ pageEncoding="UTF-8"%>
     }
 
     const scrollToBottom = () => { //채팅창 스크롤 고정 함수
-        document.getElementById('chatMonitor').scrollBy({top: 100});
+        document.getElementById('chatMonitor').scrollBy({top: 1000000});
     };
 
 
@@ -313,24 +415,52 @@ pageEncoding="UTF-8"%>
         if (event.keyCode === 13) {
             event.preventDefault();
             document.getElementById("sendBtn").click();
-            messageArea.value = '';
         }
     });
 
-
+	function requestComplete(){
+		if(confirm('의뢰가 완전히 완료 되었나요?')){
+			$.ajax({
+				url:"${cpath}/chat/stateUpdate",
+				type:"post",
+				data:{
+					"room_id" : "${joinList.room_id}",
+					"member_id" : "${member.id}",
+					"othermem_id" : "${joinList.othermem_id}",
+					"state" : "completed"
+				},
+				success: function(result){
+					if(result == "completed"){
+						alert('거래가 완료 되었습니다. 채팅은 계속 가능합니다.');
+						$("#requestCompletedBtn").attr("disabled", true);
+						location.href = "${cpath}";
+					} else {
+						alert('상대방이 거래 완료 할 때까지 기다려주세요');
+						$("#requestCompletedBtn").attr("disabled", true);
+					}
+				},
+				error: function(){
+					alert('거래완료 실패');
+				}
+			})
+		}else{
+			return;
+		}
+	}
+    
 
     function connect() {
         // pub/sub event
         ws.connect({}, function (frame) {
-            ws.subscribe("/sub/chat/room/" + room_id, function (
-                message) {
+            ws.subscribe("/sub/chat/room/" + room_id, function (message) {
                 var recv = JSON.parse(message.body);
+                recv.send_time = new Date();
                 recvMessage(recv);
             });
             ws.send("/pub/chat/message", {}, JSON.stringify({
                 type: 'ENTER',
                 room_id: room_id,
-                member_id: member_id
+                member_id: member_id,
             }));
 
         }, function (error) {

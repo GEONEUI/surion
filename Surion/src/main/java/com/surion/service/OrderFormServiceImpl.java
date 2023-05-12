@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,36 +13,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.surion.entity.Criteria;
+import com.surion.domain.member.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
+import com.surion.entity.PageMaker;
+import com.surion.repository.MemberRepository;
 import com.surion.repository.OrderFormRepository;
 
 @Service
 public class OrderFormServiceImpl implements OrderFormService{
-	@Autowired
+ 	@Autowired
 	OrderFormRepository orderFormRepository;
 	
-//	//정비사 등록폼 저장
-//	@Override
-//	public void save(OrderJoin orderJoin) {
-//		orderFormRepository.save(orderJoin);
-//	}
-//	
+	@Autowired
+	MemberRepository memberRepository;
+
+	
+	
 	//게시물 등록폼 저장
 	@Override
 	public void save(OrderForm orderForm) {
 		orderFormRepository.save(orderForm);
 	}
 	
-	@Override
-	public void orderList(Model model, OrderListPaging pa) {
-		List<OrderForm> lst = orderFormRepository.findByAll();
-		System.out.println(lst);
-		model.addAttribute("list", lst);
-		
-	}
-	
+
+	//거래내역
 	@Override
 	public void transaction(Model model) {
 		// TODO Auto-generated method stub
@@ -51,14 +49,12 @@ public class OrderFormServiceImpl implements OrderFormService{
 	
 	//이미지 업로드 되는 메소드
 	@Override
-	public String upload(HttpServletRequest request, RedirectAttributes rttr) {
-		
+	public String upload(HttpServletRequest request, RedirectAttributes rttr, HttpSession session) {
 		MultipartRequest multi = null;
-		
+		Member member = (Member) session.getAttribute("member");
 		String Save = request.getRealPath("/resources/images/order");
 		int MaxSize = 1024 * 1024 * 5;
 		
-
 		try {
 			multi = new MultipartRequest(request, Save, MaxSize, "UTF-8", new DefaultFileRenamePolicy());
 			System.out.println(Save);
@@ -66,36 +62,30 @@ public class OrderFormServiceImpl implements OrderFormService{
 			e.printStackTrace();
 		}
 		
-		
 		File newFile = multi.getFile("imageUp");
-		String member_id = multi.getParameter("member_id");
 		String experience = multi.getParameter("experience");
 	    String shopName = multi.getParameter("shopName");
 	    String intro = multi.getParameter("intro");
 	    String startTime = multi.getParameter("startTime");
 	    String endTime = multi.getParameter("endTime");
 	    String category = multi.getParameter("category");
-	    String address = multi.getParameter("address");
+	    String office = multi.getParameter("office");
 	    String imgname = null;
-
-	    
-	    if(member_id.equals("") || member_id == "" ||
-	        experience.equals("") || experience == "" ||
-	        shopName.equals("") || shopName == "" ||
-	        intro.equals("") || intro =="" ||
-	        startTime.equals("") || startTime == "" ||
-	        endTime.equals("")|| endTime =="" ||
-	        category.equals("")|| category ==""){
-	    	 return "redirect:/order2/orderFormProc";
+	    if (member == null) { // 로그인하지 않은 경우
+	        return "redirect:${cpath}/common/login";
 	    }
-	    
-		
+	    //프로필을 등록했는지 확인 
+	    int count = orderFormRepository.findByBoard(member.getId());
+
+	    // 이미 등록된 OrderForm 정보가 있다면 알림 메시지 출력
+	    if (count != 0) {
+	        rttr.addFlashAttribute("msg", "이미 등록된 정보가 있습니다.");
+	        return "redirect:/";
+	    }
 		//정상적으로 업로드가 되면
 		if(newFile != null) {
 			String lastName = newFile.getName().substring(newFile.getName().lastIndexOf(".")+1).toUpperCase();
-			//이전의 올린 게시글에  정보를 불러오는 메서드가 있어야한다.
-			//OrderForm oldBoard = orderFormRepository.findByBoard(member_id);
-			//File oldFile = new File(Save + "/" + 예전파일이름);
+
 			
 			rttr.addFlashAttribute("msg", "등록이 완료되었습니다.");
 			if(lastName.equals("PNG") || lastName.equals("JPG")) {
@@ -119,7 +109,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 
 		
 		OrderForm orderForm = new OrderForm();
-	    orderForm.setMember_id(member_id);
+	    orderForm.setId(member.getId());
 	    orderForm.setShopName(shopName);
 	    orderForm.setIntro(intro);
 	    orderForm.setStartTime(startTime);
@@ -127,56 +117,158 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    orderForm.setCategory(category);
 	    orderForm.setExperience(experience);
 	    orderForm.setImg(imgname);
-	    orderForm.setAddress(address);
-
-		
-		System.out.println(orderForm);
+	    orderForm.setOffice(office);
+		System.out.println(member.getId());
 		orderFormRepository.save(orderForm);
-		
+		orderFormRepository.updateMechanic(orderForm);
 		return "redirect:/order2/orderList";
 	}
 	
-
+	//사업자번호 중복체크
 	@Override
 	public int check(OrderJoin orderJoin) {
 		int result = orderFormRepository.check(orderJoin);
 		return result;
 	}
 
-
+	//정비사등록
 	@Override
-	public String join(OrderJoin oj, RedirectAttributes rttr) {
-		if(oj.getMechanic_id().equals("") || oj.getMechanic_id() == "" ||
-				   oj.getShopName().equals("") || oj.getShopName() == "" ||
-				   oj.getName().equals("") || oj.getName() == "" ||
-			       oj.getAddress().equals("") || oj.getAddress() == "") {
-					rttr.addFlashAttribute("msgTitle", "Error Message!");
-					rttr.addFlashAttribute("msg", "입력창에 공백이 있습니다.");
-					rttr.addFlashAttribute("mechanic", oj.getMechanic_id());
-					rttr.addFlashAttribute("shop", oj.getShopName());
-					rttr.addFlashAttribute("na", oj.getName());
-					rttr.addFlashAttribute("ad", oj.getAddress());
-					return "redirect:/member/join";
-				}else {
-					orderFormRepository.join(oj);
-					rttr.addFlashAttribute("msgTitle", "Success Message!");
-					rttr.addFlashAttribute("msg", "회원가입 성공!");
-					return "redirect:/";
-				}
-				
+	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
+
+		Member member = (Member) session.getAttribute("member");
+		Member mechanic = (Member) session.getAttribute("mechanic");
+		orderJoin.setId(member.getId());
+		System.out.println(member.getId());
+		int result = orderFormRepository.findByBoard(member.getId());
+	    if (orderJoin.getMechanic_id().isEmpty() ||
+	            orderJoin.getShopName().isEmpty() ||
+	            orderJoin.getName().isEmpty() ||
+	            orderJoin.getOffice().isEmpty()) {
+	        rttr.addFlashAttribute("msgTitle", "Error Message!");
+	        rttr.addFlashAttribute("msg", "입력창에 공백이 있습니다.");
+	        rttr.addFlashAttribute("mechanic", orderJoin.getMechanic_id());
+	        rttr.addFlashAttribute("shop", orderJoin.getShopName());
+	        rttr.addFlashAttribute("na", orderJoin.getName());
+	        rttr.addFlashAttribute("of", orderJoin.getOffice());
+	        return "redirect:/order2/orderJoin";
+	    } else { 
+	        try {
+	            orderFormRepository.join(orderJoin);
+	            orderFormRepository.update1(orderJoin);
+	            orderFormRepository.updateOffice(member.getId(), orderJoin.getOffice());
+	                        
+	            rttr.addFlashAttribute("msgTitle", "Success Message!");
+	            rttr.addFlashAttribute("msg", "정비사등록 성공!");
+	            member = memberRepository.findById(member);
+	            mechanic = memberRepository.findById(member);
+	            result = orderFormRepository.findByBoard(member.getId());
+	            session.removeAttribute("result");
+	            session.setAttribute("result", result);
+	            session.removeAttribute("member");
+	            session.setAttribute("member", member);
+	            session.removeAttribute("mechanic");
+	            session.setAttribute("mechanic", mechanic);
+	            
+	            return "redirect:/";
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            rttr.addFlashAttribute("msgTitle", "Error Message!");
+	            rttr.addFlashAttribute("msg", "정비사등록 중 오류가 발생했습니다.");
+	            return "redirect:/order2/orderJoin";
+	        }
+	    }
+	}
+	
+	//정비사등록시 멤버테이블 정보가져오기
+	@Override
+	public void update1(OrderJoin orderJoin) {
+		orderFormRepository.update1(orderJoin);
+	}
+	//조회수 증가
+	@Override
+	public void readCount(OrderForm orderForm) {
+		orderFormRepository.increaseCount(orderForm);
+		
+	}
+	//업체 검색
+	@Override
+	public void search(Model model, Criteria cri ,HttpServletRequest request) {
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(orderFormRepository.searchCount(cri));
+		List<OrderForm> list = orderFormRepository.search(cri);
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);			
+	}
+	//프로필 상세보기
+	@Override
+	public void orderDetail(Model model, String id) {
+		OrderForm orderForm = orderFormRepository.findById(id);
+		model.addAttribute("profile", orderForm);
+	}
+	
+	//카테고리
+	@Override
+	public List<OrderForm> category(HttpServletRequest request, Model model) {
+	    String kind = request.getParameter("kind");   
+	    if(kind.equals("최신순")) {
+	        List<OrderForm> lst = orderFormRepository.categoryRecent();
+	        return lst;
+	    }
+	    else if(kind.equals("인기순")) {
+	        List<OrderForm> lst = orderFormRepository.categoryPopular();
+	        return lst;
+	    }
+	    else {
+	        List<OrderForm> lst = orderFormRepository.category(kind);
+	        return lst;
+	    }
+	}
+
+	//페이징
+	@Override
+	public void orderList(Model model, OrderListPaging pa, HttpServletRequest request, HttpSession session,
+			Criteria Cri) {
+		
+		
+		Member member = (Member) session.getAttribute("member");
+		if(member != null) {
+			int result = orderFormRepository.findByBoard(member.getId());
+			int check = orderFormRepository.findByMechanic(member.getId());
+			model.addAttribute("result", result);
+			model.addAttribute("check", check);
+		}
+		
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(Cri);
+		pageMaker.setTotalCount(orderFormRepository.findByCount());
+		
+		
+		
+		
+		
+		List<OrderForm> lst = orderFormRepository.findByAll(Cri);
+		System.out.println(lst);
+		
+		
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("list", lst);
+		
 	}
 
 	
-
-//	@Override
-//	public void join(OrderJoin orderJoin, RedirectAttributes rttr) {
-//		
-//	}
-
-	
-
-	
-
-
-	
 }
+
+	
+	
+	
+
+
+
+	
+
+	
+
+
+	
