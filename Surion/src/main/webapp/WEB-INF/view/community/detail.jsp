@@ -266,7 +266,7 @@
                         		<img src="${cpath}/resources/communityImages/default.png" alt="글쓴이 프로필 이미지">
                         	</c:if>
                         	<c:if test="${originMember.imgurl ne null}">
-                        		<img src="${cpath}/resources/communityImages/${originMember.imgurl}" alt="글쓴이 프로필 이미지">
+                        		<img src="${cpath}/resources/images/${originMember.imgurl}" alt="글쓴이 프로필 이미지">
                         	</c:if>
                             
                             <div class="namedate">
