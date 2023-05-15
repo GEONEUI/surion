@@ -1,6 +1,6 @@
 package com.surion.domain.item;
 
-import com.surion.domain.member.Mechanic;
+import com.surion.domain.mechanic.Mechanic;
 import lombok.Getter;
 import lombok.Setter;
 

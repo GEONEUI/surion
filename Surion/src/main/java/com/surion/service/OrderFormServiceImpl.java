@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.surion.entity.Criteria;
-import com.surion.entity.Member;
+import com.surion.domain.member.Member;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
 import com.surion.entity.OrderListPaging;
@@ -136,6 +136,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	//정비사등록
 	@Override
 	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
+
 		Member member = (Member) session.getAttribute("member");
 		Member mechanic = (Member) session.getAttribute("mechanic");
 		orderJoin.setId(member.getId());
