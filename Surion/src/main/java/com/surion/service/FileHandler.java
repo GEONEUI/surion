@@ -22,7 +22,7 @@ import java.util.List;
  * 주요 로직 :
  * 1. 전달된 MultipartFile 리스트에서 파일 데이터 추출
  * 2. 파일 확장자 및 파일명을 지정 ( 파일명 : 파일명 중복을 피하기 위해 나노초와 파일명 결합 )
- * 3. 파일 저장 경로 지정 ( 폴더명 : 날짜형식 YYYYMM, 경로 : resources/images/YYYYMM )
+ * 3. 파일 저장 경로 지정 ( 폴더명 : 날짜형식 YYYYMMDD, 경로 : resources/images/YYYYMMDD )
  * 4. 파일 저장 경로가 존재하지 않을 경우 폴더 생성
  * 5. 업로드한 파일 데이터를 저장 경로에 저장
  * 6. 파일 정보를 Photo 객체로 변환 후, 리스트에 추가

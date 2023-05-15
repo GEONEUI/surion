@@ -11,5 +11,6 @@ public class MemberChatRoomMessageJoin {
 	private String message;
 	private String send_time;
 	private String room_id;
+	private String roll;
 	private String shopName;
 }

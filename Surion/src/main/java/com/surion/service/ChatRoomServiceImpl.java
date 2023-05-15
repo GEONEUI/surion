@@ -35,7 +35,13 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
 	@Override
 	public List<MemberChatRoomMessageJoin> findRoom(String member_id) {
-		return chatRoomRepository.findAllRooms(member_id);
+		List<MemberChatRoomMessageJoin> list = chatRoomRepository.findAllRooms(member_id);
+		for (MemberChatRoomMessageJoin mj : list) {
+			if (mj.getRoll().equals("engineer")) {
+				mj.setShopName(chatRoomRepository.findShopNameByid(mj));
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -44,10 +50,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 		Member member = (Member)session.getAttribute("member");
 		String myId = member.getId();
     	String roomId = UUID.randomUUID().toString();
-//    	res += chatRoomRepository.createChatRoom(
-//    			ChatRoom.builder().room_id(roomId).member_id(opponentId).build());
+    	res += chatRoomRepository.createChatRoom(
+    			ChatRoom.builder().room_id(roomId).member_id(opponentId).othermem_id(myId).build());
 		res += chatRoomRepository.createChatRoom(
 				ChatRoom.builder().room_id(roomId).member_id(myId).othermem_id(opponentId).build());
+		chatRoomRepository.fakeInsertMsg(myId);
+		chatRoomRepository.fakeInsertMsg(opponentId);
 		return res;
 	}
 
@@ -62,8 +70,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 	        	if(!member.equals(sessionMem.getId())) {
 	        		OrderRoomMemberJoin list = chatRoomRepository.findOrderJoinByIds(member, sessionMem.getId());
 	        		model.addAttribute("joinList", list);
-	        		OrderRoomMemberJoin otherState = chatRoomRepository.findOrderJoinByIds(sessionMem.getId(), member);
-	        		model.addAttribute("otherState", otherState.getState());
+	        		String otherState = chatRoomRepository.findStateById(member, sessionMem.getId());
+	        		model.addAttribute("otherState", otherState);
 	        		System.out.println(list.getShopName());
 	        		System.out.println(list.getRoom_id());
 	        	}

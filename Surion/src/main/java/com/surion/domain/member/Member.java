@@ -34,6 +34,7 @@ public class Member {
     private String imgurl;
     private Integer grade;
     private int point;
+    private String office;
     @Column(name = "retrieved_id")
     private Integer retrievedId;
 

@@ -283,8 +283,19 @@
 									style="width: 25%; margin-left: 15px;">삭제</button>
 									</form>
 							</c:when>
+							
 							<c:otherwise>
-								<button class="sBtn" data-profile-status="${result}"> 제안하기</button>
+								<c:if test="${empty member}">
+									<button class="sBtn" onclick="gogo();"> 제안하기</button>
+								</c:if>
+								<c:if test="${!empty member}">
+									<c:if test="${member.office eq  ''}">
+										<button class="sBtn" onclick="goAsk();"> 제안하기</button>
+									</c:if>
+									<c:if test="${member.office ne  ''}">
+										<button class="sBtn" onclick="goOrder();"> 제안하기</button>
+									</c:if>
+								</c:if>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -311,6 +322,10 @@
 
 <script>	
 
+
+
+
+
 function formClick(str) {
 	const frm = document.querySelector('.frm');
 	if (str == "update") {
@@ -334,21 +349,25 @@ function formClick(str) {
 	const mechanicStatus = "${mechanic.id}";
 	const profileStatus = "${result}";
 	
-	sBtn.addEventListener('click', () => {
-		// 로그인 확인
-		if (loginStatus === "") {
-		  	alert("로그인을 해주세요.");
-		  	return	
-		}
-		// 엔지니어 정보 확인
-		if(mechanicStatus === "" || profileStatus == 0){
-			alert("엔지니어/프로필 등록을 해주세요.")
-			return
-		}
-	 	// 로그인 상태인 경우 처리
+	
+	
+	function goAsk(){
+		alert("엔지니어/프로필 등록을 해주세요.");
+	}
+
+	function gogo(){
+		alert("로그인을 해주세요.");
+	}
+
+	function goOrder(){
 		modal.classList.add('show');
 		document.body.style.overflow = 'hidden';
-	});
+	}
+	
+	
+	
+	
+	
 	
 	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
 	const cancel_btn = document.querySelector('.cancel-btn');

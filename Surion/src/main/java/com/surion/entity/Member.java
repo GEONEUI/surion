@@ -14,7 +14,7 @@ public class Member {
 	private String name;
 	private String shopName;
 	private String office;
-
+	private String roll;
 }
 
 

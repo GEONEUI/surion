@@ -119,14 +119,14 @@ pageEncoding="UTF-8"%>
         <div class="row justify-content-between" style="min-height: 500px;">
             <%@ include file="../common/sidebar.jsp" %>
             <div class="col-lg-9" id="my_page_right">
-                <div class="d-flex">
+                <div class="">
                     <div class="row justify-content-between" style="min-height: 500px;">
                         <div class="col-lg-8 px-3">
                             <!--채팅창-->
-                            <div class="d-flex">
+                            <div class="">
                                 <div style="max-height: 600px;">
                                     <div class="card" id="chat1" style="border-radius: 15px; min-height: 550px;">
-                                        <div class="card-body" id="rarara" style="min-width: 528px;max-width:529px">
+                                        <div class="card-body" id="rarara">
                                             <div style="overflow-y: auto; max-height: 373px;" class="msgArea"
                                                  id="chatMonitor">
                                                  <c:set var="versus" value="0"/>

@@ -47,6 +47,10 @@
 	color: #f73c32 !important;
 }
 
+.text{
+	margin:0;
+}
+
 body {
 	margin-top: 20px;
 	color: #1a202c;
@@ -143,6 +147,16 @@ body {
 	cursor: pointer;
 }
 
+.mrau{
+	margin-left:auto;
+	
+}
+
+.ft{
+font-size:15px;
+color:#555;
+}
+
 #paddingnone {
 	padding: 0;
 }
@@ -194,28 +208,37 @@ body {
 							
 						}
 					});
-					viewHtml += '<div onclick="enterRoom('+"'"+obj.room_id+"'"+')" class="col chatRoom shadow-sm p-3 mb-1 bg-body rounded" style="height:100px;">'; 
-					viewHtml += '<div class="d-flex">';
+
+					viewHtml += '<div onclick="enterRoom('+"'"+obj.room_id+"'"+')" class="col chatRoom shadow-sm mb-3 p-2 bg-body rounded">'; 
+					viewHtml += '<div class="d-flex align-items-center">';
 					if(obj.imgurl != null){						
 						viewHtml +=	'<img src="${cpath}/resources/images/'+obj.imgurl+'" alt="프로필" width="45px" height="45px" style="border-radius: 50%">';
 					} else {
 						viewHtml +=	'<img src="${cpath}/resources/images/default.png" alt="프로필" width="45px" height="45px" style="border-radius: 50%">';
 					}
-					viewHtml += '<p class="fs-3 text ms-3">'+obj.shopName+'</p>'
+
+					if(obj.shopName == null){
+						viewHtml += '<p class="fs-3 text ms-3">'+ obj.othermem_id + '</p>'
+					}else {					
+						viewHtml += '<p class="fs-3 text ms-3">'+obj.shopName +'(' + obj.othermem_id +')</p>'
+					}
 					viewHtml += '</div>';
 					viewHtml += '<div class="d-flex justify-content-between">';
+
 					
 
 					if(PreMessage == null){						
 						viewHtml += '</div>';
 						viewHtml += '</div>';
 					} else {
-						viewHtml += '<p class="fs-5 mb-5 text">'+PreMessage.substr(0, 20)+'</p>';
-						viewHtml += '<p class="fs-6 text">'+sendTime.substr(4, 17) +'</p>'
+						viewHtml += '<p class="text ft">'+PreMessage.substr(0, 20)+'</p>';
+						viewHtml += '<p class="text mrau">'+sendTime.substr(4, 17) +'</p>';
 						viewHtml += '</div>';
 						viewHtml += '</div>';
 						
 					}
+		
+
 					/* console.log(PreMessage);
 					console.log(sendTime); */
 				    target.innerHTML = viewHtml;	  
