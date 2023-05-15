@@ -120,8 +120,8 @@
             <strong>메인페이지</strong>
             <ul>
                 <li>카테고리별 게시글 확인가능</li>
-                <li>카테고리별 인기순위 확인가능</li>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/maincate.png" width="600"></p>
+                <li>카테고리별 인기순위 확인가능</li><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/maincate.png" width="600"></p><br>
                 <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/maincommunity.png" width="600"></p>
             </ul>
         </li>
@@ -129,10 +129,10 @@
             <strong>로그인</strong>
             <ul>
                 <li>로그인,로그아웃,회원가입 기능구현</li>
-                <li>아이디 중복체크 구현</li>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/account/join.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/account/login.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/account/logout.png" width="600"></p>
+                <li>아이디 중복체크 구현</li><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/account/join.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/account/login.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/account/logout.png" width="600"></p><br>
             </ul>
         </li>
         <li>
@@ -140,10 +140,10 @@
             <ul>
                 <li>회원정보 변경 구현(지도 API 사용 주소변경 구현)</li>
                 <li>작성한 글 보기 구현</li>
-                <li>변경할 프로필 미리보기 구현</li>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/mypage/myedit.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/mypage/myprofile.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/mypage/mywrite.png" width="600"></p>
+                <li>변경할 프로필 미리보기 구현</li><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/mypage/myedit.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/mypage/myprofile.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/mypage/mywrite.png" width="600"></p><br>
             </ul>
         </li>
         <li>
@@ -151,9 +151,9 @@
             <ul>
                 <li>게시글 CRUD</li>
                 <li>비동기통신 댓글</li>
-                <li>버튼 페이징은 현재 글 갯수5개 페이징번호 5개씩으로 구현</li>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/board/board.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/board/boardreply.png" width="600"></p>
+                <li>버튼 페이징은 현재 글 갯수5개 페이징번호 5개씩으로 구현</li><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/board/board.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/board/boardreply.png" width="600"></p><br>
             </ul>
         </li>
         <li>
@@ -164,11 +164,11 @@
                 <li>다음지도 API활용 업체위치 표시</li>
                 <li>상품 등록, 수정, 삭제, 견적제안</li>
                 <li>정렬기능(인기순, 최신순, 카테고리별)</li>
-                <li>버튼 페이징(비동기)</li>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairform registerdetail.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairlist.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairdetailmap.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairsearch.png" width="600"></p>
+                <li>버튼 페이징(비동기)</li><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairform registerdetail.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairlist.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairdetailmap.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairsearch.png" width="600"></p><br>
             </ul>
         </li>
         <li>
@@ -178,10 +178,10 @@
                 <li>의뢰 등록, 수정, 삭제, 견적받기</li>
                 <li>정렬기능(인기순, 최신순, 카테고리별)</li>
                 <li>리뷰 등록</li>
-                <li>버튼 페이징(비동기)</li>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/buttonSorting.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/buttonPaging.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/requestUpdateDelete.png" width="600"></p>
+                <li>버튼 페이징(비동기)</li><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/buttonSorting.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/buttonPaging.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/requestUpdateDelete.png" width="600"></p><br>
             </ul>
         </li>
         <li>
@@ -189,9 +189,9 @@
             <ul>
                 <li>1:1 채팅구현</li>
                 <li>상대방 프로필 확인</li>
-                <li>거래 완료 기능</li>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/chatting.png" width="600"></p>
-                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/estimateList.png" width="600"></p>
+                <li>거래 완료 기능</li><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/chatting.png" width="600"></p><br>
+                <p><img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/estimateList.png" width="600"></p><br>
             </ul>
         </li>
     </ul>
