@@ -29,7 +29,6 @@ import java.util.List;
  * 7. Photo 객체 리스트 반환
  */
 
-
 @Component
 public class FileHandler {
     private final HttpServletRequest request;
@@ -73,6 +72,14 @@ public class FileHandler {
             String path = "resources" + File.separator + "images" + File.separator + current_date;
             File file = new File(absolutePath + path);
             System.out.println("path = " + path);
+
+
+            // 존재하지 않는 디렉토리일 때
+            if(!file.exists()) {
+                boolean wasSuccessful = file.mkdirs();
+                if(!wasSuccessful)
+                    System.out.println("file: was not successful");
+            }
 
             /*
              ** 다중 파일 저장
