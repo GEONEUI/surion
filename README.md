@@ -2,8 +2,6 @@
 
 <p>수리온 - 인력 매칭과 자원 활용 플랫폼</p>
 
-
-
 # 구성원
 
 * 팀장 유건의 : 전체적인 프론트 디자인, 마이페이지, 커뮤니티 페이지
@@ -11,7 +9,6 @@
 * 팀원 김예준 : 클라이언트 페이지, 수리 요청페이지
 * 팀원 김보람 : 실시간 채팅, 거래 매칭시스템
 * 팀원 김홍기 : 정비사 페이지, 업체등록 페이지
-
 
 <br>
 
@@ -45,19 +42,20 @@
     </li>
 </ul>
 
+<br>
+
 # 배포환경
 <div>
     <ul>
         <li>Cafe24 호스팅</li>
-        <li>Tomcat 8.5.x / JSP 2.3 / Servlet 3.0 / JDK 8 / MariaDB 10.1.x UTF-8 / Bootstrap 5.3</li>
+        <li>Tomcat 8.5.x / JSP 2.3 / Servlet 3.0 / JDK 8 / MariaDB 10.1.x UTF-8 </li>
     </ul>
 </div>
-<br>
-# 사용한 기술스택
 
+<br>
 
 # 기술 스택
-<br>
+
 <div>
 
 | JAVA       | Bootstrap     | Spring Boot | Spring Data Jpa   | JSP      | MariaDB     | Mybatis    |
@@ -65,15 +63,17 @@
 | ![java]    | ![Bootstrap]  | ![Boot]     | ![Jpa]            | ![JSP]   | ![MariaDB]  | ![Mybatis] |
     
 </div>
+
+
 <div>
     <ul>
         <li>JAVA</li>
-        <li>Bootstrap</li>
-        <li>Spring Boot</li>
+        <li>Bootstrap 5.3</li>
+        <li>Spring Boot 2.7.1</li>
         <li>Spring Data Jpa</li>
-        <li>Jsp</li>
-        <li>MariaDB</li>
-        <li>Mybatis</li>
+        <li>Jsp 2.3</li>
+        <li>MariaDB 2.7.4</li>
+        <li>Mybatis 2.3.0</li>
     </ul>
 </div>
 
@@ -135,6 +135,7 @@
         </li>
     </ul>
 </div>
+
 <br>
 
 # 이미지
@@ -207,6 +208,12 @@
         </tbody>
     </table>
 </div>
+
+<br>
+
+# 참고사이트
+   * 숨고 : https://soomgo.com/
+   * 크몽 : https://kmong.com/
 <br>
 <br>
 
