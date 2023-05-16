@@ -65,18 +65,6 @@
     
 </div>
 
-
-<div>
-    <ul>
-        <li>JAVA 1.8</li>
-        <li>Bootstrap</li>
-        <li>Spring Boot</li>
-        <li>Spring Data Jpa</li>
-        <li>Jsp</li>
-        <li>MariaDB</li>
-        <li>Mybatis</li>
-    </ul>
-</div>
 <br>
 # 기능 구현
 <div>
