@@ -97,7 +97,7 @@
             </ul>
         </li><br>
         <li>
-            <strong>게시판</strong>
+            <strong>커뮤니티</strong>
             <ul>
                 <li>게시글 CRUD</li>
                 <li>비동기통신 댓글</li>
@@ -188,10 +188,10 @@
             </tr>
             <tr>
                 <td>
-                    <img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/requestUpdateDelete.png" width="100%">
-                </td>
-                <td>
                     <img src="http://dbrjsdml.cafe24.com/Surion/resources/images/repair/repairdetailmap.png" width="100%">
+                </td>
+                 <td>
+                    <img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/requestUpdateDelete.png" width="100%">
                 </td>
             </tr>
             <tr>
