@@ -14,7 +14,7 @@
 
 
 <br>
- 
+
 # 기획의도
 <ul>
     <li style="list-style: none;">
@@ -57,20 +57,29 @@
 
 
 # 기술 스택
-
 <br>
 <div>
 
-    | JAVA | Bootstrap | Spring Boot | Spring Data Jpa | JSP | MariaDB | Mybatis |
-    | :--------: | :--------: | :------: | :-----: | :-----: | :-----: | :-----: |
-    | ![java] | ![Bootstrap] | ![Boot] | ![Jpa] | ![JSP] | ![MariaDB] | ![Mybatis] |
-
+| JAVA       | Bootstrap     | Spring Boot | Spring Data Jpa   | JSP      | MariaDB     | Mybatis    |
+| :--------: | :--------:    | :------:    | :-----:           | :-----:  | :-----:     | :-----:    |
+| ![java]    | ![Bootstrap]  | ![Boot]     | ![Jpa]            | ![JSP]   | ![MariaDB]  | ![Mybatis] |
+    
+</div>
+<div>
+    <ul>
+        <li>JAVA</li>
+        <li>Bootstrap</li>
+        <li>Spring Boot</li>
+        <li>Spring Data Jpa</li>
+        <li>Jsp</li>
+        <li>MariaDB</li>
+        <li>Mybatis</li>
+    </ul>
 </div>
 
 <br>
- 
-# 기능 구현
 
+# 기능 구현
 <div>
     <ul>
         <li>
@@ -127,9 +136,8 @@
     </ul>
 </div>
 <br>
- 
-# 이미지
 
+# 이미지
 <div>
     <table>
         <tbody>
@@ -173,7 +181,7 @@
                     <img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/buttonPaging.png" width="100%">
                 </td>
             </tr>
-            <tr>
+                        <tr>
                 <td align="center">엔지니어 상세보기</td>
                 <td align="center">클라이언트 상세보기</td>
             </tr>
@@ -190,7 +198,7 @@
             </tr>
             <tr>
                 <td>
-                    <img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/chatting.png" width="100%">
+                   <img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/chatting.png" width="100%">
                 </td>
                 <td>
                     <img src="http://dbrjsdml.cafe24.com/Surion/resources/images/chat/estimateList.png" width="100%">
@@ -205,7 +213,7 @@
 
 
 
-
+     
 [java]: https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913897/noticon/xbvewg1m3azbpnrzck1k.png
 [Bootstrap]: https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567128495/noticon/gpkdob34yhkxoo7cyyqv.png
 [Boot]: https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008187/noticon/m4oad4rbf65fjszx0did.png
