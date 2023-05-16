@@ -19,20 +19,20 @@
         <ul>
             <li>해외직구로 인한 수리 못 받는 제품 증가<br>해외브랜드의 국내 시장 진입의 큰 걸림돌인 보증관리</li>
         </ul>
-    </li>
+    </li><br>
     <li>
         <strong>공급 측면</strong>
         <ul>
             <li>코로나로 인한 낙원, 용산 일대의 전자상가<br> 폐업으로 정비공 실업자 증가. 고급인력 확보 가능</li>
         </ul>
-    </li>
+    </li><br>
     <li>
         <strong>수요 측면</strong>
         <ul>
             <li>값비싼 공식수리서비스 및 고장난 제품 폐기량 증가로 잠재 수요 존재</li>
             <li>당근마켓 등 중고거래 소셜 플랫폼의 성장 등 높은 시장잠재력</li>
         </ul>
-    </li>
+    </li><br>
     <li>
         <strong>기타 환경</strong>
         <ul>
@@ -83,19 +83,19 @@
 <div>
     <ul>
         <li>
-            <strong>계정 관련</strong>
+            <strong>메인페이지</strong>
             <ul>
-                <li>로그인,로그아웃,회원가입</li>
-                <li>MyPage(작성한 글목록, 회원정보변경, 프로필변경)</li>
+                <li>카테고리별 게시판 이동</li>
+                <li>커뮤니티 게시글 인기순 조회기능</li>
             </ul>
-        </li>
+        </li><br>
         <li>
             <strong>계정 관련</strong>
             <ul>
-                <li>로그인,로그아웃,회원가입</li>
+                <li>로그인,로그아웃,회원가입,중복조회</li>
                 <li>MyPage(작성한 글목록, 회원정보변경, 프로필변경)</li>
             </ul>
-        </li>
+        </li><br>
         <li>
             <strong>게시판</strong>
             <ul>
@@ -103,7 +103,7 @@
                 <li>비동기통신 댓글</li>
                 <li>버튼 페이징</li>
             </ul>
-        </li>
+        </li><br>
         <li>
             <strong>엔지니어</strong>
             <ul>
@@ -114,7 +114,7 @@
                 <li>정렬기능(인기순, 최신순, 카테고리별)</li>
                 <li>버튼 페이징(비동기)</li>
             </ul>
-        </li>
+        </li><br>
         <li>
             <strong>클라이언트</strong>
             <ul>
@@ -124,7 +124,7 @@
                 <li>리뷰 등록</li>
                 <li>버튼 페이징(비동기)</li>
             </ul>
-        </li>
+        </li><br>
         <li>
             <strong>채팅</strong>
             <ul>
