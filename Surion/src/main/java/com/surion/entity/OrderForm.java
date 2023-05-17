@@ -33,7 +33,5 @@ public class OrderForm {
     private String mechanic_id;
     
     private int readCount;
-    
 
-    
 }

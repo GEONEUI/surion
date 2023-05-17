@@ -1,10 +1,9 @@
 package com.surion.repository;
 
-import com.surion.domain.member.Mechanic;
+import com.surion.domain.mechanic.Mechanic;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.JoinColumn;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class MechanicRepository {
         em.persist(mechanic);
     }
 
-    public Mechanic findOne(Long id){
+    public Mechanic findOne(String id){
         return em.find(Mechanic.class, id);
     }
 
@@ -26,9 +25,13 @@ public class MechanicRepository {
                 .getResultList();
     }
 
-    public List<Mechanic> findByName(String shopName) {
+    public List<Mechanic> findByName (String shopName) {
         return em.createQuery("select m from Mechanic m where m.shopName =:shopName", Mechanic.class)
                 .setParameter("shopName", shopName)
                 .getResultList();
     }
+//    SELECT * FROM tsuri_review WHERE member_id = 33 AND mechanic_id = '44';
+
+
+
 }

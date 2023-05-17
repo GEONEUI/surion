@@ -1,7 +1,7 @@
 package com.surion.controller;
 
-import com.surion.domain.member.Mechanic;
-import com.surion.entity.OrderForm;
+
+import com.surion.domain.mechanic.Mechanic;
 import com.surion.service.MechanicService;
 import com.surion.service.OrderFormService;
 
@@ -18,19 +18,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/order1/*")
 @RequiredArgsConstructor
 public class OrderOneController {
+
+
+    private final MechanicService mechanicService;
+
 	@Autowired
 	OrderFormService orderFormService;
 	
     private final MechanicService ms;
 
+
     @GetMapping("/detail/{mechanic_id}")
-    public String orderdetail(@PathVariable long mechanic_id, Model model){
-        Mechanic mechanic = ms.findOne(mechanic_id);
+    public String orderdetail(@PathVariable String mechanic_id, Model model){
+        Mechanic mechanic = mechanicService.findById(mechanic_id);
         model.addAttribute("mechanic", mechanic);
         return "/order1/productdetail";
     }
 
-    
+    @GetMapping("/map")
+    public String mapTest(){
+        return "/map/map";
+    }
 
 
 }

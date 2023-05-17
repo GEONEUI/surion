@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -49,9 +48,15 @@ public class MemberServiceImpl implements MemberService{
 			rttr.addFlashAttribute("msg", "회원가입 성공!");
 			return "redirect:/";
 		}
-		
 	}
-	
+
+	@Override
+	public String findOne(Member m, HttpSession session, RedirectAttributes rttr) {
+		return null;
+	}
+
+
+
 	//로그인
 	@Override
 	public String login(Member m, HttpSession session, RedirectAttributes rttr) {
@@ -78,6 +83,7 @@ public class MemberServiceImpl implements MemberService{
 				return "redirect:/member/login";
 			}
 	}
+
 
 	@Override
 	public void logout(Member m, HttpSession session, RedirectAttributes rttr) {
@@ -165,17 +171,22 @@ public class MemberServiceImpl implements MemberService{
 		return "redirect:/mypage/myinfo";
 	}
 
+	@Override
+	public Long findByMemberById(String id) {
+		return findByMemberById(id);
+	}
+
+	@Override
+	public Long findByMemberById(Long id) {
+		return findByMemberById(id);
+	}
 
 
+	@Override
+	public void save(Member member) {
 
 
-	
-	
+	}
 
-
-
-
-	
-	
 
 }

@@ -136,6 +136,7 @@ public class OrderFormServiceImpl implements OrderFormService{
 	//정비사등록
 	@Override
 	public String join(OrderJoin orderJoin, RedirectAttributes rttr, HttpSession session) {
+
 		Member member = (Member) session.getAttribute("member");
 		Member mechanic = (Member) session.getAttribute("mechanic");
 		orderJoin.setId(member.getId());

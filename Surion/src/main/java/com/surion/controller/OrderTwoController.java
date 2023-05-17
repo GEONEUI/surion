@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.surion.domain.review.Review;
+import com.surion.repository.MainRepository;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +30,8 @@ import com.surion.service.OrderFormService;
 @RequestMapping("/order2/*")
 public class OrderTwoController {
 
-	
+	@Autowired
+	MainRepository mainRepository;
 	@Autowired
 	OrderFormService orderFormService;
 	
@@ -112,7 +115,10 @@ public class OrderTwoController {
     }
     //상세페이지
     @RequestMapping("/productDetail")
-    public String detail(Model model, String id, OrderForm orderForm) {
+    public String detail(Model model, String id, OrderForm orderForm, HttpSession session) {
+		String member_id = (String) session.getAttribute("member");
+		Review reviewDetail =mainRepository.findReview(member_id, id);
+		System.out.println("reviewList = " + reviewDetail);
     	orderFormService.orderDetail(model, id);
     	orderFormService.readCount(orderForm);
     	return "/order2/productDetail";
