@@ -18,6 +18,4 @@ public interface MainRepository {
 	public List<Community> findBoardAll();
 	@Select("SELECT * FROM tsuri_review WHERE member_id = #{member_id} AND mechanic_id = #{mechanic_id}")
 	public Review findReview(@Param("member_id")String member_id, @Param("mechanic_id")String mechanic_id);
-
-	
 }
