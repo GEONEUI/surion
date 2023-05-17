@@ -17,14 +17,16 @@ import com.surion.entity.OrderForm;
 import com.surion.repository.MemberRepository;
 import com.surion.repository.OrderFormRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 public class MemberServiceImpl implements MemberService{
 
+	
 	@Autowired
 	MemberRepository memberRepository;
 	
-	
-	@Autowired 
+	@Autowired
 	OrderFormRepository orderFormRepository;
 	
 	@Override
@@ -56,11 +58,9 @@ public class MemberServiceImpl implements MemberService{
 			Member member = memberRepository.login(m);
 			//아이디 있음
 			if(member != null) {
-				Member mechanic = memberRepository.findById(member);
-				
 				//정비사등록 확인
-				OrderForm orderForm = new OrderForm();
-				orderForm.setId(member.getId());
+				Member mechanic = memberRepository.findById(member);
+				//정비사등록 이후 글 작성했는지 판단
 				int result = orderFormRepository.findByBoard(member.getId());
 				//로그인정보
 				session.setAttribute("member", member);

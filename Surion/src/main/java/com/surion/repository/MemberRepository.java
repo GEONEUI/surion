@@ -21,7 +21,7 @@ public interface MemberRepository {
 	
 	//로그인한 회원 정보 불러오기
 	@Select("SELECT e1.id, e1.password, e1.email, e1.address, e1.phone, e1.grade, e1.imgurl, e2.name, e2.shopName, e2.office "
-			+ "FROM suri_member e1, suri_orderJoin e2 "
+			+ "FROM suri_member e1, suri_mechanic e2 "
 			+ "WHERE e1.id = e2.id AND e1.id = #{id}")
 	public Member findById(Member m);
 	

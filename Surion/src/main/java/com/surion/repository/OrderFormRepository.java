@@ -47,15 +47,15 @@ public interface OrderFormRepository {
 	public void increaseCount(OrderForm orderForm);
 	
 	//사업자번호 중복검사
-	@Select("select count(*) from suri_orderJoin where mechanic_id = #{mechanic_id}")
+	@Select("select count(*) from suri_mechanic where mechanic_id = #{mechanic_id}")
 	public int check(OrderJoin orderJoin);
 	
 	//정비사 등록
-	@Insert("insert into suri_orderJoin (id, mechanic_id, name, shopName, office) VALUES (#{id}, #{mechanic_id}, #{name}, #{shopName}, #{office})")
+	@Insert("insert into suri_mechanic (id, mechanic_id, name, shopName, office) VALUES (#{id}, #{mechanic_id}, #{name}, #{shopName}, #{office})")
 	public void join(OrderJoin orderJoin);
 	
 	//정비사등록시 남은정보 멤버테이블에서 가져오기
-	@Update("update suri_orderJoin JOIN suri_member sm ON suri_orderJoin.id = sm.id SET suri_orderJoin.email = sm.email, suri_orderJoin.phone = sm.phone, suri_orderJoin.grade = sm.grade")
+	@Update("update suri_mechanic JOIN suri_member sm ON suri_mechanic.id = sm.id SET suri_mechanic.email = sm.email, suri_mechanic.phone = sm.phone, suri_mechanic.grade = sm.grade")
 	public void update1(OrderJoin orderJoin);
 	
 	//프로필 상세보기
@@ -67,7 +67,7 @@ public interface OrderFormRepository {
 	public int findByBoard(@Param("id") String id);
 	
 	//정비사 등록했는지 확인
-	@Select("select COUNT(*) from suri_orderJoin where id= #{id}")
+	@Select("select COUNT(*) from suri_mechanic where id= #{id}")
 	public int findByMechanic(@Param("id") String id);
 	
 	//정비사 등록시 멤버테이블 office에 값전달
@@ -75,7 +75,7 @@ public interface OrderFormRepository {
 	public void updateOffice(@Param("id") String id, @Param("office") String office);
 	
 	//프로필 등록시 order_Join테이블에서 mechanic_id가져오기
-	@Update("UPDATE suri_orderForm JOIN suri_orderJoin ON suri_orderForm.id = suri_orderJoin.id SET suri_orderForm.mechanic_id = suri_orderJoin.mechanic_id")
+	@Update("UPDATE suri_orderForm JOIN suri_mechanic ON suri_orderForm.id = suri_mechanic.id SET suri_orderForm.mechanic_id = suri_mechanic.mechanic_id")
 	void updateMechanic(OrderForm orderForm);
 	
 	//프로필 업데이트

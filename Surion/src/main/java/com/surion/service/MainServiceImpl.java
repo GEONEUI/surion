@@ -19,6 +19,7 @@ public class MainServiceImpl implements MainService{
 	
 	@Override
 	public void findPopular(Popular popular, Model model) {
+		//인기있는 수리목록 불러오기
 		List<Popular> popularList = mainRepository.findPopular(popular);
 		popularList.stream().forEach(key-> {
 			if(key.getCategory().equals("자전거")) {
@@ -42,7 +43,7 @@ public class MainServiceImpl implements MainService{
 			}
 		});
 		
-		
+		//커뮤니티 조회수별로 가져오기
 		List<Community> lst = mainRepository.findBoardAll();
 		model.addAttribute("communityList", lst);
 		model.addAttribute("popularList", popularList);

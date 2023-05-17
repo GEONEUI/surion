@@ -179,10 +179,10 @@
 				</c:if>
 				<c:if test="${!empty member}">
 					<ul class="unav1">
-						<c:if test="${member.office eq ''}">
+						<c:if test="${mechanic.office eq null}">
 						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
 						</c:if>
-						<c:if test="${member.office ne ''}">
+						<c:if test="${mechanic.office ne null}">
 						   <c:choose>
 								<c:when test="${result == 1}">
 									<li><a href="javascript:alert('이미 업체 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
