@@ -332,14 +332,14 @@
         <p>
         <h2>이 업체를 추천하시겠어요?</h2>
         <form method="post" enctype="multipart/form-data" action="/review/upload">
-            <input type="file" name="files" id="upload-input" accept=".jpg,.png" onchange="checkFile(this)" multiple> <br>
+            <input type="file" name="files" id="upload-input" accept=".jpg,.png,.jpeg" onchange="checkFile(this)" multiple> <br>
             <div id="preview-container"></div>
             <div class="star-rating">
                 <span class="star" data-value="1">&#9734;</span> <span class="star" data-value="2">&#9734;</span> <span class="star" data-value="3">&#9734;</span>
                 <span class="star" data-value="4">&#9734;</span> <span class="star" data-value="5">&#9734;</span>
             </div>
             <textarea id="review-text" name="content" rows="4" cols="50" placeholder="리뷰내용을 입력해주세요"></textarea>
-            <input type="hidden" name="score" id="score"> <input type="hidden" name="memberId" value="{member.id}"> <input type="hidden" name="mechanicId" value="{mechanic.id}"> <input type="hidden" name="orderId" value="{orderForm.id}"> <br>
+            <input type="hidden" name="score" id="score"> <input type="hidden" name="memberId" value="${member.id}"> <input type="hidden" name="mechanicId" value="${mechanic.id}"> <input type="hidden" name="orderId" value="${orderForm.id}"> <br>
             <input type="submit" value="작성완료" class="btn btn-primary btn-sm">
         </form>
     </div>
@@ -348,15 +348,20 @@
 
 <script>
     //이미지 업로드
-    $(function() {
+    $(function () {
+        // 업로드할 파일 객체 배열
+        var filesArray = [];
+
         // file input 변경 시, 미리보기 이미지 업데이트
-        $('#upload-input').on('change', function() {
+        $('#upload-input').on('change', function () {
             var files = $(this)[0].files;
             $('#preview-container').empty(); // 기존 미리보기 이미지 제거
+            filesArray = []; // 기존 파일 객체 배열 초기화
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
+                filesArray.push(file); // 파일 객체 배열에 추가
                 var reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     var img = $('<img>').attr('src', e.target.result).addClass('preview-image');
                     var removeBtn = $('<button>').text('Remove').addClass('preview-remove');
                     var preview = $('<div>').addClass('preview-item').append(img).append(removeBtn);
@@ -366,9 +371,12 @@
             }
         });
 
-        // remove 버튼 클릭 시, 미리보기 이미지와 remove 버튼 제거
-        $('#preview-container').on('click', '.preview-remove', function() {
-            $(this).closest('.preview-item').remove();
+        // remove 버튼 클릭 시, 미리보기 이미지와 파일 제거
+        $('#preview-container').on('click', '.preview-remove', function () {
+            var previewItem = $(this).closest('.preview-item');
+            var index = $('#preview-container .preview-item').index(previewItem); // 미리보기 이미지의 인덱스
+            filesArray.splice(index, 1); // 파일 객체 배열에서 해당 파일 객체 제거
+            previewItem.remove(); // 미리보기 이미지 제거
         });
     });
 
@@ -397,6 +405,31 @@
             console.log(value)
         });
     });
+
+    // 이미지 업로드
+    function checkFile(input) {
+        const files = input.files;
+        const maxSize = 5 * 1024 * 1024; // 파일크기 5MB-> 추후 조정가능
+
+        // 2개 이상 파일일 때 유효성 검사
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const ext = file.name.split('.').pop().toLowerCase();
+
+            // 확장자 유효성 검사
+            if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg') {
+                alert('jpg, jpeg, png 파일만 업로드할 수 있습니다.');
+                input.value = null;
+                return;
+            }
+            // 파일사이즈 유효성 검사
+            if (file.size > maxSize) {
+                alert('파일 크기는 5MB 이하여야 합니다.');
+                input.value = null;
+                return;
+            }
+        }
+    }
 
 
     $('#reviewBtn').on('click', function() {

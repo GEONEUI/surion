@@ -3,9 +3,8 @@ package com.surion.controller;
 import com.surion.domain.Image.Photo;
 import com.surion.domain.Image.PhotoDto;
 import com.surion.domain.Image.PhotoResponseDto;
-import com.surion.domain.mechanic.Mechanic;
 import com.surion.domain.review.*;
-import com.surion.domain.member.Member;
+import com.surion.entity.Member;
 import com.surion.service.MechanicService;
 import com.surion.service.MemberService;
 import com.surion.service.PhotoService;
@@ -19,10 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +40,9 @@ public class ReviewRegisterController {
 
     // 리뷰 작성 진입
     @GetMapping("/review")
-    public String asdf() {
+    public String reviewForm(Model model, HttpSession session) {
+        Member member = (Member) session.getAttribute("member");
+        model.addAttribute("member", member);
         System.out.println("리뷰진입");
         return "review/reviewForm";
     }
@@ -53,33 +50,7 @@ public class ReviewRegisterController {
     // 게시판 등록
     @PostMapping("/upload")
     public String create(MultipartHttpServletRequest mtfRequest, HttpSession session) throws Exception {
-        System.out.println("mtfRequest = " + mtfRequest);
-        
-        Member member = (Member) session.getAttribute("member");
-        
-        System.out.println("로그인 ----- > " + member);
-
-        List<MultipartFile> fileList = mtfRequest.getFiles("files");
-        
-        for(int i = 0; i<fileList.size() ;i++) {
-        	System.out.println(fileList.get(i).getName());
-        }
-
-        ReviewCreateRequestDto reviewCreateRequestDto = ReviewCreateRequestDto.builder()
-//                .memberId(mtfRequest.getParameter("memberId"))
-//                .mechanicId(mtfRequest.getParameter("mechanicId"))
-                .memberId(member.getId())
-                .mechanicId("44")
-                .content(mtfRequest.getParameter("content"))
-                .score(Integer.parseInt(mtfRequest.getParameter("score")))
-                .build();
-        
-        
-        
-        System.out.println("reviewCreateRequestDto = " + reviewCreateRequestDto.getMemberId());
-
-        reviewRegisterService.create(reviewCreateRequestDto, fileList);
-
+        reviewRegisterService.create(mtfRequest, session);
         return "review/reviewList";
     }
 

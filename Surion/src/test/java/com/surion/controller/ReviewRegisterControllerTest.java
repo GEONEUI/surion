@@ -3,7 +3,6 @@ package com.surion.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.surion.domain.Image.Photo;
 import com.surion.domain.mechanic.Mechanic;
-import com.surion.domain.member.Member;
 import com.surion.domain.review.Review;
 import com.surion.service.MechanicService;
 import com.surion.service.MemberService;
@@ -53,7 +52,7 @@ public class ReviewRegisterControllerTest {
     @Transactional
     public void testCreateReviewWithPhotos() throws Exception {
         // Given
-        Member member = Member.builder()
+        Member1 member = Member1.builder()
                 .id("member1")
                 .name("John")
                 .email("john@example.com")

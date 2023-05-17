@@ -1,7 +1,7 @@
 package com.surion.domain.review;
 
 import com.surion.domain.Image.Photo;
-import com.surion.domain.member.Member;
+import com.surion.entity.Member;
 import lombok.*;
 
 

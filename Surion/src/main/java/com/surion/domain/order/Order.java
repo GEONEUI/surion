@@ -2,8 +2,8 @@ package com.surion.domain.order;
 
 import com.surion.domain.Delivery;
 import com.surion.domain.mechanic.Mechanic;
-import com.surion.domain.member.Member;
 import com.surion.domain.review.Review;
+import com.surion.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 

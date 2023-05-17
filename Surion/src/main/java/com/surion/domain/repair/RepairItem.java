@@ -1,7 +1,7 @@
 package com.surion.domain.repair;
 
 import com.surion.domain.mechanic.Mechanic;
-import com.surion.domain.member.Member;
+import com.surion.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +26,6 @@ public class RepairItem {
     private Mechanic mechanic;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "id")
     private Member member;
 }

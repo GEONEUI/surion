@@ -1,6 +1,6 @@
 package com.surion.service;
 
-import com.surion.domain.member.Member;
+import com.surion.entity.Member;
 import com.surion.repository.MemberPointRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

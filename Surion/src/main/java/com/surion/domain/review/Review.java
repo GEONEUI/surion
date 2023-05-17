@@ -3,11 +3,9 @@ package com.surion.domain.review;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.surion.domain.Image.Photo;
 import com.surion.domain.mechanic.Mechanic;
-import com.surion.domain.member.Member;
+import com.surion.entity.Member;
 import com.surion.domain.order.Order;
 import com.surion.domain.repair.Repair;
-import com.surion.service.MechanicService;
-import com.surion.service.MemberService;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,11 +19,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name="Tsuri_review")
-public class Review
-//        extends BaseTimeEntity
-{
+public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "review_id")
     private Long id;
     private String name;
@@ -59,8 +55,9 @@ public class Review
     @JoinColumn(name = "mechanic_id", referencedColumnName = "mechanic_id")
     private Mechanic mechanic;
 
-    @ManyToOne(cascade = CascadeType.MERGE, targetEntity = Member.class)
-    @JoinColumn(name = "member_id", referencedColumnName = "member_id", updatable = false)
+
+    @ManyToOne
+    @JoinColumn(name = "member_id", referencedColumnName = "member_id")
     @JsonBackReference
     private Member member;
 
@@ -92,8 +89,6 @@ public class Review
         if(photo.getReview() != this)
             // 파일 저장
             photo.setReview(this);
-
-
     }
     public Review toEntity() {
         return Review.builder()

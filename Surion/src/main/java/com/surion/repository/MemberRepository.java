@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.surion.domain.member.Member;
+import com.surion.entity.Member;
 
 @Mapper
 public interface MemberRepository {

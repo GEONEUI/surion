@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-import com.surion.domain.member.Member;
+import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
 import com.surion.repository.MemberRepository;
 import com.surion.repository.OrderFormRepository;
@@ -53,6 +53,8 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	}
 
+
+
 	//로그인
 	@Override
 	public String login(Member m, HttpSession session, RedirectAttributes rttr) {
@@ -82,10 +84,6 @@ public class MemberServiceImpl implements MemberService{
 			}
 	}
 
-	@Override
-	public Member findById(String id) {
-		return null;
-	}
 
 	@Override
 	public void logout(Member m, HttpSession session, RedirectAttributes rttr) {
@@ -175,12 +173,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Long findByMemberById(String id) {
-		return null;
+		return findByMemberById(id);
 	}
 
 	@Override
 	public Long findByMemberById(Long id) {
-		return null;
+		return findByMemberById(id);
 	}
 
 

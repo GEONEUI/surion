@@ -20,7 +20,7 @@
 </head>
 <body>
 <h1>이미지 및 리뷰 업로드</h1>
-
+${member}
 <form method="post" enctype="multipart/form-data" action="/review/upload" >
 <%--      onsubmit="submitReview(); return false;">--%>
     <input type="file" name="files" id="upload-input" accept=".jpg,.png" onchange="checkFile(this)" multiple>
@@ -37,9 +37,9 @@
     <br>
     <textarea id="review-text" name="content" rows="4" cols="50" placeholder="리뷰내용을 입력해주세요"></textarea>
     <input type="hidden" name="score" id="score">
-    <input type="hidden" name="memberId" value="{member.id}">
-    <input type="hidden" name="mechanicId" value="{mechanic.id}">
-    <input type="hidden" name="orderId" value="{orderForm.id}">
+    <input type="hidden" name="memberId" value="${member.id}">
+    <input type="hidden" name="mechanicId" value="${mechanic.id}">
+    <input type="hidden" name="orderId" value="${orderForm.id}">
     <br>
     <input type="submit" value="제출">
 </form>
@@ -47,15 +47,18 @@
 
 
 <script>
-
-    <%--이미지 업로드 --%>
     $(function () {
+        // 업로드할 파일 객체 배열
+        var filesArray = [];
+
         // file input 변경 시, 미리보기 이미지 업데이트
         $('#upload-input').on('change', function () {
             var files = $(this)[0].files;
             $('#preview-container').empty(); // 기존 미리보기 이미지 제거
+            filesArray = []; // 기존 파일 객체 배열 초기화
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
+                filesArray.push(file); // 파일 객체 배열에 추가
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var img = $('<img>').attr('src', e.target.result).addClass('preview-image');
@@ -67,14 +70,17 @@
             }
         });
 
-        // remove 버튼 클릭 시, 미리보기 이미지와 remove 버튼 제거
+        // remove 버튼 클릭 시, 미리보기 이미지와 파일 제거
         $('#preview-container').on('click', '.preview-remove', function () {
-            $(this).closest('.preview-item').remove();
+            var previewItem = $(this).closest('.preview-item');
+            var index = $('#preview-container .preview-item').index(previewItem); // 미리보기 이미지의 인덱스
+            filesArray.splice(index, 1); // 파일 객체 배열에서 해당 파일 객체 제거
+            previewItem.remove(); // 미리보기 이미지 제거
         });
     });
 
 
-    <%--리뷰작성- 별표 클릭 이벤트--%>
+    // 리뷰작성- 별표 클릭 이벤트
     const stars = document.querySelectorAll('.star-rating .star');
     const reviewText = document.getElementById('review-text');
     const ratingInput = document.getElementById('score');
@@ -99,7 +105,7 @@
         });
     });
 
-    <%--이미지 업로드--%>
+    // 이미지 업로드
     function checkFile(input) {
         const files = input.files;
         const maxSize = 5 * 1024 * 1024; // 파일크기 5MB-> 추후 조정가능
@@ -110,8 +116,8 @@
             const ext = file.name.split('.').pop().toLowerCase();
 
             // 확장자 유효성 검사
-            if (ext !== 'jpg' && ext !== 'png') {
-                alert('jpg와 png 파일만 업로드할 수 있습니다.');
+            if (ext !== 'jpg' && ext !== 'png' && ext !== 'jpeg') {
+                alert('jpg, jpeg, png 파일만 업로드할 수 있습니다.');
                 input.value = null;
                 return;
             }
@@ -157,7 +163,5 @@
 <%--        });--%>
 <%--    }--%>
 </script>
-
-
 </body>
 </html>

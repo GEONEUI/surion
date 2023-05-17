@@ -3,7 +3,7 @@ package com.surion.service;
 import com.surion.domain.Image.Photo;
 import com.surion.domain.Image.PhotoDto;
 import com.surion.domain.review.Review;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.surion.domain.review.ReviewRequestDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,6 +72,13 @@ public class FileHandler {
             String path = "resources" + File.separator + "images" + File.separator + current_date;
             File file = new File(absolutePath + path);
             System.out.println("path = " + path);
+
+            // 존재하지 않는 디렉토리일 때
+            if(!file.exists()) {
+                boolean wasSuccessful = file.mkdirs();
+                if(!wasSuccessful)
+                    System.out.println("file: was not successful");
+            }
 
             /*
              ** 다중 파일 저장
