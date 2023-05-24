@@ -1,7 +1,5 @@
 package com.surion.domain.mechanic;
 
-//import com.surion.domain.item.Item;
-import com.surion.domain.item.Item;
 import com.surion.domain.item.ItemMechanic;
 import com.surion.domain.order.Order;
 import com.surion.domain.repair.RepairItem;
@@ -24,8 +22,8 @@ public class Mechanic {
     @Id
     @Column(name = "mechanic_id")
     private String id;
+    private int idx;
     private String shopName;
-    private String intro;
     private String img;
     private String imgPath;
     private int quantityPerday;

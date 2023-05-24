@@ -56,9 +56,8 @@ public class Review {
     private Mechanic mechanic;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", referencedColumnName = "member_id")
-    @JsonBackReference
     private Member member;
 
     @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
@@ -67,8 +66,8 @@ public class Review {
     @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private Repair repair;
 
-
     public Review(){};
+
     @Builder
     public Review(Member member, Mechanic mechanic, String content, int score) {
         this.member = member;

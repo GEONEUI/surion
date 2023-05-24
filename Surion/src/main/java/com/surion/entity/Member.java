@@ -30,12 +30,12 @@ public class Member {
 	private String email;
 	private String address;
 	private String phone;
-	private String imgurl;
 	private String grade;
+	private String imgurl;
+	private String roll;
 	private int point;
 	private String shopName;
 	private String office;
-	private String roll;
 	@Column(name = "retrieved_id")
 	private Integer retrievedId;
 	@CreationTimestamp
@@ -50,6 +50,9 @@ public class Member {
 
 	@OneToMany (mappedBy = "member", cascade = CascadeType.ALL)
 	private List<RepairItem> repairItems = new ArrayList<>();
+
+
+
 }
 
 

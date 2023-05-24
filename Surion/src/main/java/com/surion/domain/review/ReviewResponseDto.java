@@ -23,4 +23,16 @@ public class ReviewResponseDto {
         this.score = entity.getScore();
         this.fileId = fileId;
     }
+
+    @Override
+    public String toString() {
+        return "ReviewResponseDto{" +
+                "id=" + id +
+                ", memberId='" + memberId + '\'' +
+                ", mechanicId='" + mechanicId + '\'' +
+                ", score=" + score +
+                ", content='" + content + '\'' +
+                ", fileId=" + fileId +
+                '}';
+    }
 }

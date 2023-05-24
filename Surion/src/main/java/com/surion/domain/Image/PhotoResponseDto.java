@@ -17,4 +17,14 @@ public class PhotoResponseDto {
         this.filePath = entity.getFilePath();
         this.fileSize = entity.getFileSize();
     }
+
+    @Override
+    public String toString() {
+        return "PhotoResponseDto{" +
+                "fileId=" + fileId +
+                ", origFileName='" + origFileName + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", fileSize=" + fileSize +
+                '}';
+    }
 }

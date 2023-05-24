@@ -20,7 +20,6 @@
 </head>
 <body>
 <h1>이미지 및 리뷰 업로드</h1>
-${member}
 <form method="post" enctype="multipart/form-data" action="/review/upload" >
 <%--      onsubmit="submitReview(); return false;">--%>
     <input type="file" name="files" id="upload-input" accept=".jpg,.png" onchange="checkFile(this)" multiple>
@@ -39,7 +38,6 @@ ${member}
     <input type="hidden" name="score" id="score">
     <input type="hidden" name="memberId" value="${member.id}">
     <input type="hidden" name="mechanicId" value="${mechanic.id}">
-    <input type="hidden" name="orderId" value="${orderForm.id}">
     <br>
     <input type="submit" value="제출">
 </form>
@@ -105,8 +103,9 @@ ${member}
         });
     });
 
-    // 이미지 업로드
+    // 이미지 업로드 확인
     function checkFile(input) {
+      alert($('#upload-input').val());
         const files = input.files;
         const maxSize = 5 * 1024 * 1024; // 파일크기 5MB-> 추후 조정가능
 

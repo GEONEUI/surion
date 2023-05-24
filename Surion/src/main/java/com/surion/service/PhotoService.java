@@ -17,13 +17,17 @@ import java.util.stream.Collectors;
 public class PhotoService {
     private final PhotoRepository photoRepository;
 
-    public List<Photo> findAll() { return photoRepository.findAll();
+
+    // 사진 저장
+    public Photo save(Photo photo) {
+        return photoRepository.save(photo);
     }
 
-    // 개별 조회
+    // 개별 조회 ( 사진 아이디로 조회 )
     @Transactional(readOnly = true)
     public PhotoDto findByFileId(Long id) {
-        Photo entity = photoRepository.findById(id).orElseThrow(
+        Photo entity = photoRepository.findById(id)
+                .orElseThrow(
                 () -> new IllegalArgumentException("해당 파일이 존재하지 않습니다.")
         );
         PhotoDto photoDto = PhotoDto.builder()
@@ -34,10 +38,22 @@ public class PhotoService {
         return photoDto;
     }
 
+    // 개별 조회 ( 리뷰 아이디로 조회 )
+    @Transactional(readOnly = true)
+    public List<Photo> findByReviewId(Long id) {
+        return photoRepository.findByReviewId(id);
+    }
+
 
     // 전체 조회
     @Transactional(readOnly = true)
-    public List<PhotoResponseDto> findAllByBoard(Long reviewId) {
+    public List<Photo> findAll() { return photoRepository.findAll();
+    }
+
+
+    // 전체 조회 - 리뷰 아이디 기반 조회
+    @Transactional(readOnly = true)
+    public List<PhotoResponseDto> findAllByReviewId(Long reviewId) {
         List<Photo> photoList = photoRepository.findAllByReviewId(reviewId);
 
         return photoList.stream()
@@ -45,15 +61,13 @@ public class PhotoService {
                 .collect(Collectors.toList());
     }
 
-    public List<Photo> findByReviewId(Long id) {
-        return photoRepository.findByReviewId(id);
-    }
-
+    // 삭제
     public void deletePhoto(Long fileId) {
         Photo photo = photoRepository.findById(fileId)
                 .orElseThrow(() -> new EntityNotFoundException("Photo not found with id " + fileId));
         photoRepository.delete(photo);
     }
+
 
 
     //    public List<Photo> findAllById(Long reviewId){return photoRepository.findAllByReviewId(reviewId)};

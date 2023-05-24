@@ -65,6 +65,5 @@ public class MemberController {
 	public String updateProfile(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
 		return memberService.updateProfile(request, session, rttr);
 	}
-	
-	
+
 }

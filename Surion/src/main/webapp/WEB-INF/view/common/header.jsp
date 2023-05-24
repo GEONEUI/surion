@@ -193,64 +193,64 @@
 </style>
 
 <div class="usec_header">
-	<div class="uheader">
-		<div class="uinner">
-			<div class="uheader_top">
-				<h1><a href="${cpath}/"><img src="${cpath}/resources/images/logo.png" alt="로고"></a></h1>
-				<c:if test="${empty member}">
-					<ul class="unav1">
-						<li><a href="javascript:gologin2()">엔지니어 등록</a></li>
-						<li><a href="javascript:gologin()">로그인</a></li>
-						<li><a href="javascript:gojoin()">무료 회원가입</a></li>
-					</ul>
-				</c:if>
-				<c:if test="${!empty member}">
-					<ul class="unav1">
-						<c:if test="${mechanic.office eq null}">
-						   <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
-						</c:if>
-						<c:if test="${mechanic.office ne null}">
-						   <c:choose>
-								<c:when test="${result == 1}">
-									<li><a href="javascript:alert('이미 업체 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
-								</c:when>
-								<c:otherwise>
-									<li><a href="${cpath}/order2/orderForm" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:if>
-						<c:if test="${member.imgurl eq null}">
-							<li onclick="goProfile();"><img src="${cpath}/resources/images/default.png"></li>
-						</c:if>
-						<c:if test="${member.imgurl ne null}">
-							<li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}"></li>
-						</c:if>	
-					</ul>
-					<!--  내 정보 모탈창  -->
-					<div class="myinfo">
-						<div class="mybox">
-							<p>${member.id} &nbsp 고객님</p>
-							<ul>
-								<li><a href="${cpath}/mypage/myinfo?pageview=4"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
-								<li><a href="${cpath}/mypage/myinfo"><i class="fa-solid fa-circle-user" style="color: #525252; margin-right:10px;"></i> 마이페이지</a></li>
-							</ul>
-						</div>
-						<a class="logout" href="${cpath}/member/logout">로그아웃</a>
-					</div>
-				</c:if>
-			</div>
-			<div class="uheader_bottom">
-				<ul class="unav2">
-					<li><a href="#" class="ubold">전체카테고리</a></li>
-					<li><a href="${cpath}/repair/repairList">의뢰목록</a></li>
-					<li><a href="${cpath}/order2/orderList">엔지니어</a></li>
-					<li><a href="${cpath}/community/board">커뮤니티</a></li>
-				</ul>
-				<p>원하는 서비스를 못 찾겠다면, <span class="ubold">프로젝트 의뢰</span>하세요! ></p>
-			</div>
-		</div>
-	</div>
-
+    <div class="uheader">
+        <div class="uinner">
+            <div class="uheader_top">
+                <h1><a href="${cpath}/"><img src="${cpath}/resources/images/logo.png" alt="로고"></a></h1>
+                <c:if test="${empty member}">
+                    <ul class="unav1">
+                        <li><a href="javascript:gologin2()">엔지니어 등록</a></li>
+                        <li><a href="javascript:gologin()">로그인</a></li>
+                        <li><a href="javascript:gojoin()">무료 회원가입</a></li>
+                    </ul>
+                </c:if>
+                <c:if test="${!empty member}">
+                    <ul class="unav1">
+                        <c:if test="${member.office eq null}">
+                            <li><a href="javascript:gomechanic()" style="background: #00c7ae; border-radius: 4px; color: #fff;">엔지니어 등록</a></li>
+                        </c:if>
+                        <c:if test="${member.office ne null}">
+                            <c:choose>
+                                <c:when test="${result == 1}">
+                                    <li><a href="javascript:alert('이미 업체 등록을 하셨습니다.')" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li><a href="${cpath}/order2/orderForm" style="background: #00c7ae; border-radius: 4px; color: #fff;">업체 등록</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
+                        <c:if test="${member.imgurl eq null}">
+                            <li onclick="goProfile();"><img src="${cpath}/resources/images/default.png"></li>
+                        </c:if>
+                        <c:if test="${member.imgurl ne null}">
+                            <li onclick="goProfile();"><img src="${cpath}/resources/images/${member.imgurl}"></li>
+                        </c:if>
+                    </ul>
+                    <!--  내 정보 모탈창  -->
+                    <div class="myinfo">
+                        <div class="mybox">
+                            <p>${member.id} &nbsp 고객님</p>
+                            <ul>
+                                <li><a href="${cpath}/mypage/myinfo?pageview=4"><i class="fa-solid fa-money-bill-wave" style="color: #525252; margin-right:10px;"></i>받은 견적</a></li>
+                                <li><a href="${cpath}/mypage/myinfo"><i class="fa-solid fa-circle-user" style="color: #525252; margin-right:10px;"></i> 마이페이지</a></li>
+                            </ul>
+                        </div>
+                        <a class="logout" href="${cpath}/member/logout">로그아웃</a>
+                    </div>
+                </c:if>
+            </div>
+            <div class="uheader_bottom">
+                <ul class="unav2">
+                    <li><a href="#" class="ubold">전체카테고리</a></li>
+                    <li><a href="${cpath}/repair/repairList">의뢰목록</a></li>
+                    <li><a href="${cpath}/order2/orderList">엔지니어</a></li>
+                    <li><a href="${cpath}/community/board">커뮤니티</a></li>
+                    <li id="reviewBtn"><a href="javascript:void()">리뷰테스트</a></li>
+                </ul>
+                <p>원하는 서비스를 못 찾겠다면, <span class="ubold">프로젝트 의뢰</span>하세요! ></p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -407,6 +407,7 @@
 
     // 이미지 업로드
     function checkFile(input) {
+        alert($('#upload-input').val());
         const files = input.files;
         const maxSize = 5 * 1024 * 1024; // 파일크기 5MB-> 추후 조정가능
 

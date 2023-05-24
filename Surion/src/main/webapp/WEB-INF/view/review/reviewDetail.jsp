@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <th>작성자</th>
-        <td>${review.id}</td>
+        <td>${review.memberId}</td>
     </tr>
     <tr>
         <th>평점</th>
@@ -52,7 +52,8 @@
         </td>
     </tr>
     <tr>
-        <td><a href="/edit/${review.id}">수정</a> <a href="/delete/${review.id}">삭제</a></td>
+        <td><a href="/review/update/${review.id}">수정</a><a href="/review/delete/${review.id}">삭제</a></td>
+
     </tr>
 
 </table>

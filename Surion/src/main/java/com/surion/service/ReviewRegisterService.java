@@ -2,6 +2,8 @@ package com.surion.service;
 
 
 import com.surion.domain.Image.Photo;
+import com.surion.domain.Image.PhotoDto;
+import com.surion.domain.Image.PhotoResponseDto;
 import com.surion.domain.mechanic.Mechanic;
 import com.surion.entity.Member;
 import com.surion.domain.review.*;
@@ -10,12 +12,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -32,7 +37,7 @@ public class ReviewRegisterService {
     private final ReviewRegisterRepository reviewRegisterRepository;
     private final PointRewardRepository pointRewardRepository;
     private final MemberPointRepository memberPointRepository;
-    private final PhotoRepository photoRepository;
+    private final PhotoService photoService;
     private final FileHandler fileHandler;
     private final MemberRepository memberRepository;
     private final MechanicService mechanicService;
@@ -46,12 +51,21 @@ public class ReviewRegisterService {
     @Transactional
     public void create(MultipartHttpServletRequest mtfRequest, HttpSession session) throws Exception {
 
-        Member member = (Member) session.getAttribute("member");
+//        Member member = (Member) session.getAttribute("member");
         List<MultipartFile> fileList = mtfRequest.getFiles("files");
         String mechanicId = mtfRequest.getParameter("mechanicId");
+        String MemberId = mtfRequest.getParameter("memberId");
+        Member member = memberRepository.findByUser(MemberId);
+        String scoreParam = mtfRequest.getParameter("score");
+        int score = 0; // 기본값 설정
+        if (!scoreParam.isEmpty()) {
+            score = Integer.parseInt(scoreParam);
+        }
 //        Mechanic mechanic = mechanicService.findById(mechanicId);
         Mechanic mechanic = new Mechanic();
         mechanic.setId("44");
+
+        System.out.println("member = " + member);
 
         for(int i = 0; i<fileList.size() ;i++) {
             System.out.println(fileList.get(i).getName());
@@ -61,13 +75,12 @@ public class ReviewRegisterService {
                 .member(member)
                 .mechanic(mechanic)
                 .content(mtfRequest.getParameter("content"))
-                .score(Integer.parseInt(mtfRequest.getParameter("score")))
+                .score(score)
                 .build();
 
         System.out.println("review = " + review.toString());
         System.out.println("member ==== " + member.getId());
         System.out.println("mechanic ==== " + mechanicId);
-        System.out.println("review = " + review.getId());
 
         List<Photo> photoList = fileHandler.parseFileInfo(review,fileList);
         System.out.println("photoList = " + photoList);
@@ -76,37 +89,155 @@ public class ReviewRegisterService {
         if(!photoList.isEmpty()) {
             for(Photo photo : photoList) {
                 // 파일을 DB에 저장
-                review.addPhoto(photoRepository.save(photo));
+                review.addPhoto(photoService.save(photo));
             }
+        }
+        reviewRegisterRepository.save(review);
+        System.out.println("review = " + review.getId());
+
+
+
+        int point_sum = 0;
+
+        Point firstPlacePointEntity = new Point();
+        if (reviewRegisterRepository.existsByMechanicId(review.getMechanic().getId()) == false) {
+
+            System.out.println("review.getMechanic().getId()) = " + review.getMechanic().getId());
+
+            firstPlacePointEntity.setType(FIRSTPLACE);
+            firstPlacePointEntity.setPoint(1);
+            firstPlacePointEntity.setMark(POINT_INCREMENT);
+            firstPlacePointEntity.setReviewId(review.getId());
+            firstPlacePointEntity.setMemberId(review.getMember().getId());
+
+            point_sum += 1;
+            pointRewardRepository.save(firstPlacePointEntity);
+
+            System.out.println("firstPlacePointEntity = " + firstPlacePointEntity);
+            System.out.println("point_sum firstplace = " + point_sum);
+        }
+
+        Point contentPointEntity = new Point();
+
+        System.out.println("review.getContent() = " + review.getContent());
+        System.out.println("review.getContent().length() = " + review.getContent().length());
+        if (review.getContent().length() > 1)     // 내용 1자 이상
+        {
+            contentPointEntity.setType(CONTENT);
+            contentPointEntity.setPoint(1);
+            contentPointEntity.setMark(POINT_INCREMENT);
+            contentPointEntity.setReviewId(review.getId());
+            contentPointEntity.setMemberId(review.getMember().getId());
+
+            point_sum += 1;
+            System.out.println("point_sum content= " + point_sum);
+        }
+
+        Point photoPointEntity = new Point();
+        System.out.println("review.getPhoto().size() = " + review.getPhoto().size());
+        if (review.getPhoto().size() > 1)   // 1장 이상
+        {
+            photoPointEntity.setType(PHOTO);
+            photoPointEntity.setPoint(1);
+            photoPointEntity.setMark(POINT_INCREMENT);
+            photoPointEntity.setReviewId(review.getId());
+            photoPointEntity.setMemberId(review.getMember().getId());
+
+            point_sum += 1;
+            System.out.println("point_sum photo = " + point_sum);
+        }
+
+        pointRewardRepository.save(contentPointEntity);
+        pointRewardRepository.save(photoPointEntity);
+
+
+
+        Optional<Member> member1 = memberPointRepository.findById(review.getMember().getId());
+
+        if (member1.isPresent()) {
+            member1.get().setPoint(member1.get().getPoint() + point_sum);
+            memberPointRepository.save(member1.get());
         }
         reviewRegisterRepository.save(review);
     }
 
 
 
-
-    // 게시글 업데이트
+    // 리뷰 업데이트
     @Transactional
-    public void update(
-            Long id,
-            ReviewUpdateRequestDto requestDto,
-            List<MultipartFile> files
+    public Review update(
+            Long id, MultipartHttpServletRequest mtfRequest
     ) throws Exception {
+
+        ReviewUpdateRequestDto requestDto = new ReviewUpdateRequestDto(mtfRequest);
+
+        // DB에 저장된 파일 불러오기
+        List<PhotoResponseDto> dbPhotoList = photoService.findAllByReviewId(id);
+        // List<Photo> dbPhotoList = fileService.findAllByBoard(id);
+
+        // 전달받은 파일
+        List<MultipartFile> multipartList = mtfRequest.getFiles("files");
+
+        System.out.println("mtfRequest.getFiles(\"files\") = " + mtfRequest.getFiles("files"));
+        for(int i = 0 ; i<multipartList.size(); i++){
+            System.out.println("multipartList = " + multipartList.get(i));
+        }
+
+
+        // 새롭게 전달되어온 파일들의 목록을 저장할 List
+        List<MultipartFile> addFileList = new ArrayList<>();
+
+        if(CollectionUtils.isEmpty(dbPhotoList)) {  // DB에 아예 존재하지 않는다면
+            if(!CollectionUtils.isEmpty(multipartList)) {   // 전달받은 파일이 하나라도 존재한다면
+                for(MultipartFile multipartFile : multipartList)
+                    addFileList.add(multipartFile); // 저장할 파일 목록에 추가해줌
+            }
+        } else {    // DB에 한 장 이상 존재한다면
+            // DB에 저장된 파일 원본명 목록
+            List<String> dbOriginNameList = new ArrayList<>();
+
+            // DB 파일 원본명 추출
+            for(PhotoResponseDto dbPhoto : dbPhotoList) {
+                // file id로 DB에 저장된 파일 정보 가져오기
+                PhotoDto dbPhotoDto = photoService.findByFileId(dbPhoto.getFileId());
+                // DB 파일 원본명 가져오기
+                String dbOrigFileName = dbPhotoDto.getOrigFileName();
+
+                if(!multipartList.contains(dbOrigFileName)) {   // 서버에 저장된 파일 중 전달받은 파일이 존재하지 않을 때
+                    photoService.deletePhoto(dbPhoto.getFileId());   // 파일 삭제
+                } else {
+                    dbOriginNameList.add(dbOrigFileName);   // DB에 저장할 파일 목록에 추가하기
+                }
+            }
+
+            for(MultipartFile multipartFile : multipartList) {  // 전달받은 파일을 하나씩 검사
+                // 파일 원본명 얻기
+                String multipartOrigName = multipartFile.getOriginalFilename();
+                if(!dbOriginNameList.contains(multipartOrigName)) { // DB에 없는 파일일 때
+                    addFileList.add(multipartFile);     // DB에 저장할 파일 목록에 추가하기
+                }
+            }
+        }
+
         Review review = reviewRegisterRepository.findById(id)
                 .orElseThrow(() -> new
                         IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
-        List<Photo> photoList = fileHandler.parseFileInfo(review, files);
+        List<Photo> photoList = fileHandler.parseFileInfo(review, addFileList);
 
         if(!photoList.isEmpty()) {
             for(Photo photo : photoList) {
-                photoRepository.save(photo);
+                photoService.save(photo);
             }
         }
         review.update(requestDto.getScore(), requestDto.getContent());
+        reviewRegisterRepository.save(review);
+        return review;
     }
 
-    // 게시글 지우기
+
+
+    // 리뷰 지우기
     @Transactional
     public void delete(Long id) {
         Review review = reviewRegisterRepository.findById(id)
@@ -115,23 +246,42 @@ public class ReviewRegisterService {
         reviewRegisterRepository.delete(review);
     }
 
-    // 게시글 전체 조회
+    // 리뷰 전체 조회
+    @Transactional(readOnly = true)
     public List<Review> findAll() {
         return reviewRegisterRepository.findAll();
     }
 
-    // 게시글 전체 조회 ( 정렬 : 작성일 최신순 )
+
+    // 리뷰 전체 조회 ( 정렬 : 작성일 최신순 )
+    @Transactional(readOnly = true)
     public List<Review> findAllByOrderByCreatedAtDesc() {
         return reviewRegisterRepository.findAllByOrderByCreatedAtDesc();
     }
 
-    // 게시글 개별 조회
+    // 리뷰 개별 조회
     @Transactional(readOnly = true)
     public ReviewResponseDto searchById(Long id, List<Long> fileId) {
         Review entity = reviewRegisterRepository.findById(id).orElseThrow(()
                 -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
-
         return new ReviewResponseDto(entity, fileId);
+    }
+
+    // 리뷰 개별 조회
+    @Transactional(readOnly = true)
+    public ReviewResponseDto searchAndSaveReviewById(Long id, List<PhotoResponseDto> photoResponseDtoList) {
+        List<Long> photoId = new ArrayList<>();
+        for (PhotoResponseDto photoResponseDto : photoResponseDtoList)
+            photoId.add(photoResponseDto.getFileId());
+
+        Review entity = reviewRegisterRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+        return new ReviewResponseDto(entity, photoId);
+    }
+
+
+    public Review findByMemberIdAndMechanicId(String id, String id1) {
+        return findByMemberIdAndMechanicId(id, id1);
     }
 
 
@@ -144,13 +294,12 @@ public class ReviewRegisterService {
 
 
 
-//
-//
-//    // 점수시스템 자료
-//
-//    /*
-//    리뷰 등록 + 리뷰 점수 시스템
-//     */
+
+    // 점수시스템 자료
+
+    /*
+    리뷰 등록 + 리뷰 점수 시스템
+     */
 //    public String reviewRegister(ReviewForm reviewForm) {
 //        Member member1 = new Member();
 //        member1.setId(reviewForm.getMemberId());
@@ -161,7 +310,7 @@ public class ReviewRegisterService {
 //        if (reviewRegisterRepository.existsById(reviewForm.getReviewId())) {
 //            return "FAIL";
 //        }
-//
+
 //        int point_sum = 0;
 //
 //        Point firstPlacePointEntity = new Point();
@@ -408,7 +557,5 @@ public class ReviewRegisterService {
 //        return savedRetrievedPoint.getId();
 //    }
 
-    public Review findByMemberIdAndMechanicId(String id, String id1) {
-        return findByMemberIdAndMechanicId(id, id1);
-    }
+
 }

@@ -16,6 +16,7 @@ import java.io.InputStream;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/photo/*")
 public class PhotoController {
     private final PhotoService photoService;
 
@@ -74,4 +75,16 @@ public class PhotoController {
         return new ResponseEntity<>(imageByteArray, HttpStatus.OK);
     }
 
+    /**
+     * 이미지 삭제
+     */
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<String> deletePhoto(@PathVariable("id") Long id) {
+        try {
+            photoService.deletePhoto(id);
+            return ResponseEntity.ok("이미지가 삭제되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
