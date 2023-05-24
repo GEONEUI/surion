@@ -40,4 +40,9 @@ public class Review {
     @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private Repair repair;
 
+    
+    
+    
+    
+
 }

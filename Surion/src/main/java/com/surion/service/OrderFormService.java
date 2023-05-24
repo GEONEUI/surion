@@ -5,9 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.surion.domain.review.Review;
 import com.surion.entity.Criteria;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
@@ -46,5 +48,8 @@ public interface OrderFormService {
 	
 	// 카테고리
 	public List<OrderForm> category(HttpServletRequest request, Model model);
+	
+	// 해당 업체의 리뷰 불러오기
+	public void findAllReview(String id, Model model);
 	
 }

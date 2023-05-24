@@ -20,7 +20,6 @@ import java.util.List;
 public class Mechanic {
 
     @Id
-
     @Column(name = "mechanic_id")
     private String id;
 

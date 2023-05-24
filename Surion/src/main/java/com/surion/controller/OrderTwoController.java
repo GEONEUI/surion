@@ -115,6 +115,8 @@ public class OrderTwoController {
     public String detail(Model model, String id, OrderForm orderForm) {
     	orderFormService.orderDetail(model, id);
     	orderFormService.readCount(orderForm);
+    	//모든 리뷰를 찾아와서 모델에 넣기
+    	orderFormService.findAllReview(id, model);
     	return "/order2/productDetail";
     }
 }

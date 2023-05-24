@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.surion.domain.review.Review;
 import com.surion.entity.Criteria;
 import com.surion.entity.Member;
 import com.surion.entity.OrderForm;
@@ -258,6 +259,13 @@ public class OrderFormServiceImpl implements OrderFormService{
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("list", lst);
 		
+	}
+
+
+	@Override
+	public void findAllReview(String id, Model model) {
+		List<Review> reviewList = orderFormRepository.findAllReview(id);
+		model.addAttribute("reviewList", reviewList);
 	}
 
 	

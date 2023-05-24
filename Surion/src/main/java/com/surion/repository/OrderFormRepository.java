@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.surion.domain.review.Review;
 import com.surion.entity.Criteria;
 import com.surion.entity.OrderForm;
 import com.surion.entity.OrderJoin;
@@ -97,6 +98,9 @@ public interface OrderFormRepository {
 	// 인기순
 	@Select("select * from suri_orderForm order by readCount desc")
 	public List<OrderForm> categoryPopular(); 
+	
+	@Select("SELECT * FROM tsuri_review WHERE mechanic_id = #{id}")
+	public List<Review> findAllReview(@Param("id") String id);
 	
 }
 
