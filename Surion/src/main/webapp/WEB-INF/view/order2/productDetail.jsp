@@ -346,8 +346,7 @@
                                         </div>
                                         <div> 실제 수리온 서비스를 받은 고객들의 평가입니다.</div>
                                     </div>
-<<<<<<< HEAD
-                                    <div class="bottomline">
+  <div class="bottomline">
                                         <table>
                                             <tr>
                                                 <th>사진</th>
@@ -378,9 +377,6 @@
                                             </tr>
                                         </table>
                                     </div>
-=======
-                                    <div class="bottomline"></div>
->>>>>>> ee15e354a1a05ecefb33718acb3e69be803b641f
                                     <div class="bottomline" id="qna" style="padding-bottom: 30px;">
                                         <h2 class="h2h2">자주 묻는 질문 </h2>
                                         <div class="accordion-item" style="margin-bottom: 20px">
@@ -447,15 +443,9 @@
                         <div class="col-lg-3" style="position: sticky; height:10vh; top:140px; right:0;">
                             <strong>${profile.shopName }</strong>에게 원하는 견적을 받아보세요</br>
                             <div style="margin-top: 20px;">
-<<<<<<< HEAD
-                                <button class="btn btn-sm" id="sBtn">견적받기</button>
-                                <button class="btn btn-sm">찜하기</button>
-                            </div>
-=======
 	                            <button class="btn btn-sm" id="sBtn">요청하기</button>
 	                            <button class="btn btn-sm">찜하기</button>
                    			</div>
->>>>>>> ee15e354a1a05ecefb33718acb3e69be803b641f
                         </div>
                     </div>
                 </div>
@@ -491,7 +481,7 @@
     </form>
 </div>
 
-<<<<<<< HEAD
+
 <script>
 
     // 제안하기 버튼 클릭 시 modal 등장
@@ -511,31 +501,7 @@
     });
 
 
-=======
-<script>	
-	
-	// 제안하기 버튼 클릭 시 modal 등장
-	const sBtn = document.querySelectorAll('.btn-sm');
-	
-	
-	sBtn.forEach((idx, obj)=>{
-		idx.addEventListener('click', function(){
-			alert('업데이트 진행 예정입니다.');
-		});
-	})
-	
-	
-	
-	// 제안하기 modal 에서 취소 버튼 누를 시 이벤트
-	const cancel_btn = document.querySelector('.cancel-btn');
-	cancel_btn.addEventListener('click', () => {
-		modal.classList.remove('show');
-		document.body.style.overflow = 'auto';
-	});
-		
-	
-	
->>>>>>> ee15e354a1a05ecefb33718acb3e69be803b641f
+
 </script>
 
 <%@ include file="../common/footer.jsp" %>
@@ -595,7 +561,7 @@
     }
 
     // 페이지 로드시 자동으로 별 모양 채우기
-    const score = ${review.score}; // JSP EL을 사용하여 변수를 가져옵니다.
+    const score = ${review.score} // JSP EL을 사용하여 변수를 가져옵니다.
     fillStars(score);
 </script>
 

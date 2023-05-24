@@ -73,6 +73,9 @@ public class OrderFormServiceImpl implements OrderFormService{
 	    String category = multi.getParameter("category");
 	    String office = multi.getParameter("office");
 	    String imgname = null;
+	    
+	    System.out.println("dddddd");
+	    
 	    if (member == null) { // 로그인하지 않은 경우
 	        return "redirect:${cpath}/common/login";
 	    }

@@ -115,10 +115,7 @@ public class OrderTwoController {
     }
     //상세페이지
     @RequestMapping("/productDetail")
-    public String detail(Model model, String id, OrderForm orderForm, HttpSession session) {
-		String member_id = (String) session.getAttribute("member");
-		Review reviewDetail =mainRepository.findReview(member_id, id);
-		System.out.println("reviewList = " + reviewDetail);
+    public String detail(Model model, String id, OrderForm orderForm) {
     	orderFormService.orderDetail(model, id);
     	orderFormService.readCount(orderForm);
     	return "/order2/productDetail";
